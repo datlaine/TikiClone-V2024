@@ -1,14 +1,13 @@
 .danhSachSanPham {
-    width: 100%;
-    min-height: auto;
-    background-color: green;
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: 385px;
-    grid-gap: 0px 15px;
+  width: 100%;
+  min-height: auto;
+  background-color: green;
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 385px;
+  grid-gap: 0px 15px;
 }
 
 #pageMain {
-    
 }

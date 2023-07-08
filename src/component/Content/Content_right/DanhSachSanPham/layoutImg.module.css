@@ -4,7 +4,6 @@
   --borderRadius: 8px;
 }
 
-
 .layoutImg {
   position: relative;
   z-index: 2;
@@ -35,7 +34,6 @@
   height: 180px;
   border-radius: var(--borderRadius);
 }
-
 
 /* Hover container */
 /* .layoutImg:hover .img {
@@ -85,8 +83,6 @@
   opacity: 1;
 } */
 
-
-
 /* Nút mua khi hover */
 .btnBought {
   position: absolute;
@@ -108,14 +104,13 @@
   outline: none;
   opacity: 0;
   text-align: center;
-  background-color: rgb(255,255,250);
+  background-color: rgb(255, 255, 250);
 }
-
 
 .btnBought:hover {
   border: none;
-  background-color: rgb(255,255,250);
-  color:rgb(255 255 255);
+  background-color: rgb(255, 255, 250);
+  color: rgb(255 255 255);
   background-color: rgb(254 44 85);
 }
 
@@ -125,8 +120,6 @@
   flex-direction: column;
   padding: 5px var(--paddingLR);
 }
-
-
 
 /* tên sản phẩm */
 .descName {
@@ -150,8 +143,6 @@
   font-size: 12.5px;
   color: #808089;
 }
-
-
 
 .space {
   width: 1px;
@@ -204,8 +195,8 @@
   top: 156px;
 }
 
-/* ..isVote */ 
-.vote{
+/* ..isVote */
+.vote {
   max-width: 60px;
   display: flex;
   align-items: center;
@@ -260,7 +251,7 @@
 
 .timeShipWrapper > p {
   color: rgb(128, 128, 137);
-  font-size: .670em;
+  font-size: 0.67em;
   font-weight: 500;
   display: flex;
   align-items: center;

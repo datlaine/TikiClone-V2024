@@ -1,44 +1,44 @@
 :root {
-    --colorList: rgb(128, 128, 137);
-    --padding-top-bottom: 6px;
+  --colorList: rgb(128, 128, 137);
+  --padding-top-bottom: 6px;
 }
 
 #header_down {
-    margin-left: 105px;
-    display: flex;
-    justify-content: space-between;
-    margin-right: 40px;
+  margin-left: 105px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 40px;
 }
 
 #list {
-    list-style: none;
-    padding: var(--padding-top-bottom) 0;
+  list-style: none;
+  padding: var(--padding-top-bottom) 0;
 }
 
 #list > li {
-    display: inline-block;
-    padding: 2px 4px;
-    color: var(--colorList);
+  display: inline-block;
+  padding: 2px 4px;
+  color: var(--colorList);
 }
 
 #local {
-    padding: var(--padding-top-bottom) 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  padding: var(--padding-top-bottom) 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #local img {
-    margin-right: 4px;
-    width: 20px;
-    height: 20px;
+  margin-right: 4px;
+  width: 20px;
+  height: 20px;
 }
 
 #local span {
-    margin-right: 4px;
-    color: var(--colorList);
+  margin-right: 4px;
+  color: var(--colorList);
 }
 
 #local a {
-    color: rgb(39, 39, 42);
+  color: rgb(39, 39, 42);
 }

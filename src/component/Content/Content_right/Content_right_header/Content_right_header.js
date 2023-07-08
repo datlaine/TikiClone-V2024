@@ -1,4 +1,4 @@
-import SimpleImageSlider from "react-simple-image-slider";
+import SimpleImageSlider from 'react-simple-image-slider'
 import {
   slider1,
   slider2,
@@ -18,11 +18,11 @@ import {
   slider16,
   slider17,
   slider18,
-} from "./HandleImage.js";
-import "./content_right_header.css";
-import Content_right_brand from "./Content_rignt_brand";
+} from './HandleImage.js'
+import './content_right_header.css'
+import Content_right_brand from './Content_rignt_brand'
 
-const urlBrand = "https://dulieusanpham.vercel.app/thuongHieuChinhHang";
+const urlBrand = 'https://dulieusanpham.vercel.app/thuongHieuChinhHang'
 
 export default function Content_right_header() {
   // console.log("content-right_header re-render");
@@ -46,41 +46,40 @@ export default function Content_right_header() {
     { url: slider16 },
     { url: slider17 },
     { url: slider18 },
-  ];
+  ]
 
   return (
-    <div id="Content_right_header">
-      <div className="content-slider">
-        <div className="content-slider-right" style={{borderRadius: '8px'}}>
+    <div id='Content_right_header'>
+      <div className='content-slider'>
+        <div className='content-slider-right' style={{ borderRadius: '8px' }}>
           <SimpleImageSlider
             width={840}
             height={274}
             images={hinhAnh}
-            showBullets={true}
+            showBullets={false}
             showNavs={true}
             loop={true}
             autoPlay={true}
             autoPlayDelay={0.7}
-            style={{borderRadius: '8px'}}
           />
         </div>
-        <div className="content-slider-left">
-          <img src={require("./img/left.jpg")} alt="" />
+        <div className='content-slider-left'>
+          <img src={require('./img/left.jpg')} alt='' />
         </div>
       </div>
 
-      <div className="content-brand">
-        <span className="desc-brand">
+      <div className='content-brand'>
+        <span className='desc-brand'>
           Thương Hiệu Chính Hãng
           <img
-            src={require("./img/logoBrand.jpg")}
-            style={{ height: "16px", width: "70px" }}
-            alt=""
+            src={require('./img/logoBrand.jpg')}
+            style={{ height: '16px', width: '70px' }}
+            alt=''
           />
         </span>
 
         <Content_right_brand urlApi={urlBrand} />
       </div>
     </div>
-  );
+  )
 }

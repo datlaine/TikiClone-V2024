@@ -1,10 +1,10 @@
 #header {
-    height: auto;
-    width: 100%;
-    background-color: var(--backgroundColorHeader);
-    position: relative;
+  height: auto;
+  width: 100%;
+  background-color: var(--backgroundColorHeader);
+  position: relative;
 }
 
-.container-header{
-    padding: 8px 60px;
+.container-header {
+  padding: 8px 60px;
 }

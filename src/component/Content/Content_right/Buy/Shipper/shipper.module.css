@@ -1,35 +1,35 @@
 .shipperContainer {
-    width: 50%;
-    background-color: transparent;
-    height: 60px;
-    padding: 10px 8px;
-    border-radius: 12px;
-    border: 1px solid rgb(238,238,238);
-    color: rgb(120,120,120);
-    font-size: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  width: 50%;
+  background-color: transparent;
+  height: 60px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  border: 1px solid rgb(238, 238, 238);
+  color: rgb(120, 120, 120);
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .active {
-    background-color: rgb(10 104 255 / 20%) ;
-    border: 1px solid #000;
+  background-color: rgb(10 104 255 / 20%);
+  border: 1px solid #000;
 }
 
 .img {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    height: 50%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 50%;
 }
 
 .img > img {
-    width: 32px;
-    height: 14px;
+  width: 32px;
+  height: 14px;
 }
 
 .img > span {
-    color: #00ab56;
-    font-weight: 700;
+  color: #00ab56;
+  font-weight: 700;
 }

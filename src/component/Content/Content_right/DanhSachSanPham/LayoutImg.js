@@ -1,11 +1,11 @@
-import React from "react";
-import style from "./layoutImg.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { timeShipNOW, checkIsBought, handleBought } from "./HandleProduct";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
-export default function LayoutImg({ data ,infoDanhSach}) {
+import React from 'react'
+import style from './layoutImg.module.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { timeShipNOW, checkIsBought, handleBought } from './HandleProduct'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
+export default function LayoutImg({ data, infoDanhSach }) {
   // console.log(`LayoutImg re-render`);
   // console.log(id)
   // console.log(data)
@@ -22,10 +22,8 @@ export default function LayoutImg({ data ,infoDanhSach}) {
   //   return thoiGianGiao;
   // },[])();
 
-  
-
-  let thoiGianGiaoHang = timeShipNOW(data && data);
-  let soLuongDaBan = checkIsBought(data);
+  let thoiGianGiaoHang = timeShipNOW(data && data)
+  let soLuongDaBan = checkIsBought(data)
   // console.log(thoiGianGiaoHang);
   // const checkIsBought = (function () {
   //   let text = "";
@@ -37,7 +35,7 @@ export default function LayoutImg({ data ,infoDanhSach}) {
   //   return text
   // })();
 
-  checkIsBought(data);
+  checkIsBought(data)
 
   // handleBought
   // console.log(
@@ -45,36 +43,40 @@ export default function LayoutImg({ data ,infoDanhSach}) {
   //     ? data.isLabel[1].Label
   //     : data.isLabel[0].checkLabel
   // );
-  let checkPromote = data.isPromote[0].checkPromote;
+  let checkPromote = data.isPromote[0].checkPromote
 
   // console.log(`checkPromote:  ${id} ` + data.isLabel[1].label);
   // console.log(data);
   // console.log("id: ", data);
   return (
-    <NavLink className={style.layoutImg} key={data.id} to='/buy' state={{
-      data:data
-      // price:  data.isPrice,
-      // checkNow:  data.isShip[0].checkShipNOW,
-      // name: data.name,
-      // timeShip: thoiGianGiaoHang,
-      // date: data.isShip[1].shipDate,
-      // day: data.isShip[2].shipDay,
-      // image: data.hinhAnh,
-      // checkGiaoNhanh: data.isShip[3].giaoNhanh,
-      // bought: data.isBought,
-      // valueOfGive: data.valueOfGive,
-      // give: data.give,
-      // checkOffical: data.isLabel[0].checkLabel,
-      // checkAstra: data.astraLabel[0].checkAstra,
-      // astra: data.astraLabel[2].nameLabel,
-      // imageAstra: data.astraLabel[1].hinhAnhAstra,
-      // vote: data.isVote[0].checkVote,
-      // numberVote: data.isVote[1].vote,
-      // promote: data.isPromote[0].checkPromote ? data.isPromote[1].promote : '',
-    }}>
-      
+    <NavLink
+      className={style.layoutImg}
+      key={data.id}
+      to='/buy'
+      state={{
+        data: data,
+        // price:  data.isPrice,
+        // checkNow:  data.isShip[0].checkShipNOW,
+        // name: data.name,
+        // timeShip: thoiGianGiaoHang,
+        // date: data.isShip[1].shipDate,
+        // day: data.isShip[2].shipDay,
+        // image: data.hinhAnh,
+        // checkGiaoNhanh: data.isShip[3].giaoNhanh,
+        // bought: data.isBought,
+        // valueOfGive: data.valueOfGive,
+        // give: data.give,
+        // checkOffical: data.isLabel[0].checkLabel,
+        // checkAstra: data.astraLabel[0].checkAstra,
+        // astra: data.astraLabel[2].nameLabel,
+        // imageAstra: data.astraLabel[1].hinhAnhAstra,
+        // vote: data.isVote[0].checkVote,
+        // numberVote: data.isVote[1].vote,
+        // promote: data.isPromote[0].checkPromote ? data.isPromote[1].promote : '',
+      }}
+    >
       <div className={style.img}>
-        <img src={require(`${data.hinhAnh}`)} alt="" />
+        <img src={require(`${data.hinhAnh}`)} alt='' />
       </div>
       {/**từ phần tử thứ 2 */}
       {/**check xem sản phẩm có nhãn hàng không - nếu có thì thêm hình nhãn */}
@@ -82,7 +84,7 @@ export default function LayoutImg({ data ,infoDanhSach}) {
         <img
           src={require(`${data.isLabel[1].label}`)}
           className={style[`${data.isLabel[2].nameLabel}`]}
-          alt=""
+          alt=''
         />
       )}
 
@@ -90,7 +92,7 @@ export default function LayoutImg({ data ,infoDanhSach}) {
         <img
           src={require(`${data.astraLabel[1].hinhAnhAstra}`)}
           className={style[`${data.astraLabel[2].nameLabel}`]}
-          alt=""
+          alt=''
         />
       )}
       {/**Phần Description sản phẩm
@@ -116,12 +118,12 @@ export default function LayoutImg({ data ,infoDanhSach}) {
               {/** 2 */}
               <span className={style.voteNumbers}>{data.isVote[1].vote}</span>
               <div className={style.iconStar}>
-                <FontAwesomeIcon icon={faStar} style={{ color: "#fdd863" }} />
+                <FontAwesomeIcon icon={faStar} style={{ color: '#fdd863' }} />
               </div>
               <span className={style.space}></span>
             </div>
           ) : (
-            ""
+            ''
           )}
           {/** 3 */}
           <span className={style.bought}>{soLuongDaBan}</span>
@@ -133,14 +135,10 @@ export default function LayoutImg({ data ,infoDanhSach}) {
       */}
         <div className={style.isPriceGiveRefundMoney}>
           {/** 1 */}
-          <p
-            className={
-              checkPromote ? `${style.isPrice} ${style.promote}` : style.isPrice
-            }
-          >
-            {data.isPrice}{" "}
+          <p className={checkPromote ? `${style.isPrice} ${style.promote}` : style.isPrice}>
+            {data.isPrice}{' '}
             <span className={style.promoteSub}>
-              {checkPromote ? `${data.isPromote[1].promote}%` : ""}
+              {checkPromote ? `${data.isPromote[1].promote}%` : ''}
             </span>
           </p>
           {/** 2 */}
@@ -162,9 +160,9 @@ export default function LayoutImg({ data ,infoDanhSach}) {
         <p className={style.timeShip}>
           {data.isShip[0].checkShipNOW && (
             <img
-              src={require("./img/desciption/now.png")}
+              src={require('./img/desciption/now.png')}
               style={{ width: 32, height: 16 }}
-              alt=""
+              alt=''
             />
           )}
 
@@ -173,12 +171,10 @@ export default function LayoutImg({ data ,infoDanhSach}) {
           ) : !data.isShip[3].giaoNhanh ? (
             `Giao vào thứ ${data.isShip[1].shipDate}, ngày ${data.isShip[2].shipDay}`
           ) : (
-            
-             <span>{thoiGianGiaoHang}</span>
+            <span>{thoiGianGiaoHang}</span>
           )}
-
         </p>
       </div>
     </NavLink>
-  );
+  )
 }

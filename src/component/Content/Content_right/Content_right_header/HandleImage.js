@@ -17,6 +17,23 @@ import slider16 from './img/slider/slider16.jpg'
 import slider17 from './img/slider/slider17.jpg'
 import slider18 from './img/slider/slider18.jpg'
 
-
-export { slider1, slider2, slider3, slider4, slider5,slider6,slider7,slider8,slider9,
-    slider10,slider11,slider12,slider13,slider14,slider15,slider16,slider17,slider18}
+export {
+  slider1,
+  slider2,
+  slider3,
+  slider4,
+  slider5,
+  slider6,
+  slider7,
+  slider8,
+  slider9,
+  slider10,
+  slider11,
+  slider12,
+  slider13,
+  slider14,
+  slider15,
+  slider16,
+  slider17,
+  slider18,
+}

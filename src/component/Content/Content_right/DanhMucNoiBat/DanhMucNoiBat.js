@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import styles from "./danhMucNoiBat.module.css";
+import React, { useEffect, useState } from 'react'
+import styles from './danhMucNoiBat.module.css'
 
-const urlDanhMucNoiBat = "https://dulieusanpham.vercel.app/danhMucNoiBat";
+const urlDanhMucNoiBat = 'https://dulieusanpham.vercel.app/danhMucNoiBat'
 
 const style = {
-  width: "100%",
-  height: "100%",
-};
+  width: '100%',
+  height: '100%',
+}
 
 export default function DanhMucNoiBat() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
   // console.log("content-danhMucNoiBat re-render");
 
   useEffect(() => {
     fetch(urlDanhMucNoiBat)
       .then((res) => {
-        return res.json();
+        return res.json()
       })
       .then((data) => {
         // console.log(data);
-        setData(data);
-      });
-  }, []);
+        setData(data)
+      })
+  }, [])
 
   return (
     <div className={styles.danhMucNoiBat}>
@@ -32,17 +32,15 @@ export default function DanhMucNoiBat() {
             return (
               <div key={item.id} className={styles.danhMucNoiBat_item}>
                 <div className={styles.wrapper_img}>
-                  <img src={require(`${item.hinhAnh}`)} alt="" style={style} />
+                  <img src={require(`${item.hinhAnh}`)} alt='' style={style} />
                 </div>
                 <div className={styles.wrapper_p}>
                   <p className={styles[item.id]}>{item.title}</p>
                 </div>
               </div>
-            );
+            )
           })}
       </div>
     </div>
-  );
+  )
 }
-
-

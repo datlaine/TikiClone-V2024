@@ -8,8 +8,8 @@ const category = {
   danhMuc: "Danh mục",
 };
 
-const url_noiBat = "http://localhost:8000/noiBat";
-const url_danhMuc = "http://localhost:8000/danhMuc";
+const url_noiBat = "https://dulieusanpham.vercel.app/noiBat";
+const url_danhMuc = "https://dulieusanpham.vercel.app/danhMuc";
 
 function Content({getDataContent}) {
   const [height, setHeight] = useState(135);

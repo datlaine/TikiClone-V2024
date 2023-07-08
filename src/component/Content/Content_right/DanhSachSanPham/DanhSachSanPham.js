@@ -18,12 +18,12 @@ export default function DanhSachSanPham() {
   // console.log("content-danhSachSanPham re-render");
   // console.log(count)
 
-  const url = `http://localhost:8000/danhSachMiniSpe/${numberPage}`
+  const url = `https://dulieusanpham.vercel.app/danhSachMiniSpe/${numberPage}`
 
 
   useEffect(() => {
 
-    fetch('http://localhost:8000/danhSachMiniSpe')
+    fetch('https://dulieusanpham.vercel.app/danhSachMiniSpe')
       .then((res) => res.json()) 
       .then((data) => setTemp(data)) 
   },[])

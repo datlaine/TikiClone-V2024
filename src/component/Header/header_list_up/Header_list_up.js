@@ -9,12 +9,12 @@ function Header_list_up() {
     const  [search, setSearch] =useState('')
     const [apiSearch, setApiSearch] = useState([])
 
-    const url = `http://localhost:8000/danhSachMiniSpe`
+    const url = `https://dulieusanpham.vercel.app/danhSachMiniSpe`
 
 
     useEffect(() => {
   
-      fetch('http://localhost:8000/danhSachMiniSpe')
+      fetch('https://dulieusanpham.vercel.app/danhSachMiniSpe')
         .then((res) => res.json()) 
         .then((data) => setApiSearch(data)) 
     },[])

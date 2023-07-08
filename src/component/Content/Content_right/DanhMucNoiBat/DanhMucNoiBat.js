@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./danhMucNoiBat.module.css";
 
-const urlDanhMucNoiBat = "http://localhost:8000/danhMucNoiBat";
+const urlDanhMucNoiBat = "https://dulieusanpham.vercel.app/danhMucNoiBat";
 
 const style = {
   width: "100%",

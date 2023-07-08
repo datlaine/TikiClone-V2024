@@ -15,8 +15,8 @@ import Buy from './Buy/Buy'
 
 
 export default memo(function Content_right({getDataContent}) {
-  const urlMiniSpe = `http://localhost:8000/danhSachMiniSpe/1`;
-  const urlMiniSpe2 = `http://localhost:8000/danhSachMiniSpe/2`;
+  const urlMiniSpe = `https://dulieusanpham.vercel.app/danhSachMiniSpe/1`;
+  const urlMiniSpe2 = `https://dulieusanpham.vercel.app/danhSachMiniSpe/2`;
   // console.log("content-danhSachSanPham re-render");
 
   const [add, setAdd] = useState(false);

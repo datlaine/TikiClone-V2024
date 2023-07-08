@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './hangThuongHieuGiaTot.css'
 
-const apiThuongHieuGiaTot = 'http://localhost:8000/hangThuongHieuGiaTot'
+const apiThuongHieuGiaTot = 'https://dulieusanpham.vercel.app/hangThuongHieuGiaTot'
 
 export default function HangThuongHieuGiaTot() {
 

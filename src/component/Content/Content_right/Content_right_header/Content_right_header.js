@@ -22,7 +22,7 @@ import {
 import "./content_right_header.css";
 import Content_right_brand from "./Content_rignt_brand";
 
-const urlBrand = "http://localhost:8000/thuongHieuChinhHang";
+const urlBrand = "https://dulieusanpham.vercel.app/thuongHieuChinhHang";
 
 export default function Content_right_header() {
   // console.log("content-right_header re-render");

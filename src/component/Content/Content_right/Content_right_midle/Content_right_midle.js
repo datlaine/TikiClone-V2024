@@ -4,7 +4,7 @@ import GiaTotHomNay from './GiaTotHomNay'
 
 
 
-const urlGiaTotHomNay = 'http://localhost:8000/giaTotHomNay'
+const urlGiaTotHomNay = 'https://dulieusanpham.vercel.app/giaTotHomNay'
 
 export default function Content_right_midle() {
     // console.log("content-right-midle re-render")

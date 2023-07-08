@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import style from "./goiYHomNay.module.css";
 
-const urlGoiYHomNay = "http://localhost:8000/goiYHomNay";
+const urlGoiYHomNay = "https://dulieusanpham.vercel.app/goiYHomNay";
 
 export default function GoiYHomNay() {
   const [data, setData] = useState([]);

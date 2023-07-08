@@ -1,6 +1,6 @@
 import React ,{memo} from 'react'
 import MiniDanhSach from './MiniDanhSach'
-const urlMiniSpe = `http://localhost:8000/danhSachMiniSpe/1`;
+const urlMiniSpe = `https://dulieusanpham.vercel.app/danhSachMiniSpe/1`;
 
 export default memo(function FirstPage({call}) {
     // console.log(`firstPage: `)

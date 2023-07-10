@@ -8,16 +8,20 @@ import NotFound from './component/Errors/NotFound'
 import './index.css'
 import App from './App'
 import Contact from './component/Contact/Contact'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
+const client = new QueryClient()
 root.render(
   <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<App />} />
-      <Route path='/Buy' element={<Buy />} />
-      <Route path='/ChangeAddress' element={<ChangeAddress />} />
-      <Route path='*' element={<NotFound />} />
-      <Route path='/Contact' element={<Contact/>} />
-    </Routes>
+    <QueryClientProvider client={client}>
+      <Routes>
+        <Route path='/' element={<App />} />
+        <Route path='/Buy/:id' element={<Buy />} />
+        <Route path='/ChangeAddress' element={<ChangeAddress />} />
+        <Route path='*' element={<NotFound />} />
+        <Route path='/Contact' element={<Contact />} />
+      </Routes>
+    </QueryClientProvider>
   </BrowserRouter>,
 )

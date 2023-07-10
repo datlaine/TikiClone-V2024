@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { LOCATION } from '../../../constant/Location'
 export default function Location() {
   const style = {
     color: 'rgb(39, 39, 42)',
@@ -9,7 +9,7 @@ export default function Location() {
 
   return (
     <a href='#!' style={style}>
-      Q.Phú Nhuận, Sài Gòn
+      {LOCATION}
     </a>
   )
 }

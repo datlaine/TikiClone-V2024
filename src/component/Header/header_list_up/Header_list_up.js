@@ -1,29 +1,35 @@
 import './header_list_up.css'
 import ModuleHover from '../module_hover/Module_hover'
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useEffect } from 'react'
 import InputSearch from './InputSearch'
+import { apiLink } from '../../../apis/api'
+import { useMatch } from 'react-router-dom'
 function Header_list_up() {
-  const [showSearch, setShowSearch] = useState(false)
   const [search, setSearch] = useState('')
   const [apiSearch, setApiSearch] = useState([])
-
-  const url = `https://dulieusanpham.vercel.app/danhSachMiniSpe`
+  const [ketQua, setKetQua] = useState([])
 
   useEffect(() => {
-    fetch('https://dulieusanpham.vercel.app/danhSachMiniSpe')
+    fetch(`${apiLink}/danhSachSanPham`)
       .then((res) => res.json())
       .then((data) => setApiSearch(data))
   }, [])
 
   const handleChange = (e) => {
-    // console.log(e.target.value)
+    let result = []
+    // console.log('search', search)
     setSearch(e.target.value)
+    result = apiSearch.filter((item) => {
+      let nameLowerCase = item.name.toLowerCase()
+      return nameLowerCase.includes(search.toLowerCase())
+    })
+    // console.log(result)
+    setKetQua(result)
   }
 
   const handleSubMit = (e) => {
     e.preventDefault()
-    // console.log('handle')
   }
 
   const handleClick = (e) => {
@@ -50,22 +56,6 @@ function Header_list_up() {
     // console.log("result" ,newApi)
   }
 
-  // console.log(newApi && newApi)
-  const listNameProducts = []
-  const filter = newApi.filter((item) => {
-    return item.danhSach.map((e) => {
-      // console.log(e.name)
-      if (e.hinhAnh !== './img/danhSach_1/itemSpe1.png') {
-        // console.log(e)
-        listNameProducts.push(e)
-        return e.name
-      }
-    })
-  })
-
-  // console.log(filter  )
-  // console.log('>>>name', listNameProducts)
-
   return (
     <div id='header_list_up'>
       <div className='logo'>
@@ -87,16 +77,20 @@ function Header_list_up() {
         <button type='submit' className='btn-header' onClick={handleClick}>
           Tìm kiếm
         </button>
-        <InputSearch dataShow={listNameProducts} search={search} />
+        <InputSearch data={ketQua} />
       </form>
       <div id='nav'>
-        <div className='nav_item'>
+        <a className='nav_item bg-sky-500 text-white rounded-lg	' href='/'>
           <img
             src='https://salt.tikicdn.com/ts/upload/b4/90/74/6baaecfa664314469ab50758e5ee46ca.png'
             alt=''
           />
-          <button>Trang Chủ</button>
-        </div>
+          <button
+            
+          >
+            Trang Chủ
+          </button>
+        </a>
         <div className='nav_item'>
           <img
             src='https://salt.tikicdn.com/ts/upload/41/28/7d/4713aa0d2855c5c770799f248692f0c5.png'

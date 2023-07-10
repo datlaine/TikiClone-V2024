@@ -5,7 +5,7 @@ export default function Contact() {
     <div>
       <section class='min-h-screen bg-white dark:bg-gray-900'>
         <div class='container px-6 py-10 mx-auto'>
-          <div class='lg:flex lg:items-center lg:-mx-10'>
+          <div class='lg:flex lg:items-center'>
             <div class='lg:w-1/2 lg:mx-10'>
               <h1 class='text-2xl font-semibold text-gray-800 capitalize dark:text-white lg:text-3xl'>
                 Hãy kết nối với chúng tôi
@@ -29,9 +29,7 @@ export default function Contact() {
                   </div>
 
                   <div class='flex-1 px-2 mt-4 md:mt-0'>
-                    <label class='block mb-2 text-sm text-gray-600 dark:text-gray-200'>
-                      Email
-                    </label>
+                    <label class='block mb-2 text-sm text-gray-600 dark:text-gray-200'>Email</label>
                     <input
                       type='email'
                       placeholder='datlai304@gmail.com'
@@ -41,7 +39,9 @@ export default function Contact() {
                 </div>
 
                 <div class='w-full mt-4'>
-                  <label class='block mb-2 text-sm text-gray-600 dark:text-gray-200'>Nội dung đăng kí</label>
+                  <label class='block mb-2 text-sm text-gray-600 dark:text-gray-200'>
+                    Nội dung đăng kí
+                  </label>
                   <textarea
                     class='block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md md:h-56 dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40'
                     placeholder='Hãy nhập nội dung đăng kí'
@@ -83,7 +83,7 @@ export default function Contact() {
                   </svg>
 
                   <span class='mx-2 text-gray-700 truncate w-72 dark:text-gray-400'>
-                      Thành phố Sa Đéc, tỉnh Đồng Tháp
+                    Thành phố Sa Đéc, tỉnh Đồng Tháp
                   </span>
                 </p>
 
@@ -104,7 +104,7 @@ export default function Contact() {
                   </svg>
 
                   <span class='mx-2 text-gray-700 truncate w-72 dark:text-gray-400'>
-                    <a href="tel:0789520106">0789520106</a>
+                    <a href='tel:0789520106'>0789520106</a>
                   </span>
                 </p>
 
@@ -125,7 +125,7 @@ export default function Contact() {
                   </svg>
 
                   <span class='mx-2 text-gray-700 truncate w-72 dark:text-gray-400'>
-                      datlai304@gmail.com
+                    datlai304@gmail.com
                   </span>
                 </p>
               </div>

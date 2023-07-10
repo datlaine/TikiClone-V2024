@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { apiLink } from '../../../../apis/api'
 import './hangThuongHieuGiaTot.css'
 
-const apiThuongHieuGiaTot = 'https://dulieusanpham.vercel.app/hangThuongHieuGiaTot'
+const apiThuongHieuGiaTot = `${apiLink}/hangThuongHieuGiaTot`
 
 export default function HangThuongHieuGiaTot() {
   const [hinhAnh, setHinhAnh] = useState([])

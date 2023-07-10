@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './content.css'
+import { apiLink } from '../../apis/api'
 import Content_left from './Content_left/Content_left'
-
 import Content_right from './Content_right/Content_right'
 const category = {
   noiBat: 'Nổi bật',
   danhMuc: 'Danh mục',
 }
 
-const url_noiBat = 'https://dulieusanpham.vercel.app/noiBat'
-const url_danhMuc = 'https://dulieusanpham.vercel.app/danhMuc'
+const url_noiBat = `${apiLink}/noiBat`
+const url_danhMuc = `${apiLink}/danhMuc`
 
 function Content({ getDataContent }) {
   const [height, setHeight] = useState(135)
@@ -54,14 +54,15 @@ function Content({ getDataContent }) {
             <Content_left category={category.danhMuc} urlApi={url_danhMuc} />
             <div className='banHang-container'>
               <button className='banHang'>
-                
-                <Link to='/Contact' className='contact'><img
-                src='https://salt.tikicdn.com/cache/100x100/ts/upload/08/2f/14/fd9d34a8f9c4a76902649d04ccd9bbc5.png.webp'
-                alt=''
-                width={32}
-                height={32}/>
-                <span>Bán hàng cùng Tiki</span>
-                </Link >
+                <Link to='/Contact' className='contact'>
+                  <img
+                    src='https://salt.tikicdn.com/cache/100x100/ts/upload/08/2f/14/fd9d34a8f9c4a76902649d04ccd9bbc5.png.webp'
+                    alt=''
+                    width={32}
+                    height={32}
+                  />
+                  <span>Bán hàng cùng Tiki</span>
+                </Link>
               </button>
             </div>
           </div>

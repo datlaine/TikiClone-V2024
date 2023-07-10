@@ -1,28 +1,30 @@
 const checkLabel = (data) => {
-  // console.log(data);
-  let text = ''
-  let give = 0
-  let valueOfGive = 0
-  if (data.astraLabel[0].checkAstra) {
-    text = `${data.astraLabel[2].nameLabel}`
-  }
-  if (data.isLabel[0].checkLabel) {
-    text = `Offical`
-  }
+  if (data) {
+    // console.log(data)
+    let text = ''
+    let give = 0
+    let valueOfGive = 0
+    if (data[0]?.astraLabel[0].checkAstra) {
+      text = `${data[0].astraLabel[2].nameLabel}`
+    }
+    if (data[0]?.isLabel[0].checkLabel) {
+      text = `Offical`
+    }
 
-  if (data.give !== 0) {
-    give = data.give
-    valueOfGive = data.valueOfGive
-  }
+    if (data[0]?.give !== 0) {
+      give = data[0]?.give
+      valueOfGive = data[0]?.valueOfGive
+    }
 
-  return { text, give, valueOfGive }
+    return { text, give, valueOfGive }
+  }
 }
 
 const checkVote = (data) => {
-  console.log(data)
+  // console.log(data)
   let number = 0
-  if (data.isVote[0].checkVote) {
-    number = data.isVote[1].vote
+  if (data[0]?.isVote[0].checkVote) {
+    number = data[0]?.isVote[1].vote
   }
   if (number === 0) {
     number = ''
@@ -30,28 +32,31 @@ const checkVote = (data) => {
   return number
 }
 
-const getIsBought = (data) => {
-  console.log(data)
-  let bought = ''
-  if (data.isBought !== 0) {
-    bought = `Đã bán ${data.isBought}`
-  }
-  console.log(bought)
-  return bought
-}
-
+// const getIsBought = (data) => {
+//   // console.log(data)
+//   if(data[0]){
+//     let bought = ''
+//   if (data[0]?.isBought !== 0) {
+//     bought = `Đã bán ${data[0].isBought}`
+//   }
+//   // console.log(bought)
+//   return bought
+// }
+// }
 const getPriceAndPromote = (data) => {
   let priceDontPromote = 0
   let check
   let promote =
-    data.isPromote[0].checkPromote !== false ? data.isPromote[1].promote : (check = undefined)
-  console.log(promote)
+    data[0]?.isPromote[0].checkPromote !== false
+      ? data[0]?.isPromote[1].promote
+      : (check = undefined)
+  // console.log(promote)
   if (promote !== 0) {
     // 100 % - promote / 100 -> price / result
     let temp = (100 + promote) / 100
 
-    priceDontPromote = data.isPrice / temp + promote
-    console.log(priceDontPromote)
+    priceDontPromote = data[0]?.isPrice / temp + promote
+    // console.log(priceDontPromote)
     return priceDontPromote.toFixed(3)
   }
   check = undefined
@@ -59,10 +64,10 @@ const getPriceAndPromote = (data) => {
 }
 
 const checkShipperNow = (data) => {
-  if (data.isShip[0].checkShipNOW) {
+  if (data[0]?.isShip[0].checkShipNOW) {
     return true
   } else {
     return false
   }
 }
-export { checkLabel, checkVote, getIsBought, getPriceAndPromote, checkShipperNow }
+export { checkLabel, checkVote, getPriceAndPromote, checkShipperNow }

@@ -8,6 +8,7 @@
 #header_list_up {
   display: flex;
   align-items: center;
+  flex: 60%;
 }
 
 #header_list_up .input {
@@ -24,7 +25,7 @@
 
 .input input {
   padding: 0 var(--padding_input_header);
-  height: 21px;
+  height: 2 1px;
   flex: 1;
   outline: none;
   border: none;
@@ -56,6 +57,7 @@
   justify-content: center;
   align-items: center;
   height: 40px;
+  flex: 40%;
 }
 /* list nav header */
 .nav_item {
@@ -64,6 +66,7 @@
   align-items: center;
   padding: 8px 16px;
   font-size: 16px;
+  margin: 0px 4px;
 }
 
 .nav_item:nth-child(3) {
@@ -82,12 +85,12 @@
   border-radius: 50%;
 }
 
-.nav_item > button {
+.nav_item > button:not(.nav_item > button:first-of-type) {
   border: none;
   background-color: transparent;
 }
 
-.nav_item:hover {
+.nav_item:hover:not(.nav_item:first-child) {
   border-radius: 8px;
   background-color: rgb(39 39 42 / 12%);
   height: 100%;

@@ -1,11 +1,7 @@
 import './content_left.css'
 import { useState, useEffect, memo } from 'react'
 import { Link } from 'react-router-dom'
-// const url = 'http://localhost:8000/noiBat'
 export default memo(function Content_left(props) {
-  // xét data
-  // console.log("content-left re-render")
-
   const [data, setData] = useState([])
 
   //render lại khi gọi api

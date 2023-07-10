@@ -1,38 +1,10 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 export default function InputSearch(props) {
-  const { dataShow, search } = props
+  const { data } = props
 
-  // console.log(dataShow)
-
-  const dataSortFlowPrice = dataShow.sort((a, b) => a.Bought - b.Bought).reverse()
-
-  // console.log(dataSortFlowPrice)
-  const show = dataSortFlowPrice.map((data, index) => {
-    // console.log(data);
-
-    if (data.name.toLowerCase().indexOf(search.toLowerCase()) === -1) {
-      return
-    } else {
-      const inputSearch = document.querySelector('.inputSearch')
-      // inputSearch.style.display = 'none'
-      return (
-        <NavLink
-          className='navLink'
-          style={({ isActive }) => ({
-            color: isActive ? '#000' : '#000',
-            textDecoration: isActive ? 'none' : 'none',
-          })}
-          to='/buy'
-          state={{ data: data }}
-        >
-          {data.name}{' '}
-        </NavLink>
-      )
-    }
-  })
-
+  // inputSearch.style.display = 'none'
   const handleBlur = (e) => {
     const inputSearch = document.querySelector('.inputSearch')
     inputSearch.style.display = 'none'
@@ -42,11 +14,25 @@ export default function InputSearch(props) {
 
   const closeSearch = (e) => {
     const inputSearch = document.querySelector('.inputSearch')
+    console.log('alo')
     inputSearch.style.display = 'none'
   }
+
+  // console.log(data)
+
   return (
-    <div className='inputSearch' onBlur={handleBlur} id='inputSearch' tabIndex={0}>
-      <div className='sanPhamTheoTen'>{show}</div>
+    <div className='inputSearch bg-stale-50	' onBlur={closeSearch} id='inputSearch' tabIndex={0}>
+      <div className='sanPhamTheoTen'>
+        {data.map((item) => (
+          <Link
+            key={item.id}
+            to={`/Buy/${item.id}`}
+            className='hover:bg-purple-500 hover:ring-sky-300 p-2 hover:text-white rounded-md'
+          >
+            <span className='hover:text-white'>{item.name}</span>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }

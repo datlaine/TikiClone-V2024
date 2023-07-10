@@ -11,3 +11,301 @@
 
 #pageMain {
 }
+
+/*button*/
+.btn {
+  text-align: center;
+  margin: 35px auto;
+  border-radius: 8px;
+  width: 240px;
+  height: 42px;
+  background-color: rgb(255, 255, 250);
+  color: rgb(10, 104, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(10, 104, 255);
+  cursor: pointer;
+  outline: none;
+}
+
+.dont {
+  user-select: none;
+  opacity: 0.5;
+  border: 1px solid rgb(10, 104, 255);
+  cursor: no-drop;
+  background-color: rgb(0 96 255 / 12%);
+}
+
+.btn:hover {
+  background-color: rgb(0 96 255 / 12%);
+  opacity: 1;
+}
+
+.dont:hover {
+  opacity: 0.5;
+}
+/*/layoutImg
+
+:root {
+  --paddingIsBoughtIsVote: 6px;
+  --paddingLR: 10.1px;
+  --borderRadius: 8px;
+}
+
+.layoutImg {
+  position: relative;
+  z-index: 2;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  text-decoration: none;
+}
+
+.layoutImg:hover {
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 20px;
+}
+
+.img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: var(--borderRadius);
+}
+.img > img {
+  width: 180px;
+  height: 180px;
+  border-radius: var(--borderRadius);
+}
+
+/* Hover container */
+/* .layoutImg:hover .img {
+  background-image: url('https://img.freepik.com/free-photo/fantastic-seascape-with-ripples_1232-424.jpg');
+  transition: all 1s;
+  border: none;
+}
+
+
+
+.layoutImg:hover .img> img {
+  width: 100%;
+  height: 100%;
+  transition: all 1s;
+  scale: 1;
+  border-radius: 8px 8px 0 0;
+  z-index: 100;
+  user-select: none;
+}
+
+
+.layoutImg:hover .desc {
+  scale: .9;
+  transition: all 1s;
+}
+
+.layoutImg:hover .desc > .descName {
+  font-size: 14px;
+  font-weight: 500;
+} */
+
+/* .layoutImg:hover .timeShipWrapper {
+  display: none;
+}
+
+.layoutImg:hover  .offical,
+.layoutImg:hover .repution,
+.layoutImg:hover .astra,
+.layoutImg:hover .isGiveValueOfGive
+{
+  display: none;
+}
+
+.layoutImg:hover .btnBought {
+  transition: all .5s;
+  display: block;
+  opacity: 1;
+} */
+
+/* Nút mua khi hover */
+.btnBought {
+  position: absolute;
+  top: 327px;
+  right: 25px;
+  display: flex;
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
+  width: 27%;
+  height: 22px;
+  text-decoration: none;
+  padding: 2px;
+  color: rgb(10, 104, 255);
+  border: 1px solid rgb(10, 104, 255);
+  cursor: pointer;
+  display: none;
+  border-radius: 8px;
+  outline: none;
+  opacity: 0;
+  text-align: center;
+  background-color: rgb(255, 255, 250);
+}
+
+.btnBought:hover {
+  border: none;
+  background-color: rgb(255, 255, 250);
+  color: rgb(255 255 255);
+  background-color: rgb(254 44 85);
+}
+
+.desc {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 5px var(--paddingLR);
+}
+
+/* tên sản phẩm */
+.descName {
+  line-height: 1.8;
+  font-weight: 400;
+  color: #27272a;
+  font-size: 14px;
+  width: 160px;
+  overflow: hidden;
+  max-height: 40px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Đánh giá và số lượng đã bán */
+.descVoteIsBought {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 25px;
+  font-size: 12.5px;
+  color: #808089;
+}
+
+.space {
+  width: 1px;
+  height: 9px;
+  background-color: rgb(199, 199, 199);
+  margin: 0 var(--paddingIsBoughtIsVote);
+}
+
+/* Giá, tặng coin và hoàn tiền */
+.isPriceGiveRefundMoney {
+  width: 100%;
+  flex: 1;
+  padding: 5px 0;
+}
+
+/* .Giá */
+.isPrice {
+  display: flex;
+  align-items: center;
+  color: rgb(56, 56, 61);
+  font-size: 16px;
+  font-weight: 600;
+}
+/* ..Khuyến mãi */
+.promote {
+  color: red;
+}
+
+.promoteSub {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ..Tên label */
+.offical {
+  width: 68px;
+  height: 14px;
+}
+
+.repution {
+  width: 54px;
+  height: 14px;
+}
+
+.astra {
+  width: 62px;
+  height: 24px;
+  position: absolute;
+  top: 156px;
+}
+
+/* ..isVote */
+.vote {
+  max-width: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.voteNumbers {
+  font-size: 12px;
+  color: rgb(128, 128, 137);
+  margin-right: 2px;
+}
+
+.iconStar {
+  font-size: 11px;
+}
+
+/* Vị trí label */
+.offical,
+.repution {
+  position: absolute;
+  top: 0;
+  left: 1px;
+  border-top-left-radius: 5px;
+}
+
+/* .Tặng và hoàn trả */
+.isGiveValueOfGive {
+  color: rgb(128, 128, 137);
+  font-weight: 400;
+  font-size: 10px;
+  padding: 3px 0;
+}
+
+/* Tặng */
+.give {
+  padding: 4px 0;
+  display: inline-block;
+}
+
+/* ..Effect */
+.effect {
+  text-decoration: underline;
+  padding-left: 3px;
+}
+/* Thời gian giao */
+.timeShipWrapper {
+  height: 45px;
+  margin: 0 var(--paddingLR);
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgb(235, 235, 240);
+}
+
+.timeShipWrapper > p {
+  color: rgb(128, 128, 137);
+  font-size: 0.67em;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.timeShip > img {
+  margin-right: 5px;
+}

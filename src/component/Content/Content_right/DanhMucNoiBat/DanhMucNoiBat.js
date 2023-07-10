@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { apiLink } from '../../../../apis/api'
 import styles from './danhMucNoiBat.module.css'
 
-const urlDanhMucNoiBat = 'https://dulieusanpham.vercel.app/danhMucNoiBat'
+const urlDanhMucNoiBat = `${apiLink}/danhMucNoiBat`
 
 const style = {
   width: '100%',

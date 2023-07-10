@@ -38,13 +38,7 @@ export default memo(function Content_right({ getDataContent }) {
       <DanhMucNoiBat />
       <GoiYHomNay />
 
-      <DanhSachSanPham
-        prop={
-          <MiniDanhSach colums={[1, 7]} rows={[1, 2]} urlApi={urlMiniSpe2} isNotFirst={false} />
-        }
-        getDataContentRight={getData}
-      />
-
+      <DanhSachSanPham />
     </div>
   )
 })

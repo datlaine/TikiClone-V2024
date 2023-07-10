@@ -11,19 +11,22 @@
 }
 
 .content-left-list:first-of-type {
-  flex: 45% 0;
+  flex: 20% 0 0;
 }
 
-.content-left-list:not(.content-left-list:first-child){
+.content-left-list:not(.content-left-list:first-of-type) {
   overflow-y: scroll;
   padding: 5px 4px;
-  flex: 40%;
+  flex: 15% 0 0;
 }
 
 .content-left-list.content-left-list:not(.content-left-list:first-child)::-webkit-scrollbar {
   display: none;
 }
 
+.banHang-container {
+  flex: 25%;
+}
 
 .link {
   width: 100%;

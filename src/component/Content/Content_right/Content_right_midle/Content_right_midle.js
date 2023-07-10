@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
+import { apiLink } from '../../../../apis/api'
 import './content_right_midle.css'
 import GiaTotHomNay from './GiaTotHomNay'
 
-const urlGiaTotHomNay = 'https://dulieusanpham.vercel.app/giaTotHomNay'
+const urlGiaTotHomNay = `${apiLink}/giaTotHomNay`
 
 export default function Content_right_midle() {
   // console.log("content-right-midle re-render")

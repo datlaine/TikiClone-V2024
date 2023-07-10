@@ -1,7 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { apiLink } from '../../../../apis/api'
 import style from './goiYHomNay.module.css'
 
-const urlGoiYHomNay = 'https://dulieusanpham.vercel.app/goiYHomNay'
+const urlGoiYHomNay = `${apiLink}/goiYHomNay`
 
 export default function GoiYHomNay() {
   const [data, setData] = useState([])

@@ -19,12 +19,13 @@ let productInitial = {
   isPrice: 0,
   isPricePromote: 0,
   quantity: 0,
+  bought: 0,
 }
 
 export default function Buy() {
   const { id } = useParams()
   const [product, setProduct] = useState(productInitial)
-  const [quantity, setQuantity] = useState(0)
+  const [quantity, setQuantity] = useState(1)
 
   const { data, isLoading } = useQuery({
     queryKey: ['product', id],
@@ -43,18 +44,26 @@ export default function Buy() {
       valueOfGiveGB = valueOfGive
       checkNumberVoteGB = checkNumberVote
       promoteGB = promote
+      console.log('useEffect')
       setProduct((prev) => ({
         ...prev,
         name: data?.data[0].name,
+        bought: data?.data[0].isBought,
+        promote: data?.data[0]?.isPromote[1]?.promote ? data?.data[0]?.isPromote[1]?.promote : 0,
+        isPrice: Number(data?.data[0].isPrice * quantity),
+        quantity: quantity,
+        isPricePromote:
+          Number(
+            Number(
+              data?.data[0].isPrice - (data?.data[0].isPrice / 100) * Number(data?.data[0]?.isPromote[1]?.promote) * -1,
+            ),
+          ) || 0,
       }))
     }
-  }, [isLoading])
+  }, [isLoading, quantity])
 
   const checkPromote = promoteGB !== undefined ? true : false
 
-  useEffect(() => {
-    console.log(product)
-  }, [product])
 
   const handleQuantity = (quantity) => {
     // console.log(`số lượng sản phẩm mua:  ${quantity}`)
@@ -69,28 +78,13 @@ export default function Buy() {
   }
 
   const handleAddProduct = () => {
-    let product = data?.data[0]
     // console.log('quantity', typeof product.quantity)
     // console.log('isPrice', typeof product.isPrice)
 
     // console.log(Number(product.isPrice) * Number(product.quantity))
-    setProduct((prev) => ({
-      ...prev,
-      name: product.name,
-      promote: product?.isPromote[1]?.promote ? product?.isPromote[1]?.promote : 0,
-      isPrice: Number(Number(product.isPrice) * Number(quantity)),
-      isPricePromote:
-        Number(
-          Number(
-            product.isPrice - (product.isPrice / 100) * Number(product?.isPromote[1]?.promote) * -1,
-          ),
-        ) || 0,
-    }))
-    console.log(data?.data[0]?.isPromote[1]?.promote)
-    console.log(">>>> check promote", product?.promote)
-    let message = `Sản phẩm đã mua là: ${product.name} với ${product.isPrice} và số lượng là ${quantity}`
-    alert(`Sản phẩm:  ${message}`)
-    }
+    console.log(product)
+    
+  }
 
   return (
     <Fragment>

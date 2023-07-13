@@ -41,9 +41,7 @@ export default function Cart() {
   const handleChangeSelectAll = (e) => {
     setIsSelectAll(e.target.checked)
     dispatch(cartSlice.actions.isSelectAll(e.target.checked))
-    if (select !== 0) {
-      setIsSelectAll(!isSelectAll)
-    }
+    
   }
 
   return (

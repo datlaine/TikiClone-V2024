@@ -42,7 +42,7 @@ export default function Cart() {
     setIsSelectAll(e.target.checked)
     dispatch(cartSlice.actions.isSelectAll(e.target.checked))
     if (select !== 0) {
-      setIsSelectAll(false)
+      setIsSelectAll(!isSelectAll)
     }
   }
 

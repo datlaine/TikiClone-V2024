@@ -9,19 +9,24 @@ import './index.css'
 import App from './App'
 import Contact from './component/Contact/Contact'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Provider } from 'react-redux'
+import Cart from './component/Cart/Cart'
+import { store } from './store'
+import Header from './component/Header/header_main/Header'
+import ContentWrapper from './component/Content/ContentWrapper/ContentWrapper'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const client = new QueryClient()
 root.render(
-  <BrowserRouter>
-    <QueryClientProvider client={client}>
-      <Routes>
-        <Route path='/' element={<App />} />
-        <Route path='/Buy/:id' element={<Buy />} />
-        <Route path='/ChangeAddress' element={<ChangeAddress />} />
-        <Route path='*' element={<NotFound />} />
-        <Route path='/Contact' element={<Contact />} />
-      </Routes>
-    </QueryClientProvider>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <QueryClientProvider client={client}>
+        <div id='main'>
+          <Header></Header>
+
+          <ContentWrapper />
+        </div>
+      </QueryClientProvider>
+    </BrowserRouter>
+  </Provider>,
 )

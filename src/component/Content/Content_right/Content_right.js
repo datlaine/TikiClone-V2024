@@ -8,9 +8,6 @@ import DanhMucNoiBat from './DanhMucNoiBat/DanhMucNoiBat'
 import GoiYHomNay from './GoiYHomNay/GoiYHomNay'
 import HangThuongHieuGiaTot from './HangThuongHieuGiaTot/HangThuongHieuGiaTot'
 import DanhSachSanPham from './DanhSachSanPham/DanhSachSanPham'
-import MiniDanhSach from './DanhSachSanPham/MiniDanhSach'
-import ButtonAddPage from './DanhSachSanPham/ButtonAddPage'
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import Buy from './Buy/Buy'
 
 export default memo(function Content_right({ getDataContent }) {
@@ -37,7 +34,6 @@ export default memo(function Content_right({ getDataContent }) {
       <HangThuongHieuGiaTot />
       <DanhMucNoiBat />
       <GoiYHomNay />
-
       <DanhSachSanPham />
     </div>
   )

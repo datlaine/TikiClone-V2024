@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
-import { apiLink } from '../../../../apis/api'
 import './content_right_midle.css'
 import GiaTotHomNay from './GiaTotHomNay'
-
-const urlGiaTotHomNay = `${apiLink}/giaTotHomNay`
 
 export default function Content_right_midle() {
   // console.log("content-right-midle re-render")
@@ -60,7 +57,7 @@ export default function Content_right_midle() {
       </div>
 
       <div className='content-right-midle-bottom'>
-        <GiaTotHomNay urlApi={urlGiaTotHomNay} />
+        <GiaTotHomNay />
       </div>
     </div>
   )

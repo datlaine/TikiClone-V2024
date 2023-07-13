@@ -1,26 +1,29 @@
+import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState, memo } from 'react'
+import { getData } from '../../../../apis/getDataMain'
+import { SLATE_TIME } from '../../../../apis/staleTime'
 import './GiaTotHomNay.css'
 export default memo(function GiaTotHomNay({ urlApi }) {
   // console.log("content-giaToiHomNay re-render");
 
   const [giaTotHomNay, setGiaTotHomNay] = useState([])
 
+  const { data, isLoading } = useQuery({
+    queryKey: [`giaTotHomNay`],
+    queryFn: () => getData('/giaTotHomNay'),
+    staleTime: SLATE_TIME,
+  })
+
   useEffect(() => {
-    fetch(urlApi)
-      .then((res) => {
-        return res.json()
-      })
-      .then((data) => {
-        // console.log(urlApi)
-        setGiaTotHomNay(data)
-        // console.log(giaTotHomNay)
-      })
-  }, [urlApi])
+    if (!isLoading) {
+      setGiaTotHomNay(data?.data)
+    }
+  }, [isLoading])
   let checkQuantity
   let checkSoldOut = false
   return (
     <div className='giaTotHomNay'>
-      {giaTotHomNay &&
+      {!isLoading &&
         giaTotHomNay.map((item) => {
           checkQuantity = item.isBought === 0
           item.isBought >= 10 ? (checkSoldOut = true) : (checkSoldOut = false)

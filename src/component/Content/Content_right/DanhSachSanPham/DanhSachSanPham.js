@@ -3,40 +3,39 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { useLayoutEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { getListProducts } from '../../../../apis/getListProducts'
+import { SLATE_TIME } from '../../../../apis/staleTime'
 import style from './danhSachSanPham.module.css'
 
 export default function DanhSachSanPham() {
   const [page, setPage] = useState(1)
   const [listSanPham, setlistSanPham] = useState([])
-  const [reRender, setRender] = useState(false)
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['listProducts', page],
     queryFn: () => getListProducts(page),
+    staleTime: SLATE_TIME,
     keepPreviousData: true,
   })
 
   const soLuongSanPham = Math.ceil(data?.headers['x-total-count'] / 6)
-  console.log('>>>>checkTotalPage', data?.headers['x-total-count'])
-  console.log('>>>checkSoTrangPage', soLuongSanPham)
-  console.log('>>>checkPageCurrent', page)
+  // console.log('>>>>checkTotalPage', data?.headers['x-total-count'])
+  // console.log('>>>checkSoTrangPage', soLuongSanPham)
+  // console.log('>>>checkPageCurrent', page)
   // console.log(data?.data)
   useLayoutEffect(() => {
     if (page === 1) {
-      console.log('>>>checkPage!', page, isLoading, isSuccess)
+      // console.log('>>>checkPage!', page, isLoading, isSuccess)
       if (isSuccess) {
         console.log(data?.data)
         let newArray = [...data?.data]
         setlistSanPham(newArray)
       }
-    } else {
-      setRender(true)
     }
   }, [isLoading, isSuccess, page])
-  
+
   const handleClick = () => {
-    console.log('click')
+    // console.log('click')
     if (page - 1 <= soLuongSanPham) {
       setPage((prev) => prev + 1)
       if (page !== 1) {
@@ -45,11 +44,11 @@ export default function DanhSachSanPham() {
     }
   }
 
-  console.log('stateArr', listSanPham)
-  console.log(page)
-  console.log(' ')
-  console.log(' ')
-  console.log(' ')
+  // console.log('stateArr', listSanPham)
+  // console.log(page)
+  // console.log(' ')
+  // console.log(' ')
+  // console.log(' ')
   return (
     <>
       <div className='grid grid-cols-6 grid-rows-1 gap-x-4 gap-y-8 md:grid-cols2 lg: grid-cols-4'>
@@ -59,15 +58,15 @@ export default function DanhSachSanPham() {
           className='col-span-2'
         />
         {isLoading && (
-          <div class='absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 '>
-            <div class='border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-60 w-60'></div>
+          <div className='absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 '>
+            <div className='border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-60 w-60' />
           </div>
         )}
         {isSuccess &&
           listSanPham.map((list) => {
             return (
-              <div className='flex flex-col dark:bg-gray-900' key={list.id} id='content'>
-                <NavLink className={style.layoutImg} key={list.id} to={`/buy/${list.id}`}>
+              <div className='flex flex-col bg-slate-950' key={list.id} id='content'>
+                <Link className={style.layoutImg} key={list.id} to={`/buy/${list.id}`}>
                   <div className={style.img}>
                     <img src={require(`../DanhSachSanPham${list.hinhAnh}`)} alt='' />
                   </div>
@@ -113,13 +112,15 @@ export default function DanhSachSanPham() {
                           <div className={style.iconStar}>
                             <FontAwesomeIcon icon={faStar} style={{ color: '#fdd863' }} />
                           </div>
-                          <span className={style.space}></span>
+                          <span className={`${style.space} mx-2`}></span>
                         </div>
                       ) : (
                         ''
                       )}
                       {/** 3 */}
-                      <span className={style.bought}>{list.isBought}</span>
+                      <span className={style.bought}>
+                        {list.isBought > 0 ? `Đã bán ${list.isBought}` : ''}
+                      </span>
                     </div>
                     {/** Giá, coin, và hoàn tiền
                       1. Kiểm tra sản phẩm có giảm giá không
@@ -141,13 +142,10 @@ export default function DanhSachSanPham() {
                         </span>
                       </p>
                       {/** 2 */}
-                      <p className={style.isGiveValueOfGive}>
-                        Tặng tới {list.give} ASA (
-                        <span className={style.give}>
-                          {list.valueOfGive}
-                          <span className={style.effect}>đ</span>
-                        </span>
-                        )<div>≈{list.refundMoney}% hoàn tiền</div>
+                      <p
+                        className={`${style.isGiveValueOfGive} ${style.give} ${style.effect} ${data.valueOfGive}`}
+                      >
+                        Tặng tới {data.give} ASA đ % hoàn tiền
                       </p>
                     </div>
                   </div>
@@ -174,7 +172,7 @@ export default function DanhSachSanPham() {
                       )}
                     </p>
                   </div>
-                </NavLink>
+                </Link>
               </div>
             )
           })}

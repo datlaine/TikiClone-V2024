@@ -3,7 +3,7 @@ import Header_list_up from '../header_list_up/Header_list_up'
 import Header_list_down from '../header_list_down/Header_list_down'
 import Header_last from '../header_last/Header_last'
 
-function header() {
+function Header() {
   return (
     <div id='header'>
       <div className='container-header'>
@@ -15,4 +15,4 @@ function header() {
   )
 }
 
-export default header
+export default Header

@@ -17,7 +17,7 @@
   display: flex;
   width: 840px;
   height: 40px;
-  margin: 0 50px;
+  margin: 0 20px 0px 50px;
   padding: 0 0 0 16px;
   border-radius: 8px;
   border: 1px solid rgb(221, 221, 227);
@@ -139,10 +139,10 @@
   height: 40px;
 }
 
-.inputSearch {
+.showHideDataSearch {
   display: none;
-  padding: 15px;
   position: absolute;
+  padding: 5px 20px 5px 5px;
   left: 0;
   top: 100%;
   right: 0;
@@ -151,16 +151,13 @@
   background: #fff;
   border: 1px solid #ccc;
   overflow-y: hidden;
-  min-height: 25px;
-  max-height: 400px;
+  min-height: 55px;
 }
 
 .sanPhamTheoTen {
   overflow: hidden;
-  margin: 10px 0 15px 0;
   max-height: 259px;
   height: auto;
-  padding: 0 0 15px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;

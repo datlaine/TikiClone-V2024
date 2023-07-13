@@ -12,6 +12,12 @@ import { useQuery } from '@tanstack/react-query'
 import { getProduct } from '../../../../apis/getProduct'
 import Shipper from './Shipper/Shipper'
 import ButtonQualityProducts from './Button/ButtonQuantityProducts'
+import { useDispatch, useSelector } from 'react-redux'
+import { cartSlice } from '../../../../Redux/reducer'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 let productInitial = {
   name: '',
@@ -26,6 +32,11 @@ export default function Buy() {
   const { id } = useParams()
   const [product, setProduct] = useState(productInitial)
   const [quantity, setQuantity] = useState(1)
+  const [ship, setShip] = useState('')
+  const dispatch = useDispatch()
+
+  const list = useSelector((state) => state.cartList.cartList)
+  // console.log(list)
 
   const { data, isLoading } = useQuery({
     queryKey: ['product', id],
@@ -44,27 +55,41 @@ export default function Buy() {
       valueOfGiveGB = valueOfGive
       checkNumberVoteGB = checkNumberVote
       promoteGB = promote
-      console.log('useEffect')
+      // console.log('useEffect')
+      let math = Math.round(Number(Number(data.data[0]?.isPromote[1]?.promote) * -1))
+      // console.log(math)
       setProduct((prev) => ({
         ...prev,
+        id: data?.data[0].id,
         name: data?.data[0].name,
+        image: data?.data[0].hinhAnh,
         bought: data?.data[0].isBought,
         promote: data?.data[0]?.isPromote[1]?.promote ? data?.data[0]?.isPromote[1]?.promote : 0,
-        isPrice: Number(data?.data[0].isPrice * quantity),
+        isPrice: Number(data?.data[0].isPrice),
         quantity: quantity,
+        check: false,
+        methodShip: '',
         isPricePromote:
           Number(
             Number(
-              data?.data[0].isPrice - (data?.data[0].isPrice / 100) * Number(data?.data[0]?.isPromote[1]?.promote) * -1,
+              data?.data[0].isPrice -
+                (data?.data[0].isPrice / 100) * Number(data?.data[0]?.isPromote[1]?.promote) * -1,
             ),
           ) || 0,
       }))
     }
   }, [isLoading, quantity])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const checkPromote = promoteGB !== undefined ? true : false
 
-
+  //giá - (gia / 100) * promote
+  let tile = product.promote ? product.promote * -1 : 1
+  let giamGia = product.promote ? product?.isPrice - (product?.isPrice / 100) * tile : ''
+  let image = product.image
   const handleQuantity = (quantity) => {
     // console.log(`số lượng sản phẩm mua:  ${quantity}`)
     // console.log('quantity', Number.isInteger(product.quantity))
@@ -74,7 +99,8 @@ export default function Buy() {
 
   const handleMethodShip = (nameShip) => {
     console.log(`Chọn phương thức giao hàng là: ${nameShip}`)
-    setProduct((prev) => ({ ...prev, ship: nameShip }))
+    setShip(nameShip)
+    setProduct((prev) => ({ ...prev, methodShip: nameShip }))
   }
 
   const handleAddProduct = () => {
@@ -82,8 +108,25 @@ export default function Buy() {
     // console.log('isPrice', typeof product.isPrice)
 
     // console.log(Number(product.isPrice) * Number(product.quantity))
-    console.log(product)
-    
+    // alert(`Tên sản phẩm ${product.name} - ${product.isPrice} - ${product.quantity} -${giamGia}`)
+    let productFinal = {
+      id: product.id,
+      name: product.name,
+      image: image,
+      isPrice: product.isPrice,
+      quantity: product.quantity,
+      isPriceWithPromote: giamGia,
+      promote: product.promote !== 0 ? product.promote * -1 : 0,
+      methodShip: product.methodShip,
+      check: product.check,
+    }
+    console.log('Sẵn sàng dispatch')
+    // dispatch(addProduct(productFinal))
+    toast.success('Thêm vào giỏ hàng thành công', {
+      autoClose: 1000,
+    })
+    console.log(productFinal)
+    dispatch(cartSlice.actions.addProduct(productFinal))
   }
 
   return (
@@ -95,12 +138,11 @@ export default function Buy() {
       )}
       {!isLoading && (
         <div className={style.buy}>
-          <Header></Header>
           <div className={style.wrapperBuy}>
             <div className={style.pathTitle}>
-              <NavLink to='/' className={style.back}>
+              <Link to='/' className={style.back}>
                 Trang chủ
-              </NavLink>
+              </Link>
 
               <ArrowForwardIosIcon className={style.icon} fontSize='12px'></ArrowForwardIosIcon>
               <span className={style.current} title={data.data[0]?.name}>
@@ -180,8 +222,9 @@ export default function Buy() {
                               ? ''
                               : data.data[0].isPrice -
                                 (data.data[0].isPrice / 100) *
-                                  Number(data.data[0].isPromote[1].promote) *
-                                  -1 +
+                                  Math.round(
+                                    Number(Number(data.data[0].isPromote[1].promote) * -1),
+                                  ) +
                                 ' đ'}
                           </span>
                         </div>
@@ -249,19 +292,84 @@ export default function Buy() {
                     <div className={style.border_down}></div>
                     <ButtonQualityProducts getQuantity={handleQuantity} />
                     <div className='mt-6'>
-                      <a
-                        href='#'
+                      <div
+                        to='/Cart'
                         onClick={handleAddProduct}
                         className='flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700'
                       >
                         Mua
-                      </a>
+                      </div>
                     </div>
                   </div>
 
                   {/**Right */}
-                  <div style={{ backgroundColor: 'red' }} className={style.distributor}>
-                    Test
+                  <div className={style.distributor}>
+                    <div className={style.distributorInfo}>
+                      <img
+                        src={require('./logoTiki.webp')}
+                        className='w-12 h-12'
+                        style={{ borderRadius: '50%' }}
+                        alt=''
+                      />
+                      <div className={style.distributorText}>
+                        <h1 className='text-slate-950	font-medium'>Tiki Trading</h1>
+                        <img
+                          src={require('../DanhSachSanPham/img/desciption/offical.png')}
+                          className='w-13a h-4 rounded'
+                          alt=''
+                        />
+                      </div>
+                    </div>
+                    <div className={style.distributorInfoNumber}>
+                      <div className={style.distributorStartFollow}>
+                        <div className={style.distributorStartText}>
+                          <div>
+                            <span className='text-slate-950	font-medium'>4.7 / </span>
+                            <FontAwesomeIcon icon={faStar} style={{ color: '#fdd863' }} />
+                          </div>
+                          <span className='text-slate-950	font-medium'>478.4+</span>
+                        </div>
+                        <div className='flex px-8 justify-between text-xs text-slate-400'>
+                          <span>{`5.4tr+`}</span>
+                          <span>Theo dõi</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='flex gap-2 h-8 justify-between'>
+                      <button className='flex-1 border-2 border-soild border-sky-600 rounded-md'>
+                        <div className='flex justify-center items-center flex-row'>
+                          <img src={require('./iconHome.png')} className='w-5 h-5' alt='' />
+                          <span className='text-sky-500 font-medium'>Xem shop</span>
+                        </div>
+                      </button>
+                      <button className='flex-1  border-2 border-soild border-sky-600 rounded-md'>
+                        <div className='flex justify-center items-center flex-row'>
+                          <img src={require('./iconIncrease.png')} className='w-5 h-5' alt='' />
+                          <span className='text-sky-500 font-medium'>Theo dõi</span>
+                        </div>
+                      </button>
+                    </div>
+                    <hr />
+                    <div className='flex flex-1 gap-3 justify-between'>
+                      <div className='flex flex-col gap-1 items-center justify-center'>
+                        <img src={require('./check.png')} className='w-8 h-8' alt='' />
+                        <p className='flex-1 text-sm  justify-center  break-words'>
+                          Hoàn toàn <span className='text-slate-950'>111%</span> nếu là hàng giả
+                        </p>
+                      </div>
+                      <div className='flex flex-col gap-1 items-center justify-center'>
+                        <img src={require('./like.png')} className='w-8 h-8' alt='' />
+                        <p className='flex-1 text-sm  justify-center  break-words'>
+                          Mở hộp kiểm tra nhận hàng
+                        </p>
+                      </div>
+                      <div className='flex flex-col gap-1 items-center justify-center'>
+                        <img src={require('./return.png')} className='w-8 h-8' alt='' />
+                        <p className='flex-1 text-sm justify-center   break-words'>
+                          Đổi trả trong <span className='text-slate-950'>30 ngày</span> nếu sp lỗi
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -269,6 +377,8 @@ export default function Buy() {
           </div>
         </div>
       )}
+
+      <ToastContainer />
     </Fragment>
   )
 }

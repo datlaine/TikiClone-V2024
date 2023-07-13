@@ -23,8 +23,6 @@ import './content_right_header.css'
 import Content_right_brand from './Content_rignt_brand'
 import { apiLink } from '../../../../apis/api.js'
 
-const urlBrand = `${apiLink}/thuongHieuChinhHang`
-
 export default function Content_right_header() {
   // console.log("content-right_header re-render");
 
@@ -79,7 +77,7 @@ export default function Content_right_header() {
           />
         </span>
 
-        <Content_right_brand urlApi={urlBrand} />
+        <Content_right_brand />
       </div>
     </div>
   )

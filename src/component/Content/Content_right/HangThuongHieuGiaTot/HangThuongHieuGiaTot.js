@@ -1,5 +1,8 @@
+import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { apiLink } from '../../../../apis/api'
+import { getData } from '../../../../apis/getDataMain'
+import { SLATE_TIME } from '../../../../apis/staleTime'
 import './hangThuongHieuGiaTot.css'
 
 const apiThuongHieuGiaTot = `${apiLink}/hangThuongHieuGiaTot`
@@ -7,18 +10,31 @@ const apiThuongHieuGiaTot = `${apiLink}/hangThuongHieuGiaTot`
 export default function HangThuongHieuGiaTot() {
   const [hinhAnh, setHinhAnh] = useState([])
 
-  useState()
+  // useState()
+
+  // useEffect(() => {
+  //   fetch(apiThuongHieuGiaTot)
+  //     .then((res) => {
+  //       return res.json()
+  //     })
+  //     .then((data) => {
+  //       // console.log(data)
+  //       setHinhAnh(data)
+  //     })
+  // }, [])
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['hangThuongHieuGiaTot'],
+    queryFn: () => getData('/hangThuongHieuGiaTot'),
+    staleTime: SLATE_TIME,
+  })
 
   useEffect(() => {
-    fetch(apiThuongHieuGiaTot)
-      .then((res) => {
-        return res.json()
-      })
-      .then((data) => {
-        // console.log(data)
-        setHinhAnh(data)
-      })
-  }, [])
+    if (!isLoading) {
+      // console.log(data?.data)
+      setHinhAnh(data?.data)
+    }
+  }, [isLoading])
 
   const style = {
     width: '100%',
@@ -30,7 +46,8 @@ export default function HangThuongHieuGiaTot() {
     <div className='container_thuongHieuGiaTot'>
       <h2 className='thuongHieuGiaTot_title'>Thương hiệu giá tốt</h2>
       <div className='hangThuongHieuGiaTot'>
-        {hinhAnh &&
+        {!isLoading &&
+          hinhAnh &&
           hinhAnh.map((data) => {
             return (
               <div className={`item item${data.id}`} key={data.id}>

@@ -45,6 +45,17 @@
 .dont:hover {
   opacity: 0.5;
 }
+
+.layoutImg {
+  height: 100%;
+  border-radius: 4px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(36, 36, 36);
+}
+
+.layoutImg:hover {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+}
 /*/layoutImg
 
 :root {
@@ -167,14 +178,13 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 5px var(--paddingLR);
+  padding: 5px 10px;
 }
 
 /* tên sản phẩm */
 .descName {
   line-height: 1.8;
   font-weight: 400;
-  color: #27272a;
   font-size: 14px;
   width: 160px;
   overflow: hidden;
@@ -197,7 +207,6 @@
   width: 1px;
   height: 9px;
   background-color: rgb(199, 199, 199);
-  margin: 0 var(--paddingIsBoughtIsVote);
 }
 
 /* Giá, tặng coin và hoàn tiền */
@@ -296,6 +305,7 @@
   display: flex;
   align-items: center;
   border-top: 1px solid rgb(235, 235, 240);
+  padding: 0px 15px;
 }
 
 .timeShipWrapper > p {

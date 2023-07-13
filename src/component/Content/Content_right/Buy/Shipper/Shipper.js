@@ -66,9 +66,9 @@ export default function Shipper({ Now, getMethodShip }) {
         <div className={style.img}>
           <img src={logoNow} alt='' />
 
-          <span className={style.timeShip}>{thoiGianGiaoHangNow}</span>
+          <span className={`${style.timeShip}`}>{thoiGianGiaoHangNow}</span>
         </div>
-        <div className={style.moneyShip}>Phí vận chuyển {vanChuyenNow}</div>
+        <div className={`${style.moneyShip} text-neutral-900`}>Phí vận chuyển {vanChuyenNow}</div>
       </div>
 
       <div
@@ -79,9 +79,11 @@ export default function Shipper({ Now, getMethodShip }) {
         <div className={style.img}>
           <img src={logoFast} alt='' />
 
-          <span className={style.timeShip}>{thoiGianGiaoHangNormal}</span>
+          <span className={`${style.timeShip}`}>{thoiGianGiaoHangNormal}</span>
         </div>
-        <div className={style.moneyShip}>Phí vận chuyển {vanChuongNormal}</div>
+        <div className={`${style.moneyShip} text-neutral-900`}>
+          Phí vận chuyển {vanChuongNormal}
+        </div>
       </div>
     </>
   )

@@ -1,37 +1,52 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 export default function InputSearch(props) {
-  const { data } = props
+  const { data, show } = props
 
   // inputSearch.style.display = 'none'
-  const handleBlur = (e) => {
-    const inputSearch = document.querySelector('.inputSearch')
-    inputSearch.style.display = 'none'
-    // console.log(123)
-    e.target.value = ''
-  }
 
-  const closeSearch = (e) => {
-    const inputSearch = document.querySelector('.inputSearch')
-    console.log('alo')
-    inputSearch.style.display = 'none'
-  }
+  // useEffect(() => {
+  //   console.log(data)
+  //   const inputSearch = document.querySelector('.inputSearch')
+  //   if (!data) {
+  //     inputSearch.style.display = 'none'
+  //   } else {
+  //     inputSearch.style.display = 'block'
+  //   }
+  // }, [data])
 
   // console.log(data)
 
+  const showHideDataSearch = document.querySelector('.showHideDataSearch')
+  const handleBlur = (e) => {
+    e.stopPropagation()
+  }
+
+  const handleClick = () => {
+    showHideDataSearch.style.display = 'block'
+  }
+
   return (
-    <div className='inputSearch bg-stale-50	' onBlur={closeSearch} id='inputSearch' tabIndex={0}>
+    <div
+      className='showHideDataSearch bg-stale-50'
+      onBlur={handleBlur}
+      onClick={handleClick}
+      tabIndex={0}
+    >
       <div className='sanPhamTheoTen'>
-        {data.map((item) => (
-          <Link
-            key={item.id}
-            to={`/Buy/${item.id}`}
-            className='hover:bg-purple-500 hover:ring-sky-300 p-2 hover:text-white rounded-md'
-          >
-            <span className='hover:text-white'>{item.name}</span>
-          </Link>
-        ))}
+        {!data && <span className='p-2'>Hãy nhập tìm kiếm</span>}
+
+        {data &&
+          data?.map((item) => (
+            <a
+              key={item.id}
+              href={`/Buy/${item.id}`}
+              className='hover:bg-purple-500 hover:ring-sky-300 p-2 hover:text-white rounded-md'
+            >
+              <span className='hover:text-white'>{item.name}</span>
+            </a>
+          ))}
       </div>
     </div>
   )

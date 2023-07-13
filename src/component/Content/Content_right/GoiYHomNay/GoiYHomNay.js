@@ -1,24 +1,29 @@
+import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { apiLink } from '../../../../apis/api'
+import { getData } from '../../../../apis/getDataMain'
+import { SLATE_TIME } from '../../../../apis/staleTime'
 import style from './goiYHomNay.module.css'
 
 const urlGoiYHomNay = `${apiLink}/goiYHomNay`
 
 export default function GoiYHomNay() {
-  const [data, setData] = useState([])
+  const [list, setList] = useState([])
   const [toggle, setToggle] = useState(false)
 
-  useLayoutEffect(() => {
-    fetch(urlGoiYHomNay)
-      .then((res) => {
-        return res.json()
-      })
-      .then((data) => {
-        // console.log("useEffect 1");
-        setData(data)
-        setToggle(true)
-      })
-  }, [])
+  const { data, isLoading } = useQuery({
+    queryKey: [`goiYHomNay`],
+    queryFn: () => getData('/goiYHomNay'),
+    staleTime: SLATE_TIME,
+  })
+
+  useEffect(() => {
+    if (!isLoading) {
+      setList(data?.data)
+      setToggle(true)
+    }
+  }, [isLoading])
 
   //   console.time("useEffect");
   useEffect(() => {
@@ -53,17 +58,17 @@ export default function GoiYHomNay() {
       <div className={style.goiYHomNay}>
         <p className={style.title}>Gợi ý hôm nay</p>
         <div className={style.wrapper}>
-          {data &&
-            data.map((item) => {
+          {!isLoading &&
+            list.map((item) => {
               return (
-                <div
+                <NavLink
                   className={`${style.wrapperImg} ${style.wrapperImg + item.id} itemImg${item.id}`}
                   key={item.id}
                   onClick={() => handleActive(item.id)}
                 >
                   <img src={require(`${item.hinhAnh}`)} alt='' style={{ width: 40, height: 40 }} />
                   <div className={style.titleImg}>{item.title}</div>
-                </div>
+                </NavLink>
               )
             })}
         </div>

@@ -11,13 +11,11 @@
 }
 
 .content-left-list:first-of-type {
-  flex: 20% 0 0;
 }
 
 .content-left-list:not(.content-left-list:first-of-type) {
   overflow-y: scroll;
-  padding: 5px 4px;
-  flex: 15% 0 0;
+  padding: 12px 4px;
 }
 
 .content-left-list.content-left-list:not(.content-left-list:first-child)::-webkit-scrollbar {
@@ -25,7 +23,6 @@
 }
 
 .banHang-container {
-  flex: 25%;
 }
 
 .link {
@@ -33,6 +30,7 @@
   display: flex;
   gap: 15px;
   align-items: center;
+  font-family: Inter;
 }
 
 .content-left-list .content-desc-list {
@@ -48,7 +46,6 @@
   padding: 6px 4px;
   color: rgb(56, 56, 61);
   font-size: 14px;
-  font-family: 600;
 }
 
 .content-left-list-item:hover {

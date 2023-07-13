@@ -1,0 +1,144 @@
+/* Chứa 2 Components Cart và CartPaid */
+.cartMain {
+  display: flex;
+  gap: 50px;
+}
+
+/* button tăng giảm sản phẩm */
+
+.btnWrapper {
+  width: 100px;
+  padding: 4px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn {
+  border: 0.001em solid #ccc;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Giao diện cart */
+
+.container {
+  padding: 0px 110px;
+}
+
+.cartWrapper {
+  width: 900px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 25px;
+  padding: 0px 0px 45px;
+}
+
+.productCartInfo {
+  display: flex;
+  width: 400px;
+  align-items: center;
+}
+
+.productCart {
+  width: 100%;
+  height: 150px;
+  background-color: rgba(255 255 255);
+
+  border: 0.2rem solid rgb(241 245 249);
+  border-radius: 8px;
+  padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageProductCart {
+  width: 80px;
+  height: 100px;
+  margin-right: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.imgageProducCart > img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.infoProductCart {
+  width: 350px;
+  margin-right: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoProductCart > .productCartName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 30%;
+}
+
+.productCartName p {
+  font-size: 13px;
+}
+.productShip {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.logoShipCart {
+  flex: 30%;
+  display: flex;
+  font-size: 13px;
+  gap: 6px;
+  align-items: center;
+}
+
+.logoShipCart > img {
+  width: 28px !important;
+  height: 14px !important;
+}
+
+.titleShip {
+  color: #009900;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* .isPricePromote {
+
+} */
+
+.isPrice {
+  opacity: 0.8;
+  text-decoration: line-through;
+}
+
+.titleCart {
+  text-transform: uppercase;
+  margin-left: 10px;
+  padding: 13px 0 5px;
+  font-size: 30px;
+}
+
+.priceProductCart {
+  display: flex;
+  gap: 15px;
+  min-width: 50px;
+  width: 350px;
+}
+
+.promote {
+  color: rgb(220 38 38);
+}

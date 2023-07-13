@@ -1,9 +1,9 @@
 import { useLayoutEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './content.css'
-import { apiLink } from '../../apis/api'
-import Content_left from './Content_left/Content_left'
-import Content_right from './Content_right/Content_right'
+import { apiLink } from '../../../apis/api'
+import Content_left from '../Content_left/Content_left'
+import Content_right from '../Content_right/Content_right'
 const category = {
   noiBat: 'Nổi bật',
   danhMuc: 'Danh mục',
@@ -12,7 +12,7 @@ const category = {
 const url_noiBat = `${apiLink}/noiBat`
 const url_danhMuc = `${apiLink}/danhMuc`
 
-function Content({ getDataContent }) {
+function ContentMain({ getDataContent }) {
   const [height, setHeight] = useState(135)
 
   // console.log("content re-render");
@@ -45,8 +45,8 @@ function Content({ getDataContent }) {
   }
 
   return (
-    <div id='content'>
-      <div id='content-container'>
+    <div id='content-container'>
+      <div>
         <div id='big'>
           <div className='wrapper'>
             <Content_left category={category.noiBat} urlApi={url_noiBat} />
@@ -74,4 +74,4 @@ function Content({ getDataContent }) {
   )
 }
 
-export default Content
+export default ContentMain

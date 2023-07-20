@@ -37,7 +37,7 @@ export default function Content_right_midle() {
   }, [giay, phut, gio])
 
   return (
-    <div id='Content_right_midle'>
+    <div id='Content_right_midle' className=''>
       <div className='content-right-midle-top'>
         <div className='content-midle-top-left'>
           <span className='content-midle-title'>Giá sốc hôm nay</span>
@@ -49,10 +49,7 @@ export default function Content_right_midle() {
         </div>
         <div className='xemThem'>
           <span>Xem thêm</span>
-          <img
-            src='https://salt.tikicdn.com/ts/upload/d8/38/d3/4bef23fec35f9fbfa1757d30184ddb9c.png'
-            alt=''
-          />
+          <img src='https://salt.tikicdn.com/ts/upload/d8/38/d3/4bef23fec35f9fbfa1757d30184ddb9c.png' alt='' />
         </div>
       </div>
 

@@ -46,10 +46,7 @@ const checkVote = (data) => {
 const getPriceAndPromote = (data) => {
   let priceDontPromote = 0
   let check
-  let promote =
-    data[0]?.isPromote[0].checkPromote !== false
-      ? data[0]?.isPromote[1].promote
-      : (check = undefined)
+  let promote = data[0]?.isPromote[0].checkPromote !== false ? data[0]?.isPromote[1].promote : (check = undefined)
   // console.log(promote)
   if (promote !== 0) {
     // 100 % - promote / 100 -> price / result

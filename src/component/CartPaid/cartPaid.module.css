@@ -1,109 +1,224 @@
-:root {
-  --paddingMain: 15px 20px;
-  --backgroundMain: #fff;
-  --borderRadiusMain: 4px;
+@media screen and (min-width: 1024px) {
+  :root {
+    --paddingMain: 15px 20px;
+    --backgroundMain: #fff;
+    --borderRadiusMain: 4px;
+  }
+
+  .cartPaidContainer {
+    font-family: 'Inter', sans-serif;
+    flex: 0 0 25%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  /* Khu vực infoUser */
+  .cartPaidInfoUser {
+    flex: 30%;
+    padding: var(--paddingMain);
+    background-color: var(--backgroundMain);
+    border-radius: var(--borderRadiusMain);
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .verify {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .letGo {
+    color: #808089;
+    font-size: 16px;
+  }
+
+  .change {
+    color: #0b74a5;
+    font-size: 14px;
+  }
+
+  /* block info */
+  .info {
+  }
+
+  .infoName {
+  }
+
+  .infoPhone {
+  }
+
+  /* END */
+
+  .cartPaidPromote {
+    flex: 20%;
+    padding: var(--paddingMain);
+    background-color: var(--backgroundMain);
+    border-radius: var(--borderRadiusMain);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 14px;
+  }
+
+  .newsPromote {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cartPaidTotal {
+    flex: 40%;
+    padding: var(--paddingMain);
+    background-color: var(--backgroundMain);
+    border-radius: var(--borderRadiusMain);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .tempMoney {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  .totalMoney {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    padding: 5px 0;
+  }
+
+  .totalMoney > .lastMoney {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .totalMonet > .lastMoney > span {
+  }
+
+  .cartPaidBtn {
+    flex: 10%;
+    background-color: #ff424e;
+    border-radius: var(--borderRadiusMain);
+    color: #fff;
+    padding: 13px 10px;
+  }
 }
 
-.cartPaidContainer {
-  font-family: 'Inter', sans-serif;
-  width: 450px;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
+@media screen and (max-width: 768px) {
+  :root {
+    --paddingMain: 15px 20px;
+    --backgroundMain: #fff;
+    --borderRadiusMain: 4px;
+  }
 
-/* Khu vực infoUser */
-.cartPaidInfoUser {
-  flex: 30%;
-  padding: var(--paddingMain);
-  background-color: var(--backgroundMain);
-  border-radius: var(--borderRadiusMain);
-  display: flex;
-  gap: 15px;
-  flex-direction: column;
-}
+  .cartPaidContainer {
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 45px;
+  }
 
-.verify {
-  display: flex;
-  justify-content: space-between;
-}
+  /* Khu vực infoUser */
+  .cartPaidInfoUser {
+    flex: 30%;
+    padding: var(--paddingMain);
+    background-color: var(--backgroundMain);
+    border-radius: var(--borderRadiusMain);
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+  }
 
-.letGo {
-  color: #808089;
-  font-size: 16px;
-}
+  .verify {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.change {
-  color: #0b74a5;
-  font-size: 14px;
-}
+  .letGo {
+    color: #808089;
+    font-size: 16px;
+  }
 
-/* block info */
-.info {
-}
+  .change {
+    color: #0b74a5;
+    font-size: 14px;
+  }
 
-.infoName {
-}
+  /* block info */
+  .info {
+  }
 
-.infoPhone {
-}
+  .infoName {
+  }
 
-/* END */
+  .infoPhone {
+  }
 
-.cartPaidPromote {
-  flex: 20%;
-  padding: var(--paddingMain);
-  background-color: var(--backgroundMain);
-  border-radius: var(--borderRadiusMain);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  font-size: 14px;
-}
+  /* END */
 
-.newsPromote {
-  display: flex;
-  justify-content: space-between;
-}
+  .cartPaidPromote {
+    flex: 20%;
+    padding: var(--paddingMain);
+    background-color: var(--backgroundMain);
+    border-radius: var(--borderRadiusMain);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 14px;
+  }
 
-.cartPaidTotal {
-  flex: 40%;
-  padding: var(--paddingMain);
-  background-color: var(--backgroundMain);
-  border-radius: var(--borderRadiusMain);
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
+  .newsPromote {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.tempMoney {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-}
+  .cartPaidTotal {
+    flex: 40%;
+    padding: var(--paddingMain);
+    background-color: var(--backgroundMain);
+    border-radius: var(--borderRadiusMain);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
 
-.totalMoney {
-  display: flex;
-  justify-content: space-between;
-  flex: 1;
-  padding: 5px 0;
-}
+  .tempMoney {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
 
-.totalMoney > .lastMoney {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-between;
-}
+  .totalMoney {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    padding: 5px 0;
+  }
 
-.totalMonet > .lastMoney > span {
-}
+  .totalMoney > .lastMoney {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
 
-.cartPaidBtn {
-  flex: 10%;
-  background-color: #ff424e;
-  border-radius: var(--borderRadiusMain);
-  color: #fff;
-  padding: 13px 10px;
+  .totalMonet > .lastMoney > span {
+  }
+
+  .cartPaidBtn {
+    flex: 10%;
+    background-color: #ff424e;
+    border-radius: var(--borderRadiusMain);
+    color: #fff;
+    padding: 13px 10px;
+  }
 }

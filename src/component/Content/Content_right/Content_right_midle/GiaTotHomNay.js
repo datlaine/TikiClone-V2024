@@ -8,7 +8,7 @@ export default memo(function GiaTotHomNay({ urlApi }) {
 
   const [giaTotHomNay, setGiaTotHomNay] = useState([])
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: [`giaTotHomNay`],
     queryFn: () => getData('/giaTotHomNay'),
     staleTime: SLATE_TIME,
@@ -23,13 +23,13 @@ export default memo(function GiaTotHomNay({ urlApi }) {
   let checkSoldOut = false
   return (
     <div className='giaTotHomNay'>
-      {!isLoading &&
+      {isSuccess &&
         giaTotHomNay.map((item) => {
           checkQuantity = item.isBought === 0
           item.isBought >= 10 ? (checkSoldOut = true) : (checkSoldOut = false)
           // console.log("checkQuantity: " + checkQuantity)
           return (
-            <div className='item' key={item.id}>
+            <div className={`item giaTotHomNayItem${item.id}`} key={item.id}>
               <div className='hinhAnh'>
                 <div className='discount'>
                   <span>{item.discount}</span>
@@ -52,13 +52,7 @@ export default memo(function GiaTotHomNay({ urlApi }) {
                       backgroundColor: checkSoldOut ? '#D53939' : 'rgb(255, 66, 78)',
                     }}
                   ></div>
-                  <p>
-                    {checkQuantity
-                      ? 'Vừa mở bán'
-                      : checkSoldOut
-                      ? 'Đã bán hết'
-                      : `Đã bán ${item.isBought}`}
-                  </p>
+                  <p>{checkQuantity ? 'Vừa mở bán' : checkSoldOut ? 'Đã bán hết' : `Đã bán ${item.isBought}`}</p>
                 </div>
               </div>
             </div>

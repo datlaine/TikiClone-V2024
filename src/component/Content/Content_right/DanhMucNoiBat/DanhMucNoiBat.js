@@ -16,7 +16,7 @@ export default function DanhMucNoiBat() {
   const [list, setList] = useState([])
   // console.log("content-danhMucNoiBat re-render");
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['danhMucNoiBat'],
     queryFn: () => getData('/danhMucNoiBat'),
     staleTime: SLATE_TIME,
@@ -30,10 +30,10 @@ export default function DanhMucNoiBat() {
   }, [isLoading])
 
   return (
-    <div className={styles.danhMucNoiBat}>
+    <div className={`${styles.danhMucNoiBat}`}>
       <h2 className={styles.danhMucNoiBat_title}>Danh mục nổi bật</h2>
       <div className={styles.danhMucNoiBat_wrapper}>
-        {!isLoading &&
+        {isSuccess &&
           list.map((item) => {
             return (
               <div key={item.id} className={styles.danhMucNoiBat_item}>

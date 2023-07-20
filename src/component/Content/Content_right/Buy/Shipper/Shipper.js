@@ -58,11 +58,7 @@ export default function Shipper({ Now, getMethodShip }) {
 
   return (
     <>
-      <div
-        className={`${style.shipperContainer} now`}
-        onClick={() => handleSelectShip('now')}
-        ref={select}
-      >
+      <div className={`${style.shipperContainer} now`} onClick={() => handleSelectShip('now')} ref={select}>
         <div className={style.img}>
           <img src={logoNow} alt='' />
 
@@ -71,19 +67,13 @@ export default function Shipper({ Now, getMethodShip }) {
         <div className={`${style.moneyShip} text-neutral-900`}>Phí vận chuyển {vanChuyenNow}</div>
       </div>
 
-      <div
-        className={`${style.shipperContainer} normal`}
-        onClick={() => handleSelectShip('normal')}
-        ref={select}
-      >
+      <div className={`${style.shipperContainer} normal`} onClick={() => handleSelectShip('normal')} ref={select}>
         <div className={style.img}>
           <img src={logoFast} alt='' />
 
           <span className={`${style.timeShip}`}>{thoiGianGiaoHangNormal}</span>
         </div>
-        <div className={`${style.moneyShip} text-neutral-900`}>
-          Phí vận chuyển {vanChuongNormal}
-        </div>
+        <div className={`${style.moneyShip} text-neutral-900`}>Phí vận chuyển {vanChuongNormal}</div>
       </div>
     </>
   )

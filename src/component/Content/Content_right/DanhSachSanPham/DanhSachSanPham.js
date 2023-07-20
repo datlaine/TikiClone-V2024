@@ -1,48 +1,95 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
-import { useLayoutEffect } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { Link, useMatch } from 'react-router-dom'
 import { getListProducts } from '../../../../apis/getListProducts'
-import { SLATE_TIME } from '../../../../apis/staleTime'
+import AboutTiki from '../../../AboutTiki/AboutTiki'
 import style from './danhSachSanPham.module.css'
 
-export default function DanhSachSanPham() {
+export default function DanhSachSanPham({ handlePositionButton }) {
   const [page, setPage] = useState(1)
+  const match = useMatch('/')
   const [listSanPham, setlistSanPham] = useState([])
+  const product = useRef(null)
+  const refBtn = useRef(null)
+
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['listProducts', page],
     queryFn: () => getListProducts(page),
-    staleTime: SLATE_TIME,
+    onSuccess: (data) => {
+      setlistSanPham((prev) => prev.concat(data.data))
+      product.current = listSanPham
+    },
     keepPreviousData: true,
   })
 
-  const soLuongSanPham = Math.ceil(data?.headers['x-total-count'] / 6)
+  useEffect(() => {
+    const check = () => {
+      if (refBtn.current) {
+        const btn = refBtn.current.getBoundingClientRect()
+        if (btn.top !== 0 && btn.bottom !== 0) {
+          console.log(`tọa độ btn TOP_BOTTOM ${btn.top} ${btn.bottom}`)
+          handlePositionButton(btn.top, btn.bottom)
+        }
+        // if (match) {
+        // }
+      } else return
+    }
+
+    window.addEventListener('scroll', check)
+
+    return () => {
+      window.removeEventListener('click', check)
+    }
+  }, [])
+
+  const soLuongSanPham = Math.ceil(data?.headers['x-total-count'] / 30)
   // console.log('>>>>checkTotalPage', data?.headers['x-total-count'])
   // console.log('>>>checkSoTrangPage', soLuongSanPham)
   // console.log('>>>checkPageCurrent', page)
   // console.log(data?.data)
-  useLayoutEffect(() => {
-    if (page === 1) {
-      // console.log('>>>checkPage!', page, isLoading, isSuccess)
-      if (isSuccess) {
-        console.log(data?.data)
-        let newArray = [...data?.data]
-        setlistSanPham(newArray)
-      }
-    }
-  }, [isLoading, isSuccess, page])
+  // useLayoutEffect(() => {
+  //   console.log('hooks')
+  //   if (page === 1) {
+  //     // console.log('>>>checkPage!', page, isLoading, isSuccess)
+  //     if (isSuccess) {
+  //       console.log(data?.data)
+  //       let newArray = [...data?.data]
+  //       setlistSanPham(newArray)
+  //     }
+  //   }
+  // }, [isLoading, isSuccess, page])
 
   const handleClick = () => {
     // console.log('click')
-    if (page - 1 <= soLuongSanPham) {
+    if (page < soLuongSanPham) {
       setPage((prev) => prev + 1)
-      if (page !== 1) {
-        setlistSanPham((prev) => prev.concat(data?.data))
-      }
     }
+    refBtn.current.focus()
+    // if (page - 1 <= soLuongSanPham) {
+    // if (page !== 1) {
+    //   setlistSanPham((prev) => prev.concat(data?.data))
+    // }
+    // }
   }
+
+  
+  useEffect(() => {
+    // Thực hiện cuộn lên đầu trang khi component được render
+    // window.scrollTo(0, 0);
+
+    // Hoặc có thể sử dụng cú pháp này:
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth', // Nếu muốn có hiệu ứng cuộn mượt
+    })
+  }, [])
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0)
+  // }, [])
 
   // console.log('stateArr', listSanPham)
   // console.log(page)
@@ -51,24 +98,20 @@ export default function DanhSachSanPham() {
   // console.log(' ')
   return (
     <>
-      <div className='grid grid-cols-6 grid-rows-1 gap-x-4 gap-y-8 md:grid-cols2 lg: grid-cols-4'>
-        <img
-          src={require('../DanhSachSanPham/img/danhSach_1/itemSpe1.png')}
-          alt=''
-          className='col-span-2'
-        />
-        {isLoading && (
-          <div className='absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 '>
-            <div className='border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-60 w-60' />
-          </div>
-        )}
+      <div className={style.danhSachSanPham}>
+        <img src={require('../DanhSachSanPham/img/danhSach_1/itemSpe1.png')} alt='' className={style.hinhAnh} />
+
         {isSuccess &&
           listSanPham.map((list) => {
             return (
-              <div className='flex flex-col bg-slate-950' key={list.id} id='content'>
-                <Link className={style.layoutImg} key={list.id} to={`/buy/${list.id}`}>
-                  <div className={style.img}>
-                    <img src={require(`../DanhSachSanPham${list.hinhAnh}`)} alt='' />
+              <div className={style.sanPhamWrapper} key={list.id}>
+                <Link
+                  className={`${style.layoutImg}`}
+                  key={list.id}
+                  to={`/buy/${list.id}`}
+                >
+                  <div className={`${style.img}`}>
+                    <img src={require(`../DanhSachSanPham${list.hinhAnh}`)} alt='' className={style.imageProduct} />
                   </div>
                   {/**từ phần tử thứ 2 */}
                   {/**check xem sản phẩm có nhãn hàng không - nếu có thì thêm hình nhãn */}
@@ -110,17 +153,22 @@ export default function DanhSachSanPham() {
                           {/** 2 */}
                           <span className={style.voteNumbers}>{list.isVote[1].vote}</span>
                           <div className={style.iconStar}>
-                            <FontAwesomeIcon icon={faStar} style={{ color: '#fdd863' }} />
+                            <FontAwesomeIcon
+                              icon={faStar}
+                              style={{
+                                color: '#fdd863',
+                              }}
+                            />
                           </div>
-                          <span className={`${style.space} mx-2`}></span>
+                          <span
+                            style={{ width: 1, height: 9, margin: '0 8px', backgroundColor: 'rgb(199, 199, 199)' }}
+                          ></span>
                         </div>
                       ) : (
                         ''
                       )}
                       {/** 3 */}
-                      <span className={style.bought}>
-                        {list.isBought > 0 ? `Đã bán ${list.isBought}` : ''}
-                      </span>
+                      <span className={style.bought}>{list.isBought > 0 ? `Đã bán ${list.isBought}` : null}</span>
                     </div>
                     {/** Giá, coin, và hoàn tiền
                       1. Kiểm tra sản phẩm có giảm giá không
@@ -130,11 +178,7 @@ export default function DanhSachSanPham() {
                     <div className={style.isPriceGiveRefundMoney}>
                       {/** 1 */}
                       <p
-                        className={
-                          list.isPromote[0].checkPromote
-                            ? `${style.isPrice} ${style.promote}`
-                            : style.isPrice
-                        }
+                        className={list.isPromote[0].checkPromote ? `${style.isPrice} ${style.promote}` : style.isPrice}
                       >
                         {list.isPrice}{' '}
                         <span className={style.promoteSub}>
@@ -142,9 +186,7 @@ export default function DanhSachSanPham() {
                         </span>
                       </p>
                       {/** 2 */}
-                      <p
-                        className={`${style.isGiveValueOfGive} ${style.give} ${style.effect} ${data.valueOfGive}`}
-                      >
+                      <p className={`${style.isGiveValueOfGive} ${style.give} ${style.effect} ${data.valueOfGive}`}>
                         Tặng tới {data.give} ASA đ % hoàn tiền
                       </p>
                     </div>
@@ -158,7 +200,10 @@ export default function DanhSachSanPham() {
                       {list.isShip[0].checkShipNOW && (
                         <img
                           src={require('./img/desciption/now.png')}
-                          style={{ width: 32, height: 16 }}
+                          style={{
+                            width: 32,
+                            height: 16,
+                          }}
                           alt=''
                         />
                       )}
@@ -178,13 +223,16 @@ export default function DanhSachSanPham() {
           })}
       </div>
 
-      {page - 1 === soLuongSanPham ? (
-        <span className={style.btn}>Đã hết sản phẩm cần load</span>
+      {!isLoading && page === soLuongSanPham ? (
+        <span className={style.btn} ref={refBtn}>
+          Đã hết sản phẩm cần load
+        </span>
       ) : (
-        <button className={style.btn} onClick={handleClick}>
+        <button className={style.btn} onClick={handleClick} ref={refBtn}>
           Thêm sản phẩm
         </button>
       )}
+      <AboutTiki />
     </>
   )
 }

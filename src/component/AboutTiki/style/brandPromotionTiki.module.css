@@ -1,0 +1,30 @@
+@media screen and (min-width: 1024px) {
+  .containerBrandPromotionTiki {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .containerBrandPromotionTiki h3 {
+    font-size: 16px;
+  }
+
+  .containerBrandPromotionTiki h4 {
+    font-size: 14px;
+  }
+
+  .promotionItem h4 {
+    margin-bottom: 6px;
+  }
+
+  .promotionItem p {
+    font-size: 12px;
+    text-align: justify;
+    color: rgb(56, 56, 61);
+    opacity: .8;
+  }
+
+  .textStrong {
+    color: rgb(11, 116, 229);
+  }
+}

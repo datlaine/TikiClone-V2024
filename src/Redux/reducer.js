@@ -11,9 +11,7 @@ let initCart = {
 
 export const cartSlice = createSlice({
   name: 'cartList',
-  initialState: JSON.parse(localStorage.getItem('cart'))
-    ? JSON.parse(localStorage.getItem('cart'))
-    : initCart,
+  initialState: JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : initCart,
   reducers: {
     addProduct: (state, action) => {
       if (state.cartList.length === 0) {
@@ -44,14 +42,10 @@ export const cartSlice = createSlice({
     deleteProduct: (state, action) => {
       console.log('x')
       let idSanPhamBiXoa = action.payload
-      let indexSanPhamTrongCartList = state.cartList.findIndex(
-        (product) => product.id === idSanPhamBiXoa,
-      )
+      let indexSanPhamTrongCartList = state.cartList.findIndex((product) => product.id === idSanPhamBiXoa)
       if (indexSanPhamTrongCartList !== -1) {
         state.cartList.splice(indexSanPhamTrongCartList, 1)
-        let idProductCartPaid = state.cartListPaid.findIndex(
-          (product) => product.id === idSanPhamBiXoa,
-        )
+        let idProductCartPaid = state.cartListPaid.findIndex((product) => product.id === idSanPhamBiXoa)
         if (idProductCartPaid !== -1) {
           state.cartListPaid.splice(idProductCartPaid, 1)
         }
@@ -93,9 +87,7 @@ export const cartSlice = createSlice({
       //Trời ơi Đạt tui mất gần 1 tiếng cho cái công thức này
       // đầu tiên là lấy lọc lấy index phần tử trong mảng cartList[] nhá
       // làm vậy để checkbox thay đổi true, false còn cập nhập theo được kkk
-      let indexCart = state.cartList.findIndex(
-        (product) => product.id === action.payload.productObj.id,
-      )
+      let indexCart = state.cartList.findIndex((product) => product.id === action.payload.productObj.id)
       console.log(indexCart)
       // sửa lại phần tử index có giá trị check mới tinh mà action.payload truyền vào nè
       state.cartList[indexCart].check = action.payload.productObj.check

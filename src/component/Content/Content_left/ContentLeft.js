@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getData } from '../../../apis/getDataMain'
 import { SLATE_TIME } from '../../../apis/staleTime'
-export default memo(function Content_left(props) {
+export default memo(function ContentLeft(props) {
   const [list, setList] = useState([])
 
   //render lại khi gọi api
@@ -19,7 +19,7 @@ export default memo(function Content_left(props) {
   //     })
   // }, [])
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isSuccess, error } = useQuery({
     queryKey: [`${props.category}`],
     queryFn: () => getData('/noiBat'),
     staleTime: SLATE_TIME,
@@ -31,11 +31,17 @@ export default memo(function Content_left(props) {
     }
   }, [isLoading])
 
+  const isDesktop = null
+
+  {
+    /*content-left-list content-desc-list content-left-list .content-left-list-item */
+  }
+
   // console.log(list.title)
   return (
     <ul className='content-left-list'>
       <span className='content-desc-list'>{props.category}</span>
-      {!isLoading &&
+      {isSuccess &&
         list.map((item) => (
           <li key={item.id} className='content-left-list-item'>
             <Link to='*' className='link'>

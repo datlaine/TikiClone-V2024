@@ -22,7 +22,7 @@ export default function Content_right_brand() {
   //     })
   // }, [])
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: [`thuongHieuChinhHang`],
     queryFn: () => getData('/thuongHieuChinhHang'),
     staleTime: SLATE_TIME,
@@ -36,9 +36,9 @@ export default function Content_right_brand() {
 
   return (
     <div className='content_right_brand'>
-      {!isLoading &&
+      {isSuccess &&
         dataApiBrand.map((item) => (
-          <div className='content_right_brand_item' key={item.id}>
+          <div className={`content_right_brand_item itemTemp${item.id}`} key={item.id}>
             <img src={require(`${item.img}`)} alt='' />
           </div>
         ))}

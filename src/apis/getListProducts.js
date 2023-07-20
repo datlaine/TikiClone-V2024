@@ -1,12 +1,12 @@
 import { apiLink } from './api'
 import { http } from './http'
 
-export const getListProducts = (page) => {
-  let limit = 4
+export const getListProducts = async (page) => {
+  let limit = 28
   if (page === 1) {
-    limit = 4
+    limit = 28
   } else {
-    limit = 6
+    limit = 30
   }
-  return http.get(`${apiLink}/danhSachSanPham?_page=${page}&_limit=${limit}`)
+  return await http.get(`${apiLink}/danhSachSanPham?_page=${page}&_limit=${limit}`)
 }

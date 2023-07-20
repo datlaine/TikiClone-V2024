@@ -47,8 +47,10 @@ export default function Content_right_header() {
     { url: slider18 },
   ]
 
+  const mobileContent = undefined
+
   return (
-    <div id='Content_right_header'>
+    <div id='Content_right_header' className=''>
       <div className='content-slider'>
         <div className='content-slider-right' style={{ borderRadius: '8px' }}>
           <SimpleImageSlider
@@ -59,11 +61,12 @@ export default function Content_right_header() {
             showNavs={true}
             loop={true}
             autoPlay={true}
-            autoPlayDelay={0.7}
+            autoPlayDelay={1}
+            borderRadius={150}
           />
         </div>
         <div className='content-slider-left'>
-          <img src={require('./img/left.jpg')} alt='' />
+          <img src={require('./img/left.jpg')} alt='' className='' />
         </div>
       </div>
 
@@ -72,7 +75,10 @@ export default function Content_right_header() {
           Thương Hiệu Chính Hãng
           <img
             src={require('./img/logoBrand.jpg')}
-            style={{ height: '16px', width: '70px' }}
+            style={{
+              height: '16px',
+              width: '70px',
+            }}
             alt=''
           />
         </span>

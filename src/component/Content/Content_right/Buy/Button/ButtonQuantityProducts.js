@@ -22,10 +22,7 @@ export default function ButtonQualityProducts({ getQuantity }) {
 
   return (
     <div className={style.btnWrapper}>
-      <button
-        className={`${style.btn} ${quantity > 1 ? '' : 'cursor-not-allowed	'}`}
-        onClick={handleDecrease}
-      >
+      <button className={`${style.btn} ${quantity > 1 ? '' : 'cursor-not-allowed	'}`} onClick={handleDecrease}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'

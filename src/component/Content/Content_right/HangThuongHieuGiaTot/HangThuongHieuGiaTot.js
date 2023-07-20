@@ -43,7 +43,7 @@ export default function HangThuongHieuGiaTot() {
   }
 
   return (
-    <div className='container_thuongHieuGiaTot'>
+    <div className='container_thuongHieuGiaTot dienThoai:hidden'>
       <h2 className='thuongHieuGiaTot_title'>Thương hiệu giá tốt</h2>
       <div className='hangThuongHieuGiaTot'>
         {!isLoading &&

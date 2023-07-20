@@ -27,26 +27,36 @@ export default function InputSearch(props) {
     showHideDataSearch.style.display = 'block'
   }
 
+  const main = document.querySelector('#main')
+  if (main) {
+    main.addEventListener('click', () => {
+      document.querySelector('.showHideDataSearch').style.display = 'none'
+    })
+  }
+
   return (
     <div
-      className='showHideDataSearch bg-stale-50'
+      className='showHideDataSearch absolute left-0 top-full right-0 hidden m-h-25 overflow-hidden xl:py-5 rounded-[2px]  bg-white border-[1px] border-solid border-[#ccc] min-h-55 z-[9999] dienThoai:hidden m-h-40'
       onBlur={handleBlur}
       onClick={handleClick}
       tabIndex={0}
     >
-      <div className='sanPhamTheoTen'>
+      <div className='sanPhamTheoTen dienThoai:my-2 flex flex-col gap-y-2 overflow-hidden'>
         {!data && <span className='p-2'>Hãy nhập tìm kiếm</span>}
 
         {data &&
-          data?.map((item) => (
-            <a
-              key={item.id}
-              href={`/Buy/${item.id}`}
-              className='hover:bg-purple-500 hover:ring-sky-300 p-2 hover:text-white rounded-md'
-            >
-              <span className='hover:text-white'>{item.name}</span>
-            </a>
-          ))}
+          data?.map(
+            (item, index) =>
+              index <= 5 && (
+                <a
+                  key={item.id}
+                  href={`/Buy/${item.id}`}
+                  className='hover:bg-blue-500 hover:ring-sky-300 p-2 hover:text-white rounded-md dienThoai:mx-2'
+                >
+                  <span className='hover:text-white'>{item.name}</span>
+                </a>
+              ),
+          )}
       </div>
     </div>
   )

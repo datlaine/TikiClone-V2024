@@ -10,7 +10,7 @@ const AboutTiki = () => {
     <div
       style={{
         width: 'calc(100% + 35px)',
-        height: '4500px',
+        height: 'auto',
         backgroundColor: '#ccc',
         margin: '25px 0px 25px -35px',
         opacity: 0.5,

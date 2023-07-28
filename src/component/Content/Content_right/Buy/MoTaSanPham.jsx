@@ -58,7 +58,7 @@ export default function MoTaSanPham({ isLoading, name }) {
               <p className={`${style.gridItem} ${style.gridItem9}`}>Xuất xứ</p>
               <p className={`${style.gridItem} ${style.gridItem10}`}>Việt Nam</p>
               <p className={`${style.gridItem} ${style.gridItem11}`}>Trọng lượng sản phẩm</p>
-              <p className={`${style.gridItem} ${style.gridItem12} ${style.gridItemColor}`}>Thùng 48 hộp x {'180ml'}</p>
+              <p className={`${style.gridItem} ${style.gridItem12} ${style.gridItemColor}`}>...</p>
             </div>
           </div>
           <div className={style.wrapperMoTaSanPham}>

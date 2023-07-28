@@ -1,15 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
+import { memo } from 'react'
 import { apiLink } from '../../../../apis/api'
 import { getData } from '../../../../apis/getDataMain'
 import { SLATE_TIME } from '../../../../apis/staleTime'
 import './hangThuongHieuGiaTot.css'
 
-const apiThuongHieuGiaTot = `${apiLink}/hangThuongHieuGiaTot`
 
-export default function HangThuongHieuGiaTot() {
+const HangThuongHieuGiaTot = () => {
   const [hinhAnh, setHinhAnh] = useState([])
-
   // useState()
 
   // useEffect(() => {
@@ -59,3 +58,5 @@ export default function HangThuongHieuGiaTot() {
     </div>
   )
 }
+
+export default memo(HangThuongHieuGiaTot)

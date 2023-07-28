@@ -4,7 +4,7 @@
     top: -1px;
     width: 100%;
     z-index: 50;
-    transition: all 1s ease-out 0s;
+    transition: all .5s ease-out 0s;
     padding-top: 15px;
     background-color: #f5f5fa;
     padding-bottom: 10px;

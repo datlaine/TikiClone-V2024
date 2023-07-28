@@ -19,12 +19,11 @@ import {
   slider17,
   slider18,
 } from './HandleImage.js'
-import './content_right_header.css'
+import './contentRightHeader.css'
 import Content_right_brand from './Content_rignt_brand'
-import { apiLink } from '../../../../apis/api.js'
+import { memo } from 'react'
 
-export default function Content_right_header() {
-  // console.log("content-right_header re-render");
+const ContentRightHeader = () => {
 
   const hinhAnh = [
     { url: slider1 },
@@ -88,3 +87,5 @@ export default function Content_right_header() {
     </div>
   )
 }
+
+export default memo(ContentRightHeader)

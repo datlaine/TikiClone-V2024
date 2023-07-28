@@ -2,17 +2,21 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, useMatch } from 'react-router-dom'
+import { memo } from 'react'
+import { useMatch } from 'react-router-dom'
 import { getListProducts } from '../../../../apis/getListProducts'
 import AboutTiki from '../../../AboutTiki/AboutTiki'
 import style from './danhSachSanPham.module.css'
+import { debounce } from 'lodash'
 
-export default function DanhSachSanPham({ handlePositionButton }) {
+const DanhSachSanPham = ({ handlePositionButton }) => {
+
+  //các state của cpn
   const [page, setPage] = useState(1)
-  const match = useMatch('/')
   const [listSanPham, setlistSanPham] = useState([])
   const product = useRef(null)
   const refBtn = useRef(null)
+  const soLuongSanPham = useRef(null)
 
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['listProducts', page],
@@ -20,23 +24,21 @@ export default function DanhSachSanPham({ handlePositionButton }) {
     onSuccess: (data) => {
       setlistSanPham((prev) => prev.concat(data.data))
       product.current = listSanPham
+      soLuongSanPham.current = Math.ceil(data?.headers['x-total-count'] / 30)
     },
     keepPreviousData: true,
   })
 
   useEffect(() => {
-    const check = () => {
+    const check =() => {
       if (refBtn.current) {
         const btn = refBtn.current.getBoundingClientRect()
         if (btn.top !== 0 && btn.bottom !== 0) {
-          console.log(`tọa độ btn TOP_BOTTOM ${btn.top} ${btn.bottom}`)
           handlePositionButton(btn.top, btn.bottom)
         }
-        // if (match) {
-        // }
       } else return
     }
-
+    
     window.addEventListener('scroll', check)
 
     return () => {
@@ -44,58 +46,15 @@ export default function DanhSachSanPham({ handlePositionButton }) {
     }
   }, [])
 
-  const soLuongSanPham = Math.ceil(data?.headers['x-total-count'] / 30)
-  // console.log('>>>>checkTotalPage', data?.headers['x-total-count'])
-  // console.log('>>>checkSoTrangPage', soLuongSanPham)
-  // console.log('>>>checkPageCurrent', page)
-  // console.log(data?.data)
-  // useLayoutEffect(() => {
-  //   console.log('hooks')
-  //   if (page === 1) {
-  //     // console.log('>>>checkPage!', page, isLoading, isSuccess)
-  //     if (isSuccess) {
-  //       console.log(data?.data)
-  //       let newArray = [...data?.data]
-  //       setlistSanPham(newArray)
-  //     }
-  //   }
-  // }, [isLoading, isSuccess, page])
 
+
+  // nút thêm sản phẩm
   const handleClick = () => {
-    // console.log('click')
-    if (page < soLuongSanPham) {
+    if (page < soLuongSanPham.current) {
       setPage((prev) => prev + 1)
     }
-    refBtn.current.focus()
-    // if (page - 1 <= soLuongSanPham) {
-    // if (page !== 1) {
-    //   setlistSanPham((prev) => prev.concat(data?.data))
-    // }
-    // }
   }
 
-  
-  useEffect(() => {
-    // Thực hiện cuộn lên đầu trang khi component được render
-    // window.scrollTo(0, 0);
-
-    // Hoặc có thể sử dụng cú pháp này:
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth', // Nếu muốn có hiệu ứng cuộn mượt
-    })
-  }, [])
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0)
-  // }, [])
-
-  // console.log('stateArr', listSanPham)
-  // console.log(page)
-  // console.log(' ')
-  // console.log(' ')
-  // console.log(' ')
   return (
     <>
       <div className={style.danhSachSanPham}>
@@ -105,11 +64,7 @@ export default function DanhSachSanPham({ handlePositionButton }) {
           listSanPham.map((list) => {
             return (
               <div className={style.sanPhamWrapper} key={list.id}>
-                <Link
-                  className={`${style.layoutImg}`}
-                  key={list.id}
-                  to={`/buy/${list.id}`}
-                >
+                <a className={`${style.layoutImg}`} key={list.id} href={`/buy/${list.id}`}>
                   <div className={`${style.img}`}>
                     <img src={require(`../DanhSachSanPham${list.hinhAnh}`)} alt='' className={style.imageProduct} />
                   </div>
@@ -217,13 +172,13 @@ export default function DanhSachSanPham({ handlePositionButton }) {
                       )}
                     </p>
                   </div>
-                </Link>
+                </a>
               </div>
             )
           })}
       </div>
 
-      {!isLoading && page === soLuongSanPham ? (
+      {isSuccess && page === soLuongSanPham.current ? (
         <span className={style.btn} ref={refBtn}>
           Đã hết sản phẩm cần load
         </span>
@@ -236,3 +191,5 @@ export default function DanhSachSanPham({ handlePositionButton }) {
     </>
   )
 }
+
+export default memo(DanhSachSanPham)

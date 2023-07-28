@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import style from './moTaSanPham.module.css'
 
 export default function MoTaSanPham({ isLoading, name }) {
-  console.log('isLoading', isLoading)
+  // console.log('isLoading', isLoading)
 
   const refLengthText = useRef(null)
   const [length, setLength] = useState(0)
@@ -12,7 +12,7 @@ export default function MoTaSanPham({ isLoading, name }) {
 
   useEffect(() => {
     if (refLengthText.current) {
-      console.log('độ dài đoạn văn', refLengthText.current.textContent.trim().length)
+      // console.log('độ dài đoạn văn', refLengthText.current.textContent.trim().length)
       let lengthContext = refLengthText.current.textContent.trim().length
       setLength(lengthContext)
     }
@@ -64,7 +64,11 @@ export default function MoTaSanPham({ isLoading, name }) {
           <div className={style.wrapperMoTaSanPham}>
             <h4 ref={refHeadingMoTa}>Mô tả sản phẩm</h4>
 
-            <div className={style.wrapperText} ref={refLengthText} style={{ paddingBottom: btnDocThem ? '85px' : '35px' , marginBottom: btnDocThem ? '25px' : '25px'}}>
+            <div
+              className={style.wrapperText}
+              ref={refLengthText}
+              style={{ paddingBottom: btnDocThem ? '85px' : '35px', marginBottom: btnDocThem ? '25px' : '25px' }}
+            >
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique elit justo. Curabitur lacus
                 ante, tempor ut quam ac, facilisis accumsan leo. Ut quis luctus ex, ut fermentum mauris. Etiam eu dui
@@ -143,7 +147,6 @@ export default function MoTaSanPham({ isLoading, name }) {
           </div>
         </div>
       </div>
-     
     </div>
   )
 }

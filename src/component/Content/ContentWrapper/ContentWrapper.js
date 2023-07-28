@@ -1,5 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+import Login from '../../Auth/Login/Login'
+import Resister from '../../Auth/Resister'
 import Cart from '../../Cart/Cart'
 import Contact from '../../Contact/Contact'
 import NotFound from '../../Errors/NotFound'
@@ -18,6 +20,8 @@ export default function ContentWrapper() {
               <Route path='/Buy/:id' element={<Buy />} />
               <Route path='*' element={<NotFound />} />
               <Route path='/Cart' element={<Cart />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/resister' element={<Resister />} />
             </Routes>
           }
         />

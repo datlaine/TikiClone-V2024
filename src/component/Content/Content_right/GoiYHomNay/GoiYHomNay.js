@@ -1,16 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Link, NavLink, useMatch } from 'react-router-dom'
-import { apiLink } from '../../../../apis/api'
+import React, { useEffect, useRef, useState } from 'react'
+import { memo } from 'react'
+import { Link } from 'react-router-dom'
 import { getData } from '../../../../apis/getDataMain'
 import { SLATE_TIME } from '../../../../apis/staleTime'
 import style from './goiYHomNay.module.css'
 
-export default function GoiYHomNay({ handlePositionDivSticky, hide }) {
+const GoiYHomNay = ({ hide }) => {
+  //các state của components này
   const [list, setList] = useState([])
   const [toggle, setToggle] = useState(false)
   const wrapperGoiYHomNay = useRef(null)
-  const match = useMatch('/')
+
 
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: [`goiYHomNay`],
@@ -18,14 +19,14 @@ export default function GoiYHomNay({ handlePositionDivSticky, hide }) {
     staleTime: SLATE_TIME,
   })
 
-  console.log(`hide_BUY__JS0`, hide)
+  // console.log(`hide_BUY__JS0`, hide)
 
   useEffect(() => {
-    if (!isLoading) {
+    if (isSuccess) {
       setList(data?.data)
       setToggle(true)
     }
-  }, [isLoading])
+  }, [isSuccess])
 
   //   console.time("useEffect");
   useEffect(() => {
@@ -54,25 +55,6 @@ export default function GoiYHomNay({ handlePositionDivSticky, hide }) {
       all[id - 1].children[1].classList.add(`${style.color}`)
     }
   }
-
-  useEffect(() => {
-    // if (match) {
-    const check = () => {
-      if (wrapperGoiYHomNay.current) {
-        const btn = wrapperGoiYHomNay.current.getBoundingClientRect()
-        if (btn.top !== 0 && btn.bottom !== 0) {
-          console.log(`tọa độ wrapper TOP_BOTTOM ${btn.top} ${btn.bottom}`)
-          handlePositionDivSticky(btn.bottom, btn.top)
-        }
-      } else return
-    }
-
-    window.addEventListener('scroll', check)
-
-    return () => {
-      window.removeEventListener('click', check)
-    }
-  }, [])
 
   // console.log("re-render");
 
@@ -110,3 +92,5 @@ export default function GoiYHomNay({ handlePositionDivSticky, hide }) {
     </div>
   )
 }
+
+export default memo(GoiYHomNay)

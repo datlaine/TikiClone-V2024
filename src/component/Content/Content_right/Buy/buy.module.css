@@ -180,7 +180,6 @@
     width: 100%;
     height: 45px;
     display: flex;
-    color: #ff424e;
   }
 
   .price {
@@ -347,9 +346,20 @@
   .hideModuleMobile {
     display: none;
   }
+
+  .nameSanPham {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 @media screen and (max-width: 768px) {
+  .nameSanPham {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   :root {
     --marginTilte_to_products: 10px;
     --borderMain: 0.065rem solid #ccc;
@@ -702,6 +712,4 @@
   .hideModuleDesktop {
     display: block;
   }
-
- 
 }

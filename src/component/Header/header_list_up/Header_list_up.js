@@ -6,17 +6,19 @@ import InputSearch from './InputSearch'
 import { apiLink } from '../../../apis/api'
 import { useSelect } from '@mui/base'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getData } from '../../../apis/getDataMain'
 import { SLATE_TIME } from '../../../apis/staleTime'
 import { useGetWidth } from '../../CustomHooks/useGetWidth'
+import { debounce } from 'lodash'
 function Header_list_up() {
   const [search, setSearch] = useState('')
   const [showHideContentLeft, setShowHideContentLeft] = useState(false)
   const [apiSearch, setApiSearch] = useState([])
   const [ketQua, setKetQua] = useState([])
-
+  let user = useSelector((state) => state.cartList.currentUser)
+  let navigate = useNavigate()
   const quantityProduct = useSelector((state) => state.cartList.soLuong)
   // console.log(quantityProduct)
 
@@ -63,9 +65,9 @@ function Header_list_up() {
     }
   }, [width, showHideContentLeft])
 
-  const handleChange = (e) => {
+  const handleChange = debounce((e) => {
     let result = []
-    // console.log('search', search)
+    console.log('search', search)
     setSearch(e.target.value)
     result = apiSearch.filter((item) => {
       let nameLowerCase = item.name.toLowerCase()
@@ -74,10 +76,10 @@ function Header_list_up() {
     if (result.length === 0) {
       setKetQua('')
     } else {
-      // console.log(result)
+      console.log(result)
       setKetQua(result)
     }
-  }
+  }, 500)
 
   const handleSubMit = (e) => {
     e.preventDefault()
@@ -92,6 +94,18 @@ function Header_list_up() {
     // console.log('đang blur')
     const inputSearch = document.querySelector('.inputSearchHeader')
     inputSearch.value = ''
+  }
+
+  const goToCart = () => {
+    if (!user) {
+      alert('bạn cần đăng nhập')
+      console.log(user)
+      console.log('fail')
+    } else {
+      console.log(user)
+      console.log('success')
+      navigate('/Cart')
+    }
   }
 
   const mobileShowContentLeft = (e) => {
@@ -184,10 +198,10 @@ function Header_list_up() {
         </div>
       </div>
       <div className='container-cart flex items-center justify-center'>
-        <Link className='cart' to='/Cart'>
+        <span className='cart' onClick={goToCart}>
           <img src='https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png' alt='' />
           <span className='numbers-cart'>{quantityProduct}</span>
-        </Link>
+        </span>
       </div>
     </div>
   )

@@ -4,20 +4,6 @@ import { Link, NavLink } from 'react-router-dom'
 export default function InputSearch(props) {
   const { data, show } = props
 
-  // inputSearch.style.display = 'none'
-
-  // useEffect(() => {
-  //   console.log(data)
-  //   const inputSearch = document.querySelector('.inputSearch')
-  //   if (!data) {
-  //     inputSearch.style.display = 'none'
-  //   } else {
-  //     inputSearch.style.display = 'block'
-  //   }
-  // }, [data])
-
-  // console.log(data)
-
   const showHideDataSearch = document.querySelector('.showHideDataSearch')
   const handleBlur = (e) => {
     e.stopPropagation()

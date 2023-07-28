@@ -10,30 +10,7 @@ export default function Shipper({ Now, getMethodShip }) {
   let ngayHienTai = date.getDate()
   let thangHienTai = date.getMonth() + 1
   let namHienTai = date.getFullYear()
-  // const thoiGianGiaoHang =
-  //   Now && fastShip
-  //     ? `${timeShip}`
-  //     : fast(isDate, isDay, thangHienTai, tietKiem, thuHienTai, ngayHienTai, Now, thangHienTai)
-
-  // const tienVanChuyen = Now
-  //   ? `Vận chuyển: ${moneyWithNow.toFixed(3)} đ`
-  //   : tietKiem
-  //   ? `Vận chuyển: ${moneySave.toFixed(3)} đ`
-  //   : `Vận chuyển: ${moneyWithoutNow.toFixed(3)} đ`
-
-  // useEffect(() => {
-  //   let shipperContainer = document.querySelectorAll(`.${style.shipperContainer}`)
-  //   shipperContainer[0].classList.add(`${style.active}`)
-  // }, [])
-
-  // const handleSelectShip = () => {
-  //   let shipperContainer = document.querySelectorAll(`.${style.shipperContainer}`)
-  //   for (var i = 0; i < shipperContainer.length; i++) {
-  //     if (shipperContainer[i].contains(`${style.active}`)) {
-  //       shipperContainer[i].classList.remove(`${style.active}`)
-  //     }
-  //   }
-  // }
+ 
   const vanChuyenNow = 30000
   const vanChuongNormal = 15000
   const thoiGianGiaoHangNow = `Giao trong ngày ${ngayHienTai}-${thangHienTai}-${namHienTai}`
@@ -41,13 +18,16 @@ export default function Shipper({ Now, getMethodShip }) {
 
   const select = useRef(null)
   const handleSelectShip = (name) => {
+    console.log('ship ', name)
     let listShip = document.querySelectorAll(`.${style.shipperContainer}`)
+    console.log(`check container ship` , listShip)
     for (let i = 0; i < listShip.length; i++) {
       if (listShip[i].classList.contains(name)) {
         if (listShip[i].classList.contains('bg-sky-100')) {
           listShip[i].classList.remove('bg-sky-100')
         } else {
           listShip[i].classList.add('bg-sky-100')
+          console.log('add')
           getMethodShip(name)
         }
       } else {

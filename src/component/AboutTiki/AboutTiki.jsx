@@ -1,15 +1,16 @@
 import React from 'react'
+import { memo } from 'react'
 import BrandPromotionTiki from './BrandPromotionTiki'
 import ContactTiki from './ContactTiki'
 import style from './style/aboutTiki.module.css'
 import SupportTiki from './SupportTiki'
 
-export default function AboutTiki() {
+const AboutTiki = () => {
   const space = (
     <div
       style={{
         width: 'calc(100% + 35px)',
-        height: '.006rem',
+        height: '4500px',
         backgroundColor: '#ccc',
         margin: '25px 0px 25px -35px',
         opacity: 0.5,
@@ -27,3 +28,5 @@ export default function AboutTiki() {
     </div>
   )
 }
+
+export default memo(AboutTiki )

@@ -1,20 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
+import { memo } from 'react'
 import { apiLink } from '../../../../apis/api'
 import { getData } from '../../../../apis/getDataMain'
 import { SLATE_TIME } from '../../../../apis/staleTime'
 import styles from './danhMucNoiBat.module.css'
 
-const urlDanhMucNoiBat = `${apiLink}/danhMucNoiBat`
 
 const style = {
   width: '100%',
   height: '100%',
 }
 
-export default function DanhMucNoiBat() {
+const DanhMucNoiBat = () => {
   const [list, setList] = useState([])
-  // console.log("content-danhMucNoiBat re-render");
 
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['danhMucNoiBat'],
@@ -50,3 +49,6 @@ export default function DanhMucNoiBat() {
     </div>
   )
 }
+
+
+export default memo(DanhMucNoiBat)

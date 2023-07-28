@@ -4,39 +4,28 @@ import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getData } from '../../../../apis/getDataMain'
 import { SLATE_TIME } from '../../../../apis/staleTime'
+import { memo } from 'react'
 
-export default function Content_right_brand() {
-  // console.log("content-right_brand re-render")
-
+const Content_right_brand = () => {
   const [dataApiBrand, setDataApiBrand] = useState([])
 
-  //render lại khi gọi api
-  // useEffect(() => {
-  //   fetch(props.urlApi)
-  //     .then((res) => {
-  //       return res.json()
-  //     })
-  //     .then((data) => {
-  //       // console.log(data)
-  //       setDataApiBrand(data)
-  //     })
-  // }, [])
 
-  const { data, isLoading, isSuccess } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: [`thuongHieuChinhHang`],
     queryFn: () => getData('/thuongHieuChinhHang'),
     staleTime: SLATE_TIME,
   })
 
   useEffect(() => {
-    if (!isLoading) {
+    if (isSuccess) {
       setDataApiBrand(data?.data)
     }
-  }, [isLoading])
+  }, [isSuccess])
+
 
   return (
     <div className='content_right_brand'>
-      {isSuccess &&
+      {isSuccess && dataApiBrand && 
         dataApiBrand.map((item) => (
           <div className={`content_right_brand_item itemTemp${item.id}`} key={item.id}>
             <img src={require(`${item.img}`)} alt='' />
@@ -45,3 +34,5 @@ export default function Content_right_brand() {
     </div>
   )
 }
+
+export default memo(Content_right_brand)

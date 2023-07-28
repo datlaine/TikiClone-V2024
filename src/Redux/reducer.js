@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { toast } from 'react-toastify'
+import { createSlice, current } from '@reduxjs/toolkit'
 
 let initCart = {
+  currentUser: 'abc',
   cartList: [],
   soLuong: 0,
   cartListPaid: [],
@@ -11,12 +11,14 @@ let initCart = {
 
 export const cartSlice = createSlice({
   name: 'cartList',
-  initialState: JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : initCart,
+  initialState: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : initCart,
   reducers: {
     addProduct: (state, action) => {
       if (state.cartList.length === 0) {
         state.cartList.push(action.payload)
         state.soLuong += 1
+        const cartSetLocalStorage = JSON.stringify(state)
+        localStorage.setItem('cart', cartSetLocalStorage)
         return
       }
 
@@ -25,6 +27,8 @@ export const cartSlice = createSlice({
           if (product.id === action.payload.id) {
             console.log('đã tồn tại')
             console.log(action.payload)
+            const cartSetLocalStorage = JSON.stringify(state)
+            localStorage.setItem('cart', cartSetLocalStorage)
             return (product.quantity += action.payload.quantity)
           }
         })
@@ -35,9 +39,7 @@ export const cartSlice = createSlice({
           state.soLuong += 1
         }
       }
-
-      const cartSetLocalStorage = JSON.stringify(state)
-      localStorage.setItem('cart', cartSetLocalStorage)
+      console.log(current(state))
     },
     deleteProduct: (state, action) => {
       console.log('x')

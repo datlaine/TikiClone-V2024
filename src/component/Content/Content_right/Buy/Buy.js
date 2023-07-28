@@ -20,6 +20,8 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 import GoiYHomNay from '../GoiYHomNay/GoiYHomNay'
 import DanhSachSanPham from '../DanhSachSanPham/DanhSachSanPham'
 import MoTaSanPham from './MoTaSanPham'
+import { useCallback } from 'react'
+import { debounce } from 'lodash'
 
 let productInitial = {
   name: '',
@@ -32,159 +34,92 @@ let productInitial = {
 
 export default function Buy() {
   const { id } = useParams()
-  const [product, setProduct] = useState(productInitial)
   const [quantity, setQuantity] = useState(1)
   const [ship, setShip] = useState('')
   const dispatch = useDispatch()
   const [btnTop, setBtnTop] = useState(0)
   const [btnBottom, setBtnBottom] = useState(0)
-  const [wrapperTop, setWrapperTop] = useState(0)
-  const [wrapperBottom, setWrapperBottom] = useState(0)
   const [hide, setHide] = useState(true)
-  const list = useSelector((state) => state.cartList.cartList)
   const targetDIV = useRef(null)
-  // console.log(list)
+  const [sanPham, setSanPham] = useState()
 
-  const { data, isLoading } = useQuery({
+  // Lấy dữ liệu dựa trên param của url
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['product', id],
     queryFn: () => getProduct(id),
   })
-  let textGB, giveGB, valueOfGiveGB, checkNumberVoteGB, promoteGB
 
+  // gán dữ liệu sản phẩm cho refSanPham
   useEffect(() => {
-    if (!isLoading) {
-      document.title = `Mua ${data.data[0].name}`
-      const { text, give, valueOfGive } = checkLabel(data && data)
-      let checkNumberVote = checkVote(data && data)
-      let promote = getPriceAndPromote(data && data)
-      textGB = text
-      giveGB = give
-      valueOfGiveGB = valueOfGive
-      checkNumberVoteGB = checkNumberVote
-      promoteGB = promote
-      // console.log('useEffect')
-      let math = Math.round(Number(Number(data.data[0]?.isPromote[1]?.promote) * -1))
-      // console.log(math)
-      setProduct((prev) => ({
-        ...prev,
-        id: data?.data[0].id,
-        name: data?.data[0].name,
-        image: data?.data[0].hinhAnh,
-        bought: data?.data[0].isBought,
-        promote: data?.data[0]?.isPromote[1]?.promote ? data?.data[0]?.isPromote[1]?.promote : 0,
-        isPrice: Number(data?.data[0].isPrice),
-        quantity: quantity,
-        check: false,
-        methodShip: '',
-        isPricePromote:
-          Number(
-            Number(
-              data?.data[0].isPrice - (data?.data[0].isPrice / 100) * Number(data?.data[0]?.isPromote[1]?.promote) * -1,
-            ),
-          ) || 0,
-      }))
+    if (isSuccess) {
+      setSanPham(data?.data[0])
+      if (sanPham) {
+        document.title = `Mua ${sanPham.name}`
+      }
     }
-  }, [isLoading, quantity])
+  }, [isSuccess])
 
-  const checkPromote = promoteGB !== undefined ? true : false
-
-  //giá - (gia / 100) * promote
-  let tile = product.promote ? product.promote * -1 : 1
-  let giamGia = product.promote ? product?.isPrice - (product?.isPrice / 100) * tile : ''
-  let image = product.image
+  // Chọn số lượng sản phẩm
   const handleQuantity = (quantity) => {
-    // console.log(`số lượng sản phẩm mua:  ${quantity}`)
-    // console.log('quantity', Number.isInteger(product.quantity))
     setQuantity(quantity)
-    setProduct((prev) => ({
-      ...prev,
-      quantity: quantity,
-    }))
   }
 
+  // Xử lí chọn phương thức giao hàng
   const handleMethodShip = (nameShip) => {
     console.log(`Chọn phương thức giao hàng là: ${nameShip}`)
     setShip(nameShip)
-    setProduct((prev) => ({
-      ...prev,
-      methodShip: nameShip,
-    }))
   }
 
+  // xử lí ẩn thanh sticky
   useEffect(() => {
-    if (btnTop - 165 < wrapperBottom) {
-      console.log('Đã vượt qua')
-      console.log('ẩn')
+    if (btnTop - 165 < 0) {
 
       setHide(false)
     } else {
-      console.log('hiện')
       setHide(true)
     }
-    console.log('hide: ', hide)
-    console.log('  ')
-    console.log('  ')
-    console.log('  ')
-  }, [btnTop, btnBottom, wrapperBottom, wrapperTop])
+  }, [btnTop])
 
+  //nhấn vào mua và dispatch action mua và redux-toolkit
   const handleAddProduct = () => {
-    // console.log('quantity', typeof product.quantity)
-    // console.log('isPrice', typeof product.isPrice)
+    //các tính toán về giá sản phẩm khi có mã giảm giá
+    let maGiamGia = sanPham?.isPromote[0].checkPromote === true ? sanPham?.isPromote[1].promote * -1 : 0
+    let giamGia =
+      sanPham?.isPromote[0].checkPromote === true ? sanPham?.isPrice - (sanPham?.isPrice / 100) * maGiamGia : 0
 
-    // console.log(Number(product.isPrice) * Number(product.quantity))
-    // alert(`Tên sản phẩm ${product.name} - ${product.isPrice} - ${product.quantity} -${giamGia}`)
+    //interface sản phẩm trong giỏ hàng
     let productFinal = {
-      id: product.id,
-      name: product.name,
-      image: image,
-      isPrice: product.isPrice,
-      quantity: product.quantity,
+      id: sanPham?.id,
+      name: sanPham?.name,
+      image: sanPham?.hinhAnh,
+      isPrice: sanPham?.isPrice,
       isPriceWithPromote: giamGia,
-      promote: product.promote !== 0 ? product.promote * -1 : 0,
-      methodShip: product.methodShip,
-      check: product.check,
+      promote: maGiamGia,
+
+      //các field mới được thêm vào do người dùng chọn
+      methodShip: ship,
+      quantity: quantity,
+      check: false,
     }
     console.log('Sẵn sàng dispatch')
-    // dispatch(addProduct(productFinal))
     toast.success('Thêm vào giỏ hàng thành công', {
       autoClose: 1000,
     })
-    console.log(productFinal)
+    console.log('dispatch', productFinal)
     dispatch(cartSlice.actions.addProduct(productFinal))
   }
 
-  const handlePositionButton = (posTop, posBottom) => {
-    console.log(`tọa độ top btn / ${posTop}`)
+  const handlePositionButton = useCallback((posTop, posBottom) => {
     setBtnTop(posTop)
     setBtnBottom(posBottom)
-  }
+  }, [])
 
-  const handlePositionDivSticky = (posBottom, posTop) => {
-    console.log(`tọa độ top divSticky / ${posBottom}`)
-    setBtnBottom(posBottom)
-    setWrapperTop(posTop)
-  }
-
-  // const backToTop = (value) => {
-  //   console.log(typeof value)
-  //   if (value) {
-  //     targetDIV.current.scrollIntoView({
-  //       behavior: 'smooth',
-  //       block: 'start',
-  //     })
-  //     console.log(`quay lại đầu trang ${value}`)
-  //   }
-  // }
-
+  // Thực hiện cuộn lên đầu trang khi component được render
   useEffect(() => {
-    // Thực hiện cuộn lên đầu trang khi component được render
-    // window.scrollTo(0, 0);
-
-    // Hoặc có thể sử dụng cú pháp này:
     window.scroll({
       top: 0,
       left: 0,
-      behavior: 'smooth', // Nếu muốn có hiệu ứng cuộn mượt
+      behavior: 'smooth',
     })
   }, [])
 
@@ -195,7 +130,7 @@ export default function Buy() {
           <div className='border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-60 w-60' />
         </div>
       )}
-      {!isLoading && (
+      {!isLoading && sanPham && (
         <div className={style.buy} id='succes'>
           <div className={style.wrapperBuy}>
             <div className={style.pathTitle}>
@@ -204,54 +139,41 @@ export default function Buy() {
               </Link>
 
               <ArrowForwardIosIcon className={style.icon} fontSize='12px'></ArrowForwardIosIcon>
-              <span className={style.current} title={data.data[0]?.name}>
-                {data.data[0]?.name}
+              <span className={style.nameSanPham} title={sanPham?.name}>
+                {sanPham?.name}
               </span>
             </div>
             <div className={style.products}>
               <div className={style.productsImg}>
-                <img src={require(`../DanhSachSanPham/${data.data[0].hinhAnh.slice(1)}`)} alt='' />
+                <img src={require(`../DanhSachSanPham/${sanPham.hinhAnh.slice(1)}`)} alt='' />
               </div>
               <div className={style.border_top}></div>
               <div className={style.productsInfo}>
                 <div className={style.officalNameVoteBought}>
-                  <div className={style.offical}>
-                    {' '}
-                    {textGB ? (
-                      <span>
-                        Thương hiệu
-                        <span className={style.label}> {textGB}</span>
-                      </span>
-                    ) : (
-                      ''
-                    )}
-                  </div>
                   <div className={style.name}>
-                    <span className={style.nameStyle} title={data.data[0]?.name}>
-                      {data.data[0]?.name}
-                      {data.data[0].isVote[0].vote}
+                    <span className={style.nameStyle} title={sanPham?.name}>
+                      {sanPham?.name}
+                      {sanPham.isVote[0].vote}
                     </span>
                   </div>
                   <div className={style.vote}>
-                    {data.data[0].isVote[0].checkVote === true ? (
+                    {sanPham.isVote[0].checkVote === true ? (
                       <Rating
                         className={style.rank}
                         size='small'
                         name='half-rating-read'
-                        defaultValue={Number(data.data[0].isVote[1].vote)}
+                        defaultValue={Number(sanPham.isVote[1].vote)}
                         precision={0.5}
                         readOnly
                       />
                     ) : (
                       ''
                     )}
-                    <p>{data.data[0].isVote[0].checkVote}</p>
+                    <p>{sanPham.isVote[0].checkVote}</p>
                     <span
                       style={{ width: 1, height: 12, margin: '0 8px', backgroundColor: 'rgb(199, 199, 199)' }}
                     ></span>
-                    <span className={checkNumberVoteGB ? style.bought : `${style.bought} ${style.boughtFix}`}>
-                      {data.data[0].isBought > 0 ? `Đã bán ${data.data[0].isBought}` : ''}
-                    </span>
+                    <span className={style.bought}>{sanPham.isBought > 0 ? `Đã bán ${sanPham.isBought}` : ''}</span>
                   </div>
                 </div>
                 <div className={style.products_down}>
@@ -259,33 +181,25 @@ export default function Buy() {
                     {/**Giá */}
                     <div className={style.pricePromoteGiveAstra}>
                       <div className={style.wrapperPriceAstra}>
-                        <div
-                          className={
-                            checkPromote ? style.wrapperPrice : `${style.wrapperPrice} ${style.wrapperPriceFake}`
-                          }
-                        >
-                          <span className={style.price}>{data.data[0]?.isPrice}</span>
+                        <div className={style.wrapperPrice}>
+                          <span className={style.price}>{sanPham?.isPrice}</span>
                           <span className={style.vnd}>đ</span>
                           <span
                             className={style.priceReal}
                             style={{ color: 'red', textDecorationColor: 'red', fontWeight: '700', fontSize: '16' }}
                           >
-                            {promoteGB === undefined
-                              ? data.data[0]?.isPromote[1]?.promote
-                                ? data.data[0]?.isPromote[1]?.promote + '%'
-                                : ''
-                              : ''}
+                            {sanPham?.isPromote[0]?.checkPromote === true ? sanPham?.isPromote[1]?.promote : ''}
                           </span>
                           <span>
-                            {data.data[0].isPromote[0].checkPromote === false
+                            {sanPham.isPromote[0].checkPromote === false
                               ? ''
-                              : data.data[0].isPrice -
-                                (data.data[0].isPrice / 100) *
-                                  Math.round(Number(Number(data.data[0].isPromote[1].promote) * -1)) +
+                              : sanPham.isPrice -
+                                (sanPham.isPrice / 100) *
+                                  Math.round(Number(Number(sanPham.isPromote[1].promote) * -1)) +
                                 ' đ'}
                           </span>
                         </div>
-                        <div className={!checkPromote ? style.astra : `${style.astra} ${style.astraPromote}`}>
+                        <div className={style.astra}>
                           <img
                             src={require(`../DanhSachSanPham/img/desciption/iconAstra.png`)}
                             alt=''
@@ -294,8 +208,8 @@ export default function Buy() {
                             className={style.astraHinhAnh}
                           />
                           <span>Thưởng</span>
-                          <span>{giveGB} ASA </span>
-                          <span>(≈ {valueOfGiveGB})</span>
+                          <span>{sanPham.give} ASA </span>
+                          <span>(≈ {sanPham.valueOfGive})</span>
                           <img
                             className={style.iconNew}
                             src={require(`../DanhSachSanPham/img/desciption/new.gif`)}
@@ -455,8 +369,8 @@ export default function Buy() {
       <MoTaSanPham isLoading={isLoading} name={data?.data[0].name} />
 
       <div className={style.hideModuleDesktop}>
-        <GoiYHomNay handlePositionDivSticky={handlePositionDivSticky} hide={hide} />
-        <DanhSachSanPham handlePositionButton={handlePositionButton}/>
+        <GoiYHomNay hide={hide} />
+        <DanhSachSanPham handlePositionButton={handlePositionButton} />
       </div>
 
       <ToastContainer />

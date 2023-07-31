@@ -5,7 +5,7 @@ import style from './cartPaid.module.css'
 import { USER } from '../User/infoUser.js'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { cartSlice } from '../../Redux/reducer'
+import { actionPaid, cartSlice } from '../../Redux/reducer'
 import { toast, ToastContainer } from 'react-toastify'
 
 export default function CartPaid() {
@@ -39,7 +39,7 @@ export default function CartPaid() {
 
   const handlePaid = () => {
     // dispatch(cartSlice.actions.actionPaid(select))
-    setTimeout(() => dispatch(cartSlice.actions.actionPaid(select)), 1500)
+    setTimeout(() => dispatch(actionPaid(select)), 1500)
     if (select.length !== 0) {
       toast.success('Mua hàng thành công', {
         autoClose: 1000,

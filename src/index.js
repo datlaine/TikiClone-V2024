@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import '../src/component/Main/main.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import { BrowserRouter} from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
@@ -13,6 +13,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { debounce } from 'lodash'
 
 import Sidabar from './component/Sidebar/Sidebar'
+import App from './App'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const client = new QueryClient({
@@ -42,15 +43,9 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <QueryClientProvider client={client}>
-        <div id='main' className=''>
-          <Header></Header>
-
-          <ContentWrapper />
-          <Sidabar />
-          <Footer />
-        </div>
+        <App />
         <ReactQueryDevtools />
       </QueryClientProvider>
-  </BrowserRouter>
+    </BrowserRouter>
   </Provider>,
 )

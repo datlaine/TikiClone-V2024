@@ -1,0 +1,14 @@
+.wrapper {
+  position: relative;
+}
+
+.containerBoxLogin {
+  position: absolute;
+  z-index: 999;
+  background-color: rgba(12, 20, 11, 0.9); 
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: hidden;
+}

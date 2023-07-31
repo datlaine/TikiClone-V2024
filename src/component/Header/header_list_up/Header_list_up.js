@@ -3,24 +3,23 @@ import ModuleHover from '../module_hover/Module_hover'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import InputSearch from './InputSearch'
-import { apiLink } from '../../../apis/api'
-import { useSelect } from '@mui/base'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getData } from '../../../apis/getDataMain'
 import { SLATE_TIME } from '../../../apis/staleTime'
 import { useGetWidth } from '../../CustomHooks/useGetWidth'
 import { debounce } from 'lodash'
+import { doOpenBoxLogin } from '../../../Redux/authSlice'
 function Header_list_up() {
   const [search, setSearch] = useState('')
   const [showHideContentLeft, setShowHideContentLeft] = useState(false)
   const [apiSearch, setApiSearch] = useState([])
   const [ketQua, setKetQua] = useState([])
-  let user = useSelector((state) => state.cartList.currentUser)
+  let user = useSelector((state) => state.auth?.userCurrent) || localStorage.getItem('account')
   let navigate = useNavigate()
-  const quantityProduct = useSelector((state) => state.cartList.soLuong)
-  // console.log(quantityProduct)
+  const quantityProduct = useSelector((state) => state.cartList?.soLuong)
+  const dispatch = useDispatch()
 
   const { data, isLoading } = useQuery({
     queryKey: ['search'],
@@ -62,7 +61,7 @@ function Header_list_up() {
           // console.log('ẩn')
         }
       }
-    }
+    }else return
   }, [width, showHideContentLeft])
 
   const handleChange = debounce((e) => {
@@ -98,9 +97,8 @@ function Header_list_up() {
 
   const goToCart = () => {
     if (!user) {
-      alert('bạn cần đăng nhập')
       console.log(user)
-      console.log('fail')
+      dispatch(doOpenBoxLogin())
     } else {
       console.log(user)
       console.log('success')

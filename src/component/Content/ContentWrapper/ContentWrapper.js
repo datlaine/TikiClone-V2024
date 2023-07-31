@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Login from '../../Auth/Login/Login'
+import Login from '../../AuthLoginResister/Login/Login'
 import Resister from '../../Auth/Resister'
 import Cart from '../../Cart/Cart'
 import Contact from '../../Contact/Contact'

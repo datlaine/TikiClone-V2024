@@ -1,9 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
 import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { cartSlice } from '../../Redux/reducer'
+import { addProductPair, decreaseProduct, deleteProduct, doIsSelectAll, increaseProduct } from '../../Redux/reducer'
 import CartPaid from '../CartPaid/CartPaid'
 import CartEmpty from './CartEmpty'
 import style from './Style/Cart.module.css'
@@ -15,16 +14,16 @@ export default function Cart() {
   const select = list.filter((product) => product.check === true)
 
   const handleIncrease = (idSanPham) => {
-    dispatch(cartSlice.actions.increaseProduct(idSanPham))
+    dispatch(increaseProduct(idSanPham))
   }
 
   const handleDecrease = (idSanPham) => {
-    dispatch(cartSlice.actions.decreaseProduct(idSanPham))
+    dispatch(decreaseProduct(idSanPham))
   }
 
   const handleDeleteProductCart = (idSanPham) => {
     console.log(typeof idSanPham)
-    dispatch(cartSlice.actions.deleteProduct(idSanPham))
+    dispatch(deleteProduct(idSanPham))
   }
 
   const handleChangeCheckBox = (sanPham) => (e) => {
@@ -38,12 +37,13 @@ export default function Cart() {
       },
     }
 
-    dispatch(cartSlice.actions.addProductPair(infoProductPair))
+    dispatch(addProductPair(infoProductPair))
   }
 
   const handleChangeSelectAll = (e) => {
+    console.log(e.target.checked)
     setIsSelectAll(e.target.checked)
-    dispatch(cartSlice.actions.isSelectAll(e.target.checked))
+    dispatch(doIsSelectAll(e.target.checked))
   }
 
   console.log(list)

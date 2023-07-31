@@ -1,7 +1,6 @@
-import React, { Fragment, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import style from './buy.module.css'
-import { checkLabel, checkVote, getPriceAndPromote } from './HandleData'
 import Rating from '@mui/material/Rating'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import Location from '../../../Main/localtion/Location'
@@ -12,7 +11,7 @@ import { getProduct } from '../../../../apis/getProduct'
 import Shipper from './Shipper/Shipper'
 import ButtonQualityProducts from './Button/ButtonQuantityProducts'
 import { useDispatch, useSelector } from 'react-redux'
-import { cartSlice } from '../../../../Redux/reducer'
+import { addProduct, cartSlice } from '../../../../Redux/reducer'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,6 +21,7 @@ import DanhSachSanPham from '../DanhSachSanPham/DanhSachSanPham'
 import MoTaSanPham from './MoTaSanPham'
 import { useCallback } from 'react'
 import { debounce } from 'lodash'
+import { doOpenBoxLogin } from '../../../../Redux/authSlice'
 
 let productInitial = {
   name: '',
@@ -42,6 +42,7 @@ export default function Buy() {
   const [hide, setHide] = useState(true)
   const targetDIV = useRef(null)
   const [sanPham, setSanPham] = useState()
+  const user = useSelector((state) => state.auth?.userCurrent)
 
   // Lấy dữ liệu dựa trên param của url
   const { data, isLoading, isSuccess } = useQuery({
@@ -73,7 +74,6 @@ export default function Buy() {
   // xử lí ẩn thanh sticky
   useEffect(() => {
     if (btnTop - 165 < 0) {
-
       setHide(false)
     } else {
       setHide(true)
@@ -82,31 +82,36 @@ export default function Buy() {
 
   //nhấn vào mua và dispatch action mua và redux-toolkit
   const handleAddProduct = () => {
-    //các tính toán về giá sản phẩm khi có mã giảm giá
-    let maGiamGia = sanPham?.isPromote[0].checkPromote === true ? sanPham?.isPromote[1].promote * -1 : 0
-    let giamGia =
-      sanPham?.isPromote[0].checkPromote === true ? sanPham?.isPrice - (sanPham?.isPrice / 100) * maGiamGia : 0
+    if (!user) {
+      dispatch(doOpenBoxLogin())
+    } else {
+      //các tính toán về giá sản phẩm khi có mã giảm giá
+      let maGiamGia = sanPham?.isPromote[0].checkPromote === true ? sanPham?.isPromote[1].promote * -1 : 0
+      let giamGia =
+        sanPham?.isPromote[0].checkPromote === true ? sanPham?.isPrice - (sanPham?.isPrice / 100) * maGiamGia : 0
 
-    //interface sản phẩm trong giỏ hàng
-    let productFinal = {
-      id: sanPham?.id,
-      name: sanPham?.name,
-      image: sanPham?.hinhAnh,
-      isPrice: sanPham?.isPrice,
-      isPriceWithPromote: giamGia,
-      promote: maGiamGia,
+      //interface sản phẩm trong giỏ hàng
+      let productFinal = {
+        id: sanPham?.id,
+        name: sanPham?.name,
+        image: sanPham?.hinhAnh,
+        isPrice: sanPham?.isPrice,
+        isPriceWithPromote: giamGia,
+        promote: maGiamGia,
 
-      //các field mới được thêm vào do người dùng chọn
-      methodShip: ship,
-      quantity: quantity,
-      check: false,
+        //các field mới được thêm vào do người dùng chọn
+        methodShip: ship,
+        quantity: quantity,
+        check: false,
+      }
+      console.log('Sẵn sàng dispatch')
+      toast.success('Thêm vào giỏ hàng thành công', {
+        autoClose: 1000,
+      })
+      console.log('dispatch', productFinal)
+      dispatch(addProduct(productFinal))
     }
-    console.log('Sẵn sàng dispatch')
-    toast.success('Thêm vào giỏ hàng thành công', {
-      autoClose: 1000,
-    })
-    console.log('dispatch', productFinal)
-    dispatch(cartSlice.actions.addProduct(productFinal))
+    
   }
 
   const handlePositionButton = useCallback((posTop, posBottom) => {
@@ -116,15 +121,14 @@ export default function Buy() {
 
   // Thực hiện cuộn lên đầu trang khi component được render
   useEffect(() => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    })
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',})
   }, [])
 
   return (
-    <div ref={targetDIV} name='target'>
+    <div  name='target'>
       {isLoading && (
         <div className='absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 '>
           <div className='border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-60 w-60' />
@@ -275,7 +279,6 @@ export default function Buy() {
                     <div className='mt-6 mb-6'>
                       <button className='w-full mb-[60px] h-full'>
                         <a
-                          href='#succes'
                           onClick={handleAddProduct}
                           className='flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700'
                         >

@@ -59,13 +59,9 @@ function ContentMain({ getDataContent }) {
     }
 
     return () => {
-      main.removeEventListener(
-        'click',
-
-        () => {
-          bigElement.style.display = 'none'
-        },
-      )
+      main.removeEventListener('click', console.log('run'), () => {
+        bigElement.style.display = 'none'
+      })
     }
   })
   const getData = (data, check) => {

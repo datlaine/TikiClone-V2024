@@ -13,9 +13,11 @@ function Header() {
 
   if (main) {
     main.addEventListener('click', () => {
-      if (contentLeft) {
-        contentLeft.style.display = 'none'
-        anSearchInput.style.display = 'none'
+      if (window.innerWidth < 768) {
+        if (contentLeft) {
+          contentLeft.style.display = 'none'
+          anSearchInput.style.display = 'none'
+        }
       }
     })
   }
@@ -27,7 +29,7 @@ function Header() {
   return (
     <div
       id='Header'
-      className='dienThoai:fixed dienThoai:left-0 dienThoai:right-0 dienThoai:z-[9999] xl:relative bg-[#fff] lg:w-full lg:px-2 lg:px-2 lg:h-16  xl:h-auto xl:w-full xl:px-0 xl:flex xl:flex-col dienThoai:h-auto dienThoai:h-[55px]  dienThoai:px-0 dienThoai:h-14 dienThoai:max-w-full'
+      className='dienThoai:fixed dienThoai:left-0 dienThoai:right-0 xl:relative bg-[#fff] lg:w-full lg:px-2 lg:px-2 lg:h-16  xl:h-auto xl:w-full xl:px-0 xl:flex xl:flex-col dienThoai:h-auto dienThoai:h-[55px]  dienThoai:px-0 dienThoai:h-14 dienThoai:max-w-full'
     >
       <div className='container-header dienThoai:p-0 dienThoai:w-full dienThoai:h-full lg:px-2 lg:max-w-full xl:py-2 xl:px-[40px] lg:px-7'>
         <Header_list_up></Header_list_up>

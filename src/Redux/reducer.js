@@ -1,7 +1,6 @@
 import { createSlice, current } from '@reduxjs/toolkit'
 
 let initCart = {
-  currentUser: 'abc',
   cartList: [],
   soLuong: 0,
   cartListPaid: [],
@@ -129,13 +128,15 @@ export const cartSlice = createSlice({
       const cartSetLocalStorage = JSON.stringify(state)
       localStorage.setItem('cart', cartSetLocalStorage)
     },
-    isSelectAll: (state, action) => {
+    doIsSelectAll: (state, action) => {
+      console.log('alo', action.payload)
       if (action.payload) {
         state.cartList.forEach((product) => {
+          console.log(current(product))
           product.check = true
         })
       }
-      if (!action.payload) {
+      if (action.payload === false) {
         state.cartList.forEach((product, index) => {
           product.check = false
         })
@@ -146,8 +147,9 @@ export const cartSlice = createSlice({
   },
 })
 
-// export const { addProduct } = cartSlice.actions
-// export default cartSlice.reducer
+export const { addProduct, deleteProduct, increaseProduct, decreaseProduct, addProductPair, actionPaid, doIsSelectAll } =
+  cartSlice.actions
+export default cartSlice.reducer
 
 // import { createReducer } from "@reduxjs/toolkit";
 // import { createAction } from "@reduxjs/toolkit";

@@ -41,7 +41,7 @@ export default function Login({ handleModeLoginOrResister }) {
 
   let user = useSelector((state) => state.auth?.userCurrent)
   const onSubMit = handleSubmit((data) => {
-    localStorage.setItem('account', data.email)
+    localStorage.setItem('account', JSON.stringify(data.email))
     dispatch(userLogin(data.email))
     dispatch(doCloseBoxLogin())
     console.log(user)

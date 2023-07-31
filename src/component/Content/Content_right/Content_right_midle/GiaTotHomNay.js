@@ -12,6 +12,7 @@ export default memo(function GiaTotHomNay({ urlApi }) {
     queryKey: [`giaTotHomNay`],
     queryFn: () => getData('/giaTotHomNay'),
     staleTime: SLATE_TIME,
+    cacheTime: SLATE_TIME * 2
   })
 
   useEffect(() => {

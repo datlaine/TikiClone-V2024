@@ -4,7 +4,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     isAuthencation: false,
-    userCurrent: localStorage.getItem('account') || null, // chưa học back-end nên setup fake data hơi lubu...
+    userCurrent: JSON.parse(localStorage.getItem('account')) || null, // chưa học back-end nên setup fake data hơi lubu...
     isOpenBoxLogin: false,
   },
   reducers: {

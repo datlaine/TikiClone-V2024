@@ -19,6 +19,7 @@ const DanhMucNoiBat = () => {
     queryKey: ['danhMucNoiBat'],
     queryFn: () => getData('/danhMucNoiBat'),
     staleTime: SLATE_TIME,
+    cacheTime: SLATE_TIME * 2
   })
 
   useEffect(() => {

@@ -4,11 +4,13 @@ import Footer from './component/Footer/Footer'
 import Header from './component/Header/header_main/Header'
 import Sidebar from './component/Sidebar/Sidebar'
 import style from './app.module.css'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { doCloseBoxLogin } from './Redux/authSlice'
 import BoxLogin from './component/AuthLoginResister/BoxLogin/BoxLogin'
 function App() {
   const isOpenBoxLogin = useSelector((state) => state.auth?.isOpenBoxLogin)
+  const user = useSelector((state) => state.auth?.userCurrent)
+  const [reRender, setReRender] = useState(false)
   const refBoxLogin = useRef(null)
   const dispatch = useDispatch()
 
@@ -18,6 +20,11 @@ function App() {
       left: 0,
     })
   }, [])
+
+  useEffect(() => {
+    console.log('user', user)
+    setReRender((prev) => !prev)
+  }, [user])
 
   const handleBoxLogin = () => {
     if (refBoxLogin.current) {

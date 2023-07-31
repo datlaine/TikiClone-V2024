@@ -34,9 +34,9 @@ const client = new QueryClient({
 
 const debounceError = debounce((error) => {
   console.log(`global`, error)
-  if (error) {
-    alert(`Lỗi ${error.code} - ${error.message}\n Bật 4G lên xài dùm đi trời ơi`)
-  }
+  // if (error) {
+  //   alert(`Lỗi ${error.code} - ${error.message}\n Bật 4G lên xài dùm đi trời ơi`)
+  // }
 }, 2000)
 
 root.render(

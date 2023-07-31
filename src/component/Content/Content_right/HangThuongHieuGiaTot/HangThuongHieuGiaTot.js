@@ -26,6 +26,7 @@ const HangThuongHieuGiaTot = () => {
     queryKey: ['hangThuongHieuGiaTot'],
     queryFn: () => getData('/hangThuongHieuGiaTot'),
     staleTime: SLATE_TIME,
+    cacheTime: SLATE_TIME * 2
   })
 
   useEffect(() => {

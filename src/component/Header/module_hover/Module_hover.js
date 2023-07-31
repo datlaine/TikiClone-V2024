@@ -17,13 +17,13 @@ function ModuleHover() {
 
   const handleLogOut = () => {
     if (user) {
-      localStorage.removeItem('account')
       dispatch(doCloseBoxLogin())
+      console.log('click')
       setTimeout(() => {
-        console.log('123')
         navigate('/')
-      }, 2000)
-      toast.success('Đăng xuất thành công')
+      }, 1000)
+      localStorage.removeItem('account')
+      toast.success('Đăng xuất thành công', {autoClose: 300})
     } else {
       dispatch(doCloseBoxLogin())
     }

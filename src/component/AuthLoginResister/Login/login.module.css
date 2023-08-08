@@ -62,7 +62,7 @@ form > hr {
   color: rgb(11, 116, 229);
 }
 
-form button {
+.btnForm {
   outline: none;
   border-radius: 4px;
   background: rgb(255, 66, 78) !important;

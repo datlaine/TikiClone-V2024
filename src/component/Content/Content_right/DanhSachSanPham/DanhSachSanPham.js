@@ -10,7 +10,6 @@ import style from './danhSachSanPham.module.css'
 import { debounce } from 'lodash'
 
 const DanhSachSanPham = ({ handlePositionButton }) => {
-
   //các state của cpn
   const [page, setPage] = useState(1)
   const [listSanPham, setlistSanPham] = useState([])
@@ -30,7 +29,7 @@ const DanhSachSanPham = ({ handlePositionButton }) => {
   })
 
   useEffect(() => {
-    const check =() => {
+    const check = () => {
       if (refBtn.current) {
         const btn = refBtn.current.getBoundingClientRect()
         if (btn.top !== 0 && btn.bottom !== 0) {
@@ -38,15 +37,13 @@ const DanhSachSanPham = ({ handlePositionButton }) => {
         }
       } else return
     }
-    
+
     window.addEventListener('scroll', check)
 
     return () => {
       window.removeEventListener('click', check)
     }
   }, [])
-
-
 
   // nút thêm sản phẩm
   const handleClick = () => {
@@ -153,23 +150,22 @@ const DanhSachSanPham = ({ handlePositionButton }) => {
                   <div className={style.timeShipWrapper}>
                     <p className={style.timeShip}>
                       {list.isShip[0].checkShipNOW && (
-                        <img
-                          src={require('./img/desciption/now.png')}
-                          style={{
-                            width: 32,
-                            height: 16,
-                          }}
-                          alt=''
-                        />
+                        <>
+                          <img
+                            src={require('./img/desciption/now.png')}
+                            style={{
+                              width: 32,
+                              height: 16,
+                            }}
+                            alt=''
+                          />
+                          <span> Giao hàng nhanh</span>
+                        </>
                       )}
-
-                      {list.isShip[0].checkShipNOW ? (
-                        <span>{list.shipDay}</span>
-                      ) : !list.isShip[3].giaoNhanh ? (
-                        `Giao vào thứ ${list.isShip[1].shipDate}, ngày ${list.isShip[2].shipDay}`
-                      ) : (
-                        <span>{list.shipDay}</span>
-                      )}
+                      {!list.isShip[0].checkShipNOW &&
+                        `Giao vào thứ ${list.isShip[1].shipDate || 'error'}, ngày ${
+                          list.isShip[2].shipDay || 'error'
+                        }`}{' '}
                     </p>
                   </div>
                 </a>

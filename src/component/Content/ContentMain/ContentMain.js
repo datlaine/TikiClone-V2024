@@ -13,35 +13,31 @@ function ContentMain({ getDataContent }) {
 
   // console.log('>>>checkResponsive', responsive)
 
-  useLayoutEffect(() => {
-    const listenToScroll = function () {
-      let winScroll = document.body.scrollTop || document.documentElement.scrollTop
-      // console.log("winScroll ," + winScroll);
-      const bigElement = document.getElementById('big')
-      // console.log('trục Y:', winScroll)
-      // console.log('checkVarWidth', window.innerWidth)
-      if (winScroll < 50) {
-        if (window.innerWidth <= 1280) {
-          bigElement.style.top = '80px'
-        }
-        if (window.innerWidth > 1280) {
-          bigElement.style.top = '160px'
-        }
+  const listenToScroll = function () {
+    let winScroll = document.body.scrollTop || document.documentElement.scrollTop
+    // console.log("winScroll ," + winScroll);
+    const bigElement = document.getElementById('big')
+    // console.log('trục Y:', winScroll)
+    // console.log('checkVarWidth', window.innerWidth)
+    if (winScroll < 30) {
+      if (window.innerWidth <= 1280) {
+        bigElement.style.top = '80px'
       }
-
-      if (winScroll >= 45) {
-        if (window.innerWidth <= 1280) {
-          bigElement.style.top = '65.7px'
-        }
-        if (window.innerWidth > 1280) {
-          bigElement.style.top = '25px'
-        }
-        setHeight(0)
+      if (window.innerWidth > 1280) {
+        bigElement.style.top = '160px'
       }
     }
-    window.addEventListener('scroll', listenToScroll)
-    return () => window.removeEventListener('scroll', listenToScroll)
-  }, [height])
+
+    if (winScroll >= 55) {
+      if (window.innerWidth <= 1280) {
+        bigElement.style.top = '65.7px'
+      }
+      if (window.innerWidth > 1280) {
+        bigElement.style.top = '25px'
+      }
+    }
+  }
+  window.addEventListener('scroll', listenToScroll)
 
   const { width } = useGetWidth()
 

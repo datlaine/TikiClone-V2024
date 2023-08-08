@@ -1,36 +1,33 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useParams } from 'react-router-dom'
+
+//icon - style
 import style from './buy.module.css'
 import Rating from '@mui/material/Rating'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import Location from '../../../Main/localtion/Location'
-// import Shipper from './Shipper/Shipper'
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { getProduct } from '../../../../apis/getProduct'
-import Shipper from './Shipper/Shipper'
-import ButtonQualityProducts from './Button/ButtonQuantityProducts'
-import { useDispatch, useSelector } from 'react-redux'
-import { addProduct, cartSlice } from '../../../../Redux/reducer'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
+import Location from '../../../Main/localtion/Location'
+
+//api
+import { useQuery } from '@tanstack/react-query'
+import { getProduct } from '../../../../apis/getProduct'
+
+//redux-action
+import { useDispatch, useSelector } from 'react-redux'
+import { addProduct } from '../../../../Redux/reducer'
+import { doOpenBoxLogin } from '../../../../Redux/authSlice'
+
+//components
+import Shipper from './Shipper/Shipper'
+import ButtonQualityProducts from './Button/ButtonQuantityProducts'
 import GoiYHomNay from '../GoiYHomNay/GoiYHomNay'
 import DanhSachSanPham from '../DanhSachSanPham/DanhSachSanPham'
 import MoTaSanPham from './MoTaSanPham'
-import { useCallback } from 'react'
-import { debounce } from 'lodash'
-import { doOpenBoxLogin } from '../../../../Redux/authSlice'
 
-let productInitial = {
-  name: '',
-  ship: '',
-  isPrice: 0,
-  isPricePromote: 0,
-  quantity: 0,
-  bought: 0,
-}
+//toast
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer, toast } from 'react-toastify'
 
 export default function Buy() {
   const { id } = useParams()
@@ -38,9 +35,8 @@ export default function Buy() {
   const [ship, setShip] = useState('')
   const dispatch = useDispatch()
   const [btnTop, setBtnTop] = useState(0)
-  const [btnBottom, setBtnBottom] = useState(0)
+  const [_, setBtnBottom] = useState(0)
   const [hide, setHide] = useState(true)
-  const targetDIV = useRef(null)
   const [sanPham, setSanPham] = useState()
   const user = useSelector((state) => state.auth?.userCurrent)
 
@@ -54,11 +50,13 @@ export default function Buy() {
   useEffect(() => {
     if (isSuccess) {
       setSanPham(data?.data[0])
-      if (sanPham) {
-        document.title = `Mua ${sanPham.name}`
-      }
+      console.log('sanPham')
     }
   }, [isSuccess])
+  if (sanPham) {
+    document.title = `Mua ${sanPham.name}`
+    console.log('test tittle')
+  }
 
   // Chọn số lượng sản phẩm
   const handleQuantity = (quantity) => {
@@ -111,7 +109,6 @@ export default function Buy() {
       console.log('dispatch', productFinal)
       dispatch(addProduct(productFinal))
     }
-    
   }
 
   const handlePositionButton = useCallback((posTop, posBottom) => {
@@ -121,14 +118,15 @@ export default function Buy() {
 
   // Thực hiện cuộn lên đầu trang khi component được render
   useEffect(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth',})
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    })
   }, [])
 
   return (
-    <div  name='target'>
+    <div name='target'>
       {isLoading && (
         <div className='absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 '>
           <div className='border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-60 w-60' />

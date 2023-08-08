@@ -4,7 +4,7 @@ import { authLogin } from '../../../ConnectToServer/auth'
 
 import style from './login.module.css'
 import { useForm } from 'react-hook-form'
-import { rules } from '../rules'
+import { rulesVerify } from '../rules'
 import { useDispatch, useSelector } from 'react-redux'
 import { doCloseBoxLogin, userLogin } from '../../../Redux/authSlice'
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 export default function Login({ handleModeLoginOrResister }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const rules = rulesVerify()
 
   const [formLogin, setFormLogin] = useState({
     email: '',
@@ -24,14 +25,14 @@ export default function Login({ handleModeLoginOrResister }) {
     formState: { errors },
   } = useForm()
 
-  const mutateLogin = useMutation({
-    mutationFn: (body) => authLogin(body),
-    onSuccess: (res) => console.log(res),
-  })
+  // const mutateLogin = useMutation({
+  //   mutationFn: (body) => authLogin(body),
+  //   onSuccess: (res) => console.log(res),
+  // })
 
-  const handleChangeInput = (e, name) => {
-    setFormLogin((prev) => ({ ...prev, [name]: e.target.value }))
-  }
+  // const handleChangeInput = (e, name) => {
+  //   setFormLogin((prev) => ({ ...prev, [name]: e.target.value }))
+  // }
 
   const handleSubmitDefault = (e) => {
     e.preventDefault()
@@ -69,7 +70,7 @@ export default function Login({ handleModeLoginOrResister }) {
           <p className='text-red-950'>{errors.password?.message}</p>
         </div>
         <hr />
-        <button type='submit'>Đăng nhập</button>
+        <button type='submit' className={style.btnForm}>Đăng nhập</button>
       </form>
       <p>
         Bạn chưa có tài khoản, <span onClick={onResister}>Đăng kí ngay</span>

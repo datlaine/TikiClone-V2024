@@ -1,4 +1,4 @@
-export const rules = {
+export const rulesVerify = (getValues) => ({
   email: {
     required: {
       value: true,
@@ -9,8 +9,8 @@ export const rules = {
       message: 'Email không đúng định dạng',
     },
     minLength: {
-      value: 8,
-      message: 'Email ít nhất 8 ký tự',
+      value: 12,
+      message: 'Email ít nhất 12 ký tự',
     },
     maxLength: {
       value: 50,
@@ -32,4 +32,22 @@ export const rules = {
       message: 'Mật khẩu tối đa 50 ký tự',
     },
   },
-}
+
+  confirm_password: {
+    required: {
+      value: true,
+      message: 'Mật khẩu là bắt buộc',
+    },
+
+    minLength: {
+      value: 8,
+      message: 'Mật khẩu ít nhất 8 ký tự',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Xác nhận mặt khẩu tối đa 50 ký tự',
+    },
+    validate:
+      typeof getValues === 'function' ? (value) => value === getValues('password') || 'Mật khẩu không khớp' : undefined,
+  },
+})

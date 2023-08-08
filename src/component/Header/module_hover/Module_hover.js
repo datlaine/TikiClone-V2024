@@ -5,7 +5,7 @@ import { doCloseBoxLogin, doOpenBoxLogin } from '../../../Redux/authSlice'
 import './module_hover.css'
 
 function ModuleHover() {
-  const user = useSelector((state) => state.auth?.userCurrent)
+  const user = JSON.parse(localStorage.getItem('account')) || null
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -23,7 +23,12 @@ function ModuleHover() {
         navigate('/')
       }, 1000)
       localStorage.removeItem('account')
-      toast.success('Đăng xuất thành công', {autoClose: 300})
+      const elThongBao = document.getElementsByClassName('thongBao')[0]
+      alert('Đăng xuất thành công')
+      // elThongBao.textContent = 'Đăng xuất thành công'
+      // setTimeout(() => {
+      //     elThongBao.textContent = ''
+      // },500)
     } else {
       dispatch(doCloseBoxLogin())
     }
@@ -32,13 +37,13 @@ function ModuleHover() {
   return (
     <ul id='module_hover'>
       <li className='module_hover_item' onClick={handleGoToInfo}>
-        Thông tin tài khoản
+        {user ? `Account: ${user}` : 'Thông tin tài khoản'}
       </li>
       <li className='module_hover_item'>Đơn hàng của tôi</li>
       <li className='module_hover_item' onClick={handleLogOut}>
         Đăng xuất
       </li>
-      <ToastContainer />
+      <p className='thongBao'></p>
     </ul>
   )
 }

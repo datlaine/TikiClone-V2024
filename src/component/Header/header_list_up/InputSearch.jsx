@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import React from 'react'
 
 export default function InputSearch(props) {
   const { data, show } = props
@@ -22,13 +21,13 @@ export default function InputSearch(props) {
 
   return (
     <div
-      className='showHideDataSearch absolute left-0 top-full right-0 hidden m-h-25 overflow-hidden xl:py-5 rounded-[2px]  bg-white border-[1px] border-solid border-[#ccc] min-h-55 z-[9999] dienThoai:hidden m-h-40'
+      className='showHideDataSearch absolute left-0 top-full right-0 hidden m-h-25 overflow-hidden  rounded-[2px]  bg-white border-[1px] border-solid border-[#ccc] min-h-55 z-[9999] dienThoai:hidden m-h-40'
       onBlur={handleBlur}
       onClick={handleClick}
       tabIndex={0}
     >
       <div className='sanPhamTheoTen dienThoai:my-2 flex flex-col gap-y-2 overflow-hidden'>
-        {!data && <span className='p-2'>Hãy nhập tìm kiếm</span>}
+        {!data && <span className='p-2 opacity-50'>Hãy nhập tìm kiếm</span>}
 
         {data &&
           data?.map(

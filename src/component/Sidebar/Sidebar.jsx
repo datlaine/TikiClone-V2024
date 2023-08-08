@@ -29,7 +29,7 @@ export default function Sidebar() {
             <ContentLeft category={category.danhMuc} urlApi={url_danhMuc} />
             {/**banHang-container */}
             <div className='flex items-center justify-center bg-[#fff] p-2 mt-[-1px]'>
-              <button className='banHang'>
+              <button className='banHang hover:bg-[#ccc]	'>
                 <Link to='/Contact' className='contact'>
                   <img
                     src='https://salt.tikicdn.com/cache/100x100/ts/upload/08/2f/14/fd9d34a8f9c4a76902649d04ccd9bbc5.png.webp'

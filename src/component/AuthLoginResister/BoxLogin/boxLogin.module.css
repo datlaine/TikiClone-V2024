@@ -37,6 +37,11 @@
   cursor: pointer;
 }
 
+.boxIconClose:hover {
+  background-color: rgb(255, 66, 78);
+  color: #fff;
+}
+
 .boxSideLeft{
   flex: 0 0 60%;
   border-top-left-radius: var(--borderRadius);

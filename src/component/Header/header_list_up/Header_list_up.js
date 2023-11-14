@@ -1,26 +1,25 @@
 import './header_list_up.css'
 import ModuleHover from '../module_hover/Module_hover'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import InputSearch from './InputSearch'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getData } from '../../../apis/getDataMain'
 import { SLATE_TIME } from '../../../apis/staleTime'
-import { useGetWidth } from '../../CustomHooks/useGetWidth'
 import { debounce } from 'lodash'
 import { doOpenBoxLogin } from '../../../Redux/authSlice'
-function Header_list_up() {
+import { store } from '../../../store'
+
+function Header_list_up(props) {
+  const { user, doOpenBoxLogin, quantityProduct } = props
   const [search, setSearch] = useState('')
   const [showHideContentLeft, setShowHideContentLeft] = useState(false)
   const [apiSearch, setApiSearch] = useState([])
   const [ketQua, setKetQua] = useState([])
-  let user = useSelector((state) => state.auth?.userCurrent) || localStorage.getItem('account')
   let navigate = useNavigate()
-  const quantityProduct = useSelector((state) => state.cartList?.soLuong)
-  const dispatch = useDispatch()
-
+  const inputRef = useRef()
+  const [showSearch, setShowSearch] = useState(false)
   const { data, isLoading } = useQuery({
     queryKey: ['search'],
     queryFn: () => getData('/danhSachSanPham'),
@@ -39,30 +38,6 @@ function Header_list_up() {
       setKetQua('')
     }
   }, [search])
-
-  const { width } = useGetWidth()
-
-  useEffect(() => {
-    // console.log('checkWidth', window.innerWidth)
-
-    if (window.innerWidth < 1023) {
-      const elementContentLeft = document.querySelector('#big')
-      if (showHideContentLeft) {
-        console.log(elementContentLeft)
-        if (elementContentLeft) {
-          elementContentLeft.style.display = 'block'
-          elementContentLeft.style.opacity = 1
-          // console.log('hiện')
-        }
-      }
-      if (!showHideContentLeft) {
-        if (elementContentLeft) {
-          elementContentLeft.style.display = 'none'
-          // console.log('ẩn')
-        }
-      }
-    }else return
-  }, [width, showHideContentLeft])
 
   const handleChange = debounce((e) => {
     let result = []
@@ -84,10 +59,7 @@ function Header_list_up() {
     e.preventDefault()
   }
 
-  const handleClick = (e) => {
-    const showHideDataSearch = document.querySelector('.showHideDataSearch')
-    showHideDataSearch.style.display = 'block'
-  }
+  const handleClick = (e) => {}
 
   const handleBlur = () => {
     // console.log('đang blur')
@@ -97,8 +69,7 @@ function Header_list_up() {
 
   const goToCart = () => {
     if (!user) {
-      console.log(user)
-      dispatch(doOpenBoxLogin())
+      doOpenBoxLogin()
     } else {
       console.log(user)
       console.log('success')
@@ -111,10 +82,25 @@ function Header_list_up() {
     console.log('clickdi')
   }
 
+  const handleEvent = (e, ele) => {
+    if (ele.contains(e.target)) {
+      console.log('input click')
+      setShowSearch(true)
+    } else {
+      console.log('input out')
+      setShowSearch(false)
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('click', (e) => handleEvent(e, inputRef.current))
+
+    return () => window.removeEventListener('click', (e) => handleEvent)
+  }, [])
+
   return (
     <div
       id=''
-      className='containerHeaderListUp xl:flex xl:items-center xl:justify-between xl:gap-x-4 dienThoai:px-2 dienThoai:h-full dienThoai:flex dienThoai:items-center dienThoai:gap-x-[8px]'
+      className='xl:flex xl:items-center xl:justify-between xl:gap-x-4 dienThoai:px-2 dienThoai:h-full dienThoai:flex dienThoai:items-center dienThoai:gap-x-[8px]'
     >
       <Link className='logo' to='/'>
         <img
@@ -149,6 +135,7 @@ function Header_list_up() {
           className='inputSearchHeader xl:border-none xl:flex-1 xl:px-[10px] xl:outline-none flex-1  focus:outline-none focus:border-none'
           placeholder='Bạn tìm gì hôm nay'
           onChange={handleChange}
+          ref={inputRef}
           onClick={handleClick}
         />
         <div className='dienThoai:hidden sm:hidden md:hidden w-[0.5px] h-5 bg-gray-400'></div>
@@ -159,7 +146,7 @@ function Header_list_up() {
         >
           Tìm kiếm
         </button>
-        <InputSearch data={ketQua} />
+        {showSearch && <InputSearch data={ketQua} show={showSearch} />}
       </form>
 
       <div
@@ -205,4 +192,13 @@ function Header_list_up() {
   )
 }
 
-export default Header_list_up
+const mapStateToProps = (state) => ({
+  user: state.auth.userCurrent,
+  quantityProduct: state.cartList.soLuong,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  doOpenBoxLogin: () => store.dispatch(doOpenBoxLogin()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header_list_up)

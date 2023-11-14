@@ -16,8 +16,8 @@ export const cartSlice = createSlice({
       if (state.cartList.length === 0) {
         state.cartList.push(action.payload)
         state.soLuong += 1
-        const cartSetLocalStorage = JSON.stringify(state)
-        localStorage.setItem('cart', cartSetLocalStorage)
+        // const cartSetLocalStorage = JSON.stringify(state)
+        // localStorage.setItem('cart', cartSetLocalStorage)
         return
       }
 
@@ -26,8 +26,8 @@ export const cartSlice = createSlice({
           if (product.id === action.payload.id) {
             console.log('đã tồn tại')
             console.log(action.payload)
-            const cartSetLocalStorage = JSON.stringify(state)
-            localStorage.setItem('cart', cartSetLocalStorage)
+            // const cartSetLocalStorage = JSON.stringify(state)
+            // localStorage.setItem('cart', cartSetLocalStorage)
             return (product.quantity += action.payload.quantity)
           }
         })
@@ -51,8 +51,8 @@ export const cartSlice = createSlice({
           state.cartListPaid.splice(idProductCartPaid, 1)
         }
         state.soLuong -= 1
-        const cartSetLocalStorage = JSON.stringify(state)
-        localStorage.setItem('cart', cartSetLocalStorage)
+        // const cartSetLocalStorage = JSON.stringify(state)
+        // localStorage.setItem('cart', cartSetLocalStorage)
       }
     },
 
@@ -63,8 +63,8 @@ export const cartSlice = createSlice({
       if (idSanPham !== -1) {
         state.cartList[idSanPham].quantity += 1
       }
-      const cartSetLocalStorage = JSON.stringify(state)
-      localStorage.setItem('cart', cartSetLocalStorage)
+      // const cartSetLocalStorage = JSON.stringify(state)
+      // localStorage.setItem('cart', cartSetLocalStorage)
     },
     decreaseProduct: (state, action) => {
       console.log('giảm')
@@ -77,8 +77,8 @@ export const cartSlice = createSlice({
           console.log('a', state.cartList[idSanPham].quantity)
         }
       }
-      const cartSetLocalStorage = JSON.stringify(state)
-      localStorage.setItem('cart', cartSetLocalStorage)
+      // const cartSetLocalStorage = JSON.stringify(state)
+      // localStorage.setItem('cart', cartSetLocalStorage)
     },
 
     addProductPair: (state, action) => {
@@ -112,8 +112,8 @@ export const cartSlice = createSlice({
       //   }
       // }
 
-      const cartSetLocalStorage = JSON.stringify(state)
-      localStorage.setItem('cart', cartSetLocalStorage)
+      // const cartSetLocalStorage = JSON.stringify(state)
+      // localStorage.setItem('cart', cartSetLocalStorage)
     },
     actionPaid: (state, action) => {
       console.log(action.payload)
@@ -125,8 +125,8 @@ export const cartSlice = createSlice({
         return false
       })
 
-      const cartSetLocalStorage = JSON.stringify(state)
-      localStorage.setItem('cart', cartSetLocalStorage)
+      // const cartSetLocalStorage = JSON.stringify(state)
+      // localStorage.setItem('cart', cartSetLocalStorage)
     },
     doIsSelectAll: (state, action) => {
       console.log('alo', action.payload)
@@ -141,13 +141,18 @@ export const cartSlice = createSlice({
           product.check = false
         })
       }
-      const cartSetLocalStorage = JSON.stringify(state)
-      localStorage.setItem('cart', cartSetLocalStorage)
+      // const cartSetLocalStorage = JSON.stringify(state)
+      // localStorage.setItem('cart', cartSetLocalStorage)
     },
+
+    clearCart: (state) => {
+  state.cartList = []
+state.soLuong = 0
+} 
   },
 })
 
-export const { addProduct, deleteProduct, increaseProduct, decreaseProduct, addProductPair, actionPaid, doIsSelectAll } =
+export const { addProduct, deleteProduct, increaseProduct, decreaseProduct, addProductPair, actionPaid, doIsSelectAll, clearCart } =
   cartSlice.actions
 export default cartSlice.reducer
 

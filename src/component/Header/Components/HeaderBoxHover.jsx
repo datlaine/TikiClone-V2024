@@ -1,12 +1,10 @@
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
 import { doCloseBoxLogin, doOpenBoxLogin, userLogout } from '../../../Redux/authSlice'
-import './module_hover.css'
 import { store } from '../../../store'
 import { clearCart } from '../../../Redux/reducer'
 
-function ModuleHover(props) {
+function HeaderBoxHover(props) {
   const { user, doCloseBoxLogin, doOpenBoxLogin, isOpenBoxLogin, userLogout, clearCart } = props
   const navigate = useNavigate()
   console.log('om', user)
@@ -34,13 +32,13 @@ function ModuleHover(props) {
   }
 
   return (
-    <ul id='module_hover'>
-      <li className='module_hover_item' onClick={handleGoToInfo}>
+    <ul className='text-[15.2px] absolute top-[40px] min-w-[250px] right-0 min-h-[100px] bg-white shadow-[rgba(0, 0, 0, 0.18) 0px 6px 12px 0px] hover:flex hidden group-hover:flex flex-col py-2'>
+      <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2' onClick={handleGoToInfo}>
         {user ? `Account: ${user}` : 'Thông tin tài khoản'}
       </li>
-      <li className='module_hover_item' onClick={handleGoToInfo}>Đơn hàng của tôi</li>
+      <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleGoToInfo}>Đơn hàng của tôi</li>
       {user && (
-        <li className='module_hover_item' onClick={handleLogOut}>
+        <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleLogOut}>
           Đăng xuất
         </li>
       )}
@@ -61,4 +59,4 @@ const mapDispatchToProp = (dispatch) => ({
   clearCart: ()=> store.dispatch(clearCart())
 })
 
-export default connect(mapStateToProps, mapDispatchToProp)(ModuleHover)
+export default connect(mapStateToProps, mapDispatchToProp)(HeaderBoxHover)

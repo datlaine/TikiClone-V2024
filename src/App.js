@@ -1,19 +1,21 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import ContentWrapper from './component/Content/ContentWrapper/ContentWrapper'
 import Footer from './component/Footer/Footer'
-import Header from './component/Header/header_main/Header'
 import Sidebar from './component/Sidebar/Sidebar'
-import style from './app.module.css'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { doCloseBoxLogin } from './Redux/authSlice'
 import BoxLogin from './component/AuthLoginResister/BoxLogin/BoxLogin'
-function App() {
-  const isOpenBoxLogin = useSelector((state) => state.auth?.isOpenBoxLogin)
-  const user = useSelector((state) => state.auth?.userCurrent)
-  const [reRender, setReRender] = useState(false)
-  const refBoxLogin = useRef(null)
-  const dispatch = useDispatch()
+import { store, persistor } from './store'
+import { PersistGate } from 'redux-persist/integration/react'
+import Header from './component/Header/Header'
+import { toDoHideSideBar } from './Redux/uiSlice'
+function App(props) {
+  const { isAuthencation, isOpenBoxLogin, toDoHideSideBar, showwSideBar } = props
+  const pathName = window.location.pathname
+  console.log(isOpenBoxLogin)
 
+  const refBoxLogin = useRef(null)
+  console.log(isAuthencation)
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -22,33 +24,50 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log('user', user)
-    setReRender((prev) => !prev)
-  }, [user])
+    console.log('re-render')
+    console.log(showwSideBar)
+
+    toDoHideSideBar()
+  }, [])
 
   const handleBoxLogin = () => {
-    if (refBoxLogin.current) {
-      refBoxLogin.current.style.display = 'none'
-      dispatch(doCloseBoxLogin())
-    }
+    // doCloseBoxLogin()
   }
 
   return (
-    <div className={style.wrapper}>
-      <div id='main' className=''>
-        <Header></Header>
-
-        <ContentWrapper />
-        <Sidebar />
-        <Footer />
-      </div>
-      {isOpenBoxLogin && (
-        <div className={style.containerBoxLogin} ref={refBoxLogin} onClick={handleBoxLogin}>
-          <BoxLogin />
+    <PersistGate persistor={persistor}>
+      <div className='relative overflow-x-hidden w-full'>
+        <div id='main' className='overflox-x-hidden w-full '>
+          <Header />
+          <ContentWrapper />
+          <Sidebar />
+          <Footer />
         </div>
-      )}
-    </div>
+        {isOpenBoxLogin && (
+          <div
+            className=''
+            onClick={handleBoxLogin}
+          >
+            <BoxLogin />
+          </div>
+        )}
+      </div>
+    </PersistGate>
   )
 }
 
-export default App
+const mapStateToProps = (state) => ({
+  isAuthencation: state.auth.isAuthencation,
+  user: state.auth.userCurrent,
+  isOpenBoxLogin: state.auth.isOpenBoxLogin,
+ showSideBar: state.uiSlice.showSideBar
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    doCloseBoxLogin: () => store.dispatch(doCloseBoxLogin()),
+    toDoHideSideBar: () => store.dispatch(toDoHideSideBar()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

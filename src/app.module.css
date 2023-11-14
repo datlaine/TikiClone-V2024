@@ -11,4 +11,12 @@
   left: 0;
   right: 0;
   overflow-y: hidden;
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }

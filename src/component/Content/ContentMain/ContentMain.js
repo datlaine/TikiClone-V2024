@@ -13,53 +13,53 @@ function ContentMain({ getDataContent }) {
 
   // console.log('>>>checkResponsive', responsive)
 
-  const listenToScroll = function () {
-    let winScroll = document.body.scrollTop || document.documentElement.scrollTop
-    // console.log("winScroll ," + winScroll);
-    const bigElement = document.getElementById('big')
-    // console.log('trục Y:', winScroll)
-    // console.log('checkVarWidth', window.innerWidth)
-    if (winScroll < 30) {
-      if (window.innerWidth <= 1280) {
-        bigElement.style.top = '80px'
-      }
-      if (window.innerWidth > 1280) {
-        bigElement.style.top = '160px'
-      }
-    }
+  // const listenToScroll = function () {
+  //   let winScroll = document.body.scrollTop || document.documentElement.scrollTop
+  //   // console.log("winScroll ," + winScroll);
+  //   const bigElement = document.getElementById('big')
+  //   // console.log('trục Y:', winScroll)
+  //   // console.log('checkVarWidth', window.innerWidth)
+  //   if (winScroll < 30) {
+  //     if (window.innerWidth <= 1280) {
+  //       bigElement.style.top = '80px'
+  //     }
+  //     if (window.innerWidth > 1280) {
+  //       bigElement.style.top = '160px'
+  //     }
+  //   }
 
-    if (winScroll >= 55) {
-      if (window.innerWidth <= 1280) {
-        bigElement.style.top = '65.7px'
-      }
-      if (window.innerWidth > 1280) {
-        bigElement.style.top = '25px'
-      }
-    }
-  }
-  window.addEventListener('scroll', listenToScroll)
+  //   if (winScroll >= 55) {
+  //     if (window.innerWidth <= 1280) {
+  //       bigElement.style.top = '65.7px'
+  //     }
+  //     if (window.innerWidth > 1280) {
+  //       bigElement.style.top = '25px'
+  //     }
+  //   }
+  // }
+  // window.addEventListener('scroll', listenToScroll)
 
   const { width } = useGetWidth()
 
-  useLayoutEffect(() => {
-    const bigElement = document.querySelector('#big')
-    const main = document.querySelector('#main')
-    if (window.innerWidth < 768) {
-      if (main) {
-        main.addEventListener('click', () => {
-          bigElement.style.display = 'none'
-        })
-      }
-    } else {
-      bigElement.style.display = 'block'
-    }
+  // useLayoutEffect(() => {
+  //   const bigElement = document.querySelector('#big')
+  //   const main = document.querySelector('#main')
+  //   if (window.innerWidth < 768) {
+  //     if (main) {
+  //       main.addEventListener('click', () => {
+  //         bigElement.style.display = 'none'
+  //       })
+  //     }
+  //   } else {
+  //     bigElement.style.display = 'block'
+  //   }
 
-    return () => {
-      main.removeEventListener('click', console.log('run'), () => {
-        bigElement.style.display = 'none'
-      })
-    }
-  })
+  //   return () => {
+  //     main.removeEventListener('click', console.log('run'), () => {
+  //       bigElement.style.display = 'none'
+  //     })
+  //   }
+  // })
   const getData = (data, check) => {
     if (check) {
       getDataContent(data, check)
@@ -84,7 +84,7 @@ function ContentMain({ getDataContent }) {
   // }
 
   return (
-    <div id='content-container' className=''>
+    <div id='' className='p-0 w-full 2xl:h-full 2xl:pr-[12px] 2xl:pl-[12px] 2xl:py-0 2xl:flex 2xl:gap-8'>
       <Content_right getDataContentRight={getData} />
     </div>
   )

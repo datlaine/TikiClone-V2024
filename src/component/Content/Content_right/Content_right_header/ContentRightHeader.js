@@ -50,8 +50,8 @@ const ContentRightHeader = () => {
 
   return (
     <div id='Content_right_header' className=''>
-      <div className='content-slider'>
-        <div className='content-slider-right' style={{ borderRadius: '8px' }}>
+      <div className='content-slider w-full'>
+        <div className='content-slider-right w-full' style={{ borderRadius: '8px' }}>
           <SimpleImageSlider
             width={840}
             height={274}
@@ -64,7 +64,7 @@ const ContentRightHeader = () => {
             borderRadius={150}
           />
         </div>
-        <div className='content-slider-left'>
+        <div className='content-slider-left lg:hidden 2xl:block'>
           <img src={require('./img/left.jpg')} alt='' className='' />
         </div>
       </div>

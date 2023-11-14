@@ -5,14 +5,17 @@ import { authLogin } from '../../../ConnectToServer/auth'
 import style from './login.module.css'
 import { useForm } from 'react-hook-form'
 import { rulesVerify } from '../rules'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { doCloseBoxLogin, userLogin } from '../../../Redux/authSlice'
 import { useNavigate } from 'react-router-dom'
+import { store } from '../../../store'
 
-export default function Login({ handleModeLoginOrResister }) {
+function Login(props) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const rules = rulesVerify()
+  const {handleModeLoginOrResister, userLogin, user, doCloseBoxLogin} = props
+  console.log(props)
 
   const [formLogin, setFormLogin] = useState({
     email: '',
@@ -40,11 +43,9 @@ export default function Login({ handleModeLoginOrResister }) {
     // mutateLogin.mutate(formLogin)
   }
 
-  let user = useSelector((state) => state.auth?.userCurrent)
   const onSubMit = handleSubmit((data) => {
-    localStorage.setItem('account', JSON.stringify(data.email))
-    dispatch(userLogin(data.email))
-    dispatch(doCloseBoxLogin())
+    userLogin(data.email)
+    doCloseBoxLogin()
     console.log(user)
   })
 
@@ -78,3 +79,17 @@ export default function Login({ handleModeLoginOrResister }) {
     </div>
   )
 }
+
+const mapStateToProps = (state) => ({
+  user: state.auth.userCurrent,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  doCloseBoxLogin: () => store.dispatch(doCloseBoxLogin()),
+  userLogin: (user) => store.dispatch(userLogin(user))
+
+}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

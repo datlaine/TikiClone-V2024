@@ -11,16 +11,16 @@ function Header() {
 
   const main = document.getElementById('main')
 
-  if (main) {
-    main.addEventListener('click', () => {
-      if (window.innerWidth < 768) {
-        if (contentLeft) {
-          contentLeft.style.display = 'none'
-          anSearchInput.style.display = 'none'
-        }
-      }
-    })
-  }
+  // if (main) {
+  //   main.addEventListener('click', () => {
+  //     if (window.innerWidth < 768) {
+  //       if (contentLeft) {
+  //         contentLeft.style.display = 'none'
+  //         anSearchInput.style.display = 'none'
+  //       }
+  //     }
+  //   })
+  // }
 
   useEffect(() => {
     window.scrollTo(0, 0)

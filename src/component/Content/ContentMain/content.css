@@ -1,7 +1,7 @@
 @media screen and (min-width: 1024px) {
   #content {
     width: 100%;
-    min-height: calc(100vh - 131px);
+    min-height: calc(100vh - 180px);
     height: auto;
     background-color: #f5f5fa;
   }
@@ -19,7 +19,7 @@
     max-width: 22px;
     position: fixed;
     top: 150px;
-    z-index: 999;
+    z-index: 9;
     left: 50px;
   }
 
@@ -98,7 +98,7 @@
     width: 100%;
     height: auto;
     background-color: #f5f5fa;
-    margin-top: 65px;
+    /* margin-top: 130px; */
   }
 
   /* bao quanh content */
@@ -118,7 +118,7 @@
       z-index: 999; */
     /* top: 164px; */
     /* top: 155px; */
-    display: none;
+    /* display: none; */
     top: 67px;
     width: 150px;
     position: fixed;

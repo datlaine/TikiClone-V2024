@@ -9,8 +9,10 @@ import ContentMain from '../ContentMain/ContentMain'
 import Buy from '../Content_right/Buy/Buy'
 
 export default function ContentWrapper() {
+  console.log('wrapper')
+
   return (
-    <div id='content'>
+    <div id='content' className='px-2 relative top-[60px] 2xl:top-[150px] pt-[10px] left-0 right-0 min-w-full'>
       <Routes>
         <Route
           path='/*'

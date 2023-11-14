@@ -25,7 +25,7 @@ export default memo(function Content_right({ getDataContent }) {
   }, [btnTop])
 
   return (
-    <div id='Content_right' className=''>
+    <div id='' className='2xl:relative 2xl:ml-[280px] 2xl:z-[10] ml-0'>
   <ContentRightHeader />
     <Content_right_midle />
       <HangThuongHieuGiaTot />

@@ -1,134 +1,134 @@
 @media screen and (min-width: 1024px) {
-  .supportTiki {
-  display: grid;
-  padding: 10px 0px 0px;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: 370px;
-  column-gap: 35px;
-  font-size: 13px;
-  /* background-color: red; */
-}
+      .supportTiki {
+            display: grid;
+            padding: 10px 0px 0px;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: 370px;
+            column-gap: 35px;
+            font-size: 13px;
+            /* background-color: red; */
+      }
 
-/* Title dùng chung */
-.supportTiki h3, .supportTiki h4 {
-  font-size: 18px;
-}
+      /* Title dùng chung */
+      .supportTiki h3,
+      .supportTiki h4 {
+            font-size: 18px;
+      }
 
-/* Các thuộc tính về chữ */
-.supportTiki li, .supportTiki p {
-  color: rgb(56, 56, 61);
-  opacity: .8;
-}
+      /* Các thuộc tính về chữ */
+      .supportTiki li,
+      .supportTiki p {
+            color: rgb(56, 56, 61);
+            opacity: 0.8;
+      }
 
-.supportTiki li {
-  margin: 5px 0px;
-}
+      .supportTiki li {
+            margin: 5px 0px;
+      }
 
-.supportTiki li:hover {
-  color: rgb(128, 128, 137);
-  text-decoration: underline;
-}
+      .supportTiki li:hover {
+            color: rgb(128, 128, 137);
+            text-decoration: underline;
+      }
 
+      /* hình ảnh xác nhận chứng nhận thương hiệu */
+      .containerHinhAnhVerify {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+      }
 
-/* hình ảnh xác nhận chứng nhận thương hiệu */
-.containerHinhAnhVerify {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+      .wrapperHinhAnhVerify {
+            display: flex;
+            gap: 8px;
+      }
 
-.wrapperHinhAnhVerify {
-  display: flex;
-  gap: 8px;
-}
+      .hinhAnhVerify {
+            width: 32px;
+            height: 32px;
+      }
 
-.hinhAnhVerify {
-  width: 32px;
-  height: 32px;
-}
+      .svg {
+            width: 83px;
+            height: 32px;
+      }
 
-.svg {
-  width: 83px;
-  height: 32px;
-}
+      /* container Thanh toán */
+      .containerThanhToan {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+      }
 
-/* container Thanh toán */
-.containerThanhToan {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+      /* grid thanh toán */
+      .wrapperThanhToan {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            row-gap: 10px;
+      }
 
-/* grid thanh toán */
-.wrapperThanhToan {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  row-gap: 10px;
-}
+      .hinhAnhIconThanhToan {
+            width: 32px;
+            height: 32px;
+      }
 
-.hinhAnhIconThanhToan {
-  width: 32px;
-  height: 32px;
-}
+      /* Dịch vụ giao hàng */
+      .dichVuGiaoHang {
+      }
 
-/* Dịch vụ giao hàng */
-.dichVuGiaoHang {
-}
+      .dichVuGiaoHang h4 {
+            font-size: 16px;
+      }
 
-.dichVuGiaoHang h4 {
-  font-size: 16px;
-}
+      .dichVuGiaoHang > img {
+            width: 80px;
+            height: 45px;
+            margin-top: 15px;
+      }
 
-.dichVuGiaoHang > img {
-  width: 80px;
-  height: 45px;
-  margin-top: 15px;
-}
+      /* Container contactTiki */
+      .containerContactTiki {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+      }
 
-/* Container contactTiki */
-.containerContactTiki {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
+      .wrapperHinhAnhContact {
+            display: flex;
+            gap: 10px;
+      }
 
-.wrapperHinhAnhContact {
-  display: flex;
-  gap: 10px;
-}
+      .wrapperHinhAnhContact > img {
+            width: 32px;
+            min-height: 32px;
+      }
+      /* download */
 
-.wrapperHinhAnhContact > img {
-  width: 32px;
-  min-height: 32px;
-}
-/* download */
+      .wrapperDownload {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+      }
 
-.wrapperDownload {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
+      .wrapperDownload_GRID {
+            display: grid;
+            grid-template-columns: 80px 126px;
+            grid-template-rows: repeat(2, 35px);
+            gap: 5px;
+      }
 
-.wrapperDownload_GRID {
-  display: grid;
-  grid-template-columns: 80px 126px;
-  grid-template-rows: repeat(2,35px);
-  gap: 5px;
-}
+      .QR {
+            grid-column: 1 / 2;
+            grid-row: 1 / span 2;
+      }
 
-.QR {
-  grid-column:  1 / 2;
-  grid-row: 1 / span 2;
-}
+      .IOS {
+            grid-column: 2/3;
+            grid-row: 1/2;
+      }
 
-.IOS {
-  grid-column: 2/3;
-  grid-row: 1/2;
-}
-
-.ANDROI {
-  grid-column: 2/2;
-  grid-row: 2 / 3;
-}
-
+      .ANDROI {
+            grid-column: 2/2;
+            grid-row: 2 / 3;
+      }
 }

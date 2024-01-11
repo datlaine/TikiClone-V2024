@@ -1,3 +1,3 @@
-import Resister from "./Resister";
+import Resister from './Resister'
 
 export default Resister

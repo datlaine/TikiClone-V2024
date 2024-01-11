@@ -1,15 +1,14 @@
 @media screen and (min-width: 1024px) {
-  .aboutTiki {
-    background-color: #fff;
-    height: auto;
-    border-radius: 8px;
-    padding: 10px 35px 50px;
-    
-  }
+      .aboutTiki {
+            background-color: #fff;
+            height: auto;
+            border-radius: 8px;
+            padding: 10px 35px 50px;
+      }
 }
 
 @media screen and (max-width: 768px) {
-  .aboutTiki {
-    display: none;
-  }
+      .aboutTiki {
+            display: none;
+      }
 }

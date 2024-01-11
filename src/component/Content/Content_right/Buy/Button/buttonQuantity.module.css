@@ -1,43 +1,43 @@
 @media screen and (min-width: 1024px) {
-  .btnWrapper {
-    width: 25%;
-    padding: 4px;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 3px;
-  }
+      .btnWrapper {
+            width: 25%;
+            padding: 4px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3px;
+      }
 
-  .btn {
-    border: 0.001em solid #ccc;
-    width: 35px;
-    height: 35px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+      .btn {
+            border: 0.001em solid #ccc;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+      }
 }
 
 @media screen and (max-width: 768px) {
-  .btnWrapper {
-    width: 50%;
-    padding: 15px;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 3px;
-  }
+      .btnWrapper {
+            width: 50%;
+            padding: 15px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3px;
+      }
 
-  .btn {
-    border: 0.001em solid #ccc;
-    width: 35px;
-    height: 35px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+      .btn {
+            border: 0.001em solid #ccc;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+      }
 }

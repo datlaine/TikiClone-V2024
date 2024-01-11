@@ -1,96 +1,95 @@
 :root {
-  --borderRadius: 24px
+      --borderRadius: 24px;
 }
 
 .boxContainerLogin {
-width: 800px;
-height: 500px;  
-/* position: fixed; */
-  /* top: 50%; */
-  /* left: 50%; */
-  /* transform: translate(-50%,-50%); */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-transition: all .5s;
-  animation: showBox .5s linear ;
+      width: 800px;
+      height: 500px;
+      /* position: fixed; */
+      /* top: 50%; */
+      /* left: 50%; */
+      /* transform: translate(-50%,-50%); */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.5s;
+      animation: showBox 0.5s linear;
 }
 
 @keyframes showBox {
-0% {
-  transform: translateY(30vh);
-  opacity: .9;
-}
-100% {
-transform: translateY(0);
-opacity: 1;
-}
-
+      0% {
+            transform: translateY(30vh);
+            opacity: 0.9;
+      }
+      100% {
+            transform: translateY(0);
+            opacity: 1;
+      }
 }
 
 .boxLogin {
-  border-radius: var(--borderRadius);
-  background-color: #fff;
-  width: 100%;
-height: 100%;
-  opacity: 1;
-  position: relative;
-  z-index: 500;
-  display: flex;
+      border-radius: var(--borderRadius);
+      background-color: #fff;
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+      position: relative;
+      z-index: 500;
+      display: flex;
 }
 
 .boxIconClose {
-  position: absolute;
-  top: -17px;
-  right: -17px;
-  z-index: 501;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: #fff;
-  cursor: pointer;
+      position: absolute;
+      top: -17px;
+      right: -17px;
+      z-index: 501;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background-color: #fff;
+      cursor: pointer;
 }
 
 .boxIconClose:hover {
-  background-color: rgb(255, 66, 78);
-  color: #fff;
+      background-color: rgb(255, 66, 78);
+      color: #fff;
 }
 
-.boxSideLeft{
-  flex: 0 0 60%;
-  border-top-left-radius: var(--borderRadius);
-  border-bottom-left-radius: var(--borderRadius);
-  padding: 42px;
+.boxSideLeft {
+      flex: 0 0 60%;
+      border-top-left-radius: var(--borderRadius);
+      border-bottom-left-radius: var(--borderRadius);
+      padding: 42px;
 }
 
 .boxSideRight {
-  flex: 0 0 40%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  background: linear-gradient(136deg, rgb(240, 248, 255) -1%, rgb(219, 238, 255) 85%);;
-  border-top-right-radius: var(--borderRadius);
-  border-bottom-right-radius: var(--borderRadius);
-  color: #0b74e5;
+      flex: 0 0 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+      background: linear-gradient(136deg, rgb(240, 248, 255) -1%, rgb(219, 238, 255) 85%);
+      border-top-right-radius: var(--borderRadius);
+      border-bottom-right-radius: var(--borderRadius);
+      color: #0b74e5;
 }
 
 .boxSideRight > img {
-  width: 203px;
-  height: 203px;
+      width: 203px;
+      height: 203px;
 }
 
 .boxSideRight > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 }
 
 .boxSideRight p:first-of-type {
-  font-size: 22px;
-  font-weight: 600;
+      font-size: 22px;
+      font-weight: 600;
 }

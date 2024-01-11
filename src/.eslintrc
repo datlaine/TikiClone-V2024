@@ -1,19 +1,19 @@
-
 {
-    "extends": ["react-app", "prettier"],
-   "plugins": ["react", "prettier"],
-   "rules": {
-       "prettier/prettier": [
-           "warn", {
-               "arrowParens": "always",
-               "semi": false,
-               "tabWidth": 2,
-               "endOfLine": "auto",
-               "useTabs": false,
-               "singleQuote": true,
-               "printWidth": 80,
-               "jsxSingleQuote": true
-           }
-       ]
-}
+      "extends": ["react-app", "prettier"],
+      "plugins": ["react", "prettier"],
+      "rules": {
+            "prettier/prettier": [
+                  "warn",
+                  {
+                        "arrowParens": "always",
+                        "semi": false,
+                        "tabWidth": 6,
+                        "endOfLine": "auto",
+                        "useTabs": false,
+                        "singleQuote": true,
+                        "printWidth": 140,
+                        "jsxSingleQuote": true
+                  }
+            ]
+      }
 }

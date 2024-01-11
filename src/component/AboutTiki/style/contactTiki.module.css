@@ -1,13 +1,13 @@
 @media screen and (min-width: 1024px) {
-  .containerContactTiki {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+      .containerContactTiki {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+      }
 
-  .containerContactTiki > p {
-    color: rgb(56, 56, 61);
-    opacity: 0.8;
-    font-size: 12px;
-  }
+      .containerContactTiki > p {
+            color: rgb(56, 56, 61);
+            opacity: 0.8;
+            font-size: 12px;
+      }
 }

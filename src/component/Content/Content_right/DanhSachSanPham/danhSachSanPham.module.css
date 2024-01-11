@@ -1,359 +1,359 @@
 @media screen and (min-width: 1024px) {
-  .danhSachSanPham {
-    width: 100%;
-    min-height: auto;
-    /* padding: 0px 10px; */
-    /* background-color: green; */
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: 371px;
-    grid-gap: 15px 8px;
-  }
+      .danhSachSanPham {
+            width: 100%;
+            min-height: auto;
+            /* padding: 0px 10px; */
+            /* background-color: green; */
+            margin-top: 8px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: 371px;
+            grid-gap: 15px 8px;
+      }
 
-  .hinhAnh {
-    grid-column: 1 / span 2;
-    height: 100%;
-  }
+      .hinhAnh {
+            grid-column: 1 / span 2;
+            height: 100%;
+      }
 
-  .sanPhamWrapper {
-    border-radius: 8px;
-    border: 1px solid #e6e6e6;
-    position: relative;
-  }
+      .sanPhamWrapper {
+            border-radius: 8px;
+            border: 1px solid #e6e6e6;
+            position: relative;
+      }
 
-  #pageMain {
-  }
+      #pageMain {
+      }
 
-  /*button*/
-  .btn {
-    text-align: center;
-    margin: 15px auto;
-    border-radius: 8px;
-    width: 240px;
-    height: 42px;
-    background-color: rgb(255, 255, 250);
-    color: rgb(10, 104, 255);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgb(10, 104, 255);
-    cursor: pointer;
-    outline: none;
-  }
+      /*button*/
+      .btn {
+            text-align: center;
+            margin: 15px auto;
+            border-radius: 8px;
+            width: 240px;
+            height: 42px;
+            background-color: rgb(255, 255, 250);
+            color: rgb(10, 104, 255);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgb(10, 104, 255);
+            cursor: pointer;
+            outline: none;
+      }
 
-  .dont {
-    user-select: none;
-    opacity: 0.5;
-    border: 1px solid rgb(10, 104, 255);
-    cursor: no-drop;
-    background-color: rgb(0 96 255 / 12%);
-  }
+      .dont {
+            user-select: none;
+            opacity: 0.5;
+            border: 1px solid rgb(10, 104, 255);
+            cursor: no-drop;
+            background-color: rgb(0 96 255 / 12%);
+      }
 
-  .btn:hover {
-    background-color: rgb(0 96 255 / 12%);
-    opacity: 1;
-  }
+      .btn:hover {
+            background-color: rgb(0 96 255 / 12%);
+            opacity: 1;
+      }
 
-  .dont:hover {
-    opacity: 0.5;
-  }
+      .dont:hover {
+            opacity: 0.5;
+      }
 
-  .layoutImg {
-    height: 100%;
-    border-radius: 8px;
-    background-color: rgb(255, 255, 255);
-    color: rgb(36, 36, 36);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+      .layoutImg {
+            height: 100%;
+            border-radius: 8px;
+            background-color: rgb(255, 255, 255);
+            color: rgb(36, 36, 36);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+      }
 
-  .layoutImg:hover {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
-  }
+      .layoutImg:hover {
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+      }
 
-  .img {
-    flex: 30%;
-    border-radius: 8px;
-  }
+      .img {
+            flex: 30%;
+            border-radius: 8px;
+      }
 
-  .imageProduct {
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-  }
-  /*/layoutImg
+      .imageProduct {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+      }
+      /*/layoutImg
   
 
   /* Nút mua khi hover */
-  .btnBought {
-    position: absolute;
-    top: 327px;
-    right: 25px;
-    display: flex;
-    z-index: 10;
-    justify-content: center;
-    align-items: center;
-    width: 27%;
-    height: 22px;
-    text-decoration: none;
-    padding: 2px;
-    color: rgb(10, 104, 255);
-    border: 1px solid rgb(10, 104, 255);
-    cursor: pointer;
-    display: none;
-    border-radius: 8px;
-    outline: none;
-    opacity: 0;
-    text-align: center;
-    background-color: rgb(255, 255, 250);
-  }
+      .btnBought {
+            position: absolute;
+            top: 327px;
+            right: 25px;
+            display: flex;
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+            width: 27%;
+            height: 22px;
+            text-decoration: none;
+            padding: 2px;
+            color: rgb(10, 104, 255);
+            border: 1px solid rgb(10, 104, 255);
+            cursor: pointer;
+            display: none;
+            border-radius: 8px;
+            outline: none;
+            opacity: 0;
+            text-align: center;
+            background-color: rgb(255, 255, 250);
+      }
 
-  .btnBought:hover {
-    border: none;
-    background-color: rgb(255, 255, 250);
-    color: rgb(255 255 255);
-    background-color: rgb(254 44 85);
-  }
+      .btnBought:hover {
+            border: none;
+            background-color: rgb(255, 255, 250);
+            color: rgb(255 255 255);
+            background-color: rgb(254 44 85);
+      }
 
-  .desc {
-    flex: 45%;
-    font-size: 14px;
-    display: flex;
-    flex-direction: column;
-    padding: 5px 10px;
-    font-size: 18px !important;
-  }
+      .desc {
+            flex: 45%;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            padding: 5px 10px;
+            font-size: 18px !important;
+      }
 
-  /* tên sản phẩm */
-  .descName {
-    line-height: 1.8;
-    font-weight: 400;
-    /* font-size: 14px; */
-    width: 160px;
-    overflow: hidden;
-    max-height: 40px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
+      /* tên sản phẩm */
+      .descName {
+            line-height: 1.8;
+            font-weight: 400;
+            /* font-size: 14px; */
+            width: 160px;
+            overflow: hidden;
+            max-height: 40px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+      }
 
-  /* Đánh giá và số lượng đã bán */
-  .descVoteIsBought {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 25px;
-    font-size: 14px;
-    color: #808089;
-  }
+      /* Đánh giá và số lượng đã bán */
+      .descVoteIsBought {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 25px;
+            font-size: 14px;
+            color: #808089;
+      }
 
-  .descVoteIsBought > span {
-    flex: 1;
-  }
+      .descVoteIsBought > span {
+            flex: 1;
+      }
 
-  .space {
-    width: 1px;
-    height: 9px;
-    background-color: rgb(199, 199, 199);
-  }
+      .space {
+            width: 1px;
+            height: 9px;
+            background-color: rgb(199, 199, 199);
+      }
 
-  /* Giá, tặng coin và hoàn tiền */
-  .isPriceGiveRefundMoney {
-    width: 100%;
-    flex: 1;
-    padding: 5px 0;
-  }
+      /* Giá, tặng coin và hoàn tiền */
+      .isPriceGiveRefundMoney {
+            width: 100%;
+            flex: 1;
+            padding: 5px 0;
+      }
 
-  /* .Giá */
-  .isPrice {
-    display: flex;
-    align-items: center;
-    color: rgb(56, 56, 61);
-    /* font-size: 16px; */
-    font-weight: 600;
-  }
-  /* ..Khuyến mãi */
-  .promote {
-    color: red;
-  }
+      /* .Giá */
+      .isPrice {
+            display: flex;
+            align-items: center;
+            color: rgb(56, 56, 61);
+            /* font-size: 16px; */
+            font-weight: 600;
+      }
+      /* ..Khuyến mãi */
+      .promote {
+            color: red;
+      }
 
-  .promoteSub {
-    margin-left: 4px;
-    /* font-size: 12px; */
-    font-weight: 500;
-  }
+      .promoteSub {
+            margin-left: 4px;
+            /* font-size: 12px; */
+            font-weight: 500;
+      }
 
-  /* ..Tên label */
-  .offical {
-    width: 68px;
-    height: 14px;
-  }
+      /* ..Tên label */
+      .offical {
+            width: 68px;
+            height: 14px;
+      }
 
-  .repution {
-    width: 54px;
-    height: 14px;
-  }
+      .repution {
+            width: 54px;
+            height: 14px;
+      }
 
-  .astra {
-    width: 62px;
-    height: 24px;
-    position: absolute;
-    top: 180px;
-  }
+      .astra {
+            width: 62px;
+            height: 24px;
+            position: absolute;
+            top: 180px;
+      }
 
-  /* ..isVote */
-  .vote {
-    max-width: 60px;
-    display: flex;
-    align-items: center;
-  }
+      /* ..isVote */
+      .vote {
+            max-width: 60px;
+            display: flex;
+            align-items: center;
+      }
 
-  .voteNumbers {
-    font-size: 12px;
-    color: rgb(128, 128, 137);
-    margin-right: 2px;
-  }
+      .voteNumbers {
+            font-size: 12px;
+            color: rgb(128, 128, 137);
+            margin-right: 2px;
+      }
 
-  .iconStar {
-    font-size: 11px;
-  }
+      .iconStar {
+            font-size: 11px;
+      }
 
-  /* Vị trí label */
-  .offical,
-  .repution {
-    position: absolute;
-    top: 0;
-    left: 1px;
-    border-top-left-radius: 5px;
-  }
+      /* Vị trí label */
+      .offical,
+      .repution {
+            position: absolute;
+            top: 0;
+            left: 1px;
+            border-top-left-radius: 5px;
+      }
 
-  /* .Tặng và hoàn trả */
-  .isGiveValueOfGive {
-    color: rgb(128, 128, 137);
-    font-weight: 400;
-    font-size: 10px;
-    padding: 3px 0;
-  }
+      /* .Tặng và hoàn trả */
+      .isGiveValueOfGive {
+            color: rgb(128, 128, 137);
+            font-weight: 400;
+            font-size: 10px;
+            padding: 3px 0;
+      }
 
-  /* Tặng */
-  .give {
-    padding: 4px 0;
-    display: inline-block;
-  }
+      /* Tặng */
+      .give {
+            padding: 4px 0;
+            display: inline-block;
+      }
 
-  /* ..Effect */
-  .effect {
-    text-decoration: underline;
-    padding-left: 3px;
-  }
-  /* Thời gian giao */
-  .timeShipWrapper {
-    height: 45px;
-    margin: 0 var(--paddingLR);
-    display: flex;
-    align-items: center;
-    border-top: 1px solid rgb(235, 235, 240);
-    padding: 0px 15px;
-  }
+      /* ..Effect */
+      .effect {
+            text-decoration: underline;
+            padding-left: 3px;
+      }
+      /* Thời gian giao */
+      .timeShipWrapper {
+            height: 45px;
+            margin: 0 var(--paddingLR);
+            display: flex;
+            align-items: center;
+            border-top: 1px solid rgb(235, 235, 240);
+            padding: 0px 15px;
+      }
 
-  .timeShipWrapper > p {
-    color: rgb(128, 128, 137);
-    font-size: 0.67em;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-  }
+      .timeShipWrapper > p {
+            color: rgb(128, 128, 137);
+            font-size: 0.67em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+      }
 
-  .timeShip > img {
-    margin-right: 5px;
-  }
+      .timeShip > img {
+            margin-right: 5px;
+      }
 }
 
 @media screen and (max-width: 768px) {
-  .danhSachSanPham {
-    width: 100%;
-    min-height: auto;
-    /* background-color: green; */
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 402px;
-    grid-gap: 25px 15px;
-  }
+      .danhSachSanPham {
+            width: 100%;
+            min-height: auto;
+            /* background-color: green; */
+            margin-top: 8px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: 402px;
+            grid-gap: 25px 15px;
+      }
 
-  .hinhAnh {
-    grid-column: 1 / span 2;
-  }
+      .hinhAnh {
+            grid-column: 1 / span 2;
+      }
 
-  .sanPhamWrapper {
-    border-radius: 8px;
-    border: 1px solid #e6e6e6;
-  }
+      .sanPhamWrapper {
+            border-radius: 8px;
+            border: 1px solid #e6e6e6;
+      }
 
-  #pageMain {
-  }
+      #pageMain {
+      }
 
-  /*button*/
-  .btn {
-    text-align: center;
-    margin: 15px auto 60px;
-    border-radius: 8px;
-    width: 240px;
-    height: 42px;
-    background-color: rgb(255, 255, 250);
-    color: rgb(10, 104, 255);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgb(10, 104, 255);
-    cursor: pointer;
-    outline: none;
-  }
+      /*button*/
+      .btn {
+            text-align: center;
+            margin: 15px auto 60px;
+            border-radius: 8px;
+            width: 240px;
+            height: 42px;
+            background-color: rgb(255, 255, 250);
+            color: rgb(10, 104, 255);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgb(10, 104, 255);
+            cursor: pointer;
+            outline: none;
+      }
 
-  .iconStar {
-    display: none;
-  }
+      .iconStar {
+            display: none;
+      }
 
-  .dont {
-    user-select: none;
-    opacity: 0.5;
-    border: 1px solid rgb(10, 104, 255);
-    cursor: no-drop;
-    background-color: rgb(0 96 255 / 12%);
-  }
+      .dont {
+            user-select: none;
+            opacity: 0.5;
+            border: 1px solid rgb(10, 104, 255);
+            cursor: no-drop;
+            background-color: rgb(0 96 255 / 12%);
+      }
 
-  .btn:hover {
-    background-color: rgb(0 96 255 / 12%);
-    opacity: 1;
-  }
+      .btn:hover {
+            background-color: rgb(0 96 255 / 12%);
+            opacity: 1;
+      }
 
-  .dont:hover {
-    opacity: 0.5;
-  }
+      .dont:hover {
+            opacity: 0.5;
+      }
 
-  .layoutImg {
-    height: 100%;
-    border-radius: 8px;
-    background-color: rgb(255, 255, 255);
-    color: rgb(36, 36, 36);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-  }
+      .layoutImg {
+            height: 100%;
+            border-radius: 8px;
+            background-color: rgb(255, 255, 255);
+            color: rgb(36, 36, 36);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+      }
 
-  .img {
-    flex: 30%;
-    border-radius: 8px;
-  }
+      .img {
+            flex: 30%;
+            border-radius: 8px;
+      }
 
-  .imageProduct {
-    width: 100%;
-    height: 100%;
-    border-radius: 16px;
-  }
-  /*/layoutImg
+      .imageProduct {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+      }
+      /*/layoutImg
   
   :root {
     --paddingIsBoughtIsVote: 6px;
@@ -393,7 +393,7 @@
   }
   
   /* Hover container */
-  /* .layoutImg:hover .img {
+      /* .layoutImg:hover .img {
     background-image: url('https://img.freepik.com/free-photo/fantastic-seascape-with-ripples_1232-424.jpg');
     transition: all 1s;
     border: none;
@@ -422,7 +422,7 @@
     font-weight: 500;
   } */
 
-  /* .layoutImg:hover .timeShipWrapper {
+      /* .layoutImg:hover .timeShipWrapper {
     display: none;
   }
   
@@ -440,181 +440,181 @@
     opacity: 1;
   } */
 
-  /* Nút mua khi hover */
-  .btnBought {
-    position: absolute;
-    top: 327px;
-    right: 25px;
-    display: flex;
-    z-index: 10;
-    justify-content: center;
-    align-items: center;
-    width: 27%;
-    height: 22px;
-    text-decoration: none;
-    padding: 2px;
-    color: rgb(10, 104, 255);
-    border: 1px solid rgb(10, 104, 255);
-    cursor: pointer;
-    display: none;
-    border-radius: 8px;
-    outline: none;
-    opacity: 0;
-    text-align: center;
-    background-color: rgb(255, 255, 250);
-  }
+      /* Nút mua khi hover */
+      .btnBought {
+            position: absolute;
+            top: 327px;
+            right: 25px;
+            display: flex;
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+            width: 27%;
+            height: 22px;
+            text-decoration: none;
+            padding: 2px;
+            color: rgb(10, 104, 255);
+            border: 1px solid rgb(10, 104, 255);
+            cursor: pointer;
+            display: none;
+            border-radius: 8px;
+            outline: none;
+            opacity: 0;
+            text-align: center;
+            background-color: rgb(255, 255, 250);
+      }
 
-  .btnBought:hover {
-    border: none;
-    background-color: rgb(255, 255, 250);
-    color: rgb(255 255 255);
-    background-color: rgb(254 44 85);
-  }
+      .btnBought:hover {
+            border: none;
+            background-color: rgb(255, 255, 250);
+            color: rgb(255 255 255);
+            background-color: rgb(254 44 85);
+      }
 
-  .desc {
-    flex: 45%;
-    font-size: 20px;
-    display: flex;
-    flex-direction: column;
-    padding: 5px 10px;
-  }
+      .desc {
+            flex: 45%;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            padding: 5px 10px;
+      }
 
-  /* tên sản phẩm */
-  .descName {
-    line-height: 1.8;
-    font-weight: 400;
-    /* font-size: 14px; */
-    width: 160px;
-    overflow: hidden;
-    max-height: 40px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
+      /* tên sản phẩm */
+      .descName {
+            line-height: 1.8;
+            font-weight: 400;
+            /* font-size: 14px; */
+            width: 160px;
+            overflow: hidden;
+            max-height: 40px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+      }
 
-  /* Đánh giá và số lượng đã bán */
-  .descVoteIsBought {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 25px;
-    /* font-size: 12.5px; */
-    color: #808089;
-  }
+      /* Đánh giá và số lượng đã bán */
+      .descVoteIsBought {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 25px;
+            /* font-size: 12.5px; */
+            color: #808089;
+      }
 
-  .space {
-    width: 1px;
-    height: 9px;
-    background-color: rgb(199, 199, 199);
-  }
+      .space {
+            width: 1px;
+            height: 9px;
+            background-color: rgb(199, 199, 199);
+      }
 
-  /* Giá, tặng coin và hoàn tiền */
-  .isPriceGiveRefundMoney {
-    width: 100%;
-    flex: 1;
-    padding: 5px 0;
-  }
+      /* Giá, tặng coin và hoàn tiền */
+      .isPriceGiveRefundMoney {
+            width: 100%;
+            flex: 1;
+            padding: 5px 0;
+      }
 
-  /* .Giá */
-  .isPrice {
-    display: flex;
-    align-items: center;
-    color: rgb(56, 56, 61);
-    /* font-size: 16px; */
-    font-weight: 600;
-  }
-  /* ..Khuyến mãi */
-  .promote {
-    color: red;
-  }
+      /* .Giá */
+      .isPrice {
+            display: flex;
+            align-items: center;
+            color: rgb(56, 56, 61);
+            /* font-size: 16px; */
+            font-weight: 600;
+      }
+      /* ..Khuyến mãi */
+      .promote {
+            color: red;
+      }
 
-  .promoteSub {
-    margin-left: 4px;
-    /* font-size: 12px; */
-    font-weight: 500;
-  }
+      .promoteSub {
+            margin-left: 4px;
+            /* font-size: 12px; */
+            font-weight: 500;
+      }
 
-  /* ..Tên label */
-  .offical {
-    width: 68px;
-    height: 14px;
-  }
+      /* ..Tên label */
+      .offical {
+            width: 68px;
+            height: 14px;
+      }
 
-  .repution {
-    width: 54px;
-    height: 14px;
-  }
+      .repution {
+            width: 54px;
+            height: 14px;
+      }
 
-  .astra {
-    width: 62px;
-    height: 24px;
-    position: absolute;
-    top: 156px;
-  }
+      .astra {
+            width: 62px;
+            height: 24px;
+            position: absolute;
+            top: 156px;
+      }
 
-  /* ..isVote */
-  .vote {
-    max-width: 60px;
-    display: flex;
-    align-items: center;
-  }
+      /* ..isVote */
+      .vote {
+            max-width: 60px;
+            display: flex;
+            align-items: center;
+      }
 
-  .voteNumbers {
-    font-size: 12px;
-    color: rgb(128, 128, 137);
-    margin-right: 2px;
-  }
+      .voteNumbers {
+            font-size: 12px;
+            color: rgb(128, 128, 137);
+            margin-right: 2px;
+      }
 
-  .iconStar {
-    font-size: 11px;
-  }
+      .iconStar {
+            font-size: 11px;
+      }
 
-  /* Vị trí label */
-  .offical,
-  .repution {
-    position: absolute;
-    top: 0;
-    left: 1px;
-    border-top-left-radius: 5px;
-  }
+      /* Vị trí label */
+      .offical,
+      .repution {
+            position: absolute;
+            top: 0;
+            left: 1px;
+            border-top-left-radius: 5px;
+      }
 
-  /* .Tặng và hoàn trả */
-  .isGiveValueOfGive {
-    color: rgb(128, 128, 137);
-    font-weight: 400;
-    font-size: 10px;
-    padding: 3px 0;
-  }
+      /* .Tặng và hoàn trả */
+      .isGiveValueOfGive {
+            color: rgb(128, 128, 137);
+            font-weight: 400;
+            font-size: 10px;
+            padding: 3px 0;
+      }
 
-  /* Tặng */
-  .give {
-    padding: 4px 0;
-    display: inline-block;
-  }
+      /* Tặng */
+      .give {
+            padding: 4px 0;
+            display: inline-block;
+      }
 
-  /* ..Effect */
-  .effect {
-    text-decoration: underline;
-    padding-left: 3px;
-  }
-  /* Thời gian giao */
-  .timeShipWrapper {
-    height: 45px;
-    margin: 0 var(--paddingLR);
-    display: flex;
-    align-items: center;
-    border-top: 1px solid rgb(235, 235, 240);
-    padding: 0px 15px;
-  }
+      /* ..Effect */
+      .effect {
+            text-decoration: underline;
+            padding-left: 3px;
+      }
+      /* Thời gian giao */
+      .timeShipWrapper {
+            height: 45px;
+            margin: 0 var(--paddingLR);
+            display: flex;
+            align-items: center;
+            border-top: 1px solid rgb(235, 235, 240);
+            padding: 0px 15px;
+      }
 
-  .timeShipWrapper > p {
-    color: rgb(128, 128, 137);
-    font-size: 0.67em;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-  }
+      .timeShipWrapper > p {
+            color: rgb(128, 128, 137);
+            font-size: 0.67em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+      }
 
-  .timeShip > img {
-    margin-right: 5px;
-  }
+      .timeShip > img {
+            margin-right: 5px;
+      }
 }

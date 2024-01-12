@@ -24,9 +24,8 @@ function App(props: Props) {
       }, [])
 
       return (
-            <div className='bg-pink-50'>
+            <div className=''>
                   <div id='main' className=''>
-                        <Header />
                         <RouterController />
                   </div>
                   {isOpenBoxLogin && (

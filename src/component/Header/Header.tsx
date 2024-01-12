@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useEffect } from 'react'
 import SeacrhInput from './Components/HeaderSearch'
@@ -8,6 +8,7 @@ import HeaderTagsLocation from './Components/HeaderTagsLocation'
 import HeaderLogoToggle from './Components/HeaderLogoToggle'
 import HeaderSeacrhInput from './Components/HeaderSearch'
 import { USER } from '../User/infoUser'
+import { useLocation } from 'react-router-dom'
 
 function HeaderSlogan() {
       return (
@@ -32,6 +33,17 @@ function Header() {
       useEffect(() => {
             window.scrollTo(0, 0)
       }, [])
+
+      const [withWindow, setWithWindow] = useState(window.innerWidth)
+      const pathName = useLocation().pathname
+
+      useEffect(() => {
+            const onResize = () => setWithWindow(window.innerWidth)
+            window.addEventListener('resize', onResize)
+            return () => {
+                  window.removeEventListener('resize', onResize)
+            }
+      }, [setWithWindow])
       return (
             // <div
             //   id=''
@@ -55,7 +67,11 @@ function Header() {
             //   <HeaderSlogan />
             // </div>
             <>
-                  <div className='fixed lg:static top-0 left-0 w-full z-[100] bg-white shadow-xl'>
+                  <div
+                        className={`${
+                              pathName.startsWith('/customer') && withWindow < 1024 ? 'hidden' : 'fixed'
+                        } lg:static top-0 left-0 w-full z-[100] bg-white shadow-xl`}
+                  >
                         <div className='h-[75px] lg:h-[100px] py-2 px-8 bg-white flex items-center gap-3 lg:gap-0'>
                               <div className='basis-[7%] flex items-center'>
                                     <HeaderLogoToggle />

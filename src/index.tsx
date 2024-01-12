@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import App from './App'
 import { PersistGate } from 'redux-persist/integration/react'
+import ContextResponsiveProvider from './component/Context/ContextResponsiveProvider'
 
 const rootELement = document.getElementById('root')
 if (!rootELement) throw new Error('Root is invaild')

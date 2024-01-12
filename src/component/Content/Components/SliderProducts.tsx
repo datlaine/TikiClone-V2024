@@ -205,7 +205,7 @@ const SliderProducts = (props: Props) => {
       useEffect(() => {
             if (containerRefSlider.current) {
                   // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-expressions
-      containerRefSlider.current.style.width = `${width ? `${width}px` : `${widthDefault.current}px`}`
+                  containerRefSlider.current.style.width = `${width ? `${width}px` : `${widthDefault.current}px`}`
                   containerRefSlider.current.style.height = `${height || heightDefault.current}px`
             }
       }, [])

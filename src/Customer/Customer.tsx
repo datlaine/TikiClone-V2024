@@ -7,12 +7,13 @@ const link = [
       { path: '/customer/account', text: 'Thông tin tài khoản' },
       { path: '/customer/notification', text: 'Thông báo của tôi' },
       { path: '/customer/order_history', text: 'Quản lí đơn hàng' },
+      { path: '/customer/account/edit/email', text: '11Thông tin tài khoản' },
 ]
 
 const Customer = () => {
-      const pathName = useLocation()?.pathname
+      let pathName = useLocation()?.pathname
+      console.log(useLocation())
       const [sectionActive, setSectionActive] = useState('/customer/account')
-
       if (pathName === '/customer') return <NotFound />
       const textLink = link.find((pathItem) => {
             if (pathItem.path === pathName) return pathItem
@@ -24,8 +25,9 @@ const Customer = () => {
             setSectionActive(pathName)
       }
 
+      console.log('ss', pathName)
       return (
-            <div className='px-[50px] w-full mt-[-15px]'>
+            <div className='px-[50px] w-full pt-[15px] xl:pt-[0px] mt-0 xl:mt-[15px]'>
                   <div className='mb-[5px]'>
                         <Link to={'/'}>Trang chủ</Link>
                         <span> {' > '}</span>
@@ -34,8 +36,8 @@ const Customer = () => {
                         </Link>
                   </div>
 
-                  <div className='flex gap-[3%]'>
-                        <div className='hidden  lg:block lg:w-[20%]'>
+                  <div className='flex gap-[3%] min-h-[450px]  h-[auto]'>
+                        <div className='hidden  xl:block lg:w-[20%]'>
                               <div className='h-[75px] flex items-center gap-[15px]'>
                                     <div className='w-[45px] h-[45px] rounded-full bg-red-300'></div>
                                     <div className='flex flex-col gap-[2px]'>
@@ -73,7 +75,7 @@ const Customer = () => {
                                     </Link>
                               </div>
                         </div>
-                        <div className='w-[73%]'>
+                        <div className='w-full 2xl:w-[73%]'>
                               <div className='h-[75px] flex items-center'>{textLink?.text}</div>
                               <CustomerWrapperItem>
                                     <Outlet />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import { useEffect } from 'react'
 import SeacrhInput from './Components/HeaderSearch'
@@ -9,6 +9,7 @@ import HeaderLogoToggle from './Components/HeaderLogoToggle'
 import HeaderSeacrhInput from './Components/HeaderSearch'
 import { USER } from '../User/infoUser'
 import { useLocation } from 'react-router-dom'
+import { throttle } from 'lodash'
 
 function HeaderSlogan() {
       return (
@@ -29,16 +30,20 @@ function HeaderSlogan() {
 function Header() {
       // console.log('props')
       const address = USER.userAddress
-
+      // const count = useRef(0)
+      // count.current += 1
+      // console.log('HEADER')
       useEffect(() => {
+            // console.log('count', count.current)
             window.scrollTo(0, 0)
       }, [])
 
       const [withWindow, setWithWindow] = useState(window.innerWidth)
       const pathName = useLocation().pathname
+      console.log()
 
       useEffect(() => {
-            const onResize = () => setWithWindow(window.innerWidth)
+            const onResize = throttle(() => setWithWindow(window.innerWidth), 1000)
             window.addEventListener('resize', onResize)
             return () => {
                   window.removeEventListener('resize', onResize)

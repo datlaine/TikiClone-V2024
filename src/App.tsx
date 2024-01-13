@@ -24,8 +24,8 @@ function App(props: Props) {
       }, [])
 
       return (
-            <div className=''>
-                  <div id='main' className=''>
+            <div className=' min-h-screen'>
+                  <div id='main' className='min-h-screen'>
                         <RouterController />
                   </div>
                   {isOpenBoxLogin && (

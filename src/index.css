@@ -53,6 +53,12 @@ body {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       padding: 0;
+      min-height: 100vh;
+}
+
+#root {
+      min-height: 100vh;
+      max-height: auto;
 }
 
 * {
@@ -65,25 +71,4 @@ code {
       font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
 }
 
-html {
-      font-family: Inter;
-      scroll-behavior: smooth;
-}
-
-::-webkit-scrollbar {
-      display: none;
-}
-
-/* ::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #0a68ff;
-  opacity: 0.5;
-} */
-
-#main {
-      /* overflow-x: hidden; */
-      max-width: 100%;
-}
+/* overide antd  */

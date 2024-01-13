@@ -1,11 +1,15 @@
 import React, { ElementRef, useEffect, useRef, useState } from 'react'
 import Portal from '../../component/Portal'
-import ModelCustomerAvatar from './models/ModelCustomerAvatar'
+import ModelCustomerAvatar from './models/ModelAvatarSee'
+import ModelAvatarUpdate from './models/ModelAvatarUpdate'
+import ModelAvatarDelete from './models/ModelAvatarDelete'
+import CustomerAccountBirth from './CustomerAccountBirth'
 
 const CustomerAccount = () => {
       const [modelAvatar, setModelAvatar] = useState(false)
       const [modelAvatarSee, setmodelAvatarSee] = useState(false)
       const [modelAvatarUpdate, setModelAvatarUpdate] = useState(false)
+      const [modelAvatarDelete, setModelAvatarDelete] = useState(false)
       const [fileAvatar, setFileAvatar] = useState<File>()
       const [filePreview, setFilePreview] = useState<string | undefined>()
       const refModelAvatar = useRef<HTMLDivElement>(null)
@@ -14,9 +18,9 @@ const CustomerAccount = () => {
             const handleEvent = (e: MouseEvent) => {
                   // khong click vao thi chay dong script nay
                   if (!refModelAvatar.current?.contains(e.target as Node)) {
-                        console.log('click point', e.target, modelAvatar)
+                        // console.log('click point', e.target, modelAvatar)
                         if (refModelAvatar.current) {
-                              console.log(1)
+                              // console.log(1)
                               setModelAvatar((prev) => !prev)
                         }
                   }
@@ -50,7 +54,17 @@ const CustomerAccount = () => {
             setModelAvatarUpdate((prev) => !prev)
       }
 
+      const handleControllmodelAvatarDelete = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+            e.stopPropagation()
+            setModelAvatarDelete((prev) => !prev)
+      }
+
       const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (filePreview || fileAvatar) {
+                  setFilePreview(undefined)
+                  setFileAvatar(undefined)
+            }
+
             console.log(e.target.files)
             if (e.target.files) {
                   setFileAvatar(e.target.files[0])
@@ -76,7 +90,7 @@ const CustomerAccount = () => {
                                                       ref={refModelAvatar}
                                                 >
                                                       <div className='relative'>
-                                                            <span className='clip-path-modelAvatar absolute w-[20px] h-[13.5px] border-[1px] border-stone-300 border-b-0 z-[2] bg-white top-[-13px] left-[50%] translate-x-[-50%]'></span>
+                                                            <span className='clip-path-modelAvatar absolute w-[20px] h-[13.5px] border-[1px] border-stone-300 border-b-0  bg-white top-[-13px] left-[50%] translate-x-[-50%]'></span>
                                                             <ul className='h-full'>
                                                                   <li
                                                                         className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100'
@@ -111,45 +125,33 @@ const CustomerAccount = () => {
 
                                                                   {modelAvatarUpdate && (
                                                                         <Portal>
-                                                                              <ModelCustomerAvatar
+                                                                              <ModelAvatarUpdate
                                                                                     setModelAvatar={setModelAvatar}
                                                                                     setModelAvatarUpdate={setModelAvatarUpdate}
-                                                                                    children={
-                                                                                          <div className='flex justify-center mt-[25px] bg-stone-100 mb-[25px] p-[20px] h-[calc(100%-85px)]'>
-                                                                                                <label
-                                                                                                      htmlFor='avatar_update'
-                                                                                                      className='w-full h-full border-[2px] border-dashed border-slate-700 flex justify-center items-center text-blue-500'
-                                                                                                >
-                                                                                                      Nhấn để chọn hoặc kéo thả hình ảnh vào
-                                                                                                      khung này
-                                                                                                </label>
-                                                                                                <input
-                                                                                                      type='file'
-                                                                                                      id='avatar_update'
-                                                                                                      hidden
-                                                                                                      onChange={handleUploadAvatar}
-                                                                                                />
-                                                                                                {filePreview && (
-                                                                                                      <img
-                                                                                                            src={filePreview}
-                                                                                                            width={200}
-                                                                                                            height={200}
-                                                                                                            alt=''
-                                                                                                      />
-                                                                                                )}
-                                                                                          </div>
-                                                                                    }
+                                                                                    filePreview={filePreview}
+                                                                                    setFilePreview={setFilePreview}
+                                                                                    setFileAvatar={setFileAvatar}
+                                                                                    handleUploadAvatar={handleUploadAvatar}
                                                                               />
                                                                         </Portal>
                                                                   )}
                                                                   <li
                                                                         className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 '
-                                                                        onClick={(e) => e.stopPropagation()}
+                                                                        onClick={handleControllmodelAvatarDelete}
                                                                   >
                                                                         {/* <img src='' alt='' /> */}
                                                                         <div className='bg-yellow-500 w-[15px] h-[15px] mr-[12px] rounded'></div>
                                                                         <span>Xóa ảnh đại diện</span>
                                                                   </li>
+
+                                                                  {modelAvatarDelete && (
+                                                                        <Portal>
+                                                                              <ModelAvatarDelete
+                                                                                    setModelAvatar={setModelAvatar}
+                                                                                    setModelAvatarDelete={setModelAvatarDelete}
+                                                                              />
+                                                                        </Portal>
+                                                                  )}
                                                             </ul>
                                                       </div>
                                                 </div>
@@ -182,6 +184,7 @@ const CustomerAccount = () => {
                                     </div>
                               </div>
                         </div>
+                        <CustomerAccountBirth />
                   </div>
                   {/* <br /> */}
                   <div className='w-[1px] min-h-full bg-slate-200'>line</div>

@@ -7,7 +7,7 @@ type TProps = {
       children: React.ReactNode
 }
 
-const ModelCustomerAvatar = (props: TProps) => {
+const ModelAvatarSee = (props: TProps) => {
       const { setModelAvatarSee, setModelAvatar, setModelAvatarUpdate, children } = props
 
       const modelControllClose = () => {
@@ -34,4 +34,4 @@ const ModelCustomerAvatar = (props: TProps) => {
       )
 }
 
-export default ModelCustomerAvatar
+export default ModelAvatarSee

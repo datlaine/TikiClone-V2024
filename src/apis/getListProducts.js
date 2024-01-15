@@ -1,5 +1,5 @@
 import { apiLink } from './api'
-import { http } from './http'
+import http from './http'
 
 export const getListProducts = async (page) => {
       let limit = 28

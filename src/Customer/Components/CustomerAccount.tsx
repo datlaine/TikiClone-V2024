@@ -1,12 +1,36 @@
-import React, { ElementRef, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Portal from '../../component/Portal'
 import ModelCustomerAvatar from './models/ModelAvatarSee'
 import ModelAvatarUpdate from './models/ModelAvatarUpdate'
 import ModelAvatarDelete from './models/ModelAvatarDelete'
 import CustomerAccountBirth from './form/CustomerAccountBirth'
-import CustomerAccountGender from './form/CustomerAccountGender'
-import { Route, Routes } from 'react-router-dom'
-import CustomerEditPhone from './Edit/CustomerEditPhone'
+import CustomerAccountGender, { TGender } from './form/CustomerAccountGender'
+import { Link } from 'react-router-dom'
+import { useForm, FormProvider } from 'react-hook-form'
+
+type TFormCustomer = {
+      name: string
+      nickname: string
+      birth:
+            | {
+                    day: string
+                    month: string
+                    year: string
+              }
+            | string
+      gender: string
+}
+
+const defaultValues: TFormCustomer = {
+      name: 'Đạt lại',
+      nickname: '',
+      birth: {
+            day: '30',
+            month: '04',
+            year: '2002',
+      },
+      gender: 'FEMALE',
+}
 
 const CustomerAccount = () => {
       const [modelAvatar, setModelAvatar] = useState(false)
@@ -15,10 +39,12 @@ const CustomerAccount = () => {
       const [modelAvatarDelete, setModelAvatarDelete] = useState(false)
       const [fileAvatar, setFileAvatar] = useState<File>()
       const [filePreview, setFilePreview] = useState<string | undefined>()
-      const [selectDay, setSelectDay] = useState<string | undefined>()
-      const [selectDayError, setSelectDayError] = useState(false)
+      const [formNestedBirth, setFormNestedBirth] = useState('')
+      const [formNestedGender, setFormNestedGender] = useState<keyof TGender>('MALE')
       const refModelAvatar = useRef<HTMLDivElement>(null)
-
+      const methods = useForm<TFormCustomer>({
+            defaultValues,
+      })
       useEffect(() => {
             const handleEvent = (e: MouseEvent) => {
                   // khong click vao thi chay dong script nay
@@ -75,10 +101,21 @@ const CustomerAccount = () => {
                   setFileAvatar(e.target.files[0])
             }
       }
+
+      const onSubmit = (data: TFormCustomer) => {
+            const finallyData = { ...data }
+            console.log('form', finallyData)
+            for (let a in finallyData) {
+                  let bob = ''
+                  if (!finallyData[a as keyof TFormCustomer]) delete finallyData[a as keyof TFormCustomer]
+            }
+
+            console.log('form-clear', finallyData)
+      }
       return (
-            <>
-                  <div className='flex flex-col lg:flex-row min-h-full h-auto gap-[20px] xl:gap-[2%]'>
-                        <div className='w-full xl:w-[59%] h-auto flex flex-col gap-[16px]'>
+            <div className='flex flex-col lg:flex-row min-h-full h-auto gap-[20px] xl:gap-[2%]'>
+                  <FormProvider {...methods}>
+                        <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[16px]' onSubmit={methods.handleSubmit(onSubmit)}>
                               <h3 className='h-[10%]'>Thông tin cá nhân</h3>
                               <div className='h-[35%] xl:h-[20%] data-user flex flex-col xl:flex-row gap-[20px] xl:gap-0 xl:items-center'>
                                     <div
@@ -207,37 +244,43 @@ const CustomerAccount = () => {
                                           </button>
                                     </div>
                               </div>
-                        </div>
-                        {/* <br /> */}
-                        <div className='w-[1px] min-h-full bg-slate-200'></div>
-                        <div className='w-full xl:w-[39%] min-h-full '>
-                              <div className='flex flex-col gap-[1px]'>
-                                    <span>Email & liên hệ</span>
-                                    <div className='flex justify-between items-center min-h-[90px] pb-[15px] '>
-                                          <div>
-                                                <div className=''>Địa chỉ email</div>
-                                                <span>datlai304@gmail.com</span>
-                                          </div>
-                                          <button className='rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '>
-                                                Cập nhập
-                                          </button>
+                        </form>
+                  </FormProvider>
+                  {/* <br /> */}
+                  <div className='w-[1px] min-h-full bg-slate-200'></div>
+                  <div className='w-full xl:w-[39%] min-h-full '>
+                        <div className='flex flex-col gap-[1px]'>
+                              <span>Email & liên hệ</span>
+                              <div className='flex justify-between items-center min-h-[90px] pb-[15px] '>
+                                    <div>
+                                          <div className=''>Địa chỉ email</div>
+                                          <span>datlai304@gmail.com</span>
                                     </div>
+                                    <Link
+                                          to={'/customer/account/edit/email'}
+                                          className='rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '
+                                    >
+                                          Cập nhập
+                                    </Link>
                               </div>
+                        </div>
 
-                              <div className='flex flex-col gap-[1px]'>
-                                    <span>Bảo mật</span>
-                                    <div className='flex justify-between items-center min-h-[90px] pb-[15px] '>
-                                          <div>
-                                                <div className=''>Đổi mật khẩu</div>
-                                          </div>
-                                          <button className='rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '>
-                                                Cập nhập
-                                          </button>
+                        <div className='flex flex-col gap-[1px]'>
+                              <span>Bảo mật</span>
+                              <div className='flex justify-between items-center min-h-[90px] pb-[15px] '>
+                                    <div>
+                                          <div className=''>Đổi mật khẩu</div>
                                     </div>
+                                    <Link
+                                          to={'/customer/account/edit/pass'}
+                                          className='rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '
+                                    >
+                                          Cập nhập
+                                    </Link>
                               </div>
                         </div>
                   </div>
-            </>
+            </div>
       )
 }
 

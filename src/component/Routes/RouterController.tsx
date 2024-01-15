@@ -1,29 +1,30 @@
-import React, { useContext, useEffect, useState } from 'react'
 import { Route, Routes, useLocation, useMatch } from 'react-router-dom'
+
+//page
+import Admin from '../../pages/admin/Admin'
 import Buy from '../Content/Content_right/Buy/Buy'
-import NotFound from '../Errors/NotFound'
-import Cart from '../Cart/Cart'
-import Login from '../AuthLoginResister/Login'
-import Resister from '../Auth/Resister'
 import Contact from '../Contact/Contact'
 import Content from '../Content/Content'
-import Sidebar from '../Sidebar/Sidebar'
-import Footer from '../Footer/Footer'
+import Cart from '../Cart/Cart'
+import NotFound from '../Errors/NotFound'
+
+// section layout
 import Header from '../Header/Header'
-import Admin from '../../pages/admin/Admin'
 import Portal from '../Portal'
+import Sidebar from '../Sidebar/Sidebar'
+
+//page -> path /customer
 import Customer from '../../Customer/Customer'
 import CustomerAccount from '../../Customer/Components/CustomerAccount'
 import CustomerNotification from '../../Customer/Components/CustomerNotification'
 import CustomerOrderHistory from '../../Customer/Components/CustomerOrderHistory'
-import { ContextResponsive } from '../Context/ContextResponsiveProvider'
-import CustomerEditPhone from '../../Customer/Components/Edit/CustomerEditPhone'
+import CustomerEditEmail from '../../Customer/Components/Edit/CustomerEditEmail'
+import CustomerEditPass from '../../Customer/Components/Edit/CustomerEditPass'
 
 const RouterController = () => {
       const matchAdminPath = useMatch('/admin')
       const hiddenHeader = matchAdminPath?.pathname === '/admin'
       const pathName = useLocation().pathname
-      const { withWindow } = useContext(ContextResponsive)
 
       return (
             <>
@@ -44,13 +45,14 @@ const RouterController = () => {
                                                 <Route path='/' element={<Content />} />
                                                 <Route path='/Buy/:id' element={<Buy />} />
                                                 <Route path='/Cart' element={<Cart />} />
-                                                <Route path='/login' element={<Login />} />
-                                                <Route path='/resister' element={<Resister />} />
+                                                {/* <Route path='/login' element={<Login />} /> */}
+                                                {/* <Route path='/resister' element={<Resister />} /> */}
                                                 <Route path='/Contact' element={<Contact />} />
                                                 <Routes>
                                                       <Route path='/customer/*' element={<Customer />}>
                                                             <Route path='account' element={<CustomerAccount />} />
-                                                            <Route path='account/edit/email' element={<CustomerEditPhone />} />
+                                                            <Route path='account/edit/email' element={<CustomerEditEmail />} />
+                                                            <Route path='account/edit/pass' element={<CustomerEditPass />} />
 
                                                             <Route path='notification' element={<CustomerNotification />} />
                                                             <Route path='order_history' element={<CustomerOrderHistory />} />

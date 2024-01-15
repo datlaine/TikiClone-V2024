@@ -1,18 +1,24 @@
 import { connect } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { doCloseBoxLogin, doOpenBoxLogin, userLogout } from '../../../Redux/authSlice'
 import { RootState, store } from '../../../store'
 import { clearCart } from '../../../Redux/reducer'
+import { useState } from 'react'
+import Portal from '../../Portal'
+import AuthWrapper from '../../Auth/AuthWrapper'
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProp>
 
 function HeaderBoxHover(props: Props) {
-      const { user, doCloseBoxLogin, doOpenBoxLogin, isOpenBoxLogin, userLogout, clearCart } = props
+      // const { user, doCloseBoxLogin, doOpenBoxLogin, isOpenBoxLogin, userLogout, clearCart } = props
       const navigate = useNavigate()
+      const [showBoxAuth, setShowBoxAuth] = useState(false)
+      const user = false
       // console.log('om', user)
       const handleGoToInfo = () => {
             // console.log(isOpenBoxLogin, user)
+            setShowBoxAuth(true)
             if (!user) {
-                  doOpenBoxLogin()
+                  // doOpenBoxLogin()
             }
       }
 
@@ -29,20 +35,27 @@ function HeaderBoxHover(props: Props) {
       }
 
       return (
-            <ul className='flex flex-col min-w-[250px] bg-white shadow-xl py-2 gap-2 border border-gray-200 rounded'>
-                  <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2' onClick={handleGoToInfo}>
-                        {user ? `Account: ${user}` : 'Thông tin tài khoản'}
-                  </li>
-                  <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleGoToInfo}>
-                        Đơn hàng của tôi
-                  </li>
-                  {user && (
-                        <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleLogOut}>
-                              Đăng xuất
+            <>
+                  <ul className='flex flex-col min-w-[250px] bg-white shadow-xl py-2 gap-2 border border-gray-200 rounded'>
+                        <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2'>
+                              <Link to={'/customer/account'}>{user ? `Account: ${user}` : 'Thông tin tài khoản'}</Link>
                         </li>
+                        <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleGoToInfo}>
+                              Đơn hàng của tôi
+                        </li>
+                        {user && (
+                              <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleLogOut}>
+                                    Đăng xuất
+                              </li>
+                        )}
+                        <p className='thongBao'></p>
+                  </ul>
+                  {showBoxAuth && (
+                        <Portal>
+                              <AuthWrapper setShowBoxAuth={setShowBoxAuth} />
+                        </Portal>
                   )}
-                  <p className='thongBao'></p>
-            </ul>
+            </>
       )
 }
 

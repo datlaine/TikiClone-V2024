@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { useEffect } from 'react'
-import BoxLogin from './component/AuthLoginResister/BoxLogin/BoxLogin'
+// import BoxLogin from './component/AuthLoginResister/BoxLogin/BoxLogin'
 import Header from './component/Header/Header'
 import RouterController from './component/Routes/RouterController'
 import AboutTiki from './component/AboutTiki/AboutTiki'
@@ -28,11 +28,11 @@ function App(props: Props) {
                   <div id='main' className='min-h-screen'>
                         <RouterController />
                   </div>
-                  {isOpenBoxLogin && (
+                  {/* {isOpenBoxLogin && (
                         <div className=''>
                               <BoxLogin />
                         </div>
-                  )}
+                  )} */}
             </div>
       )
 }

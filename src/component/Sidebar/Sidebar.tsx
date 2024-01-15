@@ -56,7 +56,7 @@ function Sidebar(props: Props) {
                         <div
                               onClick={(e) => e.stopPropagation()}
                               id=''
-                              className={`absolute top-[15px] lg:sticky lg:top-[10px]  w-[180px]  lg:max-h-screen pb-[170px]  z-[23] overflow-scroll  lg:w-[200px]    ${
+                              className={`hidden absolute top-[15px] lg:sticky lg:top-[10px]  w-[180px]  lg:max-h-screen pb-[170px]  z-[23] overflow-scroll  lg:w-[200px]    ${
                                     pathNameHome ? 'lg:block' : 'lg:hidden'
                               }  ${
                                     widthWindow < 1025 &&

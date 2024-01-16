@@ -18,7 +18,7 @@ const Customer = () => {
       let pathName = useLocation()?.pathname
       console.log(useLocation())
       const [_, setSectionActive] = useState('/customer/account')
-      const auth = false
+      const auth = true
 
       if (pathName === '/customer') return <NotFound />
       const textLink = link.find((pathItem) => {

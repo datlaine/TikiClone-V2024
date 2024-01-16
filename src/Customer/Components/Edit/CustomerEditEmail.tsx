@@ -1,5 +1,4 @@
-import React from 'react'
-
+// () => api
 const CustomerEditEmail = () => {
       return (
             <div className='flex items-center justify-center w-full h-[200px]  '>

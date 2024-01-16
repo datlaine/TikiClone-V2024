@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { SLATE_TIME } from '../../../apis/staleTime'
 import { getData } from '../../../apis/getDataMain'
 import { useQuery } from '@tanstack/react-query'
 import InputSearch from './HeaderResultSearch'
+import { debounce, throttle } from 'lodash'
 
 const HeaderSeacrhInput = () => {
       const [search, setSearch] = useState('')
@@ -52,21 +53,25 @@ const HeaderSeacrhInput = () => {
 
       // const handleClick = (e) => {}
 
-      const handleEvent = (e: MouseEvent, ele: React.RefObject<HTMLElement>) => {
-            if (ele.current?.contains(e.target as HTMLElement)) {
-                  console.log('input click')
-                  setShowSearch(true)
-            } else {
-                  console.log('input out')
-                  setShowSearch(false)
-            }
-      }
-
       useEffect(() => {
-            window.addEventListener('click', (e: MouseEvent) => handleEvent(e, inputRef))
+            const handleEvent = debounce((e: MouseEvent, ele: React.RefObject<HTMLElement>) => {
+                  if (ele.current?.contains(e.target as HTMLElement)) {
+                        console.log('input click')
+                        setShowSearch(true)
+                  } else {
+                        console.log('input out')
+                        setShowSearch(false)
+                  }
+            }, 1500)
+
+            if (showSearch) {
+                  window.addEventListener('click', (e: MouseEvent) => handleEvent(e, inputRef))
+            } else {
+                  window.removeEventListener('click', (e: MouseEvent) => handleEvent(e, inputRef))
+            }
 
             return () => window.removeEventListener('click', (e) => handleEvent)
-      }, [])
+      }, [showSearch])
 
       return (
             // <form id='inputFormSearch' onSubmit={handleSubMit}>
@@ -95,7 +100,7 @@ const HeaderSeacrhInput = () => {
                               <div className='basis-[3%]   flex items-center'>
                                     <i className='fa-solid fa-magnifying-glass text-2xl'></i>
                               </div>
-                              <div className='grow '>
+                              <div className='grow ' onClick={() => setShowSearch((prev) => !prev)}>
                                     <input
                                           type='text'
                                           className='w-full h-full outline-none border-none'

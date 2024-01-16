@@ -1,48 +1,54 @@
-import { Preview } from '@mui/icons-material'
 import { Select } from 'antd'
-import { DefaultOptionType } from 'antd/es/select'
 import moment from 'moment'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
 const CustomerAccountBirth = () => {
-      const [formBirthError, setFormBirthError] = useState(false)
-      const countRef = useRef(0)
+      //react hook form
       const {
             control,
             watch,
             formState: { errors },
             clearErrors,
       } = useFormContext()
+
+      //get date hien tại
       const d = new Date()
+      //lấy số ngày của tháng
       const dayCurrent = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()
       const day = useRef(dayCurrent)
+      const year = useRef(d.getFullYear())
+
+      //debug
       const count = useRef(0)
       count.current += 1
       console.log('Birth')
-      const year = useRef(d.getFullYear())
+
       const [birth, setBirth] = useState({
             day: '',
             month: '',
             year: '',
       })
 
+      //render day
       const renderDay = useCallback(() => {
-            let newYearArray = []
+            let newDayArray = []
             for (let index = 1; index <= day.current; index++) {
-                  newYearArray.push({ value: index, label: index })
+                  newDayArray.push({ value: index, label: index })
             }
-            return newYearArray
+            return newDayArray
       }, [])
 
+      //render month
       const renderMonth = useCallback(() => {
-            let newYearArray = []
+            let newMonthYear = []
             for (let index = 1; index <= 12; index++) {
-                  newYearArray.push({ value: index, label: index })
+                  newMonthYear.push({ value: index, label: index })
             }
-            return newYearArray
+            return newMonthYear
       }, [])
 
+      //render year
       const renderYear = useCallback(() => {
             let newYearArray = []
             for (let index = year.current; index > 1900; index--) {
@@ -54,20 +60,6 @@ const CustomerAccountBirth = () => {
       useEffect(() => {
             console.log('count', count.current)
       }, [count.current])
-
-      useEffect(() => {
-            const birthFull = `${birth.year}-${birth.month}-${birth.day}`
-            const vaild = moment(birthFull).isValid()
-            if (vaild && birth.day && birth.month && birth.year) {
-                  console.log(birthFull, vaild)
-                  setFormBirthError(false)
-            }
-            if (!vaild && birth.day && birth.month && birth.year) {
-                  console.log('khong hop le')
-                  setFormBirthError(true)
-            }
-            return
-      }, [birth])
 
       const validator = (day: string, month: string, year: string) => {
             const birthFull = `${year}-${month}-${day}`
@@ -87,9 +79,6 @@ const CustomerAccountBirth = () => {
       const monthAntd = useMemo(() => renderMonth(), [])
       const yearAntd = useMemo(() => renderYear(), [])
 
-      // console.log('so ngay', day, month, renderYear())
-
-      console.log(moment('2002-02-30').isValid())
       return (
             <div className='ml-[0px]  2xl:ml-[165px] flex-1 flex flex-col  gap-[10px] lg:items-start  w-full lg:justify-start'>
                   <div className='flex flex-col sm:flex-row'>
@@ -113,7 +102,6 @@ const CustomerAccountBirth = () => {
                                           style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
                                           options={dayAntd}
                                           onChange={(value) => {
-                                                clearErrors()
                                                 if (+value <= 9) value = '0' + value
                                                 onChangeHookForm(value)
                                           }}
@@ -141,8 +129,6 @@ const CustomerAccountBirth = () => {
                                           style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
                                           options={monthAntd}
                                           onChange={(value) => {
-                                                clearErrors()
-
                                                 if (+value <= 9) value = '0' + value
                                                 onChangeHookForm(value)
                                           }}
@@ -170,8 +156,6 @@ const CustomerAccountBirth = () => {
                                           style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
                                           options={yearAntd}
                                           onChange={(value) => {
-                                                clearErrors()
-
                                                 if (+value <= 9) value = '0' + value
                                                 onChangeHookForm(+value)
                                           }}

@@ -1,5 +1,4 @@
-import React from 'react'
-
+// () => api
 const CustomerEditPass = () => {
       return (
             <div className='w-full h-[360px] flex items-center justify-center py-[12px]'>

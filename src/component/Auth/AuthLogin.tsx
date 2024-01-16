@@ -1,9 +1,11 @@
-import React, { SetStateAction, useEffect, useRef, useState } from 'react'
+import React, { SetStateAction, useState } from 'react'
 import { TModeAuth } from './AuthWrapper'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, ShieldX } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import Auth from '../../apis/auth.api'
 
 type TProps = {
       setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
@@ -28,37 +30,45 @@ const loginSchema = z.object({
       password: z.string().min(1, { message: 'Mật khẩu là bắt buộc' }).max(50, { message: 'Tối đa 50 kí tự' }),
 })
 
-type loginZodSchemaType = z.infer<typeof loginSchema>
+type TloginZodSchema = z.infer<typeof loginSchema>
 
 const AuthLogin = (props: TProps) => {
+      //Mode Login | register
       const { setModeAuth } = props
 
-      const [showError, setShowError] = useState(false)
-      const [showPassword, setShowPassword] = useState(false)
-      const refInputPassword = useRef<HTMLInputElement>(null)
+      //state type password
+      const [typePassword, setTypePassword] = useState<'password' | 'text'>('password')
 
+      //react-hook-form
       const {
             register,
             handleSubmit,
             formState: { errors },
-      } = useForm<loginZodSchemaType>({
+      } = useForm<TloginZodSchema>({
             defaultValues,
             resolver: zodResolver(loginSchema),
       })
 
+      const authLogin = useMutation({
+            mutationKey: ['login'],
+            mutationFn: (data: TloginZodSchema) => Auth.login(data),
+            onSuccess: (data: unknown) => console.log('success data check', data),
+            onError: (data: unknown) => console.log('error data check', data),
+      })
+
+      //change type passsword
       const handleShowHidePassword = () => {
-            setShowPassword((prev) => !prev)
+            if (typePassword === 'password') {
+                  setTypePassword('text')
+                  return
+            } else {
+                  setTypePassword('password')
+            }
       }
 
-      useEffect(() => {
-            if (refInputPassword.current) {
-                  console.log('alo')
-                  showPassword ? (refInputPassword.current.type = 'text') : (refInputPassword.current.type = 'password')
-            }
-      }, [showPassword])
-
       const onSubmit = (form: TFormLogin) => {
-            console.log(form, errors)
+            // console.log(form, errors)
+            authLogin.mutate(form)
       }
 
       return (
@@ -70,27 +80,46 @@ const AuthLogin = (props: TProps) => {
                               <input
                                     {...register('email')}
                                     type='text'
-                                    className='w-full border-[1px] border-stone-300 focus:border-slate-900  focus:border-[2px]'
-                                    placeholder='email'
+                                    className={`w-full border-[1px] border-stone-300 focus:border-slate-900  focus:border-[2px] ${
+                                          errors.email
+                                                ? 'focus:border-red-700 placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
+                                                : 'focus:border-slate-900 placeholder:text-stone-500  border-stone-300'
+                                    }
+}`}
+                                    placeholder='Email'
                               />
                         </div>
-                        {errors.email && <span className='text-red-700 italic'>{errors.email.message}</span>}
+                        {errors.email && (
+                              <div className='flex gap-[6px] items-center mt-[-10px]'>
+                                    <ShieldX size={'18px'} color={'red'} />
+                                    <span className='text-red-700 italic  text-[13px]'>{errors.email.message}</span>
+                              </div>
+                        )}
                         <div className='w-full relative flex items-center'>
                               <input
                                     {...register('password')}
-                                    ref={refInputPassword}
-                                    type='text'
-                                    className='w-full border-[1px] border-stone-300 focus:border-slate-900 focus:border-[2px]'
-                                    placeholder='password'
+                                    type={typePassword}
+                                    className={`w-full border-[1px] border-stone-300  focus:border-[2px] ${
+                                          errors.password
+                                                ? 'focus:border-red-700 placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
+                                                : 'focus:border-slate-900 placeholder:text-stone-500  border-stone-300'
+                                    }`}
+                                    placeholder='Mật khẩu'
                               />
-                              {
-                                    <span className='absolute right-[5px]' onClick={handleShowHidePassword}>
-                                          {showPassword ? <EyeOff /> : <Eye />}
-                                    </span>
-                              }
+                              <span className='absolute right-[5px]' onClick={handleShowHidePassword}>
+                                    {typePassword === 'text' ? (
+                                          <EyeOff size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                    ) : (
+                                          <Eye size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                    )}
+                              </span>
                         </div>
-                        {errors.password && <span className='text-red-700 italic'>{errors.password.message} 123</span>}
-
+                        {errors.password && (
+                              <div className='flex gap-[6px] items-center mt-[-10px]'>
+                                    <ShieldX size={'18px'} color={'red'} />
+                                    <span className='text-red-700 italic  text-[13px]'>{errors.password.message}</span>
+                              </div>
+                        )}
                         <div className=''>
                               <p>
                                     Bạn chưa có tài khoản,{' '}
@@ -102,8 +131,8 @@ const AuthLogin = (props: TProps) => {
                         <button
                               type='submit'
                               className='w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
-                              disabled={showError}
-                              title={showError ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập ${showError}`}
+                              disabled={Object.keys(errors).length > 0}
+                              title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
                         >
                               Login
                         </button>

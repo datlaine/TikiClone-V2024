@@ -1,5 +1,4 @@
-import React, { SetStateAction, useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import React, { SetStateAction, useState } from 'react'
 import AuthLogin from './AuthLogin'
 import AuthRegister from './AuthRegister'
 

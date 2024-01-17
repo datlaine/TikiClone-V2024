@@ -1,13 +1,12 @@
-import React, { memo, useLayoutEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import NotFound from '../component/Errors/NotFound'
 import CustomerWrapperItem from './Components/CustomerWrapperItem'
-import Portal from '../component/Portal'
-import AuthWrapper from '../component/Auth/AuthWrapper'
 import AuthPermission from '../component/Auth/AuthPermission'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
-
+import { Lock } from 'lucide-react'
+import { UserRound } from 'lucide-react'
 const link = [
       { path: '/customer/account', text: 'Thông tin tài khoản' },
       { path: '/customer/notification', text: 'Thông báo của tôi' },
@@ -34,11 +33,10 @@ const Customer = () => {
             setSectionActive(pathName)
       }
 
-      console.log('ss', auth, user)
       return (
             <>
-                  <div className='px-[50px] w-full pt-[15px] xl:pt-[0px] mt-0 xl:mt-[15px]'>
-                        <div className='mb-[5px]'>
+                  <div className='px-[75px] w-full pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
+                        <div className='mb-[1px]'>
                               <Link to={'/'}>Trang chủ</Link>
                               <span> {' > '}</span>
                               <Link className='' to={textLink?.path as string}>
@@ -46,31 +44,43 @@ const Customer = () => {
                               </Link>
                         </div>
 
-                        <div className='flex gap-[3%] min-h-[450px]  h-[auto]'>
-                              <div className='hidden  xl:block lg:w-[20%]'>
+                        <div className='flex gap-[1%] min-h-[450px]  h-[auto] '>
+                              <div className='hidden  xl:block lg:w-[24%]'>
                                     <div
-                                          className='h-[75px] flex items-center gap-[15px] overflow-x-hidden'
-                                          title={`Account ${user.email}`}
+                                          className='h-[75px] flex items-center gap-[8px] overflow-x-hidden'
+                                          title={`Account ${user?.email}` || ''}
                                     >
-                                          <div className=' w-[45px] h-[45px] rounded-full bg-red-300'>
-                                                {user && (
+                                          {user ? (
+                                                <>
                                                       <img
-                                                            src={user.sercel_url}
+                                                            src={user.sercel_url || ''}
                                                             alt='user_avatar'
-                                                            className='w-[150px] h-full rounded-full'
+                                                            className='w-[40px] h-[40px] rounded-full'
                                                       />
-                                                )}
-                                          </div>
-                                          <div className='flex flex-col gap-[2px]'>
-                                                <span>Tài khoản của</span>
-                                                {user && <span className='truncate w-[170px]'>{user.email}</span>}
-                                          </div>
+
+                                                      <div className='flex flex-col gap-[1px]'>
+                                                            <span>Tài khoản của</span>
+                                                            {user && (
+                                                                  <span className='truncate w-[170px]'>{`@${
+                                                                        user.email.split('@')[0]
+                                                                  }`}</span>
+                                                            )}
+                                                      </div>
+                                                </>
+                                          ) : (
+                                                <div className='flex text-red-700 gap-[15px]'>
+                                                      <UserRound />
+
+                                                      <Lock color='red' />
+                                                      <span className='font-bold'>Permission</span>
+                                                </div>
+                                          )}
                                     </div>
                                     <div
                                           className={`customer-item-bg ${textLink?.path === '/customer/account' ? 'isActive' : ''}`}
                                           onClick={(e) => handleActive('/customer/account')}
                                     >
-                                          <div className='w-[20px] h-[20px] bg-blue-500 rounded-full'></div>
+                                          <UserRound />
                                           <Link to={'/customer/account'} className='p-[15px] w-full'>
                                                 Account
                                           </Link>
@@ -96,8 +106,8 @@ const Customer = () => {
                                           </Link>
                                     </div>
                               </div>
-                              <div className='w-full 2xl:w-[73%]'>
-                                    <div className='h-[75px] flex items-center'>{textLink?.text}</div>
+                              <div className='w-full 2xl:w-[75%]'>
+                                    <div className='h-[55px] flex items-center'>{textLink?.text}</div>
                                     {auth ? (
                                           <CustomerWrapperItem>
                                                 <Outlet />

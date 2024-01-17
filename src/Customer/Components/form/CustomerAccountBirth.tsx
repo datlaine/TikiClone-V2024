@@ -95,8 +95,8 @@ giá trị mặc định không bị sữa đổi -> true
       const yearAntd = useMemo(() => renderYear(), [])
 
       return (
-            <div className='ml-[0px]  2xl:ml-[165px] flex-1 flex flex-col  gap-[10px] lg:items-start  w-full lg:justify-start'>
-                  <div className='flex flex-col sm:flex-row'>
+            <div className='ml-[0px] flex-1 flex flex-col  gap-[10px] lg:items-start  w-full lg:justify-start'>
+                  <div className='flex flex-row'>
                         <Controller
                               control={control}
                               name='birth.day'
@@ -114,7 +114,7 @@ giá trị mặc định không bị sữa đổi -> true
                               render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
                                     <Select
                                           defaultValue={value || 'Ngày'}
-                                          style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
+                                          style={{ width: 110, borderRadius: '2px', padding: '0px 6px 0px 6px', height: 35, marginTop: -6 }}
                                           options={dayAntd}
                                           onChange={(value) => {
                                                 onChangeHookForm(value)
@@ -141,7 +141,7 @@ giá trị mặc định không bị sữa đổi -> true
                               render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
                                     <Select
                                           defaultValue={value || 'Tháng'}
-                                          style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
+                                          style={{ width: 110, borderRadius: '2px', padding: '0px 6px 0px 6px', height: 35, marginTop: -6 }}
                                           options={monthAntd}
                                           onChange={(value) => {
                                                 if (+value <= 9) value = '0' + value
@@ -168,7 +168,7 @@ giá trị mặc định không bị sữa đổi -> true
                               render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
                                     <Select
                                           defaultValue={value || 'Năm'}
-                                          style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
+                                          style={{ width: 110, borderRadius: '2px', padding: '0px 6px 0px 6px', height: 35, marginTop: -6 }}
                                           options={yearAntd}
                                           onChange={(value) => {
                                                 if (+value <= 9) value = '0' + value

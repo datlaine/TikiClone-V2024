@@ -27,6 +27,7 @@ import { useMutation } from '@tanstack/react-query'
 import BoxToast from '../../component/ui/BoxToast'
 import { checkAxiosError } from '../../utils/handleAxiosError'
 import { sleep } from '../../utils/sleep'
+import { on } from 'events'
 
 //@type form
 type TFormCustomer = {
@@ -54,8 +55,7 @@ const CustomerAccount = () => {
       const [modelAvatarSee, setmodelAvatarSee] = useState(false)
       const [modelAvatarUpdate, setModelAvatarUpdate] = useState(false)
       const [modelAvatarDelete, setModelAvatarDelete] = useState(false)
-      const [fileAvatar, setFileAvatar] = useState<File>()
-      const [filePreview, setFilePreview] = useState<string | undefined>()
+
       const refModelAvatar = useRef<HTMLDivElement>(null)
       const [toast, setShowToast] = useState(false)
       const dispatch = useDispatch()
@@ -68,7 +68,7 @@ const CustomerAccount = () => {
                         month: `${new Date(`${user.bob}`).getMonth() + 1 || 'Tháng'} `,
                         year: `${new Date(`${user.bob}`).getFullYear() || 'Năm'} `,
                   },
-                  gender: `${user.gender}`,
+                  gender: `${user.gender}` || 'Male',
             },
       })
 
@@ -91,7 +91,7 @@ const CustomerAccount = () => {
                   if (checkAxiosError<TErrorAxios>(error)) {
                         if (error.response?.data?.code === 403 && error.response.data.message === 'Forbidden') {
                               setShowToast(true)
-                              await sleep(3000)
+                              await sleep(2000)
                               window.location.reload()
                         }
                   }
@@ -119,19 +119,6 @@ const CustomerAccount = () => {
             getMe.mutate()
       }
 
-      useEffect(() => {
-            if (!fileAvatar) {
-                  setFilePreview(undefined)
-                  return
-            }
-
-            const objectUrl = URL.createObjectURL(fileAvatar)
-            setFilePreview(objectUrl)
-            console.log(objectUrl)
-            // free memory when ever this component is unmounted
-            return () => URL.revokeObjectURL(objectUrl)
-      }, [fileAvatar])
-
       const handleControllmodelAvatarSee = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
             e.stopPropagation()
             setmodelAvatarSee((prev) => !prev)
@@ -140,6 +127,7 @@ const CustomerAccount = () => {
       const handleControllmodelAvatarUpdate = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
             e.stopPropagation()
             setModelAvatarUpdate((prev) => !prev)
+            console.log('update')
       }
 
       const handleControllmodelAvatarDelete = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
@@ -147,16 +135,12 @@ const CustomerAccount = () => {
             setModelAvatarDelete((prev) => !prev)
       }
 
-      const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-            if (filePreview || fileAvatar) {
-                  setFilePreview(undefined)
-                  setFileAvatar(undefined)
-            }
+      useEffect(() => {
+            methods.handleSubmit(submitfake)
+      }, [])
 
-            console.log(e.target.files)
-            if (e.target.files) {
-                  setFileAvatar(e.target.files[0])
-            }
+      const submitfake = (data: TFormCustomer) => {
+            console.log('event', data)
       }
 
       //submid update info account
@@ -181,15 +165,15 @@ const CustomerAccount = () => {
             // console.log('form-clear', new Date(+data.birth.year, +data.birth.month + 1, +data.birth.day))
       }
       return (
-            <div className='flex flex-col lg:flex-row min-h-full h-auto gap-[20px] xl:gap-[2%]'>
+            <div className='flex flex-col lg:flex-row min-h-[500px] h-auto gap-[20px] xl:gap-[2%]'>
                   {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />}
 
                   <FormProvider {...methods}>
-                        <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[16px]' onSubmit={methods.handleSubmit(onSubmit)}>
+                        <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[12px]' onSubmit={methods.handleSubmit(onSubmit)}>
                               <h3 className='h-[10%]'>Thông tin cá nhân</h3>
-                              <div className='h-[35%] xl:h-[20%] data-user flex flex-col xl:flex-row gap-[20px] xl:gap-0 xl:items-center'>
+                              <div className='h-[45%] xl:h-[20%] data-user flex flex-col xl:flex-row gap-[20px] xl:gap-0 xl:items-center'>
                                     <div
-                                          className=' flex self-center items-center justify-center h-[60px] w-[60px] xl:h-[80px] xl:w-[80px] rounded-full bg-blue-300 relative'
+                                          className=' flex self-center items-center justify-center h-[60px] w-[60px] xl:h-[110px] xl:w-[110px] rounded-full bg-blue-300 relative'
                                           onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                                                 e.stopPropagation()
                                                 setModelAvatar((prev) => !prev)
@@ -199,10 +183,10 @@ const CustomerAccount = () => {
                                           {modelAvatar && (
                                                 <>
                                                       <div
-                                                            className='absolute top-[70%]  shadow-xl border-[1px] border-stone-300 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
+                                                            className='absolute z-[500] top-[70%]  shadow-xl border-[1px] border-stone-300 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
                                                             ref={refModelAvatar}
                                                       >
-                                                            <div className='relative'>
+                                                            <div className='relative z-[500]'>
                                                                   <span className='clip-path-modelAvatar absolute w-[20px] h-[13.5px] border-[1px] border-stone-300 border-b-0  bg-white top-[-13px] left-[50%] translate-x-[-50%]'></span>
                                                                   <ul className='h-full'>
                                                                         <li
@@ -238,18 +222,6 @@ const CustomerAccount = () => {
                                                                               <span>Cập nhập ảnh đại diện</span>
                                                                         </li>
 
-                                                                        {modelAvatarUpdate && (
-                                                                              <Portal>
-                                                                                    <ModelAvatarUpdate
-                                                                                          setModelAvatar={setModelAvatar}
-                                                                                          setModelAvatarUpdate={setModelAvatarUpdate}
-                                                                                          filePreview={filePreview}
-                                                                                          setFilePreview={setFilePreview}
-                                                                                          setFileAvatar={setFileAvatar}
-                                                                                          handleUploadAvatar={handleUploadAvatar}
-                                                                                    />
-                                                                              </Portal>
-                                                                        )}
                                                                         <li
                                                                               className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 '
                                                                               onClick={handleControllmodelAvatarDelete}
@@ -303,30 +275,33 @@ const CustomerAccount = () => {
                                           </div>
                                     </div>
                               </div>
-                              <div className='form_user w-full h-[50%] mt-[30px] flex gap-[10%]'>
-                                    <div className='flex flex-col w-full gap-[25px] lg:pt-[35px] 2xl:pt-[10px]'>
-                                          <div className='label w-full flex flex-col 2xl:flex-row  gap-[10px] lg:gap-[25px] 2xl:gap-[0px]  sm:items-start  2xl:items-center  '>
+                              <div className='form_user w-full min-h-[50%] sm:min-h-[40%] h-auto flex gap-[4%] mt-[16px] xl:mt-0'>
+                                    <div className='flex flex-col w-full gap-[16px] lg:pt-[15px] 2xl:pt-[10px]'>
+                                          <div className='flex flex-col sm:flex-row justify-between w-full h-[30%] sm:h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
+                                                {/* <div className='label w-full flex flex-col 2xl:flex-row  gap-[10px] lg:gap-[25px] 2xl:gap-[0px]  sm:items-start  2xl:items-center  '> */}
                                                 <span className='w-[80px]'>Ngày sinh</span>
                                                 <CustomerAccountBirth />
                                           </div>
-
-                                          <div className='label flex flex-col lg:flex-row gap-[10px] lg:gap-[25px] 2xl:gap-0    items-start  xl:items-center '>
+                                          <div className='flex flex-col sm:flex-row justify-between w-full h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
+                                                {/* <div className='label flex flex-col lg:flex-row gap-[10px] lg:gap-[25px] 2xl:gap-0    items-start  xl:items-center '> */}
                                                 <span className='w-[80px]'>Giới tính</span>
                                                 <CustomerAccountGender />
                                           </div>
 
-                                          <button
-                                                className='flex items-center justify-center gap-[6px] ml-0 2xl:ml-[250px] w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
-                                                type='submit'
-                                          >
-                                                <span>Lưu thay đổi</span>
-                                                {!toast && updateInfo.isLoading && (
-                                                      <span
-                                                            className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                                                            role='status'
-                                                      ></span>
-                                                )}{' '}
-                                          </button>
+                                          <div className='w-full mt-[50px] sm:mt-0 pl:[35px] sm:pl-[115px]'>
+                                                <button
+                                                      className='flex items-center justify-center gap-[6px] ml-0  w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
+                                                      type='submit'
+                                                >
+                                                      <span>Lưu thay đổi</span>
+                                                      {!toast && updateInfo.isLoading && (
+                                                            <span
+                                                                  className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                                                  role='status'
+                                                            ></span>
+                                                      )}{' '}
+                                                </button>
+                                          </div>
                                           {updateInfo.isSuccess && <BoxToast message={'Cập nhập thành công'} children={<p>OK</p>} />}
                                     </div>
                               </div>
@@ -334,17 +309,17 @@ const CustomerAccount = () => {
                   </FormProvider>
                   {/* <br /> */}
                   <div className='w-[1px] min-h-full bg-slate-200'></div>
-                  <div className='w-full xl:w-[39%] min-h-full '>
+                  <div className='w-full xl:w-[45%] min-h-full '>
                         <div className='flex flex-col gap-[1px]'>
                               <span>Email & liên hệ</span>
-                              <div className='flex justify-between items-center min-h-[90px] pb-[15px] '>
-                                    <div className='w-[70%] flex flex-col items-center'>
+                              <div className='flex flex-col sm:flex-row justify-between sm:items-center min-h-[90px] pb-[15px] gap-[15px] sm:gap-0 '>
+                                    <div className='w-full sm:w-[70%] flex flex-col justify-center'>
                                           <div className=''>Địa chỉ email</div>
-                                          <span className='block w-[250px] truncate'>{user.email}sdsdsadsds</span>
+                                          <span className='block w-[250px] truncate'>{user.email}</span>
                                     </div>
                                     <Link
                                           to={'/customer/account/edit/email'}
-                                          className='rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '
+                                          className='w-[150px] sm:w-[90px] flex items-center justify-center rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '
                                     >
                                           Cập nhập
                                     </Link>
@@ -353,13 +328,13 @@ const CustomerAccount = () => {
 
                         <div className='flex flex-col gap-[1px]'>
                               <span>Bảo mật</span>
-                              <div className='flex justify-between items-center min-h-[90px] pb-[15px] '>
+                              <div className='flex flex-col sm:flex-row justify-between sm:items-center min-h-[90px] pb-[15px] gap-[15px] sm:gap-0'>
                                     <div>
                                           <div className=''>Đổi mật khẩu</div>
                                     </div>
                                     <Link
                                           to={'/customer/account/edit/pass'}
-                                          className='rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '
+                                          className='w-[150px] sm:w-[90px] flex items-center justify-center rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '
                                     >
                                           Cập nhập
                                     </Link>
@@ -370,6 +345,11 @@ const CustomerAccount = () => {
                               </button>
                         </div>
                   </div>
+                  {modelAvatarUpdate && (
+                        <Portal>
+                              <ModelAvatarUpdate setModelAvatar={setModelAvatar} setModelAvatarUpdate={setModelAvatarUpdate} />
+                        </Portal>
+                  )}
             </div>
       )
 }

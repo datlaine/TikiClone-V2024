@@ -1,19 +1,42 @@
-import React, { SetStateAction } from 'react'
+import { X } from 'lucide-react'
+import React, { SetStateAction, useEffect, useState } from 'react'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
+//@props
 type TProps = {
       setModelAvatarUpdate: React.Dispatch<SetStateAction<boolean>>
       setModelAvatar: React.Dispatch<SetStateAction<boolean>>
-      setFileAvatar: React.Dispatch<SetStateAction<File | undefined>>
-      setFilePreview: React.Dispatch<SetStateAction<string | undefined>>
-
-      filePreview: string | undefined
-      handleUploadAvatar: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-// () => api
-const ModelAvatarUpdate = (props: TProps) => {
-      const { setModelAvatar, setModelAvatarUpdate, filePreview, handleUploadAvatar, setFileAvatar, setFilePreview } = props
+type TForm = {
+      file: FileList
+}
 
+//@component::api
+const ModelAvatarUpdate = (props: TProps) => {
+      //@props
+      const { setModelAvatar, setModelAvatarUpdate } = props
+      const { register, handleSubmit, control } = useForm<TForm>({
+            defaultValues: { file: undefined },
+      })
+
+      const [fileAvatar, setFileAvatar] = useState<File>()
+      const [filePreview, setFilePreview] = useState<string | undefined>()
+
+      useEffect(() => {
+            if (!fileAvatar) {
+                  setFilePreview(undefined)
+                  return
+            }
+
+            const objectUrl = URL.createObjectURL(fileAvatar)
+            setFilePreview(objectUrl)
+            console.log(objectUrl)
+            // free memory when ever this component is unmounted
+            return () => URL.revokeObjectURL(objectUrl)
+      }, [fileAvatar])
+
+      //@closeModel
       const modelControllClose = () => {
             setModelAvatar(false)
             setModelAvatarUpdate(false)
@@ -22,6 +45,23 @@ const ModelAvatarUpdate = (props: TProps) => {
             setFilePreview('')
       }
 
+      const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (filePreview || fileAvatar) {
+                  setFilePreview(undefined)
+                  setFileAvatar(undefined)
+            }
+
+            console.log(e.target.files)
+            if (e.target.files) {
+                  setFileAvatar(e.target.files[0])
+            }
+      }
+
+      const onSubmit: SubmitHandler<TForm> = (file) => {
+            console.log(file.file[0])
+      }
+
+      //@element
       return (
             <div
                   className='fixed top-0 left-0 bg-[rgba(0,0,0,.7)] w-full min-h-screen z-[500] flex items-center justify-center'
@@ -29,35 +69,58 @@ const ModelAvatarUpdate = (props: TProps) => {
             >
                   <div className={`w-[650px] ${filePreview ? 'h-[450px]' : 'h-[740px]'} bg-white rounded-2xl p-[40px] relative`}>
                         <div className='text-[25px] absolute top-[25px] right-[25px]' onClick={modelControllClose}>
-                              X
+                              <X />
                         </div>
                         <div className='h-[10%] flex items-center mb-[15px]'>Cập nhập ảnh đại diện</div>
                         <div className='h-[1px] bg-stone-100'></div>
-                        <div
-                              className={`flex ${
-                                    filePreview ? 'h-[calc(80%-85px)]' : 'justify-center h-[calc(100%-85px)]'
-                              } mt-[25px] bg-stone-100 mb-[25px] p-[20px] `}
-                        >
-                              {filePreview && <img src={filePreview} width={200} height={200} alt='avatar_update' className='order-1' />}
-                              <label
-                                    htmlFor='avatar_update'
-                                    className={`${
-                                          filePreview ? 'text-center order-2' : ''
-                                    } w-full h-full border-[2px] border-dashed border-slate-700 flex justify-center items-center text-blue-500`}
+                        <form className='h-[85%]' onSubmit={handleSubmit(onSubmit)}>
+                              <div
+                                    className={`flex ${
+                                          filePreview ? 'h-[calc(90%-32px)]' : 'justify-center h-[calc(100%-85px)]'
+                                    } mt-[25px] bg-stone-100 mb-[25px] p-[20px] `}
                               >
-                                    {filePreview ? 'Chọn ảnh khác' : 'Nhấn để chọn hoặc kéo thả hình ảnh vào khung này'}
-                              </label>
-                              <input type='file' id='avatar_update' hidden onChange={handleUploadAvatar} />
-                        </div>
-
-                        {filePreview && (
-                              <div className='w-full min-w-[100px] flex gap-[2%]'>
-                                    <button className='w-[49%] px-[12px] py-[6px] bg-stone-200 text-blue-500' onClick={modelControllClose}>
-                                          Hủy bỏ
-                                    </button>
-                                    <button className='w-[49%] px-[12px] py-[6px] bg-blue-500 text-white'>Lưu thay đổi</button>
+                                    {filePreview && (
+                                          <img src={filePreview} width={200} height={200} alt='avatar_update' className='order-1 w-[50%]' />
+                                    )}
+                                    <label
+                                          htmlFor='avatar_update'
+                                          className={`${
+                                                filePreview ? 'text-center order-2 w-[50%]' : 'w-full'
+                                          }  h-full border-[2px] border-dashed border-slate-700 flex justify-center items-center text-blue-500`}
+                                    >
+                                          {filePreview ? 'Chọn ảnh khác' : 'Nhấn để chọn hoặc kéo thả hình ảnh vào khung này'}
+                                    </label>
+                                    <Controller
+                                          name='file'
+                                          control={control}
+                                          render={({ field }) => (
+                                                <input
+                                                      type='file'
+                                                      id='avatar_update'
+                                                      onChange={(event) => {
+                                                            handleUploadAvatar(event)
+                                                            field.onChange(event)
+                                                      }}
+                                                      hidden
+                                                />
+                                          )}
+                                    />
                               </div>
-                        )}
+
+                              {filePreview && (
+                                    <div className='w-full min-w-[100px] flex gap-[2%]'>
+                                          <button
+                                                className='w-[49%] px-[12px] py-[6px] bg-stone-200 text-blue-500'
+                                                onClick={modelControllClose}
+                                          >
+                                                Hủy bỏ
+                                          </button>
+                                          <button type='submit' className='w-[49%] px-[12px] py-[6px] bg-blue-500 text-white'>
+                                                Lưu thay đổi
+                                          </button>
+                                    </div>
+                              )}
+                        </form>
                   </div>
             </div>
       )

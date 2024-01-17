@@ -5,18 +5,18 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 
 export type TGender = {
-      MALE: 'Male'
-      FEMALE: 'Female'
-      OTHERS: 'Other'
+      Male: 'Male'
+      Female: 'Female'
+      Others: 'Other'
 }
 
 const CustomerAccountGender = () => {
       const { control } = useFormContext() // retrieve all hook methods
       const user = useSelector((state: RootState) => state.authentication.user)
-      const [gender, setGender] = useState<keyof TGender>(user.gender || 'MALE')
+      const [gender, setGender] = useState<keyof TGender>(user.gender || 'Male')
 
       return (
-            <div className='ml-[0px] 2xl:ml-[165px] flex-1 flex-col md:flex-row'>
+            <div className='ml-[0px]  flex-1 flex-col sm:flex-row'>
                   <Controller
                         control={control}
                         name='gender'
@@ -27,10 +27,11 @@ const CustomerAccountGender = () => {
                                           onChangeHookForm(e.target.value)
                                     }}
                                     value={gender}
+                                    className='flex flex-col sm:flex-row'
                               >
-                                    <Radio value={'MALE'}>Male</Radio>
-                                    <Radio value={'FEMALE'}>Female</Radio>
-                                    <Radio value={'OTHERS'}>Others</Radio>
+                                    <Radio value={'Male'}>Male</Radio>
+                                    <Radio value={'Female'}>Female</Radio>
+                                    <Radio value={'Others'}>Others</Radio>
                               </Radio.Group>
                         )}
                   />

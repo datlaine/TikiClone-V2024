@@ -1,6 +1,7 @@
 import React, { SetStateAction } from 'react'
 import { RootState } from '../../../store'
 import { useSelector } from 'react-redux'
+import { X } from 'lucide-react'
 
 type TProps = {
       setModelAvatarSee?: React.Dispatch<SetStateAction<boolean>>
@@ -26,7 +27,7 @@ const ModelAvatarSee = (props: TProps) => {
             >
                   <div className='w-[650px] min-h-[340px] h-auto bg-white rounded-2xl p-[40px] relative'>
                         <div className='text-[25px] absolute top-[25px] right-[25px]' onClick={modelControllClose}>
-                              X
+                              <X />
                         </div>
                         <div className='h-[10%] flex items-center mb-[15px]'>Xem ảnh đại diện</div>
                         <div className='h-[1px] bg-stone-100'></div>

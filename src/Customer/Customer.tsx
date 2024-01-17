@@ -5,6 +5,8 @@ import CustomerWrapperItem from './Components/CustomerWrapperItem'
 import Portal from '../component/Portal'
 import AuthWrapper from '../component/Auth/AuthWrapper'
 import AuthPermission from '../component/Auth/AuthPermission'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
 
 const link = [
       { path: '/customer/account', text: 'Thông tin tài khoản' },
@@ -18,7 +20,8 @@ const Customer = () => {
       let pathName = useLocation()?.pathname
       console.log(useLocation())
       const [_, setSectionActive] = useState('/customer/account')
-      const auth = true
+      const user = useSelector((state: RootState) => state.authentication.user)
+      const auth = Boolean(user)
 
       if (pathName === '/customer') return <NotFound />
       const textLink = link.find((pathItem) => {
@@ -31,7 +34,7 @@ const Customer = () => {
             setSectionActive(pathName)
       }
 
-      console.log('ss', pathName)
+      console.log('ss', auth, user)
       return (
             <>
                   <div className='px-[50px] w-full pt-[15px] xl:pt-[0px] mt-0 xl:mt-[15px]'>
@@ -45,11 +48,22 @@ const Customer = () => {
 
                         <div className='flex gap-[3%] min-h-[450px]  h-[auto]'>
                               <div className='hidden  xl:block lg:w-[20%]'>
-                                    <div className='h-[75px] flex items-center gap-[15px]'>
-                                          <div className='w-[45px] h-[45px] rounded-full bg-red-300'></div>
+                                    <div
+                                          className='h-[75px] flex items-center gap-[15px] overflow-x-hidden'
+                                          title={`Account ${user.email}`}
+                                    >
+                                          <div className=' w-[45px] h-[45px] rounded-full bg-red-300'>
+                                                {user && (
+                                                      <img
+                                                            src={user.sercel_url}
+                                                            alt='user_avatar'
+                                                            className='w-[150px] h-full rounded-full'
+                                                      />
+                                                )}
+                                          </div>
                                           <div className='flex flex-col gap-[2px]'>
                                                 <span>Tài khoản của</span>
-                                                <span>Rose</span>
+                                                {user && <span className='truncate w-[170px]'>{user.email}</span>}
                                           </div>
                                     </div>
                                     <div

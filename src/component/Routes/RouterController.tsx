@@ -2,8 +2,8 @@ import { Route, Routes, useLocation, useMatch } from 'react-router-dom'
 
 //page
 import Admin from '../../pages/admin/Admin'
-import Buy from '../Content/Content_right/Buy/Buy'
-import Contact from '../Contact/Contact'
+// import Buy from '../Content/Content_right/Buy/Buy'
+// import Contact from '../Contact/Contact'
 import Content from '../Content/Content'
 import Cart from '../Cart/Cart'
 import NotFound from '../Errors/NotFound'
@@ -36,18 +36,18 @@ const RouterController = () => {
                               pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]'
                         }  lg:flex px-0 lg:px-[50px] gap-8 `}
                   >
-                        <Sidebar />
+                        {/* <Sidebar /> */}
                         <Routes>
                               <Route
                                     path='/*'
                                     element={
                                           <Routes>
                                                 <Route path='/' element={<Content />} />
-                                                <Route path='/Buy/:id' element={<Buy />} />
+                                                {/* <Route path='/Buy/:id' element={<Buy />} /> */}
                                                 <Route path='/Cart' element={<Cart />} />
                                                 {/* <Route path='/login' element={<Login />} /> */}
                                                 {/* <Route path='/resister' element={<Resister />} /> */}
-                                                <Route path='/Contact' element={<Contact />} />
+                                                {/* <Route path='/Contact' element={<Contact />} /> */}
                                                 <Routes>
                                                       <Route path='/customer/*' element={<Customer />}>
                                                             <Route path='account' element={<CustomerAccount />} />

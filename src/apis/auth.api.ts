@@ -7,19 +7,21 @@ type TAuthParams = {
 
 class Auth {
       static async login({ email, password }: TAuthParams) {
-            return axiosCustom.post('/api/v1/auth/login', { email, password }, { withCredentials: true })
+            return axiosCustom.post('/v1/api/auth/login', { email, password }, { withCredentials: true })
       }
 
       static async register({ email, password }: TAuthParams) {
-            return axiosCustom.post('/api/v1/auth/register', { email, password })
+            console.log(process.env.REACT_APP_BASE_URL)
+
+            return axiosCustom.post('/v1/api/auth/register', { email, password }, { withCredentials: true })
       }
 
       static async logout() {
-            return axiosCustom.post('/api/v1/auth/logout', {})
+            return axiosCustom.post('/v1/api/auth/logout', {})
       }
 
       static async refresh_token() {
-            return axiosCustom.get('/api/v1/auth/refresh-token', { withCredentials: true })
+            return axiosCustom.post<{ metadata: { token: string } }>('/v1/api/auth/rf', {}, { withCredentials: true })
       }
 }
 

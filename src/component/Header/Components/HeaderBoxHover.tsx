@@ -1,4 +1,4 @@
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { doCloseBoxLogin, doOpenBoxLogin, userLogout } from '../../../Redux/authSlice'
 import { RootState, store } from '../../../store'
@@ -12,14 +12,16 @@ function HeaderBoxHover(props: Props) {
       // const { user, doCloseBoxLogin, doOpenBoxLogin, isOpenBoxLogin, userLogout, clearCart } = props
       const navigate = useNavigate()
       const [showBoxAuth, setShowBoxAuth] = useState(false)
-      const user = false
+      const user = useSelector((state: RootState) => state.authentication.user)
       // console.log('om', user)
       const handleGoToInfo = () => {
-            // console.log(isOpenBoxLogin, user)
-            setShowBoxAuth(true)
             if (!user) {
                   // doOpenBoxLogin()
+                  setShowBoxAuth(true)
+                  return
             }
+            navigate('/customer/order_history')
+            // console.log(isOpenBoxLogin, user)
       }
 
       const handleLogOut = () => {
@@ -38,7 +40,7 @@ function HeaderBoxHover(props: Props) {
             <>
                   <ul className='flex flex-col min-w-[250px] bg-white shadow-xl py-2 gap-2 border border-gray-200 rounded'>
                         <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2'>
-                              <Link to={'/customer/account'}>{user ? `Account: ${user}` : 'Thông tin tài khoản'}</Link>
+                              <Link to={'/customer/account'}>{user ? `Account: ${user.email}` : 'Thông tin tài khoản'}</Link>
                         </li>
                         <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleGoToInfo}>
                               Đơn hàng của tôi

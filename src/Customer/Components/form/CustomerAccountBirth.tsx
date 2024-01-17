@@ -62,17 +62,32 @@ const CustomerAccountBirth = () => {
       }, [count.current])
 
       const validator = (day: string, month: string, year: string) => {
-            const birthFull = `${year}-${month}-${day}`
+            /* điều kiện bắt buộc 3 biến giá trị nhận từ select của antd là number 
+phải convert sang string mới check được vaild của thư viện momnent
+-> Giá trị ban đầu lúc người dùng chưa cập nhập ngày sinh thì 'Ngày' 'Tháng' 'Năm', cho phải có ngoại lệ cho 3 trường trên
+tránh việc người dùng không cập nhập, sửa đổi giá trị bob sẽ gây ra lỗi
+vaild -> thì return true
+not -> reutrn false
+giá trị mặc định không bị sữa đổi -> true
+*/
+            console.log('check ngay', day, month, year)
+            day = day.toString().trim()
+            month = month.toString().trim()
+            year = year.toString().trim()
+            if (Number(day) < 9) day = `0${day}`.trim()
+            if (Number(month) < 9) month = `0${month}`.trim()
+            const birthFull = `${year.trim()}-${month.trim()}-${day.trim()}`
             const vaild = moment(birthFull).isValid()
-            if (vaild && day && month && year) {
+            console.log('check ngay 2', moment('2002-05-30').isValid(), birthFull)
+            if (vaild) {
                   console.log(birthFull, vaild)
                   return true
             }
-            if (!vaild && day && month && year) {
+            if (!vaild && day !== 'Ngày' && month !== 'Tháng' && year !== 'Năm') {
                   console.log('khong hop le')
                   return false
             }
-            return
+            return true
       }
 
       const dayAntd = useMemo(() => renderDay(), [])
@@ -98,11 +113,10 @@ const CustomerAccountBirth = () => {
                               }}
                               render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
                                     <Select
-                                          defaultValue={'Ngày'}
+                                          defaultValue={value || 'Ngày'}
                                           style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
                                           options={dayAntd}
                                           onChange={(value) => {
-                                                if (+value <= 9) value = '0' + value
                                                 onChangeHookForm(value)
                                           }}
                                     />
@@ -116,6 +130,7 @@ const CustomerAccountBirth = () => {
                                     required: true,
                                     validate: {
                                           isValidDay: (value) => {
+                                                if (value > 9) value = `0${value}`
                                                 const day = watch('birth.day')
                                                 const year = watch('birth.year')
                                                 const valid = validator(day, value, year)
@@ -125,7 +140,7 @@ const CustomerAccountBirth = () => {
                               }}
                               render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
                                     <Select
-                                          defaultValue={'Tháng'}
+                                          defaultValue={value || 'Tháng'}
                                           style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
                                           options={monthAntd}
                                           onChange={(value) => {
@@ -152,7 +167,7 @@ const CustomerAccountBirth = () => {
                               }}
                               render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
                                     <Select
-                                          defaultValue={'Năm'}
+                                          defaultValue={value || 'Năm'}
                                           style={{ width: 100, borderRadius: '4px', padding: '0px 6px 0px 6px', height: 50, marginTop: -6 }}
                                           options={yearAntd}
                                           onChange={(value) => {

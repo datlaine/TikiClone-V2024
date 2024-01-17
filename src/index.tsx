@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom/client'
 import '../src/component/Main/main.css'
-import '@fortawesome/fontawesome-free/css/all.min.css'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'

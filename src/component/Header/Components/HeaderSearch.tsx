@@ -55,22 +55,17 @@ const HeaderSeacrhInput = () => {
 
       useEffect(() => {
             const handleEvent = debounce((e: MouseEvent, ele: React.RefObject<HTMLElement>) => {
-                  if (ele.current?.contains(e.target as HTMLElement)) {
+                  if (!ele.current?.contains(e.target as HTMLElement) && showSearch) {
                         console.log('input click')
-                        setShowSearch(true)
-                  } else {
-                        console.log('input out')
-                        setShowSearch(false)
+                        if (showSearch) setShowSearch(false)
                   }
             }, 1500)
 
-            if (showSearch) {
-                  window.addEventListener('click', (e: MouseEvent) => handleEvent(e, inputRef))
-            } else {
-                  window.removeEventListener('click', (e: MouseEvent) => handleEvent(e, inputRef))
+            window.addEventListener('click', (e: MouseEvent) => handleEvent(e, inputRef))
+            if (!showSearch) {
+                  window.removeEventListener('click', (e) => handleEvent(e, inputRef))
             }
-
-            return () => window.removeEventListener('click', (e) => handleEvent)
+            return () => window.removeEventListener('click', (e) => handleEvent(e, inputRef))
       }, [showSearch])
 
       return (

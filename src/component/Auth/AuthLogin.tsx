@@ -6,6 +6,10 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import Auth from '../../apis/auth.api'
+import { AxiosResponse } from 'axios'
+import { TApiRegisterResponse } from '../../types/axiosResponse'
+import { TRegisterResponse, getInfoUser } from '../../Redux/authenticationSlice'
+import { useDispatch } from 'react-redux'
 
 type TProps = {
       setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
@@ -49,10 +53,15 @@ const AuthLogin = (props: TProps) => {
             resolver: zodResolver(loginSchema),
       })
 
+      const dispatch = useDispatch()
+
       const authLogin = useMutation({
             mutationKey: ['login'],
             mutationFn: (data: TloginZodSchema) => Auth.login(data),
-            onSuccess: (data: unknown) => console.log('success data check', data),
+            onSuccess: (res: AxiosResponse<TApiRegisterResponse<TRegisterResponse>>) => {
+                  dispatch(getInfoUser(res.data.metadata.user))
+                  localStorage.setItem('token', JSON.stringify(res.data.metadata.access_token))
+            },
             onError: (data: unknown) => console.log('error data check', data),
       })
 
@@ -73,14 +82,26 @@ const AuthLogin = (props: TProps) => {
 
       return (
             <div className='flex flex-col items-center gap-[15px] py-[35px]'>
-                  <h3 className='font-black text-slate-900 tracking-[5px] text-[24px]'>Login</h3>
-                  <h4 className='text-stone-600 italic text-[16px] opacity-80 px-[12px]'>Đăng nhập để trải nghiệm mua sắm thỏa thích</h4>
+                  <h3
+                        className={`${
+                              Object.keys(errors).length > 0 ? 'text-red-700' : 'text-slate-900'
+                        } font-black tracking-[5px] text-[24px]`}
+                  >
+                        Login
+                  </h3>
+                  <h4
+                        className={`${
+                              Object.keys(errors).length > 0 ? 'text-red-700' : 'text-stone-600'
+                        } italic text-[16px] opacity-80 px-[12px]`}
+                  >
+                        Đăng nhập để trải nghiệm mua sắm thỏa thích
+                  </h4>
                   <form className='flex flex-1 flex-col gap-[20px] mt-[12px] w-[70%]' noValidate onSubmit={handleSubmit(onSubmit)}>
                         <div className='w-full'>
                               <input
                                     {...register('email')}
                                     type='text'
-                                    className={`w-full border-[1px] border-stone-300 focus:border-slate-900  focus:border-[2px] ${
+                                    className={`w-full border-[1px] border-stone-300   focus:border-[2px] ${
                                           errors.email
                                                 ? 'focus:border-red-700 placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
                                                 : 'focus:border-slate-900 placeholder:text-stone-500  border-stone-300'

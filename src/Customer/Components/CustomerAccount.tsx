@@ -1,49 +1,102 @@
 import React, { useEffect, useRef, useState } from 'react'
+
+//@Components
 import Portal from '../../component/Portal'
 import ModelCustomerAvatar from './models/ModelAvatarSee'
 import ModelAvatarUpdate from './models/ModelAvatarUpdate'
 import ModelAvatarDelete from './models/ModelAvatarDelete'
 import CustomerAccountBirth from './form/CustomerAccountBirth'
-import CustomerAccountGender, { TGender } from './form/CustomerAccountGender'
-import { Link } from 'react-router-dom'
+import CustomerAccountGender from './form/CustomerAccountGender'
+import { Link, useNavigate } from 'react-router-dom'
+
+//@react-hook-form
 import { useForm, FormProvider } from 'react-hook-form'
 
+//@redux-toolkit
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import { getInfoUser } from '../../Redux/authenticationSlice'
+
+//@auth - api
+import Account from '../../apis/account.api'
+
+//@tanstack query
+import { useMutation } from '@tanstack/react-query'
+
+//@toast - notification
+import BoxToast from '../../component/ui/BoxToast'
+import { checkAxiosError } from '../../utils/handleAxiosError'
+import { sleep } from '../../utils/sleep'
+
+//@type form
 type TFormCustomer = {
-      name: string
-      nickname: string
-      birth:
-            | {
-                    day: string
-                    month: string
-                    year: string
-              }
-            | string
+      fullName: string
+      nickName: string
+      birth: {
+            day: string
+            month: string
+            year: string
+      }
+
       gender: string
 }
 
-const defaultValues: TFormCustomer = {
-      name: 'Đạt lại',
-      nickname: '',
-      birth: {
-            day: '30',
-            month: '04',
-            year: '2002',
-      },
-      gender: 'FEMALE',
-}
+type TErrorAxios = {
+      code: number
+      detail: string
+      message: string
+} | null
 
+//@component
 const CustomerAccount = () => {
+      const user = useSelector((state: RootState) => state.authentication.user)
       const [modelAvatar, setModelAvatar] = useState(false)
       const [modelAvatarSee, setmodelAvatarSee] = useState(false)
       const [modelAvatarUpdate, setModelAvatarUpdate] = useState(false)
       const [modelAvatarDelete, setModelAvatarDelete] = useState(false)
       const [fileAvatar, setFileAvatar] = useState<File>()
       const [filePreview, setFilePreview] = useState<string | undefined>()
-      const [formNestedBirth, setFormNestedBirth] = useState('')
-      const [formNestedGender, setFormNestedGender] = useState<keyof TGender>('MALE')
       const refModelAvatar = useRef<HTMLDivElement>(null)
+      const [toast, setShowToast] = useState(false)
+      const dispatch = useDispatch()
       const methods = useForm<TFormCustomer>({
-            defaultValues,
+            defaultValues: {
+                  fullName: `${user.fullName || user?.email?.split('@')[0]}`,
+                  nickName: `${user.nickName || '@' + user.email.split('@')[0] || 'none'}`,
+                  birth: {
+                        day: `${new Date(`${user.bob}`).getDate() || 'Ngày'} `,
+                        month: `${new Date(`${user.bob}`).getMonth() + 1 || 'Tháng'} `,
+                        year: `${new Date(`${user.bob}`).getFullYear() || 'Năm'} `,
+                  },
+                  gender: `${user.gender}`,
+            },
+      })
+
+      const getMe = useMutation({
+            mutationKey: ['getMe'],
+            mutationFn: () => Account.getMe(),
+            onSuccess: (data: any) => console.log('me', data),
+      })
+
+      const updateInfo = useMutation({
+            mutationKey: ['update-info'],
+            mutationFn: (data: any) => Account.updateInfo(data),
+            onSuccess: async (data: any) => {
+                  // console.log('dispatch', { data })
+                  dispatch(getInfoUser(data.data.metadata.user))
+            },
+
+            onError: async (error) => {
+                  //error.response.data.error
+                  if (checkAxiosError<TErrorAxios>(error)) {
+                        if (error.response?.data?.code === 403 && error.response.data.message === 'Forbidden') {
+                              setShowToast(true)
+                              await sleep(3000)
+                              window.location.reload()
+                        }
+                  }
+                  // if (error.response.status === 403 && error.response.statusText === 'Forbidden') console.log(error)
+            },
       })
       useEffect(() => {
             const handleEvent = (e: MouseEvent) => {
@@ -61,6 +114,10 @@ const CustomerAccount = () => {
 
             return () => document.removeEventListener('click', handleEvent)
       }, [])
+
+      const handleGetMe = () => {
+            getMe.mutate()
+      }
 
       useEffect(() => {
             if (!fileAvatar) {
@@ -102,18 +159,31 @@ const CustomerAccount = () => {
             }
       }
 
-      const onSubmit = (data: TFormCustomer) => {
-            const finallyData = { ...data }
-            console.log('form', finallyData)
-            for (let a in finallyData) {
-                  let bob = ''
-                  if (!finallyData[a as keyof TFormCustomer]) delete finallyData[a as keyof TFormCustomer]
+      //submid update info account
+      const onSubmit = (form: TFormCustomer) => {
+            //Có 2 trường hợp sẽ xảy ra liên quan đến bob
+            // thứ nhất theo mặc định sẽ là 'Ngày' 'Tháng' 'Năm' nếu người dùng không tương tác với field này thì ta sẽ gán cho nó = null
+            // còn ngược lại thì ghép 3 chuỗi vừa nhận được từ hàm vaild kia để tạo ra 1 ngày hoàn chỉnh rồi gửi lên server
+            // Tháng sẽ bằng giá trị tháng hiện có -1 vì mảng tháng bắt đầu = 0
+            // Còn vì sao phải chia bob thành 3 field khác nhau vì ta cho chọn select riêng lẻ
+            let newBirth: null | Date
+            if (form.birth.day === 'Ngày' && form.birth.month === 'Tháng' && form.birth.year) {
+                  newBirth = null
+            } else {
+                  newBirth = new Date(+form.birth.year, Number(form.birth.month) - 1, +form.birth.day)
             }
-
-            console.log('form-clear', finallyData)
+            updateInfo.mutate({
+                  ...form,
+                  birth: newBirth,
+                  nickName: form.nickName ? form.nickName : null,
+                  fullName: form.fullName ? form.fullName : null,
+            })
+            // console.log('form-clear', new Date(+data.birth.year, +data.birth.month + 1, +data.birth.day))
       }
       return (
             <div className='flex flex-col lg:flex-row min-h-full h-auto gap-[20px] xl:gap-[2%]'>
+                  {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />}
+
                   <FormProvider {...methods}>
                         <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[16px]' onSubmit={methods.handleSubmit(onSubmit)}>
                               <h3 className='h-[10%]'>Thông tin cá nhân</h3>
@@ -125,7 +195,7 @@ const CustomerAccount = () => {
                                                 setModelAvatar((prev) => !prev)
                                           }}
                                     >
-                                          <span>Avatar </span>
+                                          <img src={user.sercel_url || ''} alt='user_avatar' className='w-full h-full rounded-full' />
                                           {modelAvatar && (
                                                 <>
                                                       <div
@@ -149,9 +219,11 @@ const CustomerAccount = () => {
                                                                                           setModelAvatarSee={setmodelAvatarSee}
                                                                                           setModelAvatar={setModelAvatar}
                                                                                           children={
-                                                                                                <div className='flex justify-center mt-[25px]'>
-                                                                                                      <div className='avatar bg-yellow-300 w-[150px] h-[150px] rounded-full'></div>
-                                                                                                </div>
+                                                                                                <img
+                                                                                                      src={user.sercel_url}
+                                                                                                      alt='user_avatar'
+                                                                                                      className='w-[150px] h-full rounded-full'
+                                                                                                />
                                                                                           }
                                                                                     />
                                                                               </Portal>
@@ -207,9 +279,10 @@ const CustomerAccount = () => {
                                                       Họ & tên
                                                 </label>
                                                 <input
+                                                      {...methods.register('fullName')}
                                                       type='text'
                                                       id='form_name'
-                                                      value={'Đạt Lại'}
+                                                      defaultValue={methods.getValues('fullName')}
                                                       className='px-[12px] py-[8px] w-[60%] border-stone-300'
                                                 />
                                           </div>
@@ -219,10 +292,13 @@ const CustomerAccount = () => {
                                                       Nickname
                                                 </label>
                                                 <input
+                                                      {...methods.register('nickName')}
+                                                      placeholder={methods.getValues('nickName')}
                                                       type='text'
                                                       id='form_nickname'
-                                                      placeholder='Thêm nickname'
-                                                      className='px-[12px] py-[8px] w-[60%] border-stone-300'
+                                                      className={`italic ${
+                                                            methods.formState.isDirty ? 'text-slate-900' : 'text-stone-300'
+                                                      } px-[12px] py-[8px] w-[60%] border-stone-300`}
                                                 />
                                           </div>
                                     </div>
@@ -239,9 +315,19 @@ const CustomerAccount = () => {
                                                 <CustomerAccountGender />
                                           </div>
 
-                                          <button className='flex items-center justify-center ml-0 2xl:ml-[250px] w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'>
-                                                Lưu thay đổi
+                                          <button
+                                                className='flex items-center justify-center gap-[6px] ml-0 2xl:ml-[250px] w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
+                                                type='submit'
+                                          >
+                                                <span>Lưu thay đổi</span>
+                                                {!toast && updateInfo.isLoading && (
+                                                      <span
+                                                            className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                                            role='status'
+                                                      ></span>
+                                                )}{' '}
                                           </button>
+                                          {updateInfo.isSuccess && <BoxToast message={'Cập nhập thành công'} children={<p>OK</p>} />}
                                     </div>
                               </div>
                         </form>
@@ -252,9 +338,9 @@ const CustomerAccount = () => {
                         <div className='flex flex-col gap-[1px]'>
                               <span>Email & liên hệ</span>
                               <div className='flex justify-between items-center min-h-[90px] pb-[15px] '>
-                                    <div>
+                                    <div className='w-[70%] flex flex-col items-center'>
                                           <div className=''>Địa chỉ email</div>
-                                          <span>datlai304@gmail.com</span>
+                                          <span className='block w-[250px] truncate'>{user.email}sdsdsadsds</span>
                                     </div>
                                     <Link
                                           to={'/customer/account/edit/email'}
@@ -278,6 +364,10 @@ const CustomerAccount = () => {
                                           Cập nhập
                                     </Link>
                               </div>
+
+                              <button className='bg-slate-900 text-white' onClick={handleGetMe}>
+                                    Get me{' '}
+                              </button>
                         </div>
                   </div>
             </div>

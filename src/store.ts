@@ -10,7 +10,7 @@ import authenticationSlice from './Redux/authenticationSlice'
 const persistConfig = {
       key: 'anhYeuEm',
       storage,
-      blacklist: ['uiSlice'],
+      blacklist: ['uiSlice', 'authentication'],
 }
 
 // const authPersistConfig = {

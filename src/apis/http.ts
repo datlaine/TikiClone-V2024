@@ -9,7 +9,7 @@ class AxiosCustom {
             console.log(process.env.REACT_APP_BASE_URL)
             this.instance = axios.create({
                   baseURL: process.env.REACT_APP_BASE_URL,
-                  timeout: 1000,
+                  timeout: 10000,
                   headers: {
                         'Content-Type': 'application/json',
                   },
@@ -32,27 +32,58 @@ class AxiosCustom {
             this.instance.interceptors.response.use(
                   (res) => res,
                   async (error) => {
+                        console.log({ error })
                         const originalRequest = error.config
-
-                        if (error.response?.status !== 401) return Promise.reject(error)
+                        // if (error.response?.status !== 401 || error.response?.status !== 403) return Promise.reject(error)
+                        if (
+                              error.response?.status === 401 &&
+                              error.response?.statusText === 'Unauthorized' &&
+                              error.response.config.url === '/v1/api/auth/rf'
+                        ) {
+                              localStorage.removeItem('user')
+                              localStorage.removeItem('token')
+                              return Promise.reject(error)
+                        }
                         if (
                               error.response?.status === 401 &&
                               error.response?.statusText === 'Unauthorized' &&
                               error.response?.data.detail === 'Token expires' &&
-                              !retry
+                              !originalRequest.retry
                         ) {
-                              retry = true
+                              originalRequest.retry = true
 
                               const res = await Auth.refresh_token()
-                              console.log(res)
+
                               if (res) {
                                     const { token } = res.data.metadata
+                                    if (error.response.config.url === 'v1/api/account/update-avatar') {
+                                          console.log('dung url ne')
+                                          error.config.headers['Content-Type'] = 'multipart/form-data'
+                                    }
                                     error.config.headers['Authorization'] = `Bearer ${token}`
+
                                     localStorage.setItem('token', JSON.stringify(token))
-                                    return this.instance.request(error.config)
+                                    originalRequest.retry = false
+                                    return this.instance(error.config)
                               }
-                              return Promise.reject(res)
+                              if (!res) {
+                                    return Promise.reject(res)
+                              }
+
+                              console.log('sdsd', res)
                         }
+
+                        if (
+                              error.response?.status === 403 &&
+                              error.response?.statusText === 'Forbidden' &&
+                              error.response?.data.detail === 'Login again'
+                        ) {
+                              localStorage.removeItem('user')
+                              localStorage.removeItem('token')
+                              window.location.reload()
+                              return Promise.reject(error)
+                        }
+                        return Promise.reject(error)
                   },
             )
       }

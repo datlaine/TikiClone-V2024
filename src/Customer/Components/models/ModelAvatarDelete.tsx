@@ -1,21 +1,23 @@
 import React, { SetStateAction } from 'react'
+import { TAvatarActions } from '../../../reducer/customer.reducer'
 
 type Tprops = {
-      setModelAvatar: React.Dispatch<SetStateAction<boolean>>
-      setModelAvatarDelete: React.Dispatch<SetStateAction<boolean>>
+      modeDispatch: React.Dispatch<TAvatarActions>
+
+      setModelAvatar?: React.Dispatch<SetStateAction<boolean>>
+      setModelAvatarDelete?: React.Dispatch<SetStateAction<boolean>>
 }
 
 // () => api
 const ModelAvatarDelete = (props: Tprops) => {
-      const { setModelAvatar, setModelAvatarDelete } = props
+      const { modeDispatch } = props
 
       const handleCancelActionDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            setModelAvatar(false)
-            setModelAvatarDelete(false)
+            modeDispatch({ type: 'CLOSE_MODE_AVATAR_DELETE', payload: { modeAvatarDelete: false, boxModeAvatar: false } })
       }
 
       return (
-            <div className='fixed w-full min-h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.7)] z-[500px]'>
+            <div className='fixed w-full min-h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.7)] z-[501]'>
                   <div
                         className='w-[400px] h-[150px] p-[16px] bg-white rounded-lg shadow-2xl flex flex-col gap-[12px]'
                         onClick={(e) => e.stopPropagation()}

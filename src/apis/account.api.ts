@@ -8,6 +8,10 @@ class Account {
       static async updateInfo(data: any) {
             return axiosCustom.post('/v1/api/account/update-info', data)
       }
+
+      static async updateAvatar(data: any) {
+            return axiosCustom.post('v1/api/account/update-avatar', data, { headers: { 'content-Type': 'multipart/form-data' } })
+      }
 }
 
 export default Account

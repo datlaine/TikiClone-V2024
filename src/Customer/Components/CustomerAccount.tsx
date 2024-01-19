@@ -1,33 +1,41 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useReducer, useRef, useState } from 'react'
 
-//@Components
-import Portal from '../../component/Portal'
-import ModelCustomerAvatar from './models/ModelAvatarSee'
-import ModelAvatarUpdate from './models/ModelAvatarUpdate'
-import ModelAvatarDelete from './models/ModelAvatarDelete'
-import CustomerAccountBirth from './form/CustomerAccountBirth'
-import CustomerAccountGender from './form/CustomerAccountGender'
-import { Link, useNavigate } from 'react-router-dom'
+//@react-router
+import { Link } from 'react-router-dom'
 
 //@react-hook-form
 import { useForm, FormProvider } from 'react-hook-form'
+
+//@tanstack query
+import { useMutation } from '@tanstack/react-query'
 
 //@redux-toolkit
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { getInfoUser } from '../../Redux/authenticationSlice'
 
+//@components
+import Portal from '../../component/Portal'
+import ModelCustomerAvatar from './models/ModelAvatarSee'
+import ModelAvatarUpdate from './models/ModelAvatarUpdate'
+import ModelAvatarDelete from './models/ModelAvatarDelete'
+import CustomerAccountBirth from './form/CustomerAccountBirth'
+import CustomerAccountGender from './form/CustomerAccountGender'
+
 //@auth - api
 import Account from '../../apis/account.api'
 
-//@tanstack query
-import { useMutation } from '@tanstack/react-query'
-
 //@toast - notification
 import BoxToast from '../../component/ui/BoxToast'
+
+//@utils
 import { checkAxiosError } from '../../utils/handleAxiosError'
 import { sleep } from '../../utils/sleep'
-import { on } from 'events'
+
+//@icon
+import { Eye, Image, Trash2 } from 'lucide-react'
+import { customerAccountReducer, initialValue } from '../../reducer/customer.reducer'
+import BoxAvatarMode from './Box/BoxAvatarMode'
 
 //@type form
 type TFormCustomer = {
@@ -42,22 +50,26 @@ type TFormCustomer = {
       gender: string
 }
 
+//@type form :: error
 type TErrorAxios = {
       code: number
       detail: string
       message: string
 } | null
 
-//@component
+//action
+
+//@Component :: api
 const CustomerAccount = () => {
       const user = useSelector((state: RootState) => state.authentication.user)
       const [modelAvatar, setModelAvatar] = useState(false)
+      const [state, modeDispatch] = useReducer(customerAccountReducer, initialValue)
       const [modelAvatarSee, setmodelAvatarSee] = useState(false)
       const [modelAvatarUpdate, setModelAvatarUpdate] = useState(false)
       const [modelAvatarDelete, setModelAvatarDelete] = useState(false)
-
-      const refModelAvatar = useRef<HTMLDivElement>(null)
       const [toast, setShowToast] = useState(false)
+      const count = useRef<number>(0)
+      const refModelAvatar = useRef<HTMLDivElement>(null)
       const dispatch = useDispatch()
       const methods = useForm<TFormCustomer>({
             defaultValues: {
@@ -72,10 +84,28 @@ const CustomerAccount = () => {
             },
       })
 
+      console.log('account re-render', count.current)
+
       const getMe = useMutation({
             mutationKey: ['getMe'],
             mutationFn: () => Account.getMe(),
             onSuccess: (data: any) => console.log('me', data),
+            onError: async (error) => {
+                  //@[shape] :: error.response.data.error
+                  if (checkAxiosError<TErrorAxios>(error)) {
+                        if (
+                              error.response?.status === 401 &&
+                              error.response?.statusText === 'Unauthorized' &&
+                              error.response.config.url === '/v1/api/auth/rf'
+                        ) {
+                              setShowToast(true)
+                              localStorage.removeItem('user')
+                              localStorage.removeItem('token')
+                              await sleep(2000)
+                              window.location.reload()
+                        }
+                  }
+            },
       })
 
       const updateInfo = useMutation({
@@ -87,7 +117,7 @@ const CustomerAccount = () => {
             },
 
             onError: async (error) => {
-                  //error.response.data.error
+                  //@[shape] :: error.response.data.error
                   if (checkAxiosError<TErrorAxios>(error)) {
                         if (error.response?.data?.code === 403 && error.response.data.message === 'Forbidden') {
                               setShowToast(true)
@@ -95,44 +125,11 @@ const CustomerAccount = () => {
                               window.location.reload()
                         }
                   }
-                  // if (error.response.status === 403 && error.response.statusText === 'Forbidden') console.log(error)
             },
       })
-      useEffect(() => {
-            const handleEvent = (e: MouseEvent) => {
-                  // khong click vao thi chay dong script nay
-                  if (!refModelAvatar.current?.contains(e.target as Node)) {
-                        // console.log('click point', e.target, modelAvatar)
-                        if (refModelAvatar.current) {
-                              // console.log(1)
-                              setModelAvatar((prev) => !prev)
-                        }
-                  }
-            }
-
-            document.addEventListener('click', handleEvent)
-
-            return () => document.removeEventListener('click', handleEvent)
-      }, [])
 
       const handleGetMe = () => {
             getMe.mutate()
-      }
-
-      const handleControllmodelAvatarSee = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-            e.stopPropagation()
-            setmodelAvatarSee((prev) => !prev)
-      }
-
-      const handleControllmodelAvatarUpdate = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-            e.stopPropagation()
-            setModelAvatarUpdate((prev) => !prev)
-            console.log('update')
-      }
-
-      const handleControllmodelAvatarDelete = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-            e.stopPropagation()
-            setModelAvatarDelete((prev) => !prev)
       }
 
       useEffect(() => {
@@ -145,6 +142,7 @@ const CustomerAccount = () => {
 
       //submid update info account
       const onSubmit = (form: TFormCustomer) => {
+            console.log({ submid: form })
             //Có 2 trường hợp sẽ xảy ra liên quan đến bob
             // thứ nhất theo mặc định sẽ là 'Ngày' 'Tháng' 'Năm' nếu người dùng không tương tác với field này thì ta sẽ gán cho nó = null
             // còn ngược lại thì ghép 3 chuỗi vừa nhận được từ hàm vaild kia để tạo ra 1 ngày hoàn chỉnh rồi gửi lên server
@@ -162,7 +160,6 @@ const CustomerAccount = () => {
                   nickName: form.nickName ? form.nickName : null,
                   fullName: form.fullName ? form.fullName : null,
             })
-            // console.log('form-clear', new Date(+data.birth.year, +data.birth.month + 1, +data.birth.day))
       }
       return (
             <div className='flex flex-col lg:flex-row min-h-[500px] h-auto gap-[20px] xl:gap-[2%]'>
@@ -170,82 +167,17 @@ const CustomerAccount = () => {
 
                   <FormProvider {...methods}>
                         <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[12px]' onSubmit={methods.handleSubmit(onSubmit)}>
-                              <h3 className='h-[10%]'>Thông tin cá nhân</h3>
+                              {/* @header */}
+                              <h3 className='h-[75px]'>Thông tin cá nhân</h3>
+
+                              {/* @change mode with avatar */}
                               <div className='h-[45%] xl:h-[20%] data-user flex flex-col xl:flex-row gap-[20px] xl:gap-0 xl:items-center'>
-                                    <div
-                                          className=' flex self-center items-center justify-center h-[60px] w-[60px] xl:h-[110px] xl:w-[110px] rounded-full bg-blue-300 relative'
-                                          onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                                                e.stopPropagation()
-                                                setModelAvatar((prev) => !prev)
-                                          }}
-                                    >
-                                          <img src={user.sercel_url || ''} alt='user_avatar' className='w-full h-full rounded-full' />
-                                          {modelAvatar && (
-                                                <>
-                                                      <div
-                                                            className='absolute z-[500] top-[70%]  shadow-xl border-[1px] border-stone-300 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
-                                                            ref={refModelAvatar}
-                                                      >
-                                                            <div className='relative z-[500]'>
-                                                                  <span className='clip-path-modelAvatar absolute w-[20px] h-[13.5px] border-[1px] border-stone-300 border-b-0  bg-white top-[-13px] left-[50%] translate-x-[-50%]'></span>
-                                                                  <ul className='h-full'>
-                                                                        <li
-                                                                              className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100'
-                                                                              onClick={handleControllmodelAvatarSee}
-                                                                        >
-                                                                              {/* <img src='' alt='' /> */}
-                                                                              <div className='bg-red-500 w-[15px] h-[15px] mr-[12px] rounded'></div>
-                                                                              <span>Xem ảnh đại diện</span>
-                                                                        </li>
-                                                                        {modelAvatarSee && (
-                                                                              <Portal>
-                                                                                    <ModelCustomerAvatar
-                                                                                          setModelAvatarSee={setmodelAvatarSee}
-                                                                                          setModelAvatar={setModelAvatar}
-                                                                                          children={
-                                                                                                <img
-                                                                                                      src={user.sercel_url}
-                                                                                                      alt='user_avatar'
-                                                                                                      className='w-[150px] h-full rounded-full'
-                                                                                                />
-                                                                                          }
-                                                                                    />
-                                                                              </Portal>
-                                                                        )}
-                                                                        <li
-                                                                              className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100'
-                                                                              onClick={handleControllmodelAvatarUpdate}
-                                                                        >
-                                                                              {/* <img src='' alt='' /> */}
-                                                                              <div className='bg-blue-500 w-[15px] h-[15px] mr-[12px] rounded'></div>
-
-                                                                              <span>Cập nhập ảnh đại diện</span>
-                                                                        </li>
-
-                                                                        <li
-                                                                              className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 '
-                                                                              onClick={handleControllmodelAvatarDelete}
-                                                                        >
-                                                                              {/* <img src='' alt='' /> */}
-                                                                              <div className='bg-yellow-500 w-[15px] h-[15px] mr-[12px] rounded'></div>
-                                                                              <span>Xóa ảnh đại diện</span>
-                                                                        </li>
-
-                                                                        {modelAvatarDelete && (
-                                                                              <Portal>
-                                                                                    <ModelAvatarDelete
-                                                                                          setModelAvatar={setModelAvatar}
-                                                                                          setModelAvatarDelete={setModelAvatarDelete}
-                                                                                    />
-                                                                              </Portal>
-                                                                        )}
-                                                                  </ul>
-                                                            </div>
-                                                      </div>
-                                                </>
-                                          )}
-                                    </div>
+                                    {/* @onClick active mode*/}
+                                    <BoxAvatarMode />
+                                    {/* @ form update infomation account */}
+                                    {/* @ formLayout - 1 */}
                                     <div className='flex flex-1  flex-col justify-between gap-4'>
+                                          {/* @ field::name -> fullname */}
                                           <div className='flex justify-between w-full h-[35%] pl-[15px] items-center text-[14px]'>
                                                 <label htmlFor='form_name' className='w-[20%]'>
                                                       Họ & tên
@@ -258,7 +190,7 @@ const CustomerAccount = () => {
                                                       className='px-[12px] py-[8px] w-[60%] border-stone-300'
                                                 />
                                           </div>
-
+                                          {/* @ field::name -> nickname */}
                                           <div className='flex justify-between w-full h-[35%] pl-[15px] items-center text-[14px]'>
                                                 <label htmlFor='form_nickname' className='w-[20%]'>
                                                       Nickname
@@ -275,25 +207,27 @@ const CustomerAccount = () => {
                                           </div>
                                     </div>
                               </div>
+                              {/* @ formLayout - 2 */}
                               <div className='form_user w-full min-h-[50%] sm:min-h-[40%] h-auto flex gap-[4%] mt-[16px] xl:mt-0'>
                                     <div className='flex flex-col w-full gap-[16px] lg:pt-[15px] 2xl:pt-[10px]'>
+                                          {/* @ field::bob */}
                                           <div className='flex flex-col sm:flex-row justify-between w-full h-[30%] sm:h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
-                                                {/* <div className='label w-full flex flex-col 2xl:flex-row  gap-[10px] lg:gap-[25px] 2xl:gap-[0px]  sm:items-start  2xl:items-center  '> */}
                                                 <span className='w-[80px]'>Ngày sinh</span>
                                                 <CustomerAccountBirth />
                                           </div>
+                                          {/* @ field::gender */}
                                           <div className='flex flex-col sm:flex-row justify-between w-full h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
-                                                {/* <div className='label flex flex-col lg:flex-row gap-[10px] lg:gap-[25px] 2xl:gap-0    items-start  xl:items-center '> */}
                                                 <span className='w-[80px]'>Giới tính</span>
                                                 <CustomerAccountGender />
                                           </div>
-
+                                          {/* @ form::action -> submit */}
                                           <div className='w-full mt-[50px] sm:mt-0 pl:[35px] sm:pl-[115px]'>
                                                 <button
                                                       className='flex items-center justify-center gap-[6px] ml-0  w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
                                                       type='submit'
                                                 >
                                                       <span>Lưu thay đổi</span>
+                                                      {/* @ form::action -> boolean submit */}
                                                       {!toast && updateInfo.isLoading && (
                                                             <span
                                                                   className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
@@ -302,14 +236,17 @@ const CustomerAccount = () => {
                                                       )}{' '}
                                                 </button>
                                           </div>
+
+                                          {/* @ form::action -> toast */}
                                           {updateInfo.isSuccess && <BoxToast message={'Cập nhập thành công'} children={<p>OK</p>} />}
                                     </div>
                               </div>
                         </form>
                   </FormProvider>
-                  {/* <br /> */}
+                  {/* Right */}
                   <div className='w-[1px] min-h-full bg-slate-200'></div>
                   <div className='w-full xl:w-[45%] min-h-full '>
+                        {/* @customer::account -> update::email */}
                         <div className='flex flex-col gap-[1px]'>
                               <span>Email & liên hệ</span>
                               <div className='flex flex-col sm:flex-row justify-between sm:items-center min-h-[90px] pb-[15px] gap-[15px] sm:gap-0 '>
@@ -325,7 +262,7 @@ const CustomerAccount = () => {
                                     </Link>
                               </div>
                         </div>
-
+                        {/* @customer::account -> update::password */}
                         <div className='flex flex-col gap-[1px]'>
                               <span>Bảo mật</span>
                               <div className='flex flex-col sm:flex-row justify-between sm:items-center min-h-[90px] pb-[15px] gap-[15px] sm:gap-0'>
@@ -345,11 +282,6 @@ const CustomerAccount = () => {
                               </button>
                         </div>
                   </div>
-                  {modelAvatarUpdate && (
-                        <Portal>
-                              <ModelAvatarUpdate setModelAvatar={setModelAvatar} setModelAvatarUpdate={setModelAvatarUpdate} />
-                        </Portal>
-                  )}
             </div>
       )
 }

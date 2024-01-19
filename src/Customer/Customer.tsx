@@ -1,12 +1,22 @@
-import React, { memo, useState } from 'react'
+import { memo, useState } from 'react'
+
+//@react router
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import NotFound from '../component/Errors/NotFound'
-import CustomerWrapperItem from './Components/CustomerWrapperItem'
-import AuthPermission from '../component/Auth/AuthPermission'
+
+//@redux-toolkit
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
-import { Lock } from 'lucide-react'
+
+//@components
+import CustomerWrapperItem from './Components/CustomerWrapperItem'
+import AuthPermission from '../component/Auth/AuthPermission'
+import NotFound from '../component/Errors/NotFound'
+
+//@icon
+import { BellDot, Lock, NotebookPen } from 'lucide-react'
 import { UserRound } from 'lucide-react'
+
+//@const
 const link = [
       { path: '/customer/account', text: 'Thông tin tài khoản' },
       { path: '/customer/notification', text: 'Thông báo của tôi' },
@@ -15,27 +25,36 @@ const link = [
       { path: '/customer/account/edit/pass', text: 'Cập nhập password' },
 ]
 
+//@Component
 const Customer = () => {
+      //@pathname
       let pathName = useLocation()?.pathname
-      console.log(useLocation())
+
+      //@context pathname
       const [_, setSectionActive] = useState('/customer/account')
+
+      //@connect state redux
       const user = useSelector((state: RootState) => state.authentication.user)
       const auth = Boolean(user)
 
+      //@check path
       if (pathName === '/customer') return <NotFound />
+
+      //@filter pathname context
       const textLink = link.find((pathItem) => {
             if (pathItem.path === pathName) return pathItem
       })
 
-      console.log('1', textLink)
-
+      //@active pathname
       const handleActive = (pathName: string) => {
             setSectionActive(pathName)
       }
 
+      //@element
       return (
             <>
                   <div className='px-[75px] w-full pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
+                        {/* @header */}
                         <div className='mb-[1px]'>
                               <Link to={'/'}>Trang chủ</Link>
                               <span> {' > '}</span>
@@ -45,6 +64,7 @@ const Customer = () => {
                         </div>
 
                         <div className='flex gap-[1%] min-h-[450px]  h-[auto] '>
+                              {/* @navigate pathname */}
                               <div className='hidden  xl:block lg:w-[24%]'>
                                     <div
                                           className='h-[75px] flex items-center gap-[8px] overflow-x-hidden'
@@ -69,8 +89,6 @@ const Customer = () => {
                                                 </>
                                           ) : (
                                                 <div className='flex text-red-700 gap-[15px]'>
-                                                      <UserRound />
-
                                                       <Lock color='red' />
                                                       <span className='font-bold'>Permission</span>
                                                 </div>
@@ -90,7 +108,8 @@ const Customer = () => {
                                           className={`customer-item-bg ${textLink?.path === '/customer/notification' ? 'isActive' : ''}`}
                                           onClick={(e) => handleActive('/customer/notification')}
                                     >
-                                          <div className='w-[20px] h-[20px] bg-blue-500 rounded-full'></div>
+                                          <BellDot />
+
                                           <Link to={'/customer/notification'} className='p-[15px] w-full'>
                                                 Thông báo của tôi
                                           </Link>
@@ -100,12 +119,14 @@ const Customer = () => {
                                           className={`customer-item-bg ${textLink?.path === '/customer/order_history' ? 'isActive' : ''}`}
                                           onClick={(e) => handleActive('/customer/order_history')}
                                     >
-                                          <div className='w-[20px] h-[20px] bg-blue-500 rounded-full'></div>
+                                          <NotebookPen />
                                           <Link to={'/customer/order_history'} className='p-[15px] w-full'>
                                                 Quản lí đơn hàng
                                           </Link>
                                     </div>
                               </div>
+
+                              {/*@ Outlet */}
                               <div className='w-full 2xl:w-[75%]'>
                                     <div className='h-[55px] flex items-center'>{textLink?.text}</div>
                                     {auth ? (

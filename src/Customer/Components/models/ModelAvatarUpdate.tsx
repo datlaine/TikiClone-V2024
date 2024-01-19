@@ -1,24 +1,36 @@
+import { useMutation } from '@tanstack/react-query'
 import { X } from 'lucide-react'
-import React, { SetStateAction, useEffect, useState } from 'react'
+import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import Account from '../../../apis/account.api'
+import { TAvatarActions } from '../../../reducer/customer.reducer'
 
 //@props
 type TProps = {
-      setModelAvatarUpdate: React.Dispatch<SetStateAction<boolean>>
-      setModelAvatar: React.Dispatch<SetStateAction<boolean>>
+      setModelAvatarUpdate?: React.Dispatch<SetStateAction<boolean>>
+      setModelAvatar?: React.Dispatch<SetStateAction<boolean>>
+      modeDispatch: React.Dispatch<TAvatarActions>
 }
 
 type TForm = {
-      file: FileList
+      file: any
 }
 
 //@component::api
 const ModelAvatarUpdate = (props: TProps) => {
       //@props
-      const { setModelAvatar, setModelAvatarUpdate } = props
-      const { register, handleSubmit, control } = useForm<TForm>({
-            defaultValues: { file: undefined },
+      const { modeDispatch } = props
+      const methods = useForm<TForm>({
+            defaultValues: { file: null },
       })
+
+      const updateAvatarResponse = useMutation({
+            mutationKey: ['update-avatar'],
+            mutationFn: (data: any) => Account.updateAvatar(data),
+            onSuccess: (res: any) => console.log('update avatar response', res),
+            onError: (res: any) => console.log('update avatar response error', res),
+      })
+      const fileRef = useRef<File>()
 
       const [fileAvatar, setFileAvatar] = useState<File>()
       const [filePreview, setFilePreview] = useState<string | undefined>()
@@ -38,9 +50,9 @@ const ModelAvatarUpdate = (props: TProps) => {
 
       //@closeModel
       const modelControllClose = () => {
-            setModelAvatar(false)
-            setModelAvatarUpdate(false)
             setFileAvatar(undefined)
+            modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
+
             if (filePreview) URL.revokeObjectURL(filePreview)
             setFilePreview('')
       }
@@ -54,11 +66,19 @@ const ModelAvatarUpdate = (props: TProps) => {
             console.log(e.target.files)
             if (e.target.files) {
                   setFileAvatar(e.target.files[0])
+                  fileRef.current = e.target.files[0]
             }
       }
 
       const onSubmit: SubmitHandler<TForm> = (file) => {
-            console.log(file.file[0])
+            console.log(file, fileAvatar)
+            // console.log('link', URL.createObjectURL(file.file[0].name))
+            const formData: any = new FormData()
+            formData.append('file', fileRef.current)
+            formData.append('name', 'Đạt')
+
+            console.log('dirty', methods.formState.defaultValues)
+            updateAvatarResponse.mutate(formData)
       }
 
       //@element
@@ -73,7 +93,14 @@ const ModelAvatarUpdate = (props: TProps) => {
                         </div>
                         <div className='h-[10%] flex items-center mb-[15px]'>Cập nhập ảnh đại diện</div>
                         <div className='h-[1px] bg-stone-100'></div>
-                        <form className='h-[85%]' onSubmit={handleSubmit(onSubmit)}>
+                        <form
+                              className='h-[85%]'
+                              onSubmit={(e) => {
+                                    e.stopPropagation()
+
+                                    return methods.handleSubmit(onSubmit)(e)
+                              }}
+                        >
                               <div
                                     className={`flex ${
                                           filePreview ? 'h-[calc(90%-32px)]' : 'justify-center h-[calc(100%-85px)]'
@@ -92,7 +119,7 @@ const ModelAvatarUpdate = (props: TProps) => {
                                     </label>
                                     <Controller
                                           name='file'
-                                          control={control}
+                                          control={methods.control}
                                           render={({ field }) => (
                                                 <input
                                                       type='file'

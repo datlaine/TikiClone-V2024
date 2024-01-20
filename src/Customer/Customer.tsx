@@ -53,9 +53,9 @@ const Customer = () => {
       //@element
       return (
             <>
-                  <div className='px-[75px] w-full pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
+                  <div className='px-[75px] w-full h-full flex items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
                         {/* @header */}
-                        <div className='mb-[1px]'>
+                        <div className='hidden lg:block mb-[1px]'>
                               <Link to={'/'}>Trang chủ</Link>
                               <span> {' > '}</span>
                               <Link className='' to={textLink?.path as string}>
@@ -63,7 +63,7 @@ const Customer = () => {
                               </Link>
                         </div>
 
-                        <div className='flex gap-[1%] min-h-[450px]  h-[auto] '>
+                        <div className='w-full flex gap-[1%] min-h-[450px]  h-[auto] '>
                               {/* @navigate pathname */}
                               <div className='hidden  xl:block lg:w-[24%]'>
                                     <div
@@ -75,7 +75,7 @@ const Customer = () => {
                                                       <img
                                                             src={user.sercel_url || ''}
                                                             alt='user_avatar'
-                                                            className='w-[40px] h-[40px] rounded-full'
+                                                            className='min-w-[30px] lg:min-w-[40px] w-[30px] h-[30px] lg:w-[40px] lg:h-[40px] rounded-full'
                                                       />
 
                                                       <div className='flex flex-col gap-[1px]'>
@@ -128,7 +128,7 @@ const Customer = () => {
 
                               {/*@ Outlet */}
                               <div className='w-full 2xl:w-[75%]'>
-                                    <div className='h-[55px] flex items-center'>{textLink?.text}</div>
+                                    <div className='hidden xl:flex h-[55px]  items-center'>{textLink?.text}</div>
                                     {auth ? (
                                           <CustomerWrapperItem>
                                                 <Outlet />

@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 
 //@type props
 type TProps = {
       message: string
       children: React.ReactNode
+      setShowToast?: React.Dispatch<SetStateAction<boolean>>
 }
 
 //@component
@@ -17,6 +18,9 @@ const BoxToast = (props: TProps) => {
       useEffect(() => {
             timeoutShowToast.current = setTimeout(() => {
                   setShow(false)
+                  if (props.setShowToast) {
+                        props.setShowToast(false)
+                  }
             }, 3000)
 
             if (!show) {

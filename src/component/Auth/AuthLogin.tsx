@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react'
+import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 import { TModeAuth } from './AuthWrapper'
 import { Eye, EyeOff, ShieldX } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -10,6 +10,10 @@ import { AxiosResponse } from 'axios'
 import { TApiRegisterResponse } from '../../types/axiosResponse'
 import { TRegisterResponse, getInfoUser } from '../../Redux/authenticationSlice'
 import { useDispatch } from 'react-redux'
+import { checkAxiosError } from '../../utils/handleAxiosError'
+import TErrorAxios from '../../types/axios.response.error'
+import BoxToast from '../ui/BoxToast'
+import { debounce } from 'lodash'
 
 type TProps = {
       setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
@@ -39,7 +43,8 @@ type TloginZodSchema = z.infer<typeof loginSchema>
 const AuthLogin = (props: TProps) => {
       //Mode Login | register
       const { setModeAuth } = props
-
+      const [toast, setShowToast] = useState(false)
+      const countRef = useRef(0)
       //state type password
       const [typePassword, setTypePassword] = useState<'password' | 'text'>('password')
 
@@ -53,6 +58,10 @@ const AuthLogin = (props: TProps) => {
             resolver: zodResolver(loginSchema),
       })
 
+      useEffect(() => {}, [])
+      countRef.current += 1
+
+      console.log({ count: countRef.current })
       const dispatch = useDispatch()
 
       const authLogin = useMutation({
@@ -62,8 +71,22 @@ const AuthLogin = (props: TProps) => {
                   dispatch(getInfoUser(res.data.metadata.user))
                   localStorage.setItem('token', JSON.stringify(res.data.metadata.access_token))
             },
-            onError: (data: unknown) => console.log('error data check', data),
+            onError: async (error: unknown) => {
+                  //@[shape] :: error.response.data.error
+                  if (checkAxiosError<TErrorAxios>(error)) {
+                        if (
+                              error?.response?.status === 404 &&
+                              error?.response?.statusText === 'Not Found' &&
+                              error?.response?.data?.detail === 'Not found Email'
+                        ) {
+                              setShowToast(true)
+                        }
+                  }
+            },
+            retry: 1,
       })
+
+      console.log({ toast })
 
       //change type passsword
       const handleShowHidePassword = () => {
@@ -75,13 +98,15 @@ const AuthLogin = (props: TProps) => {
             }
       }
 
-      const onSubmit = (form: TFormLogin) => {
+      const onSubmit = debounce((form: TFormLogin) => {
             // console.log(form, errors)
             authLogin.mutate(form)
-      }
+      }, 2500)
 
       return (
             <div className='flex flex-col items-center gap-[15px] py-[35px]'>
+                  {toast && <BoxToast setShowToast={setShowToast} message={'Thông tin không hợp lệ'} children={<p>OK</p>} />}
+
                   <h3
                         className={`${
                               Object.keys(errors).length > 0 ? 'text-red-700' : 'text-slate-900'
@@ -150,9 +175,10 @@ const AuthLogin = (props: TProps) => {
                               </p>
                         </div>
                         <button
+                              onClick={() => console.log('click')}
                               type='submit'
                               className='w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
-                              disabled={Object.keys(errors).length > 0}
+                              disabled={!authLogin.isLoading && Object.keys(errors).length > 0}
                               title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
                         >
                               Login

@@ -78,9 +78,6 @@ class AxiosCustom {
                               error.response?.statusText === 'Forbidden' &&
                               error.response?.data.detail === 'Login again'
                         ) {
-                              localStorage.removeItem('user')
-                              localStorage.removeItem('token')
-                              window.location.reload()
                               return Promise.reject(error)
                         }
                         return Promise.reject(error)

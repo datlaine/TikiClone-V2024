@@ -49,13 +49,17 @@ const BoxAvatarMode = () => {
       }
       return (
             <div
-                  className=' flex  items-center justify-center h-[60px] w-[60px] xl:h-[110px] xl:w-[110px] rounded-full bg-blue-300 relative'
+                  className=' flex  items-center justify-center h-[60px] w-full xl:h-[110px] xl:w-[110px] rounded-full mb-[15px] relative'
                   onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                         e.stopPropagation()
                         modeDispatch({ type: 'OPEN_BOX_AVATAR', payload: { boxModeAvatar: true } })
                   }}
             >
-                  <img src={user.sercel_url || ''} alt='user_avatar' className='w-full h-full rounded-full' />
+                  <img
+                        src={user.sercel_url || ''}
+                        alt='user_avatar'
+                        className='w-[80px] h-[80px] lg:w-[100px]  lg:h-[100px] rounded-full'
+                  />
 
                   {/* @box avatar action*/}
                   {state.boxModeAvatar && (

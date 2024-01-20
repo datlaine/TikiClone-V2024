@@ -28,13 +28,8 @@ function HeaderSlogan() {
 }
 
 function Header() {
-      // console.log('props')
       const address = USER.userAddress
-      // const count = useRef(0)
-      // count.current += 1
-      // console.log('HEADER')
       useEffect(() => {
-            // console.log('count', count.current)
             window.scrollTo(0, 0)
       }, [])
 
@@ -42,41 +37,16 @@ function Header() {
       const pathName = useLocation().pathname
       console.log()
 
-      useEffect(() => {
-            const onResize = throttle(() => setWithWindow(window.innerWidth), 1000)
-            window.addEventListener('resize', onResize)
-            return () => {
-                  window.removeEventListener('resize', onResize)
-            }
-      }, [setWithWindow])
+      // useEffect(() => {
+      //       const onResize = throttle(() => setWithWindow(window.innerWidth), 1000)
+      //       window.addEventListener('resize', onResize)
+      //       return () => {
+      //             window.removeEventListener('resize', onResize)
+      //       }
+      // }, [setWithWindow])
       return (
-            // <div
-            //   id=''
-            //   className='h-[60px] top-0 w-full fixed z-[500] bg-[#fff] px-1   lg:w-full  lg:h-16   xl:w-full xl:px-0 xl:flex xl:flex-col 2xl:h-[150px]  '
-            // >
-            //   <div className='2xl:basic-[60%] 2xl:flex 2xl:justify-center  flex-col dienThoai:p-0 dienThoai:w-full dienThoai:h-full lg:max-w-full  xl:px-[40px] lg:px-7'>
-            //     <div className='flex min-w-full px-1 gap-1 items-center '>
-            //       <HeaderLogoToggle />
-            //       <div className='flex-1 2xl:flex 2xl:flex-col 2xl:gap-4'>
-            //         <div className='ml-4 flex justify-center items-center gap-6 2xl:ml-0 2xl:gap-0'>
-            //           <SeacrhInput />
-            //           <HeaderActions />
-            //           <HeaderCart />
-            //         </div>
-            //         <div id='' className='hidden 2xl:flex items-center justify-between'>
-            //           <HeaderTagsLocation />
-            //         </div>
-            //       </div>
-            //     </div>
-            //   </div>
-            //   <HeaderSlogan />
-            // </div>
             <>
-                  <div
-                        className={`${
-                              pathName.startsWith('/customer') && withWindow < 1024 ? 'hidden' : 'fixed'
-                        } lg:static top-0 left-0 w-full z-[100] bg-white shadow-xl`}
-                  >
+                  <div className={`fixed lg:static top-0 left-0 w-full z-[100] bg-white shadow-xl`}>
                         <div className='h-[75px] lg:h-[100px] py-2 px-8 bg-white flex items-center gap-3 lg:gap-0'>
                               <div className='basis-[7%] flex items-center'>
                                     <HeaderLogoToggle />

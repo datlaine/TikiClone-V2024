@@ -4,6 +4,10 @@ import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import Account from '../../../apis/account.api'
 import { TAvatarActions } from '../../../reducer/customer.reducer'
+import { checkAxiosError } from '../../../utils/handleAxiosError'
+import BoxToast from '../../../component/ui/BoxToast'
+import { sleep } from '../../../utils/sleep'
+import TErrorAxios from '../../../types/axios.response.error'
 
 //@props
 type TProps = {
@@ -23,12 +27,28 @@ const ModelAvatarUpdate = (props: TProps) => {
       const methods = useForm<TForm>({
             defaultValues: { file: null },
       })
+      const [toast, setShowToast] = useState(false)
 
       const updateAvatarResponse = useMutation({
             mutationKey: ['update-avatar'],
             mutationFn: (data: any) => Account.updateAvatar(data),
             onSuccess: (res: any) => console.log('update avatar response', res),
-            onError: (res: any) => console.log('update avatar response error', res),
+            onError: async (error) => {
+                  //@[shape] :: error.response.data.error
+                  if (checkAxiosError<TErrorAxios>(error)) {
+                        if (
+                              error.response?.status === 403 &&
+                              error.response?.statusText === 'Forbidden' &&
+                              error.response?.data?.detail === 'Login again'
+                        ) {
+                              setShowToast(true)
+                              // localStorage.removeItem('user')
+                              // localStorage.removeItem('token')
+                              await sleep(2000)
+                              // window.location.reload()
+                        }
+                  }
+            },
       })
       const fileRef = useRef<File>()
 
@@ -36,6 +56,8 @@ const ModelAvatarUpdate = (props: TProps) => {
       const [filePreview, setFilePreview] = useState<string | undefined>()
 
       useEffect(() => {
+            console.log('dirty', methods.watch('file'))
+
             if (!fileAvatar) {
                   setFilePreview(undefined)
                   return
@@ -77,16 +99,18 @@ const ModelAvatarUpdate = (props: TProps) => {
             formData.append('file', fileRef.current)
             formData.append('name', 'Đạt')
 
-            console.log('dirty', methods.formState.defaultValues)
+            console.log('dirty', methods)
             updateAvatarResponse.mutate(formData)
       }
 
       //@element
       return (
             <div
-                  className='fixed top-0 left-0 bg-[rgba(0,0,0,.7)] w-full min-h-screen z-[500] flex items-center justify-center'
+                  className='fixed top-0 left-0 mx-[25px] lg:mx-0 bg-[rgba(0,0,0,.7)] w-full min-h-screen z-[500] flex items-center justify-center'
                   onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
             >
+                  {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />}
+
                   <div className={`w-[650px] ${filePreview ? 'h-[450px]' : 'h-[740px]'} bg-white rounded-2xl p-[40px] relative`}>
                         <div className='text-[25px] absolute top-[25px] right-[25px]' onClick={modelControllClose}>
                               <X />

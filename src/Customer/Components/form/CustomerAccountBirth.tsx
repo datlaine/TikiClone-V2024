@@ -70,21 +70,21 @@ vaild -> thì return true
 not -> reutrn false
 giá trị mặc định không bị sữa đổi -> true
 */
-            console.log('check ngay', day, month, year)
+            console.log('check ngay', Number(day), month, year)
             day = day.toString().trim()
             month = month.toString().trim()
             year = year.toString().trim()
-            if (Number(day) < 9) day = `0${day}`.trim()
-            if (Number(month) < 9) month = `0${month}`.trim()
+            // if (Number(day) < 9) day = `0${day}`.trim()
+            // if (Number(month) < 9) month = `0${month}`.trim()
             const birthFull = `${year.trim()}-${month.trim()}-${day.trim()}`
             const vaild = moment(birthFull).isValid()
-            console.log('check ngay 2', moment('2002-05-30').isValid(), birthFull)
+            console.log('check ngay 2', moment('2021-2-30').isValid(), birthFull)
             if (vaild) {
                   console.log(birthFull, vaild)
                   return true
             }
             if (!vaild && day !== 'Ngày' && month !== 'Tháng' && year !== 'Năm') {
-                  console.log('khong hop le')
+                  console.log('khong hop le', day, month, year)
                   return false
             }
             return true

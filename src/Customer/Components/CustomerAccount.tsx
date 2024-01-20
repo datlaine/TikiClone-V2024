@@ -15,10 +15,6 @@ import { RootState } from '../../store'
 import { getInfoUser } from '../../Redux/authenticationSlice'
 
 //@components
-import Portal from '../../component/Portal'
-import ModelCustomerAvatar from './models/ModelAvatarSee'
-import ModelAvatarUpdate from './models/ModelAvatarUpdate'
-import ModelAvatarDelete from './models/ModelAvatarDelete'
 import CustomerAccountBirth from './form/CustomerAccountBirth'
 import CustomerAccountGender from './form/CustomerAccountGender'
 
@@ -33,9 +29,8 @@ import { checkAxiosError } from '../../utils/handleAxiosError'
 import { sleep } from '../../utils/sleep'
 
 //@icon
-import { Eye, Image, Trash2 } from 'lucide-react'
-import { customerAccountReducer, initialValue } from '../../reducer/customer.reducer'
 import BoxAvatarMode from './Box/BoxAvatarMode'
+import TErrorAxios from '../../types/axios.response.error'
 
 //@type form
 type TFormCustomer = {
@@ -50,26 +45,13 @@ type TFormCustomer = {
       gender: string
 }
 
-//@type form :: error
-type TErrorAxios = {
-      code: number
-      detail: string
-      message: string
-} | null
-
 //action
 
 //@Component :: api
 const CustomerAccount = () => {
       const user = useSelector((state: RootState) => state.authentication.user)
-      const [modelAvatar, setModelAvatar] = useState(false)
-      const [state, modeDispatch] = useReducer(customerAccountReducer, initialValue)
-      const [modelAvatarSee, setmodelAvatarSee] = useState(false)
-      const [modelAvatarUpdate, setModelAvatarUpdate] = useState(false)
-      const [modelAvatarDelete, setModelAvatarDelete] = useState(false)
       const [toast, setShowToast] = useState(false)
       const count = useRef<number>(0)
-      const refModelAvatar = useRef<HTMLDivElement>(null)
       const dispatch = useDispatch()
       const methods = useForm<TFormCustomer>({
             defaultValues: {
@@ -96,7 +78,7 @@ const CustomerAccount = () => {
                         if (
                               error.response?.status === 401 &&
                               error.response?.statusText === 'Unauthorized' &&
-                              error.response.config.url === '/v1/api/auth/rf'
+                              error.response?.data?.detail === 'Token expires'
                         ) {
                               setShowToast(true)
                               localStorage.removeItem('user')
@@ -168,7 +150,7 @@ const CustomerAccount = () => {
                   <FormProvider {...methods}>
                         <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[12px]' onSubmit={methods.handleSubmit(onSubmit)}>
                               {/* @header */}
-                              <h3 className='h-[75px]'>Thông tin cá nhân</h3>
+                              <h3 className='h-[45px]'>Thông tin cá nhân</h3>
 
                               {/* @change mode with avatar */}
                               <div className='h-[45%] xl:h-[20%] data-user flex flex-col xl:flex-row gap-[20px] xl:gap-0 xl:items-center'>
@@ -249,7 +231,7 @@ const CustomerAccount = () => {
                         {/* @customer::account -> update::email */}
                         <div className='flex flex-col gap-[1px]'>
                               <span>Email & liên hệ</span>
-                              <div className='flex flex-col sm:flex-row justify-between sm:items-center min-h-[90px] pb-[15px] gap-[15px] sm:gap-0 '>
+                              <div className='flex flex-col 2xl:flex-row justify-between 2xl:items-center min-h-[90px] pb-[15px] gap-[15px] 2xl:gap-0 '>
                                     <div className='w-full sm:w-[70%] flex flex-col justify-center'>
                                           <div className=''>Địa chỉ email</div>
                                           <span className='block w-[250px] truncate'>{user.email}</span>
@@ -265,7 +247,7 @@ const CustomerAccount = () => {
                         {/* @customer::account -> update::password */}
                         <div className='flex flex-col gap-[1px]'>
                               <span>Bảo mật</span>
-                              <div className='flex flex-col sm:flex-row justify-between sm:items-center min-h-[90px] pb-[15px] gap-[15px] sm:gap-0'>
+                              <div className='flex flex-col 2xl:flex-row justify-between 2xl:items-center min-h-[90px] pb-[15px] gap-[15px] 2xl:gap-0'>
                                     <div>
                                           <div className=''>Đổi mật khẩu</div>
                                     </div>

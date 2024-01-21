@@ -7,7 +7,7 @@ import { RootState } from '../../../store'
 export type TGender = {
       Male: 'Male'
       Female: 'Female'
-      Others: 'Other'
+      Other: 'Other'
 }
 
 const CustomerAccountGender = () => {

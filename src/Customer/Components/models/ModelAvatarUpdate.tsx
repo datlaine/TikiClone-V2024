@@ -8,6 +8,8 @@ import { checkAxiosError } from '../../../utils/handleAxiosError'
 import BoxToast from '../../../component/ui/BoxToast'
 import { sleep } from '../../../utils/sleep'
 import TErrorAxios from '../../../types/axios.response.error'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store'
 
 //@props
 type TProps = {
@@ -28,7 +30,7 @@ const ModelAvatarUpdate = (props: TProps) => {
             defaultValues: { file: null },
       })
       const [toast, setShowToast] = useState(false)
-
+      const user = useSelector((state: RootState) => state.authentication.user)
       const updateAvatarResponse = useMutation({
             mutationKey: ['update-avatar'],
             mutationFn: (data: any) => Account.updateAvatar(data),
@@ -50,14 +52,11 @@ const ModelAvatarUpdate = (props: TProps) => {
                   }
             },
       })
-      const fileRef = useRef<File>()
 
       const [fileAvatar, setFileAvatar] = useState<File>()
       const [filePreview, setFilePreview] = useState<string | undefined>()
 
       useEffect(() => {
-            console.log('dirty', methods.watch('file'))
-
             if (!fileAvatar) {
                   setFilePreview(undefined)
                   return
@@ -88,7 +87,6 @@ const ModelAvatarUpdate = (props: TProps) => {
             console.log(e.target.files)
             if (e.target.files) {
                   setFileAvatar(e.target.files[0])
-                  fileRef.current = e.target.files[0]
             }
       }
 
@@ -96,8 +94,8 @@ const ModelAvatarUpdate = (props: TProps) => {
             console.log(file, fileAvatar)
             // console.log('link', URL.createObjectURL(file.file[0].name))
             const formData: any = new FormData()
-            formData.append('file', fileRef.current)
-            formData.append('name', 'Đạt')
+            formData.append('file', fileAvatar)
+            formData.append('user', user)
 
             console.log('dirty', methods)
             updateAvatarResponse.mutate(formData)

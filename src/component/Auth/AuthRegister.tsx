@@ -7,9 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import Auth from '../../apis/auth.api'
 import { useDispatch } from 'react-redux'
-import { AxiosResponse } from 'axios'
-import { TApiRegisterResponse } from '../../types/axiosResponse'
-import { TRegisterResponse, getInfoUser } from '../../Redux/authenticationSlice'
+import { fetchUser } from '../../Redux/authenticationSlice'
 type TProps = {
       setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
 }
@@ -54,9 +52,8 @@ const AuthRegister = (props: TProps) => {
       const authRegister = useMutation({
             mutationKey: ['register'],
             mutationFn: (data: Omit<TRegisterZodSchema, 'confirm_password'>) => Auth.register(data),
-            onSuccess: (res: AxiosResponse<TApiRegisterResponse<TRegisterResponse>>) => {
-                  dispatch(getInfoUser(res.data.metadata.user))
-                  localStorage.setItem('token', JSON.stringify(res.data.metadata.access_token))
+            onSuccess: (res) => {
+                  dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
             },
 
             onError: (data: unknown) => console.log('error data check', data),

@@ -12,7 +12,7 @@ import { useMutation } from '@tanstack/react-query'
 //@redux-toolkit
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { getInfoUser } from '../../Redux/authenticationSlice'
+import { doLogout, fetchUser } from '../../Redux/authenticationSlice'
 
 //@components
 import CustomerAccountBirth from './form/CustomerAccountBirth'
@@ -86,6 +86,15 @@ const CustomerAccount = () => {
                               await sleep(2000)
                               window.location.reload()
                         }
+
+                        if (error.response?.data?.code === 400 && error.response.data.message === 'Bad Request') {
+                              setShowToast(true)
+                              // await sleep(2000)
+                              // dispatch(doLogout())
+                              localStorage.removeItem('user')
+                              localStorage.removeItem('token')
+                              window.location.reload()
+                        }
                   }
             },
       })
@@ -95,13 +104,19 @@ const CustomerAccount = () => {
             mutationFn: (data: any) => Account.updateInfo(data),
             onSuccess: async (data: any) => {
                   // console.log('dispatch', { data })
-                  dispatch(getInfoUser(data.data.metadata.user))
+                  dispatch(fetchUser({ user: data.data.metadata.user }))
             },
 
             onError: async (error) => {
                   //@[shape] :: error.response.data.error
                   if (checkAxiosError<TErrorAxios>(error)) {
                         if (error.response?.data?.code === 403 && error.response.data.message === 'Forbidden') {
+                              setShowToast(true)
+                              await sleep(2000)
+                              window.location.reload()
+                        }
+
+                        if (error.response?.data?.code === 400 && error.response.data.message === 'Bad Request') {
                               setShowToast(true)
                               await sleep(2000)
                               window.location.reload()
@@ -205,6 +220,7 @@ const CustomerAccount = () => {
                                           {/* @ form::action -> submit */}
                                           <div className='w-full mt-[50px] sm:mt-0 pl:[35px] sm:pl-[115px]'>
                                                 <button
+                                                      disabled={updateInfo.isLoading}
                                                       className='flex items-center justify-center gap-[6px] ml-0  w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
                                                       type='submit'
                                                 >

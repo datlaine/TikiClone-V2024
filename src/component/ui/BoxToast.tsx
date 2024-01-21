@@ -1,11 +1,11 @@
-import React, { SetStateAction, useEffect, useRef, useState } from 'react'
+import React, { ButtonHTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react'
 
 //@type props
 type TProps = {
       message: string
       children: React.ReactNode
       setShowToast?: React.Dispatch<SetStateAction<boolean>>
-}
+} & JSX.IntrinsicElements['button']
 
 //@component
 const BoxToast = (props: TProps) => {

@@ -56,7 +56,7 @@ const BoxAvatarMode = () => {
                   }}
             >
                   <img
-                        src={user.sercel_url || ''}
+                        src={user.avatar?.secure_url || user.avartar_url_default || ''}
                         alt='user_avatar'
                         className='w-[80px] h-[80px] lg:w-[100px]  lg:h-[100px] rounded-full'
                   />
@@ -104,16 +104,7 @@ const BoxAvatarMode = () => {
                                     {/* @model::boxAvatar->see */}
                                     {state.modeAvatarSee && (
                                           <Portal>
-                                                <ModelAvatarSee
-                                                      modeDispatch={modeDispatch}
-                                                      children={
-                                                            <img
-                                                                  src={user.sercel_url}
-                                                                  alt='user_avatar'
-                                                                  className='w-[150px] h-full rounded-full'
-                                                            />
-                                                      }
-                                                />
+                                                <ModelAvatarSee modeDispatch={modeDispatch} />
                                           </Portal>
                                     )}
                                     {/* @model::boxAvatar->update */}

@@ -1,4 +1,4 @@
-import { connect, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { doCloseBoxLogin, doOpenBoxLogin, userLogout } from '../../../Redux/authSlice'
 import { RootState, store } from '../../../store'
@@ -6,6 +6,7 @@ import { clearCart } from '../../../Redux/reducer'
 import { useState } from 'react'
 import Portal from '../../Portal'
 import AuthWrapper from '../../Auth/AuthWrapper'
+import { doLogout } from '../../../Redux/authenticationSlice'
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProp>
 
 function HeaderBoxHover(props: Props) {
@@ -13,6 +14,7 @@ function HeaderBoxHover(props: Props) {
       const navigate = useNavigate()
       const [showBoxAuth, setShowBoxAuth] = useState(false)
       const user = useSelector((state: RootState) => state.authentication.user)
+      const dispatch = useDispatch()
       // console.log('om', user)
       const handleGoToInfo = () => {
             if (!user) {
@@ -25,15 +27,16 @@ function HeaderBoxHover(props: Props) {
       }
 
       const handleLogOut = () => {
-            if (user) {
-                  setTimeout(() => {
-                        navigate('/')
-                  }, 1000)
-                  alert('Đăng xuất thành công')
-                  userLogout()
-                  doCloseBoxLogin()
-                  clearCart()
-            }
+            dispatch(doLogout())
+            // if (user) {
+            //       setTimeout(() => {
+            //             navigate('/')
+            //       }, 1000)
+            //       alert('Đăng xuất thành công')
+            //       userLogout()
+            //       doCloseBoxLogin()
+            //       clearCart()
+            // }
       }
 
       return (

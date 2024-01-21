@@ -1,5 +1,6 @@
-import axios, { type AxiosInstance } from 'axios'
+import axios, { AxiosError, type AxiosInstance } from 'axios'
 import Auth from './auth.api'
+import TErrorAxios from '../types/axios.response.error'
 
 let retry = false
 class AxiosCustom {
@@ -47,7 +48,7 @@ class AxiosCustom {
                         if (
                               error.response?.status === 401 &&
                               error.response?.statusText === 'Unauthorized' &&
-                              error.response?.data.detail === 'Token expires' &&
+                              error.response?.data?.detail === 'Token expires' &&
                               !originalRequest.retry
                         ) {
                               originalRequest.retry = true
@@ -61,7 +62,6 @@ class AxiosCustom {
                                           error.config.headers['Content-Type'] = 'multipart/form-data'
                                     }
                                     error.config.headers['Authorization'] = `Bearer ${token}`
-
                                     localStorage.setItem('token', JSON.stringify(token))
                                     originalRequest.retry = false
                                     return this.instance(error.config)
@@ -76,7 +76,7 @@ class AxiosCustom {
                         if (
                               error.response?.status === 403 &&
                               error.response?.statusText === 'Forbidden' &&
-                              error.response?.data.detail === 'Login again'
+                              error.response?.data.detail === 'Refresh-token is invalid'
                         ) {
                               return Promise.reject(error)
                         }

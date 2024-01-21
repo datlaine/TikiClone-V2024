@@ -73,7 +73,7 @@ const Customer = () => {
                                           {user ? (
                                                 <>
                                                       <img
-                                                            src={user.sercel_url || ''}
+                                                            src={user.avatar?.secure_url || user.avartar_url_default || ''}
                                                             alt='user_avatar'
                                                             className='min-w-[30px] lg:min-w-[40px] w-[30px] h-[30px] lg:w-[40px] lg:h-[40px] rounded-full'
                                                       />

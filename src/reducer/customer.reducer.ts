@@ -8,10 +8,14 @@ interface IState {
 
 type OPEN_BOX_AVATAR = 'OPEN_BOX_AVATAR'
 type CLOSE_BOX_AVATAR = 'CLOSE_BOX_AVATAR'
+
 type OPEN_MODE_AVATAR_SEE = 'OPEN_MODE_AVATAR_SEE'
 type CLOSE_MODE_AVATAR_SEE = 'CLOSE_MODE_AVATAR_SEE'
+
 type OPEN_MODE_AVATAR_UPDATE = 'OPEN_MODE_AVATAR_UPDATE'
 type CLOSE_MODE_AVATAR_UPDATE = 'CLOSE_MODE_AVATAR_UPDATE'
+type MODE_AVATAR_UPDATE_SUCCESS = 'MODE_AVATAR_UPDATE_SUCCESS'
+
 type OPEN_MODE_AVATAR_DELETE = 'OPEN_MODE_AVATAR_DELETE'
 type CLOSE_MODE_AVATAR_DELETE = 'CLOSE_MODE_AVATAR_DELETE'
 
@@ -22,6 +26,7 @@ type TypeActions =
       | CLOSE_MODE_AVATAR_SEE
       | OPEN_MODE_AVATAR_UPDATE
       | CLOSE_MODE_AVATAR_UPDATE
+      | MODE_AVATAR_UPDATE_SUCCESS
       | OPEN_MODE_AVATAR_DELETE
       | CLOSE_MODE_AVATAR_DELETE
 
@@ -79,8 +84,16 @@ export const customerAccountReducer = (state: IState = initialValue, action: TAv
             case 'CLOSE_MODE_AVATAR_UPDATE': {
                   return {
                         ...state,
-                        boxModeAvatar: payload.boxModeAvatar,
                         modeAvatarUpdate: payload.modeAvatarUpdate,
+                        boxModeAvatar: payload.boxModeAvatar,
+                  }
+            }
+
+            case 'MODE_AVATAR_UPDATE_SUCCESS': {
+                  return {
+                        ...state,
+                        modeAvatarUpdate: payload.modeAvatarUpdate,
+                        boxModeAvatar: payload.boxModeAvatar,
                   }
             }
 

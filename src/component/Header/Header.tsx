@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { memo, useRef, useState } from 'react'
 
 import { useEffect } from 'react'
 import SeacrhInput from './Components/HeaderSearch'
@@ -79,4 +79,4 @@ function Header() {
       )
 }
 
-export default Header
+export default memo(Header)

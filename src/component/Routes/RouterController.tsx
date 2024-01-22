@@ -25,7 +25,6 @@ const RouterController = () => {
       const matchAdminPath = useMatch('/admin')
       const hiddenHeader = matchAdminPath?.pathname === '/admin'
       const pathName = useLocation().pathname
-
       return (
             <>
                   {!hiddenHeader && <Header />}

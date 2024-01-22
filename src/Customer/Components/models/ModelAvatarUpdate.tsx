@@ -1,6 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
+import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import { X } from 'lucide-react'
-import React, { SetStateAction, useEffect, useRef, useState } from 'react'
+import React, { SetStateAction, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import Account from '../../../apis/account.api'
 import { TAvatarActions } from '../../../reducer/customer.reducer'
@@ -8,8 +8,9 @@ import { checkAxiosError } from '../../../utils/handleAxiosError'
 import BoxToast from '../../../component/ui/BoxToast'
 import { sleep } from '../../../utils/sleep'
 import TErrorAxios from '../../../types/axios.response.error'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
+import { fetchUser } from '../../../Redux/authenticationSlice'
 
 //@props
 type TProps = {
@@ -24,6 +25,8 @@ type TForm = {
 
 //@component::api
 const ModelAvatarUpdate = (props: TProps) => {
+      const queryClient = new QueryClient()
+      const dispatch = useDispatch()
       //@props
       const { modeDispatch } = props
       const methods = useForm<TForm>({
@@ -34,7 +37,9 @@ const ModelAvatarUpdate = (props: TProps) => {
       const updateAvatarResponse = useMutation({
             mutationKey: ['update-avatar'],
             mutationFn: (data: any) => Account.updateAvatar(data),
-            onSuccess: (res: any) => console.log('update avatar response', res),
+            onSuccess: (res: any) => {
+                  // modeDispatch({ type: 'MODE_AVATAR_UPDATE_SUCCESS', payload: { boxModeAvatar: false, modeAvatarUpdate: false } })
+            },
             onError: async (error) => {
                   //@[shape] :: error.response.data.error
                   if (checkAxiosError<TErrorAxios>(error)) {
@@ -69,13 +74,23 @@ const ModelAvatarUpdate = (props: TProps) => {
             return () => URL.revokeObjectURL(objectUrl)
       }, [fileAvatar])
 
+      useEffect(() => {
+            if (updateAvatarResponse.isSuccess) {
+                  modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
+            }
+            if (updateAvatarResponse.isSuccess && updateAvatarResponse.data) {
+                  console.log({ updateAvatarResponse: updateAvatarResponse.data.data.metadata.user })
+                  dispatch(fetchUser({ user: updateAvatarResponse.data.data.metadata.user }))
+            }
+      }, [updateAvatarResponse.isSuccess, modeDispatch, updateAvatarResponse.data, dispatch])
+
       //@closeModel
       const modelControllClose = () => {
             setFileAvatar(undefined)
-            modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
 
             if (filePreview) URL.revokeObjectURL(filePreview)
             setFilePreview('')
+            modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
       }
 
       const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,8 +179,17 @@ const ModelAvatarUpdate = (props: TProps) => {
                                           >
                                                 Hủy bỏ
                                           </button>
-                                          <button type='submit' className='w-[49%] px-[12px] py-[6px] bg-blue-500 text-white'>
-                                                Lưu thay đổi
+                                          <button
+                                                type='submit'
+                                                className='w-[49%] px-[12px] py-[6px] bg-blue-500 text-white flex justify-center gap-[8px] items-center'
+                                          >
+                                                <span>Lưu thay đổi</span>
+                                                {updateAvatarResponse.isLoading && (
+                                                      <span
+                                                            className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                                            role='status'
+                                                      ></span>
+                                                )}
                                           </button>
                                     </div>
                               )}

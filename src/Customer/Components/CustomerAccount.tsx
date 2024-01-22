@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
 
 //@react-router
 import { Link } from 'react-router-dom'
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 
 //@tanstack query
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 //@redux-toolkit
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,6 +31,7 @@ import { sleep } from '../../utils/sleep'
 //@icon
 import BoxAvatarMode from './Box/BoxAvatarMode'
 import TErrorAxios from '../../types/axios.response.error'
+import { ContextToast } from '../../component/Context/ToastContext'
 
 //@type form
 type TFormCustomer = {
@@ -50,7 +51,9 @@ type TFormCustomer = {
 //@Component :: api
 const CustomerAccount = () => {
       const user = useSelector((state: RootState) => state.authentication.user)
-      const [toast, setShowToast] = useState(false)
+      // const [toast, setShowToast] = useState(false)
+      const { setShowToast, showToast, setContentToast } = useContext(ContextToast)
+
       const count = useRef<number>(0)
       const dispatch = useDispatch()
       const methods = useForm<TFormCustomer>({
@@ -70,33 +73,10 @@ const CustomerAccount = () => {
 
       const getMe = useMutation({
             mutationKey: ['getMe'],
-            mutationFn: () => Account.getMe(),
-            onSuccess: (data: any) => console.log('me', data),
-            onError: async (error) => {
-                  //@[shape] :: error.response.data.error
-                  if (checkAxiosError<TErrorAxios>(error)) {
-                        if (
-                              error.response?.status === 401 &&
-                              error.response?.statusText === 'Unauthorized' &&
-                              error.response?.data?.detail === 'Token expires'
-                        ) {
-                              setShowToast(true)
-                              localStorage.removeItem('user')
-                              localStorage.removeItem('token')
-                              await sleep(2000)
-                              window.location.reload()
-                        }
-
-                        if (error.response?.data?.code === 400 && error.response.data.message === 'Bad Request') {
-                              setShowToast(true)
-                              // await sleep(2000)
-                              // dispatch(doLogout())
-                              localStorage.removeItem('user')
-                              localStorage.removeItem('token')
-                              window.location.reload()
-                        }
-                  }
+            mutationFn: async () => {
+                  await Account.getMe()
             },
+            onSuccess: (data: any) => dispatch(fetchUser({ user: data.data.metadata.user })),
       })
 
       const updateInfo = useMutation({
@@ -105,19 +85,21 @@ const CustomerAccount = () => {
             onSuccess: async (data: any) => {
                   // console.log('dispatch', { data })
                   dispatch(fetchUser({ user: data.data.metadata.user }))
+                  setShowToast((prev) => !prev)
+                  setContentToast((prev) => ({ ...prev, type: 'SUCCESS', message: 'Cap nhap thanh cong' }))
             },
 
             onError: async (error) => {
                   //@[shape] :: error.response.data.error
                   if (checkAxiosError<TErrorAxios>(error)) {
                         if (error.response?.data?.code === 403 && error.response.data.message === 'Forbidden') {
-                              setShowToast(true)
+                              // setShowToast(true)
                               await sleep(2000)
                               window.location.reload()
                         }
 
                         if (error.response?.data?.code === 400 && error.response.data.message === 'Bad Request') {
-                              setShowToast(true)
+                              // setShowToast(true)
                               await sleep(2000)
                               window.location.reload()
                         }
@@ -125,13 +107,14 @@ const CustomerAccount = () => {
             },
       })
 
-      const handleGetMe = () => {
+      const handleGetMe = async () => {
+            console.log({ showToast })
+            setShowToast((prev) => !prev)
+            setContentToast((prev) => ({ ...prev, type: 'ERROR', message: 'Loi roi kia' }))
             getMe.mutate()
       }
 
-      useEffect(() => {
-            methods.handleSubmit(submitfake)
-      }, [])
+      //@[shape] :: error.response.data.error
 
       const submitfake = (data: TFormCustomer) => {
             console.log('event', data)
@@ -158,9 +141,14 @@ const CustomerAccount = () => {
                   fullName: form.fullName ? form.fullName : null,
             })
       }
+      useEffect(() => {
+            if (getMe.isError) {
+            }
+      }, [getMe.isError])
+
       return (
             <div className='flex flex-col lg:flex-row min-h-[500px] h-auto gap-[20px] xl:gap-[2%]'>
-                  {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />}
+                  {/* {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />} */}
 
                   <FormProvider {...methods}>
                         <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[12px]' onSubmit={methods.handleSubmit(onSubmit)}>
@@ -226,12 +214,12 @@ const CustomerAccount = () => {
                                                 >
                                                       <span>Lưu thay đổi</span>
                                                       {/* @ form::action -> boolean submit */}
-                                                      {!toast && updateInfo.isLoading && (
+                                                      {/* {!toast && updateInfo.isLoading && (
                                                             <span
                                                                   className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
                                                                   role='status'
                                                             ></span>
-                                                      )}{' '}
+                                                      )}{' '} */}
                                                 </button>
                                           </div>
 

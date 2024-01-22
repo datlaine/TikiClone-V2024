@@ -9,6 +9,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import App from './App'
 import { PersistGate } from 'redux-persist/integration/react'
+import { checkAxiosError } from './utils/handleAxiosError'
+import TErrorAxios from './types/axios.response.error'
+import ContextToastProvider from './component/Context/ToastContext'
 
 const rootELement = document.getElementById('root')
 if (!rootELement) throw new Error('Root is invaild')
@@ -19,13 +22,23 @@ const client = new QueryClient({
             queries: {
                   useErrorBoundary: true,
                   refetchOnWindowFocus: false,
-                  retry: 3,
+                  retry: false,
                   retryDelay: 1000,
             },
       },
       queryCache: new QueryCache({
-            onError: (error) => {
-                  console.log(`global error`, error)
+            onError: async (error) => {
+                  if (checkAxiosError<TErrorAxios>(error)) {
+                        if (error.response?.data?.code === 403 && error.response.data.message === 'Forbidden') {
+                              console.log('global', error)
+                              localStorage.setItem('123', '123')
+                              localStorage.removeItem('user')
+                              localStorage.removeItem('token')
+                              // window.location.reload()
+                              // await client.cancelQueries({ queryKey: ['getMe'], exact: true })
+                              return
+                        }
+                  }
             },
       }),
 })
@@ -35,7 +48,9 @@ root.render(
             <PersistGate persistor={persistor}>
                   <BrowserRouter>
                         <QueryClientProvider client={client}>
-                              <App />
+                              <ContextToastProvider>
+                                    <App />
+                              </ContextToastProvider>
                               <ReactQueryDevtools />
                         </QueryClientProvider>
                   </BrowserRouter>

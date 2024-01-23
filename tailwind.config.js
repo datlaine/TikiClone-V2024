@@ -15,7 +15,7 @@ module.exports = {
 			animation: {
 				showSideBarAni: "showSideBar .8s linear ",
 				hideSideBarAni: "hideSideBar 1s linear ",
-				showToast: "toastAnimation 15s linear forwards",
+				showToast: "toastAnimation 1s linear forwards",
 			},
 			keyframes: {
 				showSideBar: {
@@ -28,8 +28,7 @@ module.exports = {
 				},
 
 				toastAnimation: {
-					"0%": { opacity: "0" },
-					"50%": { opacity: "1" },
+					"0%": { opacity: "1" },
 					"100%": { opacity: "0" },
 				},
 			},

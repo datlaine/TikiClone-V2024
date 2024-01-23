@@ -1,3 +1,4 @@
+import { TResponseApi, TUserAvatarUsed } from '../types/axiosResponse'
 import axiosCustom from './http'
 
 class Account {
@@ -11,6 +12,10 @@ class Account {
 
       static async updateAvatar(data: any) {
             return axiosCustom.post('v1/api/account/update-avatar', data, { headers: { 'content-Type': 'multipart/form-data' } })
+      }
+
+      static async getAllAvatar() {
+            return axiosCustom.get<TResponseApi<TUserAvatarUsed[]>>('v1/api/account/getAllAvatar')
       }
 }
 

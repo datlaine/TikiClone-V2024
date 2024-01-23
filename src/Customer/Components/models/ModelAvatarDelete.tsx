@@ -17,7 +17,12 @@ const ModelAvatarDelete = (props: Tprops) => {
       }
 
       return (
-            <div className='fixed w-full min-h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.7)] z-[501]'>
+            <div
+                  className='fixed w-full min-h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.7)] z-[501]'
+                  onClick={() => {
+                        modeDispatch({ type: 'CLOSE_MODE_AVATAR_DELETE', payload: { modeAvatarDelete: false, boxModeAvatar: false } })
+                  }}
+            >
                   <div
                         className='w-[400px] h-[150px] p-[16px] bg-white rounded-lg shadow-2xl flex flex-col gap-[12px]'
                         onClick={(e) => e.stopPropagation()}

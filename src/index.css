@@ -71,4 +71,26 @@ code {
       font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
 }
 
+/* width */
+::-webkit-scrollbar {
+      width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+      background: rgb(15 23 42);
+      /* border-radius: 5px; */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+      background: #555;
+}
+
 /* overide antd  */

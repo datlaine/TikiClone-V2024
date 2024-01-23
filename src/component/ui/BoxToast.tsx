@@ -1,46 +1,130 @@
-import React, { ButtonHTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react'
-
-//@type props
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { ContextToast } from '../Context/ToastContext'
+import { ShieldAlert, ShieldCheck, ShieldX, X } from 'lucide-react'
 type TProps = {
       message: string
-      children: React.ReactNode
-      setShowToast?: React.Dispatch<SetStateAction<boolean>>
-} & JSX.IntrinsicElements['button']
+      type: 'SUCCESS' | 'ERROR' | 'WARNNING'
+      timer: number
+      id: string
+}
 
-//@component
 const BoxToast = (props: TProps) => {
-      //@state
-      const { children, message } = props
-      const timeoutShowToast = useRef<NodeJS.Timeout | null>()
+      const toastTimer = useRef<NodeJS.Timeout>()
+      const timer = useRef<NodeJS.Timeout>()
       const [show, setShow] = useState(true)
+      const { setContentToast, contentToast } = useContext(ContextToast)
+      const [time, setTime] = useState(props.timer / 1000 || 1000)
 
-      //@controll show hide toast
+      const handleControllCloseToast = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+            e.stopPropagation()
+            setContentToast((prev) => prev.filter((toast, index) => toast.id !== props.id))
+            setShow(false)
+
+            console.log({ toast: contentToast, key: props.id })
+      }
+
       useEffect(() => {
-            timeoutShowToast.current = setTimeout(() => {
+            toastTimer.current = setTimeout(() => {
+                  setContentToast((prev) => prev.filter((toast, index) => toast.id !== props.id))
+                  console.log({ toast: contentToast, key: props.id })
                   setShow(false)
-                  if (props.setShowToast) {
-                        props.setShowToast(false)
-                  }
-            }, 3000)
+            }, props.timer)
 
-            if (!show) {
-                  clearTimeout(timeoutShowToast.current as NodeJS.Timeout)
+            timer.current = setInterval(() => {
+                  setTime((prev) => (prev -= 1))
+            }, 1000)
+
+            return () => {
+                  clearTimeout(toastTimer.current)
+                  clearInterval(timer.current)
             }
+      }, [])
 
-            return () => clearTimeout(timeoutShowToast.current as NodeJS.Timeout)
-      }, [show])
-
-      //@hide toast
-      if (!show) return null
-
-      //@element
       return (
-            <div
-                  className={`animate-[toastAnimation] transition-all  duration-1000 fixed  top-[60px] left-[50%] translate-x-[-50%] h-auto w-auto min-w-[250px]  min-h-[150px] bg-blue-300 shadow-xl rounded-lg flex flex-col gap-[15px] p-[15px] justify-between`}
-            >
-                  <span className=''>{message}</span>
-                  <div className='flex-1'>{children}</div>
-            </div>
+            <>
+                  {show && (
+                        <p
+                              className={`${
+                                    props.type === 'SUCCESS'
+                                          ? ' text-green-900 '
+                                          : props.type === 'ERROR'
+                                          ? ' text-red-900 '
+                                          : '  text-orange-900'
+                              } ${
+                                    time === 1 ? 'animate-showToast' : ''
+                              }bg-[#ffffff]  py-[24px] border-y-0 border-r-0 border-l-[4px] shadow-2xl relative w-[250px] min-h-[120px] h-auto rounded-lg transition-all duration-500  border-[2px] flex items-center justify-center`}
+                        >
+                              <span
+                                    style={{ width: `${248.5 / Math.ceil(time)}px` }}
+                                    className={`${
+                                          props.type === 'SUCCESS'
+                                                ? ' bg-green-500  text-green-900 '
+                                                : props.type === 'ERROR'
+                                                ? ' bg-red-500 text-red-900 '
+                                                : ' bg-orange-500 text-orange-900'
+                                    }  absolute top-[0px] left-0  rounded-lg h-[3px] transition-all duration-300`}
+                              ></span>
+
+                              <span
+                                    style={{ width: `${248.5 / Math.ceil(time)}px` }}
+                                    className={`${
+                                          props.type === 'SUCCESS'
+                                                ? ' bg-green-500  text-green-900 '
+                                                : props.type === 'ERROR'
+                                                ? ' bg-red-500 text-red-900 '
+                                                : ' bg-orange-500 text-orange-900'
+                                    }  absolute bottom-[0px] left-0  rounded-lg h-[3px] transition-all duration-300`}
+                              ></span>
+
+                              <div className='w-full flex gap-[8px] px-[16px] items-center'>
+                                    <span>
+                                          {props.type === 'SUCCESS' ? (
+                                                <ShieldCheck size={32} />
+                                          ) : props.type === 'ERROR' ? (
+                                                <ShieldX size={32} />
+                                          ) : (
+                                                <ShieldAlert size={32} />
+                                          )}
+                                    </span>
+                                    <div className='flex flex-col gap-[8px]'>
+                                          <span className='uppercase'>{props.type}</span>
+                                          <span className='mb-[12px]'>{props.message}</span>
+                                    </div>
+                              </div>
+                              <span
+                                    className={`${
+                                          props.type === 'SUCCESS'
+                                                ? 'border-green-500'
+                                                : props.type === 'ERROR'
+                                                ? 'border-red-500'
+                                                : 'border-orange-500'
+                                    } absolute flex justify-center items-center bottom-[5px] animate-pulse right-[5px] w-[30px] h-[30px] p-[4px] text-[12px] rounded-full border-[2px] `}
+                              >
+                                    {time}
+                              </span>
+                              <span
+                                    onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => handleControllCloseToast(e)}
+                                    className={`absolute flex justify-center items-center top-[5px] animate-pulse right-[5px] w-[30px] h-[30px] p-[4px] text-[12px]  `}
+                              >
+                                    <X
+                                          color={`${
+                                                props.type === 'SUCCESS'
+                                                      ? 'rgb(34 197 94)'
+                                                      : props.type === 'ERROR'
+                                                      ? ' rgb(239 68 68)'
+                                                      : 'rgb(249 115 22)'
+                                          }`}
+                                    />
+                              </span>
+
+                              <span
+                                    className={`absolute flex justify-center  bottom-[5px] animate-pulse left-[50px] p-[4px] text-[12px]  `}
+                              >
+                                    @datlai304
+                              </span>
+                        </p>
+                  )}
+            </>
       )
 }
 

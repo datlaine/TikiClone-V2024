@@ -20,7 +20,7 @@ class AxiosCustom {
 
             this.instance.interceptors.request.use(
                   (config) => {
-                        const access_token = JSON.parse(localStorage.getItem('token') as string) || null
+                        const access_token = JSON.parse(localStorage.getItem('token') as string) || '123'
                         const user = JSON.parse(localStorage.getItem('user') as string)
                         config.headers['Authorization'] = `Bearer ${access_token} `
                         config.headers['x-client-id'] = user?._id || null
@@ -36,15 +36,7 @@ class AxiosCustom {
                         console.log({ error })
                         const originalRequest = error.config
                         // if (error.response?.status !== 401 || error.response?.status !== 403) return Promise.reject(error)
-                        if (
-                              error.response?.status === 401 &&
-                              error.response?.statusText === 'Unauthorized' &&
-                              error.response.config.url === '/v1/api/auth/rf'
-                        ) {
-                              localStorage.removeItem('user')
-                              localStorage.removeItem('token')
-                              return Promise.reject(error)
-                        }
+
                         if (
                               error.response?.status === 401 &&
                               error.response?.statusText === 'Unauthorized' &&
@@ -69,14 +61,13 @@ class AxiosCustom {
                               if (!res) {
                                     return Promise.reject(res)
                               }
-
-                              console.log('sdsd', res)
                         }
 
                         if (
                               error.response?.status === 403 &&
                               error.response?.statusText === 'Forbidden' &&
-                              error.response?.data.detail === 'Refresh-token is invalid'
+                              error.response?.data.detail === 'Refresh failed' &&
+                              error.response.config.url === 'v1/api/auth/rf'
                         ) {
                               return Promise.reject(error)
                         }

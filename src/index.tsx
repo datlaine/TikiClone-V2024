@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 import '../src/component/Main/main.css'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
-import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
 import { persistor, store } from './store'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -20,23 +20,23 @@ const root = ReactDOM.createRoot(rootELement)
 const client = new QueryClient({
       defaultOptions: {
             queries: {
-                  useErrorBoundary: true,
                   refetchOnWindowFocus: false,
                   retry: false,
                   retryDelay: 1000,
             },
       },
-      queryCache: new QueryCache({
-            onError: async (error) => {
+      queryCache: new QueryCache({}),
+      mutationCache: new MutationCache({
+            onError: async (error, varibale, context, mutation) => {
+                  console.log({ error, mutation, varibale, context })
                   if (checkAxiosError<TErrorAxios>(error)) {
-                        if (error.response?.data?.code === 403 && error.response.data.message === 'Forbidden') {
-                              console.log('global', error)
-                              localStorage.setItem('123', '123')
+                        if (
+                              error?.response?.status === 403 &&
+                              error?.response.statusText === 'Forbidden' &&
+                              error?.response.data?.detail === 'Refresh failed'
+                        ) {
                               localStorage.removeItem('user')
                               localStorage.removeItem('token')
-                              // window.location.reload()
-                              // await client.cancelQueries({ queryKey: ['getMe'], exact: true })
-                              return
                         }
                   }
             },
@@ -51,7 +51,7 @@ root.render(
                               <ContextToastProvider>
                                     <App />
                               </ContextToastProvider>
-                              <ReactQueryDevtools />
+                              <ReactQueryDevtools initialIsOpen={false} />
                         </QueryClientProvider>
                   </BrowserRouter>
             </PersistGate>

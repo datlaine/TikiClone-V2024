@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
+import React, { useContext, useEffect, useId, useReducer, useRef, useState } from 'react'
 
 //@react-router
 import { Link } from 'react-router-dom'
@@ -52,10 +52,11 @@ type TFormCustomer = {
 const CustomerAccount = () => {
       const user = useSelector((state: RootState) => state.authentication.user)
       // const [toast, setShowToast] = useState(false)
-      const { setShowToast, showToast, setContentToast } = useContext(ContextToast)
-
+      const { setShowToast, showToast, setContentToast, contentToast } = useContext(ContextToast)
+      console.log({ contentToast })
       const count = useRef<number>(0)
       const dispatch = useDispatch()
+      // console.log({ id: Math.random() })
       const methods = useForm<TFormCustomer>({
             defaultValues: {
                   fullName: `${user.fullName || user?.email?.split('@')[0]}`,
@@ -76,6 +77,21 @@ const CustomerAccount = () => {
             mutationFn: async () => {
                   await Account.getMe()
             },
+            onError: async (error: unknown) => {
+                  if (checkAxiosError<TErrorAxios>(error)) {
+                        if (
+                              error.response?.status === 403 &&
+                              error.response.statusText === 'Forbidden' &&
+                              error.response.data?.detail === 'Refresh failed'
+                        )
+                              setContentToast((prev) => [
+                                    ...prev,
+                                    { type: 'ERROR', message: 'Refresh token khong ton tai', id: Math.random().toString() },
+                              ])
+                        await sleep(3000)
+                        window.location.reload()
+                  }
+            },
             onSuccess: (data: any) => dispatch(fetchUser({ user: data.data.metadata.user })),
       })
 
@@ -85,8 +101,8 @@ const CustomerAccount = () => {
             onSuccess: async (data: any) => {
                   // console.log('dispatch', { data })
                   dispatch(fetchUser({ user: data.data.metadata.user }))
-                  setShowToast((prev) => !prev)
-                  setContentToast((prev) => ({ ...prev, type: 'SUCCESS', message: 'Cap nhap thanh cong' }))
+                  // setShowToast((prev) => !prev)
+                  setContentToast((prev) => [...prev, { type: 'SUCCESS', message: 'Cap nhap thanh cong', id: Math.random().toString() }])
             },
 
             onError: async (error) => {
@@ -110,7 +126,7 @@ const CustomerAccount = () => {
       const handleGetMe = async () => {
             console.log({ showToast })
             setShowToast((prev) => !prev)
-            setContentToast((prev) => ({ ...prev, type: 'ERROR', message: 'Loi roi kia' }))
+            // setContentToast((prev) => [...prev, { type: 'ERROR', message: 'Loi roi kia', id: Math.random().toString() }])
             getMe.mutate()
       }
 
@@ -208,7 +224,7 @@ const CustomerAccount = () => {
                                           {/* @ form::action -> submit */}
                                           <div className='w-full mt-[50px] sm:mt-0 pl:[35px] sm:pl-[115px]'>
                                                 <button
-                                                      disabled={updateInfo.isLoading}
+                                                      disabled={updateInfo.isPending}
                                                       className='flex items-center justify-center gap-[6px] ml-0  w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
                                                       type='submit'
                                                 >
@@ -224,7 +240,7 @@ const CustomerAccount = () => {
                                           </div>
 
                                           {/* @ form::action -> toast */}
-                                          {updateInfo.isSuccess && <BoxToast message={'Cập nhập thành công'} children={<p>OK</p>} />}
+                                          {/* {updateInfo.isSuccess && <BoxToast message={'Cập nhập thành công'} children={<p>OK</p>} />} */}
                                     </div>
                               </div>
                         </form>

@@ -120,11 +120,16 @@ const ModelAvatarUpdate = (props: TProps) => {
       return (
             <div
                   className='fixed top-0 left-0 mx-[25px] lg:mx-0 bg-[rgba(0,0,0,.7)] w-full min-h-screen z-[500] flex items-center justify-center'
-                  onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
+                  onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                        modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
+                  }}
             >
-                  {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />}
+                  {/* {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />} */}
 
-                  <div className={`w-[650px] ${filePreview ? 'h-[450px]' : 'h-[740px]'} bg-white rounded-2xl p-[40px] relative`}>
+                  <div
+                        className={`w-[650px] ${filePreview ? 'h-[650px]' : 'h-[740px]'} bg-white rounded-2xl p-[40px] relative`}
+                        onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
+                  >
                         <div className='text-[25px] absolute top-[25px] right-[25px]' onClick={modelControllClose}>
                               <X />
                         </div>
@@ -141,10 +146,16 @@ const ModelAvatarUpdate = (props: TProps) => {
                               <div
                                     className={`flex ${
                                           filePreview ? 'h-[calc(90%-32px)]' : 'justify-center h-[calc(100%-85px)]'
-                                    } mt-[25px] bg-stone-100 mb-[25px] p-[20px] `}
+                                    } mt-[25px] bg-stone-100 mb-[25px] p-[20px] items-center `}
                               >
                                     {filePreview && (
-                                          <img src={filePreview} width={200} height={200} alt='avatar_update' className='order-1 w-[50%]' />
+                                          <img
+                                                src={filePreview}
+                                                width={200}
+                                                height={300}
+                                                alt='avatar_update'
+                                                className='order-1 w-[300px] h-[300px]'
+                                          />
                                     )}
                                     <label
                                           htmlFor='avatar_update'
@@ -184,7 +195,7 @@ const ModelAvatarUpdate = (props: TProps) => {
                                                 className='w-[49%] px-[12px] py-[6px] bg-blue-500 text-white flex justify-center gap-[8px] items-center'
                                           >
                                                 <span>Lưu thay đổi</span>
-                                                {updateAvatarResponse.isLoading && (
+                                                {updateAvatarResponse.isPending && (
                                                       <span
                                                             className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
                                                             role='status'

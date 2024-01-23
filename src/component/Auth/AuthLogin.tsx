@@ -102,7 +102,7 @@ const AuthLogin = (props: TProps) => {
 
       return (
             <div className='flex flex-col items-center gap-[15px] py-[35px]'>
-                  {toast && <BoxToast setShowToast={setShowToast} message={'Thông tin không hợp lệ'} children={<p>OK</p>} />}
+                  {/* {toast && <BoxToast setShowToast={setShowToast} message={'Thông tin không hợp lệ'} children={<p>OK</p>} />} */}
 
                   <h3
                         className={`${
@@ -175,7 +175,7 @@ const AuthLogin = (props: TProps) => {
                               onClick={() => console.log('click')}
                               type='submit'
                               className='w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
-                              disabled={!authLogin.isLoading && Object.keys(errors).length > 0}
+                              disabled={!authLogin.isPending && Object.keys(errors).length > 0}
                               title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
                         >
                               Login

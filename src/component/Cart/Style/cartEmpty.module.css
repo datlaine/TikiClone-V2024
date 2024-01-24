@@ -1,63 +1,63 @@
 @media screen and (min-width: 1024px) {
-      .wrapperCartEmpty {
-            width: 100%;
-            height: calc(100vh - 187px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-      }
+    .wrapperCartEmpty {
+        width: 100%;
+        height: calc(100vh - 187px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
 
-      .hinhAnhEmptyCart {
-            width: 96px;
-            height: 96px;
-      }
+    .hinhAnhEmptyCart {
+        width: 96px;
+        height: 96px;
+    }
 
-      .wrapperMessage {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-      }
+    .wrapperMessage {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
 
-      .wrapperMessage > a {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-      }
+    .wrapperMessage > a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 @media screen and (max-width: 768px) {
-      .wrapperCartEmpty {
-            width: 100%;
-            margin-top: 65px;
-            margin-bottom: 40px;
-            height: calc(100vh - 65px - 40px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            font-size: 25px;
-      }
+    .wrapperCartEmpty {
+        width: 100%;
+        margin-top: 65px;
+        margin-bottom: 40px;
+        height: calc(100vh - 65px - 40px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        font-size: 25px;
+    }
 
-      .hinhAnhEmptyCart {
-            width: 48px;
-            height: 48px;
-      }
+    .hinhAnhEmptyCart {
+        width: 48px;
+        height: 48px;
+    }
 
-      .wrapperCartEmpty > p {
-            font-size: 15px;
-      }
+    .wrapperCartEmpty > p {
+        font-size: 15px;
+    }
 
-      .wrapperMessage {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-      }
+    .wrapperMessage {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 
-      .wrapperMessage > a {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 8px 4px;
-      }
+    .wrapperMessage > a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 4px;
+    }
 }

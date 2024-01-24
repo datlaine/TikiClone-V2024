@@ -4,56 +4,56 @@ import PositionIcon from '../../ui/BoxAbsolute'
 import BoxAbsolute from '../../ui/BoxAbsolute'
 
 type Props = {
-      hinhAnhSlider: string[]
-      delay?: number
-      width?: number
-      height?: number
+    hinhAnhSlider: string[]
+    delay?: number
+    width?: number
+    height?: number
 }
 
 const SliderProducts = (props: Props) => {
-      const { hinhAnhSlider, delay, width, height } = props
+    const { hinhAnhSlider, delay, width, height } = props
 
-      // Div wrapper parent
-      let sliderWrapper = useRef<HTMLDivElement>(null)
+    // Div wrapper parent
+    let sliderWrapper = useRef<HTMLDivElement>(null)
 
-      // List Refs Imgae
-      const refList = useRef<HTMLImageElement[]>([])
+    // List Refs Imgae
+    const refList = useRef<HTMLImageElement[]>([])
 
-      // Clear interval
-      let timerId = useRef<NodeJS.Timeout | null>(null)
+    // Clear interval
+    let timerId = useRef<NodeJS.Timeout | null>(null)
 
-      let delayTime = useRef<number>(1)
+    let delayTime = useRef<number>(1)
 
-      //scope.current và poit có tác dụng như nhau, điều là lấy element current nhưng, dùng point để re-render cập nhập giá trị mới
-      let scope = useRef<number>(1)
-      const [point, setPoint] = useState<number>(1)
+    //scope.current và poit có tác dụng như nhau, điều là lấy element current nhưng, dùng point để re-render cập nhập giá trị mới
+    let scope = useRef<number>(1)
+    const [point, setPoint] = useState<number>(1)
 
-      //Vị trí mà div parent đang transform
-      let posCurrent = useRef<number>(0)
+    //Vị trí mà div parent đang transform
+    let posCurrent = useRef<number>(0)
 
-      //Mode sẽ thay đổi khi có event click
-      const run = useRef<boolean>(true)
+    //Mode sẽ thay đổi khi có event click
+    const run = useRef<boolean>(true)
 
-      //Wrapper div
-      let containerRefSlider = useRef<HTMLDivElement>(null)
+    //Wrapper div
+    let containerRefSlider = useRef<HTMLDivElement>(null)
 
-      //Ui - default
-      let widthDefault = useRef<number>(800)
-      let heightDefault = useRef<number>(300)
+    //Ui - default
+    let widthDefault = useRef<number>(800)
+    let heightDefault = useRef<number>(300)
 
-      //debug -> console.log
-      let modeDebug = useRef<boolean>(false)
+    //debug -> console.log
+    let modeDebug = useRef<boolean>(false)
 
-      const sleep = (ms: number) => {
-            return new Promise<void>((res) => {
-                  setTimeout(() => {
-                        res()
-                  }, ms)
-            })
-      }
+    const sleep = (ms: number) => {
+        return new Promise<void>((res) => {
+            setTimeout(() => {
+                res()
+            }, ms)
+        })
+    }
 
-      const handleClickChangePositionImage = async (id: number) => {
-            /*
+    const handleClickChangePositionImage = async (id: number) => {
+        /*
 [
   id -> id của Element target (element click)
   run.current -> 1 useRef để lưu trữ trạng thái slider, với mặc định bằng true -> này nó hoạt động như 1 các flag
@@ -88,190 +88,186 @@ const SliderProducts = (props: Props) => {
 ]
 */
 
-            run.current = false
+        run.current = false
 
-            let refTarget = refList.current.filter((ref: HTMLImageElement) => {
-                  return Number(ref.getAttribute('data-id')) === id
-            })
+        let refTarget = refList.current.filter((ref: HTMLImageElement) => {
+            return Number(ref.getAttribute('data-id')) === id
+        })
 
-            let time
-            let width = Math.ceil(refTarget[0].offsetWidth) - 0.3
-            let idTarget = Number(refTarget[0].getAttribute('data-id')) || 10000
+        let time
+        let width = Math.ceil(refTarget[0].offsetWidth) - 0.3
+        let idTarget = Number(refTarget[0].getAttribute('data-id')) || 10000
 
-            // khoang cach giua Element-target va Element-current
-            let position = (point - id) * width
-            let newPosition
-            if (sliderWrapper.current) {
-                  if (idTarget < point) {
-                        time = position / width
-                        newPosition = position + -posCurrent.current
-                  } else {
-                        time = (position / width) * -1
-                        newPosition = position + -posCurrent.current
-                  }
-
-                  console.log('time', time)
-
-                  sliderWrapper.current.style.transform = `translate3d(${newPosition}px, 0,0)`
-                  sliderWrapper.current.style.transition = `all ${time}s linner`
-
-                  posCurrent.current = -newPosition
-                  scope.current = id
-                  setPoint(id)
-
-                  await sleep(1000)
-                  run.current = true
-                  console.log('onClick', posCurrent.current)
-            }
-      }
-
-      const handleClickPrev: React.MouseEventHandler<HTMLElement> = useCallback(async () => {
-            run.current = false
-
-            if (point === 1) {
-                  await sleep((delay && delay * 1000) || delayTime.current * 1000)
-                  run.current = true
-                  return
+        // khoang cach giua Element-target va Element-current
+        let position = (point - id) * width
+        let newPosition
+        if (sliderWrapper.current) {
+            if (idTarget < point) {
+                time = position / width
+                newPosition = position + -posCurrent.current
             } else {
-                  if (sliderWrapper.current) {
-                        posCurrent.current = posCurrent.current - sliderWrapper.current.getBoundingClientRect().width
-                        sliderWrapper.current.style.transform = `translate3d(${-posCurrent.current}px, 0,0)`
-                        sliderWrapper.current.style.transition = `all ${delay || delayTime.current}s`
-                  }
-
-                  setPoint((prev) => prev - 1)
-                  scope.current -= 1
-
-                  await sleep((delay && delay * 1000) || delayTime.current * 1000)
-
-                  run.current = true
+                time = (position / width) * -1
+                newPosition = position + -posCurrent.current
             }
-      }, [])
 
-      const handleClickNext: React.MouseEventHandler<HTMLElement> = useCallback(async () => {
-            run.current = false
+            console.log('time', time)
 
-            if (point === hinhAnhSlider.length) {
-                  await sleep((delay && delay * 1000) || delayTime.current * 1000)
-                  run.current = true
-                  return
-            }
+            sliderWrapper.current.style.transform = `translate3d(${newPosition}px, 0,0)`
+            sliderWrapper.current.style.transition = `all ${time}s linner`
+
+            posCurrent.current = -newPosition
+            scope.current = id
+            setPoint(id)
+
+            await sleep(1000)
+            run.current = true
+            console.log('onClick', posCurrent.current)
+        }
+    }
+
+    const handleClickPrev: React.MouseEventHandler<HTMLElement> = useCallback(async () => {
+        run.current = false
+
+        if (point === 1) {
+            await sleep((delay && delay * 1000) || delayTime.current * 1000)
+            run.current = true
+            return
+        } else {
             if (sliderWrapper.current) {
-                  posCurrent.current = posCurrent.current + sliderWrapper.current.getBoundingClientRect().width
-                  sliderWrapper.current.style.transform = `translate3d(${-posCurrent.current}px, 0,0)`
-                  sliderWrapper.current.style.transition = `all ${delay || delayTime.current}s`
+                posCurrent.current = posCurrent.current - sliderWrapper.current.getBoundingClientRect().width
+                sliderWrapper.current.style.transform = `translate3d(${-posCurrent.current}px, 0,0)`
+                sliderWrapper.current.style.transition = `all ${delay || delayTime.current}s`
             }
 
-            setPoint((prev) => prev + 1)
-            scope.current += 1
+            setPoint((prev) => prev - 1)
+            scope.current -= 1
 
             await sleep((delay && delay * 1000) || delayTime.current * 1000)
 
             run.current = true
-      }, [])
-      useEffect(() => {
-            if (window.innerWidth > 1024) {
-                  timerId.current = setInterval(() => {
-                        if (run.current) {
-                              if (sliderWrapper.current) {
-                                    if (scope.current === hinhAnhSlider.length) {
-                                          posCurrent.current = 0
-                                          scope.current = 1
+        }
+    }, [])
 
-                                          sliderWrapper.current.style.transition = `all 0s`
-                                          setPoint(1)
+    const handleClickNext: React.MouseEventHandler<HTMLElement> = useCallback(async () => {
+        run.current = false
 
-                                          sliderWrapper.current.style.transform = `translateX(${0}px)`
-                                    } else {
-                                          let width = sliderWrapper.current.getBoundingClientRect().width
-                                          posCurrent.current += width
+        if (point === hinhAnhSlider.length) {
+            await sleep((delay && delay * 1000) || delayTime.current * 1000)
+            run.current = true
+            return
+        }
+        if (sliderWrapper.current) {
+            posCurrent.current = posCurrent.current + sliderWrapper.current.getBoundingClientRect().width
+            sliderWrapper.current.style.transform = `translate3d(${-posCurrent.current}px, 0,0)`
+            sliderWrapper.current.style.transition = `all ${delay || delayTime.current}s`
+        }
 
-                                          scope.current += 1
-                                          setPoint((prev) => (prev += 1))
+        setPoint((prev) => prev + 1)
+        scope.current += 1
 
-                                          sliderWrapper.current.style.transform = `translate3d(${-posCurrent.current}px, 0,0)`
-                                          sliderWrapper.current.style.transition = `all ${delay || delayTime.current}s`
-                                    }
-                              }
+        await sleep((delay && delay * 1000) || delayTime.current * 1000)
+
+        run.current = true
+    }, [])
+    useEffect(() => {
+        if (window.innerWidth > 1024) {
+            timerId.current = setInterval(() => {
+                if (run.current) {
+                    if (sliderWrapper.current) {
+                        if (scope.current === hinhAnhSlider.length) {
+                            posCurrent.current = 0
+                            scope.current = 1
+
+                            sliderWrapper.current.style.transition = `all 0s`
+                            setPoint(1)
+
+                            sliderWrapper.current.style.transform = `translateX(${0}px)`
+                        } else {
+                            let width = sliderWrapper.current.getBoundingClientRect().width
+                            posCurrent.current += width
+
+                            scope.current += 1
+                            setPoint((prev) => (prev += 1))
+
+                            sliderWrapper.current.style.transform = `translate3d(${-posCurrent.current}px, 0,0)`
+                            sliderWrapper.current.style.transition = `all ${delay || delayTime.current}s`
                         }
-                  }, 2000)
-                  //     console.log(scope.current)
-            }
-            return () => {
-                  clearInterval(timerId.current as NodeJS.Timeout)
-            }
-      }, [])
+                    }
+                }
+            }, 2000)
+            //     console.log(scope.current)
+        }
+        return () => {
+            clearInterval(timerId.current as NodeJS.Timeout)
+        }
+    }, [])
 
-      useEffect(() => {
-            if (containerRefSlider.current) {
-                  // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-expressions
+    useEffect(() => {
+        if (containerRefSlider.current) {
+            // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-expressions
                   containerRefSlider.current.style.width = `${width ? `${width}px` : `${widthDefault.current}px`}`
-                  containerRefSlider.current.style.height = `${height || heightDefault.current}px`
-            }
-      }, [])
+            containerRefSlider.current.style.height = `${height || heightDefault.current}px`
+        }
+    }, [])
 
-      console.log()
+    console.log()
 
-      return (
-            <div
-                  className='relative  overflow-x-hidden lg:hidden 2xl:block basis-3/4'
-                  ref={containerRefSlider}
-                  style={{ maxWidth: '100%' }}
-            >
-                  <div className={`w-full h-full flex m-w-full  overflox-x-hidden`} ref={sliderWrapper}>
-                        {hinhAnhSlider.map((image: string, index: number): React.ReactNode => {
-                              if (refList.current) {
-                                    return (
-                                          <img
-                                                src={image}
-                                                ref={(el) => {
-                                                      refList.current[index] = el as HTMLImageElement
-                                                }}
-                                                data-id={index + 1}
-                                                key={image}
-                                                className='w-full h-full min-w-full'
-                                                alt=''
-                                          />
-                                    )
-                              }
-                        })}
-                  </div>
-                  <div className='absolute flex gap-3 left-[50%] translate-x-[-50%] bottom-[10px]'>
-                        {hinhAnhSlider.map((img: any, index: number) => {
-                              return (
-                                    <div
-                                          key={index}
-                                          className={`${point === index + 1 ? 'bg-[blue]' : 'bg-white'} w-[30px] h-[5px]`}
-                                          data-id={index + 1}
-                                          onClick={() => handleClickChangePositionImage(index + 1)}
-                                    ></div>
-                              )
-                        })}
-                  </div>
-
-                  <BoxAbsolute
-                        Icon={<ChevronLeft size={55} />}
-                        Mode={{ mode: 'CENTER', CornerCenter: 'TOP', CornerRemaining: { left: 20 } }}
-                        onClick={handleClickPrev}
-                        ClassName='w-[55px] bg-white rounded-[999px] flex justify-center items-center'
-                        zIndex={21}
-                  />
-
-                  <BoxAbsolute
-                        Icon={<ChevronRight size={55} />}
-                        Mode={{ mode: 'CENTER', CornerCenter: 'TOP', CornerRemaining: { right: 20 } }}
-                        onClick={handleClickNext}
-                        ClassName='w-[55px] bg-white rounded-[999px] flex justify-center items-center'
-                        zIndex={21}
-                  />
-
-                  {modeDebug.current && (
-                        <p className='absolute bottom-[-50px] text-white'>
-                              Hình hiện tại {point} --{scope.current}{' '}
-                        </p>
-                  )}
+    return (
+        <div className='relative  overflow-x-hidden lg:hidden 2xl:block basis-3/4' ref={containerRefSlider} style={{ maxWidth: '100%' }}>
+            <div className={`w-full h-full flex m-w-full  overflox-x-hidden`} ref={sliderWrapper}>
+                {hinhAnhSlider.map((image: string, index: number): React.ReactNode => {
+                    if (refList.current) {
+                        return (
+                            <img
+                                src={image}
+                                ref={(el) => {
+                                    refList.current[index] = el as HTMLImageElement
+                                }}
+                                data-id={index + 1}
+                                key={image}
+                                className='w-full h-full min-w-full'
+                                alt=''
+                            />
+                        )
+                    }
+                })}
             </div>
-      )
+            <div className='absolute flex gap-3 left-[50%] translate-x-[-50%] bottom-[10px]'>
+                {hinhAnhSlider.map((img: any, index: number) => {
+                    return (
+                        <div
+                            key={index}
+                            className={`${point === index + 1 ? 'bg-[blue]' : 'bg-white'} w-[30px] h-[5px]`}
+                            data-id={index + 1}
+                            onClick={() => handleClickChangePositionImage(index + 1)}
+                        ></div>
+                    )
+                })}
+            </div>
+
+            <BoxAbsolute
+                Icon={<ChevronLeft size={55} />}
+                Mode={{ mode: 'CENTER', CornerCenter: 'TOP', CornerRemaining: { left: 20 } }}
+                onClick={handleClickPrev}
+                ClassName='w-[55px] bg-white rounded-[999px] flex justify-center items-center'
+                zIndex={21}
+            />
+
+            <BoxAbsolute
+                Icon={<ChevronRight size={55} />}
+                Mode={{ mode: 'CENTER', CornerCenter: 'TOP', CornerRemaining: { right: 20 } }}
+                onClick={handleClickNext}
+                ClassName='w-[55px] bg-white rounded-[999px] flex justify-center items-center'
+                zIndex={21}
+            />
+
+            {modeDebug.current && (
+                <p className='absolute bottom-[-50px] text-white'>
+                    Hình hiện tại {point} --{scope.current}{' '}
+                </p>
+            )}
+        </div>
+    )
 }
 
 export default SliderProducts

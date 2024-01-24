@@ -1,39 +1,42 @@
 export type TApiRegisterResponse<T extends object> = {
-      code: number
-      message: string
-      metadata: {
-            user: T
-            access_token: string
-      }
+    code: number
+    message: string
+    metadata: {
+        user: T
+        access_token: string
+    }
 }
 
 export type TResponseApi<Data> = {
-      code: number
-      message: string
-      metadata: {
-            user: Data
-            access_token?: string
-            avatar_used?: Data
-      }
+    code: number
+    message: string
+    metadata: {
+        user: Data
+        access_token?: string
+        avatar_used?: Data
+    }
 }
 
 export type TUser = {
-      email: string
-      verify_email: boolean
-      gender: 'Male' | 'Female' | 'Other'
-      sercel_url: string
-      _id: string
-      bob: Date
-      fullName: string
-      nickName: string
-      avatar: {
-            secure_url: string
-            public_id: string
-            date_update: Date
-      }
-      avartar_url_default: 'https://res.cloudinary.com/demonodejs/image/upload/v1705389477/static/o5gxkgehijtg9auirdje.jpg'
-      avatar_used: []
+    email: string
+    verify_email: boolean
+    gender: 'Male' | 'Female' | 'Other'
+    sercel_url: string
+    _id: string
+    bob: Date
+    fullName: string
+    nickName: string
+    avatar: TAvatar
+    avartar_url_default: 'https://res.cloudinary.com/demonodejs/image/upload/v1705389477/static/o5gxkgehijtg9auirdje.jpg'
+    avatar_used: TAvatar[]
 }
+
+export type TAvatar = {
+    secure_url: string
+    public_id: string
+    date_update: Date
+}
+
 // const user = {
 //       avatar: {
 //             sercel_url: 'https://res.cloudinary.com/demonodejs/image/upload/v1705389477/static/o5gxkgehijtg9auirdje.jpg',
@@ -49,10 +52,10 @@ export type TUser = {
 // }
 
 export type TUserAvatarUsed = {
-      public_id: string
-      secure_url: string
-      _id: string
-      date_update: Date
+    public_id: string
+    secure_url: string
+    _id: string
+    date_update: Date
 }
 
 // const avatar_used = {

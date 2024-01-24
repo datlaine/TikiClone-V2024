@@ -1,415 +1,415 @@
 @media screen and (min-width: 1024px) {
-      /* Chứa 2 Components Cart và CartPaid */
-      .cartMain {
-            display: flex;
-            gap: 50px;
-            width: 1240px;
-      }
+    /* Chứa 2 Components Cart và CartPaid */
+    .cartMain {
+        display: flex;
+        gap: 50px;
+        width: 1240px;
+    }
 
-      /* Giao diện cart */
+    /* Giao diện cart */
 
-      .container {
-            padding: 0px 110px;
-      }
+    .container {
+        padding: 0px 110px;
+    }
 
-      .cartWrapper {
-            flex: 0 0 75%;
-            height: auto;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            gap: 5px;
-            padding: 0px 0px 45px;
-      }
-      .productQuantityAll {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            padding: 15px 0px 15px 25px;
-            background-color: rgba(255 255 255);
-            border: 0.2rem solid rgb(241 245 249);
-      }
+    .cartWrapper {
+        flex: 0 0 75%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px;
+        padding: 0px 0px 45px;
+    }
+    .productQuantityAll {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 15px 0px 15px 25px;
+        background-color: rgba(255 255 255);
+        border: 0.2rem solid rgb(241 245 249);
+    }
 
-      .productCartInfo {
-            flex: 0 0 75%;
-            display: flex;
-            padding-left: 55px;
-            align-items: center;
-            align-items: stretch;
-            /* width: 400px; */
-      }
+    .productCartInfo {
+        flex: 0 0 75%;
+        display: flex;
+        padding-left: 55px;
+        align-items: center;
+        align-items: stretch;
+        /* width: 400px; */
+    }
 
-      .productCart {
-            width: 100%;
-            min-height: 150px;
-            height: 249px;
-            background-color: rgba(255 255 255);
-            gap: 5px;
-            border: 0.2rem solid rgb(241 245 249);
-            border-radius: 8px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-      }
+    .productCart {
+        width: 100%;
+        min-height: 150px;
+        height: 249px;
+        background-color: rgba(255 255 255);
+        gap: 5px;
+        border: 0.2rem solid rgb(241 245 249);
+        border-radius: 8px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
 
-      .checkBoxWrapper {
-            flex: 0 0 25%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            color: #242424;
-      }
+    .checkBoxWrapper {
+        flex: 0 0 25%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: #242424;
+    }
 
-      .checkBox {
-            height: 35%;
-            width: 5%;
-      }
+    .checkBox {
+        height: 35%;
+        width: 5%;
+    }
 
-      .iconHome {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            opacity: 0.5;
-            font-weight: 900;
-      }
+    .iconHome {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+        opacity: 0.5;
+        font-weight: 900;
+    }
 
-      .checkBoxWrapper > span {
-            font-weight: 700;
-      }
+    .checkBoxWrapper > span {
+        font-weight: 700;
+    }
 
-      .imageProductCart {
-            flex: 0 0 10%;
-            height: 100px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-      }
+    .imageProductCart {
+        flex: 0 0 10%;
+        height: 100px;
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+    }
 
-      .imageProductCart > a {
-            width: 100%;
-            height: 100%;
-      }
+    .imageProductCart > a {
+        width: 100%;
+        height: 100%;
+    }
 
-      .imgageProducCart > img {
-            width: 100% !important;
-            height: 100% !important;
-      }
+    .imgageProducCart > img {
+        width: 100% !important;
+        height: 100% !important;
+    }
 
-      .infoProductCart {
-            width: 350px;
-            margin-right: 50px;
-            display: flex;
-      }
+    .infoProductCart {
+        width: 350px;
+        margin-right: 50px;
+        display: flex;
+    }
 
-      .productCartName {
-            flex: 0 0 35%;
-            display: flex;
-            flex-direction: column;
-      }
+    .productCartName {
+        flex: 0 0 35%;
+        display: flex;
+        flex-direction: column;
+    }
 
-      .productCartName p {
-            word-wrap: break-word;
-            font-size: 14px;
-            align-items: flex-start;
-      }
-      .productShip {
-      }
+    .productCartName p {
+        word-wrap: break-word;
+        font-size: 14px;
+        align-items: flex-start;
+    }
+    .productShip {
+    }
 
-      .logoShipCart {
-            flex: 0 0 25%;
-            display: flex;
-            font-size: 16px;
-            gap: 6px;
-            align-items: center;
-      }
+    .logoShipCart {
+        flex: 0 0 25%;
+        display: flex;
+        font-size: 16px;
+        gap: 6px;
+        align-items: center;
+    }
 
-      .logoShipCart > img {
-            width: 45px !important;
-            height: 17px !important;
-      }
+    .logoShipCart > img {
+        width: 45px !important;
+        height: 17px !important;
+    }
 
-      .titleShip {
-            color: #009900;
-            font-weight: 700;
-            font-size: 16px;
-      }
+    .titleShip {
+        color: #009900;
+        font-weight: 700;
+        font-size: 16px;
+    }
 
-      .priceProductCart {
-            flex: 0 0 55%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 8px;
-            min-width: 350px;
-            padding: 0px 15px;
-            font-size: 12px;
-      }
+    .priceProductCart {
+        flex: 0 0 55%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        min-width: 350px;
+        padding: 0px 15px;
+        font-size: 12px;
+    }
 
-      .promote {
-            color: rgb(220 38 38);
-      }
+    .promote {
+        color: rgb(220 38 38);
+    }
 
-      .checkBoxAll {
-            width: 20px;
-            height: 20px;
-            margin-right: 16px;
-      }
+    .checkBoxAll {
+        width: 20px;
+        height: 20px;
+        margin-right: 16px;
+    }
 
-      .wrapperIcon {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-      }
+    .wrapperIcon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-      /* button tăng giảm sản phẩm */
+    /* button tăng giảm sản phẩm */
 
-      .btnWrapper {
-            width: 100px;
-            padding: 4px;
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-      }
+    .btnWrapper {
+        width: 100px;
+        padding: 4px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
 
-      .btn {
-            border: 0.001em solid #ccc;
-            width: 30px;
-            height: 30px;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-      }
+    .btn {
+        border: 0.001em solid #ccc;
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-      /* .isPricePromote {
+    /* .isPricePromote {
 
 } */
 
-      .isPrice {
-            opacity: 0.8;
-            text-decoration: line-through;
-      }
+    .isPrice {
+        opacity: 0.8;
+        text-decoration: line-through;
+    }
 
-      .titleCart {
-            text-transform: uppercase;
-            margin-left: 10px;
-            padding: 13px 0 5px;
-            font-size: 30px;
-      }
+    .titleCart {
+        text-transform: uppercase;
+        margin-left: 10px;
+        padding: 13px 0 5px;
+        font-size: 30px;
+    }
 
-      .iconDelete {
-      }
+    .iconDelete {
+    }
 }
 
 @media screen and (max-width: 768px) {
-      /* Chứa 2 Components Cart và CartPaid */
-      .cartMain {
-            display: flex;
-            gap: 50px;
-            padding: 0px 15px;
-            flex-direction: column;
-      }
+    /* Chứa 2 Components Cart và CartPaid */
+    .cartMain {
+        display: flex;
+        gap: 50px;
+        padding: 0px 15px;
+        flex-direction: column;
+    }
 
-      /* button tăng giảm sản phẩm */
+    /* button tăng giảm sản phẩm */
 
-      .btnWrapper {
-            width: 40px;
-            padding: 4px;
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-      }
+    .btnWrapper {
+        width: 40px;
+        padding: 4px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
 
-      .btn {
-            border: 0.001em solid #ccc;
-            width: 40%;
-            height: 100%;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-      }
+    .btn {
+        border: 0.001em solid #ccc;
+        width: 40%;
+        height: 100%;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-      /* Giao diện cart */
+    /* Giao diện cart */
 
-      .container {
-            /* padding: 0px 110px; */
-            padding: 0;
-      }
+    .container {
+        /* padding: 0px 110px; */
+        padding: 0;
+    }
 
-      .cartWrapper {
-            width: 100%;
-            height: auto;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            gap: 25px;
-            padding: 0px 0px 45px;
-      }
+    .cartWrapper {
+        width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 25px;
+        padding: 0px 0px 45px;
+    }
 
-      .productCartInfo {
-            display: flex;
-            width: 100%;
+    .productCartInfo {
+        display: flex;
+        width: 100%;
 
-            align-items: flex-start;
-            margin-top: 25px;
-      }
+        align-items: flex-start;
+        margin-top: 25px;
+    }
 
-      .productCart {
-            width: 100%;
-            min-height: 150px;
-            height: auto;
-            background-color: rgba(255 255 255);
+    .productCart {
+        width: 100%;
+        min-height: 150px;
+        height: auto;
+        background-color: rgba(255 255 255);
 
-            border: 0.2rem solid rgb(241 245 249);
-            border-radius: 8px;
-            /* padding: 0px 20px ; */
-            /* padding: 0px 3px; */
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-direction: column;
-            position: relative;
-      }
+        border: 0.2rem solid rgb(241 245 249);
+        border-radius: 8px;
+        /* padding: 0px 20px ; */
+        /* padding: 0px 3px; */
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+    }
 
-      .imageProductCart {
-            /* width: 80px; */
-            margin-right: 1px;
-            height: 100px;
-            margin-top: 10px;
-      }
+    .imageProductCart {
+        /* width: 80px; */
+        margin-right: 1px;
+        height: 100px;
+        margin-top: 10px;
+    }
 
-      .imgageProducCart > img {
-            width: 100% !important;
-            height: 100% !important;
-      }
+    .imgageProducCart > img {
+        width: 100% !important;
+        height: 100% !important;
+    }
 
-      .infoProductCart {
-            width: 350px;
-            margin-right: 50px;
-            display: flex;
-            flex-direction: column;
-      }
+    .infoProductCart {
+        width: 350px;
+        margin-right: 50px;
+        display: flex;
+        flex-direction: column;
+    }
 
-      .infoProductCart > .productCartName {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex: 30%;
-      }
+    .infoProductCart > .productCartName {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 30%;
+    }
 
-      .productCartName p {
-            font-size: 13px;
-      }
-      .productShip {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-      }
+    .productCartName p {
+        font-size: 13px;
+    }
+    .productShip {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
 
-      .logoShipCart {
-            flex: 30%;
-            display: flex;
-            font-size: 13px;
-            gap: 6px;
-            align-items: center;
-      }
+    .logoShipCart {
+        flex: 30%;
+        display: flex;
+        font-size: 13px;
+        gap: 6px;
+        align-items: center;
+    }
 
-      .logoShipCart > img {
-            width: 28px !important;
-            height: 14px !important;
-      }
+    .logoShipCart > img {
+        width: 28px !important;
+        height: 14px !important;
+    }
 
-      .titleShip {
-            color: #009900;
-            font-weight: 700;
-            font-size: 13px;
-      }
+    .titleShip {
+        color: #009900;
+        font-weight: 700;
+        font-size: 13px;
+    }
 
-      /* .isPricePromote {
+    /* .isPricePromote {
 
 } */
 
-      .isPrice {
-            opacity: 0.8;
-            text-decoration: line-through;
-      }
+    .isPrice {
+        opacity: 0.8;
+        text-decoration: line-through;
+    }
 
-      .titleCart {
-            text-transform: uppercase;
-            margin-left: 10px;
-            padding: 13px 0 5px;
-            font-size: 30px;
-      }
+    .titleCart {
+        text-transform: uppercase;
+        margin-left: 10px;
+        padding: 13px 0 5px;
+        font-size: 30px;
+    }
 
-      .priceProductCart {
-            margin-left: 25px;
-            display: flex;
-            gap: 10px;
-            min-width: 50px;
-            width: 100%;
-            align-items: flex-start;
-            font-size: 10.2px;
-            flex-direction: column;
-            /* justify-content: center; */
-      }
+    .priceProductCart {
+        margin-left: 25px;
+        display: flex;
+        gap: 10px;
+        min-width: 50px;
+        width: 100%;
+        align-items: flex-start;
+        font-size: 10.2px;
+        flex-direction: column;
+        /* justify-content: center; */
+    }
 
-      .priceProductCart > p {
-            flex: 60%;
-      }
+    .priceProductCart > p {
+        flex: 60%;
+    }
 
-      .promote {
-            color: rgb(220 38 38);
-            width: 40px;
-      }
+    .promote {
+        color: rgb(220 38 38);
+        width: 40px;
+    }
 
-      .checkBoxAll {
-            width: 20px;
-            height: 20px;
-            margin-right: 16px;
-      }
+    .checkBoxAll {
+        width: 20px;
+        height: 20px;
+        margin-right: 16px;
+    }
 
-      .wrapperIcon {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-      }
+    .wrapperIcon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+    }
 
-      .iconDelete {
-            height: 70%;
-      }
+    .iconDelete {
+        height: 70%;
+    }
 
-      .checkBoxWrapper {
-            width: 100%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            color: #242424;
-            gap: 7px;
-      }
+    .checkBoxWrapper {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: #242424;
+        gap: 7px;
+    }
 
-      .checkBox {
-            width: 5%;
-      }
+    .checkBox {
+        width: 5%;
+    }
 
-      .iconHome {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            opacity: 0.5;
-            font-weight: 900;
-      }
+    .iconHome {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+        opacity: 0.5;
+        font-weight: 900;
+    }
 
-      .checkBoxWrapper > span {
-            font-weight: 700;
-      }
+    .checkBoxWrapper > span {
+        font-weight: 700;
+    }
 }

@@ -1,31 +1,31 @@
 import React, { useEffect, useRef } from 'react'
 
 type Props = {
-      func: () => Promise<void>
-      delay: number
+    func: () => Promise<void>
+    delay: number
 }
 
 const useDelay = (props: Props) => {
-      console.log('hooks')
-      const { func, delay } = props
+    console.log('hooks')
+    const { func, delay } = props
 
-      const callbackRef = useRef<(() => Promise<void>) | null>(null)
+    const callbackRef = useRef<(() => Promise<void>) | null>(null)
 
-      const timeoutRef = useRef<NodeJS.Timeout>()
+    const timeoutRef = useRef<NodeJS.Timeout>()
 
-      useEffect(() => {
-            if (callbackRef.current) {
-                  callbackRef.current = func
-            }
-      }, [func])
+    useEffect(() => {
+        if (callbackRef.current) {
+            callbackRef.current = func
+        }
+    }, [func])
 
-      return () => {
-            if (timeoutRef.current) {
-                  clearTimeout(timeoutRef.current)
-            }
+    return () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
+        }
 
-            timeoutRef.current = setTimeout(() => callbackRef.current && callbackRef.current(), delay)
-      }
+        timeoutRef.current = setTimeout(() => callbackRef.current && callbackRef.current(), delay)
+    }
 }
 
 export default useDelay

@@ -12,48 +12,54 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { checkAxiosError } from './utils/handleAxiosError'
 import TErrorAxios from './types/axios.response.error'
 import ContextToastProvider from './component/Context/ToastContext'
+import { addToast } from './Redux/toast'
+import BoxContainerToast from './component/ui/BoxContainerToast'
+
+// store.dispatch(addToast({ type: 'ERROR', message: '123', id: '1' }))
+// setTimeout(() => {}, 5000)
 
 const rootELement = document.getElementById('root')
 if (!rootELement) throw new Error('Root is invaild')
 const root = ReactDOM.createRoot(rootELement)
 
 const client = new QueryClient({
-      defaultOptions: {
-            queries: {
-                  refetchOnWindowFocus: false,
-                  retry: false,
-                  retryDelay: 1000,
-            },
-      },
-      queryCache: new QueryCache({}),
-      mutationCache: new MutationCache({
-            onError: async (error, varibale, context, mutation) => {
-                  console.log({ error, mutation, varibale, context })
-                  if (checkAxiosError<TErrorAxios>(error)) {
-                        if (
-                              error?.response?.status === 403 &&
-                              error?.response.statusText === 'Forbidden' &&
-                              error?.response.data?.detail === 'Refresh failed'
-                        ) {
-                              localStorage.removeItem('user')
-                              localStorage.removeItem('token')
-                        }
-                  }
-            },
-      }),
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            retry: false,
+            retryDelay: 1000,
+        },
+    },
+    queryCache: new QueryCache({}),
+    mutationCache: new MutationCache({
+        onError: async (error, varibale, context, mutation) => {
+            console.log({ error, mutation, varibale, context })
+            if (checkAxiosError<TErrorAxios>(error)) {
+                if (
+                    error?.response?.status === 403 &&
+                    error?.response.statusText === 'Forbidden' &&
+                    error?.response.data?.detail === 'Refresh failed'
+                ) {
+                    localStorage.removeItem('user')
+                    localStorage.removeItem('token')
+                }
+            }
+        },
+    }),
 })
 
 root.render(
-      <Provider store={store}>
-            <PersistGate persistor={persistor}>
-                  <BrowserRouter>
-                        <QueryClientProvider client={client}>
-                              <ContextToastProvider>
-                                    <App />
-                              </ContextToastProvider>
-                              <ReactQueryDevtools initialIsOpen={false} />
-                        </QueryClientProvider>
-                  </BrowserRouter>
-            </PersistGate>
-      </Provider>,
+    <Provider store={store}>
+        <PersistGate persistor={persistor}>
+            <BrowserRouter>
+                <QueryClientProvider client={client}>
+                    <ContextToastProvider>
+                        <App />
+                        <BoxContainerToast />
+                    </ContextToastProvider>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
+            </BrowserRouter>
+        </PersistGate>
+    </Provider>,
 )

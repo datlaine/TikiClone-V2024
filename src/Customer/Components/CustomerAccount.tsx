@@ -167,79 +167,74 @@ const CustomerAccount = () => {
     }, [getMe.isSuccess, dispatch])
 
     return (
-        <div className='flex flex-col lg:flex-row min-h-[500px] h-auto gap-[20px] xl:gap-[2%]'>
+        <div className='flex flex-col xl:flex-row min-h-full w-full gap-[20px] xl:gap-[2%] p-[4px]'>
             {/* {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />} */}
 
             <FormProvider {...methods}>
-                <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[12px]' onSubmit={methods.handleSubmit(onSubmit)}>
+                <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[8px]' onSubmit={methods.handleSubmit(onSubmit)}>
                     {/* @header */}
                     <h3 className='h-[45px]'>Thông tin cá nhân</h3>
 
                     {/* @change mode with avatar */}
-                    <div className='h-[45%] xl:h-[20%] data-user flex flex-col xl:flex-row gap-[20px] xl:gap-0 xl:items-center'>
+                    <div className='h-[40%] xl:h-[24%]  data-user flex flex-col lg:flex-row gap-[20px] xl:gap-0 xl:items-center'>
                         {/* @onClick active mode*/}
-                        <BoxAvatarMode />
-                        {/* @ form update infomation account */}
-                        {/* @ formLayout - 1 */}
-                        <div className='flex flex-1  flex-col justify-between gap-4'>
-                            {/* @ field::name -> fullname */}
-                            <div className='flex justify-between w-full h-[35%] pl-[15px] items-center text-[14px]'>
-                                <label htmlFor='form_name' className='w-[20%]'>
-                                    Họ & tên
-                                </label>
-                                <input
-                                    {...methods.register('fullName')}
-                                    type='text'
-                                    id='form_name'
-                                    defaultValue={methods.getValues('fullName')}
-                                    className='px-[12px] py-[8px] w-[60%] border-stone-300'
-                                />
-                            </div>
-                            {/* @ field::name -> nickname */}
-                            <div className='flex justify-between w-full h-[35%] pl-[15px] items-center text-[14px]'>
-                                <label htmlFor='form_nickname' className='w-[20%]'>
-                                    Nickname
-                                </label>
-                                <input
-                                    {...methods.register('nickName')}
-                                    placeholder={methods.getValues('nickName')}
-                                    type='text'
-                                    id='form_nickname'
-                                    className={`italic ${
-                                        methods.formState.isDirty ? 'text-slate-900' : 'text-stone-300'
-                                    } px-[12px] py-[8px] w-[60%] border-stone-300`}
-                                />
+                        <div className='flex flex-col xl:flex-row gap-[28px] xl:gap-0 w-full '>
+                            <BoxAvatarMode />
+                            {/* @ form update infomation account */}
+                            {/* @ formLayout - 1 */}
+                            <div className='flex flex-1  flex-col justify-between gap-4'>
+                                {/* @ field::name -> fullname */}
+                                <div className='flex justify-between gap-[32px] w-full h-[35%] pl-[15px] items-center text-[14px]'>
+                                    <label htmlFor='form_name' className='w-[24%]'>
+                                        Họ & tên
+                                    </label>
+                                    <input
+                                        {...methods.register('fullName')}
+                                        type='text'
+                                        id='form_name'
+                                        defaultValue={methods.getValues('fullName')}
+                                        className='flex-1 px-[12px] py-[8px] w-[60%] border-stone-300'
+                                    />
+                                </div>
+                                {/* @ field::name -> nickname */}
+                                <div className='flex justify-between w-full gap-[32px] h-[35%] pl-[15px] items-center text-[14px]'>
+                                    <label htmlFor='form_nickname' className='w-[24%]'>
+                                        Nickname
+                                    </label>
+                                    <input
+                                        {...methods.register('nickName')}
+                                        placeholder={methods.getValues('nickName')}
+                                        type='text'
+                                        id='form_nickname'
+                                        className={`italic ${
+                                            methods.formState.isDirty ? 'text-slate-900' : 'text-stone-300'
+                                        } flex-1 px-[12px] py-[8px] w-[60%] border-stone-300`}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
                     {/* @ formLayout - 2 */}
-                    <div className='form_user w-full min-h-[50%] sm:min-h-[40%] h-auto flex gap-[4%] mt-[16px] xl:mt-0'>
-                        <div className='flex flex-col w-full gap-[16px] lg:pt-[15px] 2xl:pt-[10px]'>
+                    <div className='form_user w-full min-h-[50%] sm:min-h-[40%] xl:h-[40%]  max-h-auto md:mt-[30px] flex mt-[20px]'>
+                        <div className='flex flex-col w-full gap-[16px] justify-between xl:gap-[32px] lg:pt-[15px] 2xl:pt-[10px]'>
                             {/* @ field::bob */}
-                            <div className='flex flex-col sm:flex-row justify-between w-full h-[30%] sm:h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
-                                <span className='w-[80px]'>Ngày sinh</span>
+                            <div className='mb-[30px] flex flex-col md:flex-row justify-between w-full h-[30%] sm:h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
+                                <p className='w-full text-left lg:w-[100px]'>Ngày sinh</p>
                                 <CustomerAccountBirth />
                             </div>
                             {/* @ field::gender */}
-                            <div className='flex flex-col sm:flex-row justify-between w-full h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
-                                <span className='w-[80px]'>Giới tính</span>
+                            <div className='flex flex-col md:flex-row justify-between w-full h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
+                                <p className='w-full text-left lg:w-[100px]'>Giới tính</p>
                                 <CustomerAccountGender />
                             </div>
                             {/* @ form::action -> submit */}
-                            <div className='w-full mt-[50px] sm:mt-0 pl:[35px] sm:pl-[115px]'>
+                            <div className='w-full mt-[50px] sm:mt-0 pl:[35px] sm:pl-[130px]'>
                                 <button
                                     disabled={updateInfo.isPending}
                                     className='flex items-center justify-center gap-[6px] ml-0  w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
                                     type='submit'
                                 >
                                     <span>Lưu thay đổi</span>
-                                    {/* @ form::action -> boolean submit */}
-                                    {/* {!toast && updateInfo.isLoading && (
-                                                            <span
-                                                                  className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                                                                  role='status'
-                                                            ></span>
-                                                      )}{' '} */}
                                 </button>
                             </div>
 
@@ -250,7 +245,7 @@ const CustomerAccount = () => {
                 </form>
             </FormProvider>
             {/* Right */}
-            <div className='w-[1px] min-h-full bg-slate-200'></div>
+            <div className='hidden xl:block w-[1px] min-h-full bg-slate-200'></div>
             <div className='w-full xl:w-[45%] min-h-full '>
                 {/* @customer::account -> update::email */}
                 <div className='flex flex-col gap-[1px]'>

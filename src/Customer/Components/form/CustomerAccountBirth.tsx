@@ -96,7 +96,7 @@ giá trị mặc định không bị sữa đổi -> true
 
     return (
         <div className='ml-[0px] flex-1 flex flex-col  gap-[10px] lg:items-start  w-full lg:justify-start'>
-            <div className='flex flex-row'>
+            <div className='flex flex-col gap-[20px] xl:gap-0 sm:flex-row'>
                 <Controller
                     control={control}
                     name='birth.day'

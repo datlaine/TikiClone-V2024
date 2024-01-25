@@ -1,7 +1,9 @@
+import { jwtDecode } from 'jwt-decode'
 import { Span } from 'next/dist/trace'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import NotFound from '../../component/Errors/NotFound'
 
 type TFormDefaultValue = {
     name: string
@@ -25,6 +27,7 @@ const Admin = () => {
         formState: { errors },
         handleSubmit,
     } = useForm<TFormDefaultValue>({ defaultValues })
+    const navigate = useNavigate()
 
     const [nameFile, setNameFile] = useState('')
     const [preview, setPreview] = useState<string | undefined>('')
@@ -32,7 +35,7 @@ const Admin = () => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>()
     const [previewList, setPreviewList] = useState<{ preview: string }[]>()
     const [money, setMoney] = useState('')
-    const navigate = useNavigate()
+
     useEffect(() => {
         if (!selectedFile) {
             setPreview(undefined)
@@ -45,6 +48,15 @@ const Admin = () => {
         // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl)
     }, [selectedFile])
+    if (!localStorage.getItem('token')) {
+        return <NotFound />
+    }
+    const token = JSON.parse(localStorage.getItem('token') || 'none')
+    const decode = jwtDecode<{ email: string; _id: string; roles: string[] }>(token)
+    if (!decode.roles.includes('admin')) {
+        // navigate('/customer/account')
+        return <NotFound />
+    }
 
     const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) {

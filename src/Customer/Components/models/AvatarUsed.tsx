@@ -7,6 +7,7 @@ import { AxiosResponse } from 'axios'
 import { ContextToast } from '../../../component/Context/ToastContext'
 import { useDispatch } from 'react-redux'
 import { fetchUser } from '../../../Redux/authenticationSlice'
+import { convertDateToString } from '../../../utils/date.utils'
 
 type TProps = {
     avatar: TAvatar
@@ -26,11 +27,6 @@ const AvatarUsed = (props: TProps) => {
             queryClient.invalidateQueries({ queryKey: ['avatar-used'] })
         },
     })
-    const convertDateToString = (date: Date) => {
-        console.log({ date })
-        date = new Date(date)
-        return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
-    }
 
     const handleDeleteAvatarUsed = (public_id: string, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         // e.currentTarget.parentNode?.children[2].children[1].classList.replace('hidden', 'inline-block')

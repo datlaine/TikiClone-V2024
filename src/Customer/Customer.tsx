@@ -13,8 +13,9 @@ import AuthPermission from '../component/Auth/AuthPermission'
 import NotFound from '../component/Errors/NotFound'
 
 //@icon
-import { BellDot, Lock, NotebookPen } from 'lucide-react'
+import { BellDot, Lock, NotebookPen, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { UserRound } from 'lucide-react'
+import RegisterSell from './Components/RegisterSell/RegisterSell'
 
 //@const
 const link = [
@@ -23,6 +24,8 @@ const link = [
     { path: '/customer/order_history', text: 'Quản lí đơn hàng' },
     { path: '/customer/account/update/email', text: 'Cập nhập email' },
     { path: '/customer/account/update/password', text: 'Cập nhập password' },
+    { path: '/customer/shop', text: 'Shops' },
+    { path: '/customer/register-sell', text: 'Đăng kí bán hàng' },
 ]
 
 //@Component
@@ -54,7 +57,7 @@ const Customer = () => {
     //@element
     return (
         <>
-            <div className='px-[75px] w-full h-full flex items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
+            <div className='bg-[#efefef] px-[150px] w-full min-h-screen h-full flex items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
                 {/* @header */}
                 <div className='hidden lg:block mb-[1px]'>
                     <Link to={'/'}>Trang chủ</Link>
@@ -66,7 +69,7 @@ const Customer = () => {
 
                 <div className='w-full flex gap-[1%] min-h-[450px]  h-[auto] '>
                     {/* @navigate pathname */}
-                    <div className='hidden  xl:block lg:w-[24%]'>
+                    <div className='hidden  xl:block lg:w-[20%]'>
                         <div className='h-[75px] flex items-center gap-[8px] overflow-x-hidden' title={`Account ${user?.email}` || ''}>
                             {user ? (
                                 <>
@@ -93,7 +96,7 @@ const Customer = () => {
                             onClick={(e) => handleActive('/customer/account')}
                         >
                             <UserRound />
-                            <Link to={'/customer/account'} className='p-[15px] w-full'>
+                            <Link to={'/customer/account'} className='px-[15px] py-[8px] w-full'>
                                 Account
                             </Link>
                         </div>
@@ -104,7 +107,7 @@ const Customer = () => {
                         >
                             <BellDot />
 
-                            <Link to={'/customer/notification'} className='p-[15px] w-full'>
+                            <Link to={'/customer/notification'} className='px-[15px] py-[8px] w-full'>
                                 Thông báo của tôi
                             </Link>
                         </div>
@@ -114,14 +117,32 @@ const Customer = () => {
                             onClick={(e) => handleActive('/customer/order_history')}
                         >
                             <NotebookPen />
-                            <Link to={'/customer/order_history'} className='p-[15px] w-full'>
+                            <Link to={'/customer/order_history'} className='px-[15px] py-[8px] w-full'>
                                 Quản lí đơn hàng
+                            </Link>
+                        </div>
+                        <div
+                            className={`customer-item-bg ${textLink?.path === '/customer/shop' ? 'isActive' : ''}`}
+                            onClick={(e) => handleActive('/customer/shop')}
+                        >
+                            <ShoppingCart />
+                            <Link to={'/customer/shop'} className='px-[15px] py-[8px] w-full'>
+                                Shop
+                            </Link>
+                        </div>
+                        <div
+                            className={`customer-item-bg ${textLink?.path === '/customer/register-sell' ? 'isActive' : ''}`}
+                            onClick={(e) => handleActive('/customer/register-sell')}
+                        >
+                            <ShoppingBag />
+                            <Link to={'/customer/register-sell'} className='px-[15px] py-[8px] w-full'>
+                                Đăng kí bán
                             </Link>
                         </div>
                     </div>
 
                     {/*@ Outlet */}
-                    <div className='w-full 2xl:w-[75%]'>
+                    <div className='w-full 2xl:w-[80%]'>
                         <div className='hidden xl:flex h-[55px]  items-center'>{textLink?.text}</div>
                         {auth ? (
                             <CustomerWrapperItem>

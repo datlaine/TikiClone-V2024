@@ -11,7 +11,7 @@ const BoxContainerToast = () => {
     return (
         <>
             {toast.length !== 0 && (
-                <div className='fixed flex flex-col gap-[50px]  text-white top-[100px] h-auto overflow-y-hidden max-h-screen right-0 w-[300px] z-[999]'>
+                <div className='fixed flex flex-col gap-[50px]  text-white top-[60px] border-none h-screen overflow-y-scroll max-h-[auto] bg-transparent right-[0px] w-[350px] max-w-[360px] z-[12]'>
                     {toast.map((t) => (
                         <React.Fragment key={t.id}>
                             {/* <span>{t.id}</span> */}

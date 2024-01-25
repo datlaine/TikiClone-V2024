@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useRef, useState } from 'react'
 import { customerAccountReducer, initialValue } from '../../../reducer/customer.reducer'
 import { RootState } from '../../../store'
 import { useSelector } from 'react-redux'
-import { Eye, Image, Trash2 } from 'lucide-react'
+import { Edit, Eye, Image, Pencil, Trash2 } from 'lucide-react'
 import Portal from '../../../component/Portal'
 import ModelAvatarSee from '../models/ModelAvatarSee'
 import ModelAvatarUpdate from '../models/ModelAvatarUpdate'
@@ -49,7 +49,7 @@ const BoxAvatarMode = () => {
     }
     return (
         <div
-            className=' flex  items-center justify-center h-[60px] w-full xl:h-[110px] xl:w-[110px] rounded-full mb-[15px] relative'
+            className='relative flex  items-center justify-center h-[60px] w-full xl:h-[120px] xl:w-[120px] rounded-full mb-[15px]'
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                 e.stopPropagation()
                 modeDispatch({ type: 'OPEN_BOX_AVATAR', payload: { boxModeAvatar: true } })
@@ -58,14 +58,18 @@ const BoxAvatarMode = () => {
             <img
                 src={user.avatar?.secure_url || user.avartar_url_default || ''}
                 alt='user_avatar'
-                className='w-[80px] h-[80px] lg:w-[100px]  lg:h-[100px] rounded-full'
+                className='w-[100px] h-[100px] lg:w-[120px]  lg:h-[120px] rounded-full border-[4px] border-cyan-200'
             />
+
+            <div className='absolute bottom-[10px] right-[4px] w-[20px] h-[20px] bg-slate-500 rounded-full flex items-center justify-center'>
+                <Pencil className=' text-white' size={12} />
+            </div>
 
             {/* @box avatar action*/}
             {state.boxModeAvatar && (
                 <>
                     <div
-                        className='absolute z-[500] top-[70%]  shadow-xl border-[1px] border-stone-300 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
+                        className='absolute z-[10] top-[100%]  shadow-xl border-[1px] border-stone-300 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
                         ref={refModelAvatar}
                     >
                         <div className='relative z-[500]'>

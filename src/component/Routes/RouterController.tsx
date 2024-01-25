@@ -20,6 +20,8 @@ import CustomerNotification from '../../Customer/Components/CustomerNotification
 import CustomerOrderHistory from '../../Customer/Components/CustomerOrderHistory'
 import CustomerUpdateEmail from '../../Customer/Components/Update/CustomerUpdateEmail'
 import CustomerUpdatePassword from '../../Customer/Components/Update/CustomerUpdatePassword'
+import Shop from '../../Customer/Components/Shop/Shop'
+import RegisterSell from '../../Customer/Components/RegisterSell/RegisterSell'
 
 const RouterController = () => {
     const matchAdminPath = useMatch('/admin')
@@ -29,48 +31,37 @@ const RouterController = () => {
         <>
             {!hiddenHeader && <Header />}
 
-            <div
-                id='content'
-                className={` bg-[#ebebf0] relative ${
-                    pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]'
-                }  lg:flex px-0 lg:px-[50px] gap-8 `}
-            >
-                {/* <Sidebar /> */}
-                <Routes>
-                    <Route
-                        path='/*'
-                        element={
-                            <Routes>
-                                <Route path='/' element={<Content />} />
-                                {/* <Route path='/Buy/:id' element={<Buy />} /> */}
-                                <Route path='/Cart' element={<Cart />} />
-                                {/* <Route path='/login' element={<Login />} /> */}
-                                {/* <Route path='/resister' element={<Resister />} /> */}
-                                {/* <Route path='/Contact' element={<Contact />} /> */}
-                                <Routes>
-                                    <Route path='/customer' element={<Customer />}>
-                                        <Route path='account' element={<CustomerAccount />} />
-                                        <Route path='account/update/email' element={<CustomerUpdateEmail />} />
-                                        <Route path='account/update/password' element={<CustomerUpdatePassword />} />
+            {/* <Sidebar /> */}
+            <Routes>
+                <Route path='/admin' element={<Admin />} />
+                <div
+                    id=''
+                    className={` bg-main relative ${
+                        pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]'
+                    }  lg:flex px-0 lg:px-[50px] gap-8 `}
+                >
+                    <Route path='/' element={<Content />} />
+                    {/* <Route path='/Buy/:id' element={<Buy />} /> */}
+                    <Route path='/Cart' element={<Cart />} />
+                    {/* <Route path='/login' element={<Login />} /> */}
+                    {/* <Route path='/resister' element={<Resister />} /> */}
+                    {/* <Route path='/Contact' element={<Contact />} /> */}
+                    <Routes>
+                        <Route path='/customer' element={<Customer />}>
+                            <Route path='account' element={<CustomerAccount />} />
+                            <Route path='account/update/email' element={<CustomerUpdateEmail />} />
+                            <Route path='account/update/password' element={<CustomerUpdatePassword />} />
 
-                                        <Route path='notification' element={<CustomerNotification />} />
-                                        <Route path='order_history' element={<CustomerOrderHistory />} />
-                                    </Route>
-                                </Routes>
-                                <Route
-                                    path='/admin'
-                                    element={
-                                        <Portal>
-                                            <Admin />
-                                        </Portal>
-                                    }
-                                />
-                                <Route path='*' element={<NotFound />} />
-                            </Routes>
-                        }
-                    />
-                </Routes>
-            </div>
+                            <Route path='notification' element={<CustomerNotification />} />
+                            <Route path='order_history' element={<CustomerOrderHistory />} />
+                            <Route path='shop' element={<Shop />} />
+                            <Route path='register-sell' element={<RegisterSell />} />
+                        </Route>
+                    </Routes>
+                </div>
+
+                <Route path='*' element={<NotFound />} />
+            </Routes>
         </>
     )
 }

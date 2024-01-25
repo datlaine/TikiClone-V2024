@@ -41,7 +41,7 @@ function HeaderBoxHover(props: Props) {
 
     return (
         <>
-            <ul className='flex flex-col min-w-[250px] bg-white shadow-xl py-2 gap-2 border border-gray-200 rounded'>
+            <ul className='flex flex-col min-w-[250px] bg-white shadow-xl py-2 gap-2 border border-gray-200 rounded z-20'>
                 <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2'>
                     <Link to={'/customer/account'}>{user ? `Account: ${user.email}` : 'Thông tin tài khoản'}</Link>
                 </li>

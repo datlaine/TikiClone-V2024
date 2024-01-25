@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { removeToast } from '../../Redux/toast'
 import { RootState, store } from '../../store'
 import { ShieldAlert, ShieldCheck, ShieldX, X } from 'lucide-react'
-import { Root } from 'postcss'
-
+import { DateTime } from 'luxon'
+import { localDateTime } from '../../constant/local'
+import jwt, { jwtDecode } from 'jwt-decode'
 type TProps = {
     toast: TToast
 }
@@ -15,9 +16,13 @@ const ToastDemo = (props: TProps) => {
     const dispatch = useDispatch()
     const timerToast = useSelector((state: RootState) => state.toast.timerToast)
     const timeOut = useRef<NodeJS.Timeout>()
+    const timeInterval = useRef<NodeJS.Timeout>()
+    const now = new Date()
+    const token = JSON.parse(localStorage.getItem('token') as string)
+    console.log(jwtDecode(token))
     const [show, setShow] = useState(true)
     const [time, setTime] = useState(timerToast)
-    const timeInterval = useRef<NodeJS.Timeout>()
+    const [showDetail, setShowDetail] = useState(false)
 
     const handleControllCloseToast = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, id: string) => {
         e.stopPropagation()
@@ -31,11 +36,9 @@ const ToastDemo = (props: TProps) => {
             setShow(false)
         }, timerToast * 1000)
 
-        // if (time === 0) {
-        // }
-
         timeInterval.current = setInterval(() => {
             setTime((prev) => (prev -= 1))
+            console.log('time interval')
         }, 1000)
 
         return () => {
@@ -44,15 +47,39 @@ const ToastDemo = (props: TProps) => {
         }
     }, [])
 
+    const handleOnMouseEnter = () => {
+        clearInterval(timeInterval.current)
+        clearTimeout(timeOut.current)
+        setShowDetail(true)
+    }
+
+    const handleOnMouseLeave = () => {
+        timeOut.current = setTimeout(() => {
+            console.log({ id: toast.id })
+            dispatch(removeToast({ id: toast.id }))
+            setShow(false)
+        }, time * 1000)
+
+        timeInterval.current = setInterval(() => {
+            setTime((prev) => (prev -= 1))
+            console.log('time interval')
+        }, 1000)
+        setShowDetail(false)
+    }
     return (
         <>
             {show && (
                 <p
+                    onMouseEnter={handleOnMouseEnter}
+                    onMouseLeave={handleOnMouseLeave}
                     className={`${
                         toast.type === 'SUCCESS' ? ' text-green-900 ' : toast.type === 'ERROR' ? ' text-red-900 ' : '  text-orange-900'
                     } 
-bg-[#ffffff]  py-[12px] border-y-[2px] border-r-0 border-l-[4px] shadow-2xl relative w-[300px] min-h-[20px] h-auto rounded-lg transition-all duration-500  border-[2px] flex items-center justify-center`}
+bg-[#ffffff] border-y-[1px] border-green-400 py-[16px] px-[12px] shadow-xl relative min-w-[280px] w-full  min-[25px]  h-[90px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-700  flex items-center justify-center`}
                 >
+                    <span className='absolute top-[25px] right-[25px]'>
+                        {DateTime.now().setZone(localDateTime).toLocaleString(DateTime.TIME_24_SIMPLE)}
+                    </span>
                     <span
                         style={{ width: `${295 / Math.ceil(time)}px` }}
                         className={`${
@@ -72,7 +99,7 @@ bg-[#ffffff]  py-[12px] border-y-[2px] border-r-0 border-l-[4px] shadow-2xl rela
                                 : toast.type === 'ERROR'
                                 ? ' bg-red-500 text-red-900 '
                                 : ' bg-orange-500 text-orange-900'
-                        }  absolute bottom-[0px] left-0  rounded-lg h-[3px] transition-all duration-300`}
+                        }  absolute bottom-[0px] left-0  rounded-lg h-[3px] transition-all duration-1000`}
                     ></span>
 
                     <div className='w-full flex gap-[8px] px-[16px] items-center'>
@@ -88,6 +115,33 @@ bg-[#ffffff]  py-[12px] border-y-[2px] border-r-0 border-l-[4px] shadow-2xl rela
                         <div className='flex flex-col gap-[8px]'>
                             <span className='uppercase'>{toast.type}</span>
                             <span className='mb-[12px]'>{toast.message}</span>
+                            {showDetail && (
+                                <span>
+                                    <pre>{'['}</pre>
+                                    <pre>{' {'}</pre>
+                                    <pre>{'     Sản phẩm: Sách'}</pre>
+                                    <pre>{'     Giá: 10000vnđ'}</pre>
+                                    <pre>{'     Nhà xuất bản: Nhi Đồng'}</pre>
+                                    <pre>{' }'}</pre>
+                                    <pre>{']'}</pre>
+
+                                    <pre>{'['}</pre>
+                                    <pre>{' {'}</pre>
+                                    <pre>{'     Sản phẩm: Sách'}</pre>
+                                    <pre>{'     Giá: 10000vnđ'}</pre>
+                                    <pre>{'     Nhà xuất bản: Nhi Đồng'}</pre>
+                                    <pre>{' }'}</pre>
+                                    <pre>{']'}</pre>
+
+                                    <pre>{'['}</pre>
+                                    <pre>{' {'}</pre>
+                                    <pre>{'     Sản phẩm: Sách'}</pre>
+                                    <pre>{'     Giá: 10000vnđ'}</pre>
+                                    <pre>{'     Nhà xuất bản: Nhi Đồng'}</pre>
+                                    <pre>{' }'}</pre>
+                                    <pre>{']'}</pre>
+                                </span>
+                            )}
                         </div>
                     </div>
                     <span

@@ -49,13 +49,15 @@ const ModelAvatarSee = (props: TProps) => {
                 {userAvatarUsed.data?.data.metadata.avatar_used && userAvatarUsed?.data?.data?.metadata?.avatar_used?.length > 0 && (
                     <div className='mt-[70px] w-full min-h-[360px] h-auto flex flex-col gap-[20px] '>
                         <span>Các hình đại diện trước đó</span>
-                        {userAvatarUsed.isSuccess ? (
+                        {userAvatarUsed.isSuccess && (
                             <div className='flex gap-[45px] mb-[70px] min-h-[360px] h-auto flex-wrap '>
                                 {userAvatarUsed?.data?.data.metadata?.avatar_used?.map((avatar: TUserAvatarUsed) => (
                                     <AvatarUsed avatar={avatar} />
                                 ))}
                             </div>
-                        ) : (
+                        )}
+
+                        {userAvatarUsed.isPending && (
                             <div className='w-full h-full flex gap-[15px]'>
                                 <div className='animate-pulse bg-gray-200 rounded-lg basis-[50%] h-[360px] flex justify-center items-center '>
                                     <Image size={40} />

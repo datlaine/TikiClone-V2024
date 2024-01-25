@@ -4,7 +4,7 @@
 
 @layer components {
     .isActive {
-        background-color: #2ac1f4e9;
+        background-color: #ceced1;
         color: white !important;
     }
 
@@ -29,7 +29,7 @@
     }
 
     .customer-item-bg {
-        @apply flex gap-[8px] items-center pl-[10px];
+        @apply flex gap-[12px] items-center pl-[20px];
     }
 
     .customer-item-isActive {

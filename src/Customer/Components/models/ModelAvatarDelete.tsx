@@ -2,8 +2,10 @@ import React, { SetStateAction, useEffect } from 'react'
 import { TAvatarActions } from '../../../reducer/customer.reducer'
 import { useMutation } from '@tanstack/react-query'
 import Account from '../../../apis/account.api'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchUser } from '../../../Redux/authenticationSlice'
+import { RootState } from '../../../store'
+import { addToast } from '../../../Redux/toast'
 
 type Tprops = {
     modeDispatch: React.Dispatch<TAvatarActions>
@@ -16,7 +18,7 @@ type Tprops = {
 const ModelAvatarDelete = (props: Tprops) => {
     const dispatch = useDispatch()
     const { modeDispatch } = props
-
+    const user = useSelector((state: RootState) => state.authentication.user)
     const deleteAvatar = useMutation({ mutationKey: ['delete-avatar'], mutationFn: () => Account.deleteAvatar() })
 
     const handleCancelActionDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -24,7 +26,12 @@ const ModelAvatarDelete = (props: Tprops) => {
     }
 
     const handleDeleteAvatar = () => {
-        deleteAvatar.mutate()
+        if (user.avatar) {
+            deleteAvatar.mutate()
+            return
+        }
+
+        dispatch(addToast({ type: 'WARNNING', message: 'Không thể xóa avatar mặc định', id: Math.random().toString() }))
     }
 
     useEffect(() => {
@@ -37,7 +44,7 @@ const ModelAvatarDelete = (props: Tprops) => {
 
     return (
         <div
-            className='fixed w-full min-h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.7)] z-[501]'
+            className='fixed w-full min-h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.7)] z-[11]'
             onClick={() => {
                 modeDispatch({ type: 'CLOSE_MODE_AVATAR_DELETE', payload: { modeAvatarDelete: false, boxModeAvatar: false } })
             }}

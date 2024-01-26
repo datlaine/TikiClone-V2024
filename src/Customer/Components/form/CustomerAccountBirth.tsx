@@ -9,7 +9,6 @@ const CustomerAccountBirth = () => {
         control,
         watch,
         formState: { errors },
-        clearErrors,
     } = useFormContext()
 
     //get date hien tại

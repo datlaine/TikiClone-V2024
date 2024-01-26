@@ -14,6 +14,8 @@ export type TResponseApi<Data> = {
         user: Data
         access_token?: string
         avatar_used?: Data
+        product_thumb_image?: Data
+        product: Data
     }
 }
 

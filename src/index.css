@@ -24,9 +24,9 @@
         @apply text-zinc-500 text-[10px] flex flex-col max-w-max  relative  hover:after:absolute hover:after:content-["-"] hover:after:opacity-70 hover:after:bottom-[2px]  hover:after:bg-zinc-400 hover:after:w-full hover:after:h-[0.2px];
     }
 
-    input {
+    /* input {
         @apply border-[1px] px-[16px] py-[8px] border-blue-500 focus:border-cyan-600 focus:border-[1px] focus:shadow-sm rounded-[4px] outline-none;
-    }
+    } */
 
     .customer-item-bg {
         @apply flex gap-[12px] items-center pl-[20px];

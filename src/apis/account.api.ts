@@ -3,7 +3,7 @@ import axiosCustom from './http'
 
 class Account {
     static async getMe() {
-        return axiosCustom.post<TResponseApi<TUser>>('/v1/api/account/getMe')
+        return axiosCustom.post<TResponseApi<{ user: TUser }>>('/v1/api/account/getMe')
     }
 
     static async updateInfo(data: any) {
@@ -15,15 +15,15 @@ class Account {
     }
 
     static async getAllAvatar() {
-        return axiosCustom.get<TResponseApi<TUserAvatarUsed[]>>('v1/api/account/getAllAvatar')
+        return axiosCustom.get<TResponseApi<{ avatar_used: TUserAvatarUsed[] }>>('v1/api/account/getAllAvatar')
     }
 
     static async deleteAvatarUsed(public_id: string) {
-        return axiosCustom.post<TResponseApi<TUser>>('v1/api/account/deleteAvatarUsed', { public_id })
+        return axiosCustom.post<TResponseApi<{ user: TUser }>>('v1/api/account/deleteAvatarUsed', { public_id })
     }
 
     static async deleteAvatar() {
-        return axiosCustom.post<TResponseApi<TUser>>('v1/api/account/deleteAvatar')
+        return axiosCustom.post<TResponseApi<{ user: TUser }>>('v1/api/account/deleteAvatar')
     }
 }
 

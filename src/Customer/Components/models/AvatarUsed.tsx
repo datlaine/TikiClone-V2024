@@ -41,7 +41,7 @@ const AvatarUsed = (props: TProps) => {
         }
     }, [deleteAvatarUsed.isSuccess, dispatch, deleteAvatarUsed.data?.data.metadata.user])
     return (
-        <div className='w-[45%] relative'>
+        <div className='w-full relative'>
             <img src={avatar?.secure_url} loading='lazy' className='w-full min-h-full rounded-tr-md' alt='avatar_used[]' />
             <p className='absolute top-0 right-0 bg-slate-700 text-white min-w-[60px] px-[6px] py-[2px]'>
                 {avatar.date_update ? convertDateToString(avatar.date_update) : 'none'}

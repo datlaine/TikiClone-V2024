@@ -22,6 +22,8 @@ import CustomerUpdateEmail from '../../Customer/Components/Update/CustomerUpdate
 import CustomerUpdatePassword from '../../Customer/Components/Update/CustomerUpdatePassword'
 import Shop from '../../Customer/Components/Shop/Shop'
 import RegisterSell from '../../Customer/Components/RegisterSell/RegisterSell'
+import QueryParams from '../../QueryParams'
+import ShopProductList from '../../Customer/Components/Shop/ShopProductList'
 
 const RouterController = () => {
     const matchAdminPath = useMatch('/admin')
@@ -55,8 +57,11 @@ const RouterController = () => {
                             <Route path='notification' element={<CustomerNotification />} />
                             <Route path='order_history' element={<CustomerOrderHistory />} />
                             <Route path='shop' element={<Shop />} />
+                            <Route path='shop/product-list' element={<ShopProductList />} />
+
                             <Route path='register-sell' element={<RegisterSell />} />
                         </Route>
+                        <Route path='query-params' element={<QueryParams />} />
                     </Routes>
                 </div>
 

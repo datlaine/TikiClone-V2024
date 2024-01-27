@@ -55,6 +55,7 @@ class AxiosCustom {
                         ) {
                             console.log('dung url ne')
                             error.config.headers['Content-Type'] = 'multipart/form-data'
+                            error.config.timeout = 20000
                         }
                         error.config.headers['Authorization'] = `Bearer ${token}`
                         localStorage.setItem('token', JSON.stringify(token))

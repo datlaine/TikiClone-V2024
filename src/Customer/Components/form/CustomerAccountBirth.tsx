@@ -6,6 +6,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 const CustomerAccountBirth = () => {
     //react hook form
     const {
+        clearErrors,
         control,
         watch,
         formState: { errors },

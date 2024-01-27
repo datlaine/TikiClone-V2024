@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import PositionIcon from '../../ui/BoxAbsolute'
 import BoxAbsolute from '../../ui/BoxAbsolute'
+import { debounce } from 'lodash'
 
 type Props = {
     hinhAnhSlider: string[]
@@ -148,36 +149,39 @@ const SliderProducts = (props: Props) => {
         }
     }, [])
 
-    const handleClickNext: React.MouseEventHandler<HTMLElement> = useCallback(async () => {
-        run.current = false
+    const handleClickNext: React.MouseEventHandler<HTMLElement> = useCallback(
+        debounce(async () => {
+            run.current = false
 
-        if (point === hinhAnhSlider.length) {
+            if (point === hinhAnhSlider.length) {
+                await sleep((delay && delay * 1000) || delayTime.current * 1000)
+                run.current = true
+                return
+            }
+            if (sliderWrapper.current) {
+                posCurrent.current = posCurrent.current + sliderWrapper.current.getBoundingClientRect().width
+                sliderWrapper.current.style.transform = `translate3d(${-posCurrent.current}px, 0,0)`
+                sliderWrapper.current.style.transition = `all ${delay || delayTime.current}s`
+            }
+
+            setPoint((prev) => prev + 1)
+            scope.current += 1
+
             await sleep((delay && delay * 1000) || delayTime.current * 1000)
+
             run.current = true
-            return
-        }
-        if (sliderWrapper.current) {
-            posCurrent.current = posCurrent.current + sliderWrapper.current.getBoundingClientRect().width
-            sliderWrapper.current.style.transform = `translate3d(${-posCurrent.current}px, 0,0)`
-            sliderWrapper.current.style.transition = `all ${delay || delayTime.current}s`
-        }
-
-        setPoint((prev) => prev + 1)
-        scope.current += 1
-
-        await sleep((delay && delay * 1000) || delayTime.current * 1000)
-
-        run.current = true
-    }, [])
+        }, 200),
+        [],
+    )
     useEffect(() => {
         if (window.innerWidth > 1024) {
             timerId.current = setInterval(() => {
+                console.log({ scope: scope.current })
                 if (run.current) {
                     if (sliderWrapper.current) {
-                        if (scope.current === hinhAnhSlider.length) {
+                        if (scope.current === hinhAnhSlider.length || scope.current + 2 > hinhAnhSlider.length - 1) {
                             posCurrent.current = 0
                             scope.current = 1
-
                             sliderWrapper.current.style.transition = `all 0s`
                             setPoint(1)
 
@@ -205,7 +209,7 @@ const SliderProducts = (props: Props) => {
     useEffect(() => {
         if (containerRefSlider.current) {
             // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-expressions
-                  containerRefSlider.current.style.width = `${width ? `${width}px` : `${widthDefault.current}px`}`
+            containerRefSlider.current.style.width = `${width ? `${width}px` : `${widthDefault.current}px`}`
             containerRefSlider.current.style.height = `${height || heightDefault.current}px`
         }
     }, [])

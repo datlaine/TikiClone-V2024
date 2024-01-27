@@ -46,10 +46,10 @@ const ButtonUploadMultiple = (props: IProps) => {
     }, [fileProduct, filePreview])
 
     return (
-        <div className={`${width ? width : 'w-full'} min-h-[60px] h-auto flex flex-col gap-[5]`}>
+        <div className={`${width ? width : 'w-full'} min-h-[80px] h-auto flex flex-col gap-[8px]`}>
             <label htmlFor={id}>{labelMessage}</label>
             <input type='file' id={id} hidden ref={inputRef} multiple={multiple} onChange={(e) => handleInputChange(e)} />
-            <button className={` h-full text-white bg-slate-900 rounded-md`} onClick={(e) => handleButtonClick(e)}>
+            <button className={`flex-1 xl:w-[32%] text-white bg-slate-900 rounded-md`} onClick={(e) => handleButtonClick(e)}>
                 Upload
             </button>
 

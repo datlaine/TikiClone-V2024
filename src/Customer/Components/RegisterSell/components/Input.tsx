@@ -15,7 +15,7 @@ const Input = (props: TProps) => {
     const id = useId()
     const miniForm = useFormContext()
     return (
-        <div className={`${width ? width : 'w-full'} flex flex-col gap-[16px]`}>
+        <div className={`${width ? width : 'w-full'} flex flex-col gap-[8px]`}>
             <label htmlFor={id} className='relative flex flex-row items-center max-w-max'>
                 <span>{message}</span>
                 {require && <span className='block absolute top-[50%] translate-y-[-40%] text-red-500 text-[24px]  right-[-12px]'>*</span>}
@@ -27,7 +27,7 @@ const Input = (props: TProps) => {
                 placeholder={placehorder}
                 id={id}
                 autoFocus={autofocus}
-                className='border-[1px] border-slate-700 outline-none px-[12px] py-[6px] rounded-md'
+                className='border-[1px] border-slate-400 outline-none px-[12px] py-[4px] rounded-[3px]'
             />
         </div>
     )

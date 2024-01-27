@@ -13,7 +13,7 @@ import AuthPermission from '../component/Auth/AuthPermission'
 import NotFound from '../component/Errors/NotFound'
 
 //@icon
-import { BellDot, Lock, NotebookPen, ShoppingBag, ShoppingCart } from 'lucide-react'
+import { BellDot, Lock, NotebookPen, ShoppingBag, ShoppingCart, Store } from 'lucide-react'
 import { UserRound } from 'lucide-react'
 import RegisterSell from './Components/RegisterSell/RegisterSell'
 
@@ -25,6 +25,7 @@ const link = [
     { path: '/customer/account/update/email', text: 'Cập nhập email' },
     { path: '/customer/account/update/password', text: 'Cập nhập password' },
     { path: '/customer/shop', text: 'Shops' },
+    { path: '/customer/shop/product-list', text: 'Danh sách sản phẩm' },
     { path: '/customer/register-sell', text: 'Đăng kí bán hàng' },
 ]
 
@@ -139,6 +140,18 @@ const Customer = () => {
                                 Đăng kí bán
                             </Link>
                         </div>
+
+                        {user?.verify_email && (
+                            <div
+                                className={`customer-item-bg ${textLink?.path === '/customer/shop/product-list' ? 'isActive' : ''}`}
+                                onClick={(e) => handleActive('/customer/shop/product-list')}
+                            >
+                                <Store />
+                                <Link to={'/customer/shop/product-list'} className='px-[15px] py-[8px] w-full'>
+                                    Sản phẩm của Shop
+                                </Link>
+                            </div>
+                        )}
                     </div>
 
                     {/*@ Outlet */}

@@ -51,9 +51,9 @@ const ModelAvatarSee = (props: TProps) => {
                         <span>Các hình đại diện trước đó</span>
                         {userAvatarUsed.isSuccess && (
                             <div className='flex gap-[45px] mb-[70px] min-h-[360px] h-auto flex-wrap '>
-                                {userAvatarUsed?.data?.data.metadata?.avatar_used?.map((avatar: TUserAvatarUsed) => (
-                                    <AvatarUsed avatar={avatar} />
-                                ))}
+                                {userAvatarUsed?.data?.data.metadata?.avatar_used
+                                    ?.reverse()
+                                    .map((avatar: TUserAvatarUsed) => <AvatarUsed avatar={avatar} />)}
                             </div>
                         )}
 

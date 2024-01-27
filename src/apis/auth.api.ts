@@ -8,13 +8,21 @@ type TAuthParams = {
 
 class Auth {
     static async login({ email, password }: TAuthParams) {
-        return axiosCustom.post<TResponseApi<TUser>>('/v1/api/auth/login', { email, password }, { withCredentials: true })
+        return axiosCustom.post<TResponseApi<{ user: TUser; access_token: string }>>(
+            '/v1/api/auth/login',
+            { email, password },
+            { withCredentials: true },
+        )
     }
 
     static async register({ email, password }: TAuthParams) {
         console.log(process.env.REACT_APP_BASE_URL)
 
-        return axiosCustom.post<TResponseApi<TUser>>('/v1/api/auth/register', { email, password }, { withCredentials: true })
+        return axiosCustom.post<TResponseApi<{ user: TUser; access_token: string }>>(
+            '/v1/api/auth/register',
+            { email, password },
+            { withCredentials: true },
+        )
     }
 
     static async logout() {

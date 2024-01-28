@@ -18,12 +18,12 @@ import Customer from '../../Customer/Customer'
 import CustomerAccount from '../../Customer/Components/CustomerAccount'
 import CustomerNotification from '../../Customer/Components/CustomerNotification'
 import CustomerOrderHistory from '../../Customer/Components/CustomerOrderHistory'
-import CustomerUpdateEmail from '../../Customer/Components/Update/CustomerUpdateEmail'
-import CustomerUpdatePassword from '../../Customer/Components/Update/CustomerUpdatePassword'
-import Shop from '../../Customer/Components/Shop/Shop'
-import RegisterSell from '../../Customer/Components/RegisterSell/RegisterSell'
 import QueryParams from '../../QueryParams'
-import ShopProductList from '../../Customer/Components/Shop/ShopProductList'
+import CustomerUpdateEmail from '../../Customer/Account/Update/CustomerUpdateEmail'
+import CustomerUpdatePassword from '../../Customer/Account/Update/CustomerUpdatePassword'
+import Shop from '../../Customer/Shop/Shop'
+import ShopProductList from '../../Customer/Shop/ShopProductList'
+import RegisterSell from '../../Customer/Sell/RegisterSell'
 
 const RouterController = () => {
     const matchAdminPath = useMatch('/admin')

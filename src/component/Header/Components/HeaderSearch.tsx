@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { SLATE_TIME } from '../../../apis/staleTime'
-import { getData } from '../../../apis/getDataMain'
 import { useQuery } from '@tanstack/react-query'
 import InputSearch from './HeaderResultSearch'
 import { debounce, throttle } from 'lodash'
@@ -15,14 +13,14 @@ const HeaderSeacrhInput = () => {
     const resultRef = useRef<HTMLDivElement>(null)
     const { data, isLoading } = useQuery({
         queryKey: ['search'],
-        queryFn: () => getData('/danhSachSanPham'),
-        staleTime: SLATE_TIME,
+        queryFn: () => {},
+        staleTime: 60 * 60 * 1000,
         enabled: search !== '',
     })
 
     useEffect(() => {
         if (!isLoading) {
-            setFilterSearchProduct(data?.data)
+            // setFilterSearchProduct(data?.data)
         }
         if (!search) setShowSearch(false)
     }, [isLoading])

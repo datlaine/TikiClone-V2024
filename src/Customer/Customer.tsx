@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useRef, useState } from 'react'
 
 //@react router
 import { Link, Outlet, useLocation } from 'react-router-dom'
@@ -15,7 +15,6 @@ import NotFound from '../component/Errors/NotFound'
 //@icon
 import { BellDot, Lock, NotebookPen, ShoppingBag, ShoppingCart, Store } from 'lucide-react'
 import { UserRound } from 'lucide-react'
-import RegisterSell from './Components/RegisterSell/RegisterSell'
 
 //@const
 const link = [

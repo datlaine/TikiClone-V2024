@@ -7,7 +7,6 @@ import HeaderCart from './Components/HeaderCart'
 import HeaderTagsLocation from './Components/HeaderTagsLocation'
 import HeaderLogoToggle from './Components/HeaderLogoToggle'
 import HeaderSeacrhInput from './Components/HeaderSearch'
-import { USER } from '../User/infoUser'
 import { useLocation } from 'react-router-dom'
 import { throttle } from 'lodash'
 
@@ -24,7 +23,7 @@ function HeaderSlogan() {
 }
 
 function Header() {
-    const address = USER.userAddress
+    const address = '123'
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])

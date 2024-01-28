@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useId, useReducer, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 
 //@react-router
 import { Link } from 'react-router-dom'
@@ -7,16 +7,16 @@ import { Link } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 
 //@tanstack query
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 //@redux-toolkit
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, store } from '../../store'
-import { doLogout, fetchUser } from '../../Redux/authenticationSlice'
+import { fetchUser } from '../../Redux/authenticationSlice'
 
 //@components
-import CustomerAccountBirth from './form/CustomerAccountBirth'
-import CustomerAccountGender from './form/CustomerAccountGender'
+import CustomerAccountBirth from '../Account/form/CustomerAccountBirth'
+import CustomerAccountGender from '../Account/form/CustomerAccountGender'
 
 //@auth - api
 import Account from '../../apis/account.api'
@@ -29,11 +29,10 @@ import { checkAxiosError } from '../../utils/handleAxiosError'
 import { sleep } from '../../utils/sleep'
 
 //@icon
-import BoxAvatarMode from './Box/BoxAvatarMode'
+import BoxAvatarMode from '../Account/Box/BoxAvatarMode'
 import TErrorAxios from '../../types/axios.response.error'
 import { ContextToast } from '../../component/Context/ToastContext'
 import { addToast } from '../../Redux/toast'
-import ToastDemo from '../../component/ui/ToastDemo'
 
 //@type form
 type TFormCustomer = {
@@ -173,7 +172,7 @@ const CustomerAccount = () => {
             <FormProvider {...methods}>
                 <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[8px]' onSubmit={methods.handleSubmit(onSubmit)}>
                     {/* @header */}
-                    <h3 className='h-[45px]'>Thông tin cá nhân</h3>
+                    <h3 className='h-[45px] font-openSans'>Thông tin cá nhân</h3>
 
                     {/* @change mode with avatar */}
                     <div className='h-[40%] xl:h-[24%]  data-user flex flex-col lg:flex-row gap-[20px] xl:gap-0 xl:items-center'>

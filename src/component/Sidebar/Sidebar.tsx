@@ -1,12 +1,9 @@
 import { useEffect } from 'react'
 import { Link, useMatch } from 'react-router-dom'
-import { apiLink } from '../../apis/api'
 import { connect } from 'react-redux'
 import { RootState, store } from '../../store'
 import { toDoHideSideBar, toDoShowSideBar } from '../../Redux/uiSlice'
 import { useQuery } from '@tanstack/react-query'
-import { SLATE_TIME } from '../../apis/staleTime'
-import { getData } from '../../apis/getDataMain'
 import SideBarSection from './SideBarSection'
 import { fetchData } from '../../apis/fetchData'
 
@@ -24,7 +21,7 @@ function Sidebar(props: Props) {
     const noiBat = useQuery({
         queryKey: [`${urlNoiBat}`],
         queryFn: () => fetchData('/noiBat'),
-        staleTime: SLATE_TIME,
+        staleTime: 60 * 60 * 1000,
     })
 
     const danhMuc = useQuery({

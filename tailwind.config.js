@@ -38,6 +38,10 @@ module.exports = {
 			colors: {
 				main: "rgb(245, 245, 250)",
 			},
+			fontFamily: {
+				openSans: ["Open Sans"],
+				poppins: ["Poppins"],
+			},
 		},
 		screens: {
 			dienThoai: "360px",

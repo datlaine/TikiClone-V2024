@@ -16,6 +16,7 @@ module.exports = {
 				showSideBarAni: "showSideBar .8s linear ",
 				hideSideBarAni: "hideSideBar 1s linear ",
 				showToast: "toastAnimation 1s linear forwards",
+				mountComponent: "mountComponent 10s",
 			},
 			keyframes: {
 				showSideBar: {
@@ -30,6 +31,11 @@ module.exports = {
 				toastAnimation: {
 					"0%": { opacity: "1" },
 					"100%": { opacity: "0" },
+				},
+
+				mountComponent: {
+					"0%": { opacity: "0" },
+					"100%": { opacity: "1" },
 				},
 			},
 			boxShadow: {

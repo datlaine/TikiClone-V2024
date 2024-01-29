@@ -14,6 +14,7 @@ import InputText from './components/InputText'
 import InputMoney from './components/InputMoney'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Check, Store } from 'lucide-react'
 export type TFormProduct = {
     product_name: string
 
@@ -27,6 +28,7 @@ export type UploadImage = {
     product_id: string
     product_thumb_image: { secure_url: string; public_id: string }
     FileName: string
+    FileLength: number
 }
 
 export type UploadImages = UploadImage[]
@@ -63,7 +65,10 @@ const RegisterSell = () => {
         product_thumb_image: { secure_url: '', public_id: '' },
         product_id: '',
         FileName: '',
+        FileLength: 0,
     })
+
+    const [formStateSubmit, setFormStateSubmit] = useState(false)
 
     const [urlProductMultipleImage, setUrlProductMultipleImage] = useState<UploadImages>([])
     const methods = useForm<TFormProduct>({
@@ -85,6 +90,7 @@ const RegisterSell = () => {
     console.log({ error: methods.formState.errors, price: methods.watch() })
 
     const onSubmit = (data: TFormProduct) => {
+        setFormStateSubmit(true)
         console.log({ data })
         // chỉ submit khi có đủ image
         if (urlProductThumb) {
@@ -120,12 +126,6 @@ const RegisterSell = () => {
             <div className=' w-[full] lg:w-[65%]  h-full'>
                 <FormProvider {...methods}>
                     <form className='w-full lg:w-[60%]  flex flex-col gap-[16px] p-[16px]' onSubmit={methods.handleSubmit(onSubmit)}>
-                        <ButtonUpload
-                            labelMessage='Chọn hình đại diện cho sản phẩm'
-                            width={'xl:w-[32%]'}
-                            setUrlProductThumb={setUrlProductThumb}
-                        />
-
                         <InputText
                             methods={methods}
                             FieldName='product_name'
@@ -143,6 +143,12 @@ const RegisterSell = () => {
                             placehorder='Nhập tên sản phẩm'
                             width={'xl:w-[100%]'}
                             require={true}
+                        />
+                        <ButtonUpload
+                            labelMessage='Chọn hình đại diện cho sản phẩm'
+                            width={'xl:w-[32%]'}
+                            setUrlProductThumb={setUrlProductThumb}
+                            setFormStateSubmit={setFormStateSubmit}
                         />
                         <ButtonUploadMultiple
                             labelMessage='Chọn các hình description cho sản phẩm'
@@ -167,31 +173,23 @@ const RegisterSell = () => {
                 </FormProvider>
             </div>
 
-            <div className='hidden h-auto min-w-[160px] w-auto lg:flex flex-col  items-center py-[12px]'>
+            <div className='hidden h-auto min-w-[160px] w-auto lg:flex flex-col  py-[12px]'>
+                <Timeline methods={methods} FieldName='product_name' TimeLineName='Tên sản phẩm' type='Text' />
+                <Timeline methods={methods} FieldName='product_price' TimeLineName='Giá sản phẩm' type='Text' />
                 <Timeline
-                    methods={methods}
-                    FieldName='product_name'
-                    timelineName='Tên sản phẩm'
-                    type='Text'
-                    // error={errors.product_name ? true : false}
-                />
-                <Timeline
-                    methods={methods}
-                    FieldName='product_price'
-                    timelineName='Giá sản phẩm'
-                    type='Text'
-                    // error={errors.product_price ? true : false}
+                    TimeLineName='Hình đại diện sản phẩm'
+                    type='File'
+                    File={{
+                        FileName: urlProductThumb.FileName,
+                        FileNumber: urlProductThumb.FileLength,
+                    }}
+                    FormStateSubmit={methods.formState.isSubmitted ? true : false}
                 />
 
-                <Timeline
-                    timelineName='Image thumb product'
-                    // check={urlProductThumb.product_thumb_image.secure_url ? true : false}
-                    FileObject={{
-                        verify: urlProductThumb.product_thumb_image.secure_url ? true : false,
-                        FileName: urlProductThumb.FileName,
-                    }}
-                    type='File'
-                />
+                <div className='flex items-center justify-center bg-blue-700 w-[20px] h-[20px] rounded-full'>
+                    <Check color='white' size={12} />
+                </div>
+                {/* <button className='bg-slate-700 text-white p-[12px] '>submit</button> */}
             </div>
         </div>
     )

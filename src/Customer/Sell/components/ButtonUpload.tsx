@@ -7,12 +7,18 @@ interface IProps {
     labelMessage: string
     width?: string
     setUrlProductThumb: React.Dispatch<
-        SetStateAction<{ product_id: string; product_thumb_image: { secure_url: string; public_id: string }; FileName: string }>
+        SetStateAction<{
+            product_id: string
+            product_thumb_image: { secure_url: string; public_id: string }
+            FileName: string
+            FileLength: number
+        }>
     >
+    setFormStateSubmit: React.Dispatch<SetStateAction<boolean>>
 }
 
 const ButtonUpload = (props: IProps) => {
-    const { width, labelMessage, setUrlProductThumb } = props
+    const { width, labelMessage, setUrlProductThumb, setFormStateSubmit } = props
     const id = useId()
     const inputRef = useRef<HTMLInputElement>(null)
     const [fileProduct, setFileProduct] = useState<File>()
@@ -35,6 +41,7 @@ const ButtonUpload = (props: IProps) => {
         if (inputRef.current) {
             inputRef.current.click()
         }
+        setFormStateSubmit(false)
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +52,7 @@ const ButtonUpload = (props: IProps) => {
                 product_id: '',
                 product_thumb_image: { secure_url: '', public_id: '' },
                 FileName: '',
+                FileLength: 0,
             })
         }
         if (e.target.files) {
@@ -59,6 +67,13 @@ const ButtonUpload = (props: IProps) => {
         if (inputRef) {
             inputRef!.current!.value = ''
         }
+
+        setUrlProductThumb({
+            product_id: '',
+            product_thumb_image: { secure_url: '', public_id: '' },
+            FileName: '',
+            FileLength: 0,
+        })
     }
 
     useEffect(() => {
@@ -89,7 +104,7 @@ const ButtonUpload = (props: IProps) => {
         if (uploadProductThumb.isSuccess) {
             const { metadata } = uploadProductThumb.data.data
             if (metadata.product.product_thumb_image) {
-                console.log({ url: metadata.product.product_thumb_image })
+                console.log({ url: filePreview })
 
                 setUrlProductThumb({
                     product_id: metadata.product.product_id,
@@ -97,6 +112,7 @@ const ButtonUpload = (props: IProps) => {
                         secure_url: metadata.product.product_thumb_image.secure_url,
                         public_id: metadata.product.product_thumb_image.public_id,
                     },
+                    FileLength: fileProduct ? 1 : 0,
                     FileName: fileProduct?.name.replace(/.*[\/\\]/, '') as string,
                 })
             }

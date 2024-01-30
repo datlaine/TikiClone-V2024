@@ -14,7 +14,7 @@ export interface IFormDataImage extends FormData {
 
 export interface IFormDataProductFull extends FormData {
     append(
-        name: 'product_id ' | 'product_thumb_image_url' | 'product_thumb_image_public_id' | 'product_price' | 'product_name',
+        name: 'product_id ' | 'product_thumb_image_url' | 'product_thumb_image_public_id' | 'product_price' | 'product_name' | 'publishing',
         value: string | Blob | number,
         fileName?: string,
     ): void
@@ -25,6 +25,14 @@ class ProductApi {
         return axiosCustom.post<
             TResponseApi<{ product: { product_id: string; product_thumb_image: { secure_url: string; public_id: string } } }>
         >('v1/api/product/upload-product-thumb', image_product, {
+            headers: { 'content-Type': 'multipart/form-data' },
+        })
+    }
+
+    static async uploadProductImagesFull(image_product: IFormDataImage) {
+        return axiosCustom.post<
+            TResponseApi<{ product: { product_id: string; product_thumb_image: { secure_url: string; public_id: string } } }>
+        >('v1/api/product/upload-product-images-full', image_product, {
             headers: { 'content-Type': 'multipart/form-data' },
         })
     }

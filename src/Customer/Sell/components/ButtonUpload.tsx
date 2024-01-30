@@ -21,9 +21,11 @@ const ButtonUpload = (props: IProps) => {
     const { width, labelMessage, setUrlProductThumb, setFormStateSubmit } = props
     const id = useId()
     const inputRef = useRef<HTMLInputElement>(null)
+
     const [fileProduct, setFileProduct] = useState<File>()
     const [filePreview, setFilePreview] = useState<string | undefined>()
     const [modalFilePreview, setModalFilePreview] = useState(false)
+
     const uploadProductThumb = useMutation({
         mutationKey: ['product-thumb'],
         mutationFn: (data: IFormDataImage) => ProductApi.uploadProductThumb(data),
@@ -41,7 +43,7 @@ const ButtonUpload = (props: IProps) => {
         if (inputRef.current) {
             inputRef.current.click()
         }
-        setFormStateSubmit(false)
+        // setFormStateSubmit(false)
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +58,7 @@ const ButtonUpload = (props: IProps) => {
             })
         }
         if (e.target.files) {
+            console.log({ file: e.target.files })
             setFileProduct(e.target.files[0])
         }
     }

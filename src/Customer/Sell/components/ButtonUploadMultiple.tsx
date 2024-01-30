@@ -4,6 +4,8 @@ import BoxModal from '../../../component/ui/BoxModal'
 import { UploadImages } from '../RegisterSell'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
+import { useMutation } from '@tanstack/react-query'
+import ProductApi from '../../../apis/product.api'
 interface IProps {
     labelMessage: string
     width?: string
@@ -12,7 +14,7 @@ interface IProps {
 }
 
 const ButtonUploadMultiple = (props: IProps) => {
-    const { labelMessage, width, multiple } = props
+    const { labelMessage, width, multiple, setUrlProductMultipleImage } = props
 
     const inputRef = useRef<HTMLInputElement>(null)
     const id = useId()
@@ -24,16 +26,19 @@ const ButtonUploadMultiple = (props: IProps) => {
 
     const [modalFilePreview, setModalFilePreview] = useState(false)
 
+    const uploadImages = useMutation({
+        mutationKey: ['upload-image-full'],
+        mutationFn: (data: any) => ProductApi.uploadProductImagesFull(data),
+    })
+
     const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        // e.stopPropagation()
         if (inputRef.current) {
             inputRef.current.click()
         }
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log({ file: filePreview.length })
         if (filePreview.length > 4 || fileProduct.length > 4 || e.target.files!.length > 4) {
             setFilePreview([])
             setFileProduct([])
@@ -54,10 +59,14 @@ const ButtonUploadMultiple = (props: IProps) => {
                 for (let index = 0; index < countFile; index++) {
                     newArrayFile.push(e!.target!.files![index])
                 }
-                console.log({ newArrayFile })
-                console.log({ file: e.target.files })
+
+                const formData = new FormData()
+                formData.append('file', e.target.files![0])
+
+                console.log({ form: formData, file: e.target.files })
                 return newArrayFile
             })
+            // setUrlProductMultipleImage()
             const arrayURL = Array.from(e.target.files).map((file) => URL.createObjectURL(file))
             setFilePreview((prev) => prev.concat(arrayURL))
             return
@@ -75,23 +84,18 @@ const ButtonUploadMultiple = (props: IProps) => {
             inputRef!.current!.value = ''
             inputRef.current?.click()
         }
-        // console.log({ filePreview })
         filePreview.forEach((removeURL) => URL.revokeObjectURL(removeURL))
         setFilePreview([])
         setFileProduct([])
     }
 
     useEffect(() => {
-        // console.log({ file: fileProduct })
-        const formData = new FormData()
-
-        for (let index = 0; index < fileProduct.length; index++) {
-            formData.append('file', fileProduct[index])
-        }
-
-        // console.log({ formData })
-
         if (!fileProduct) setFilePreview([])
+        const data = new FormData()
+        if (fileProduct.length === 4) {
+            fileProduct.forEach((file, index) => data.append(`file`, file))
+            uploadImages.mutate(data)
+        }
         return () => {
             filePreview.forEach((file) => URL.revokeObjectURL(file))
         }

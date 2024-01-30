@@ -1,23 +1,22 @@
 import React, { memo, useId } from 'react'
-import { UseFormReturn, useFormContext } from 'react-hook-form'
-import { TFormProduct } from '../RegisterSell'
+import { FieldValues, RegisterOptions, UseFormReturn, useFormContext } from 'react-hook-form'
+import { TFormBook } from '../ProductType/Book'
+import { TRegisterFormBook } from './FormRegisterBook'
 
 type TProps = {
-    methods: UseFormReturn<TFormProduct, any, undefined>
-    FieldName: keyof TFormProduct
+    methods?: UseFormReturn<TRegisterFormBook, any, undefined> | UseFormReturn<TFormBook, any, undefined>
+    FieldName: keyof TRegisterFormBook | keyof TFormBook
     LabelMessage: string
     placehorder: string
     width?: string
     autofocus?: boolean
     require?: boolean
+    validate?: RegisterOptions<FieldValues, keyof TRegisterFormBook> | undefined
 }
 
 const InputText = (props: TProps) => {
-    const { placehorder, LabelMessage, width, require, autofocus = false, FieldName, methods } = props
+    const { placehorder, LabelMessage, width, require, autofocus = false, FieldName } = props
     const id = useId()
-    // const {
-    //     formState: { errors },
-    // } = methods
 
     const formNested = useFormContext()
     const {
@@ -30,7 +29,7 @@ const InputText = (props: TProps) => {
                 {require && <span className='block absolute top-[50%] translate-y-[-40%] text-red-500 text-[24px]  right-[-12px]'>*</span>}
             </label>
             <input
-                {...formNested.register('product_name')}
+                {...formNested.register(FieldName)}
                 type='text'
                 placeholder={placehorder}
                 id={id}

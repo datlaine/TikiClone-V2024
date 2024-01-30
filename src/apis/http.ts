@@ -51,7 +51,8 @@ class AxiosCustom {
                         const { token } = res.data.metadata
                         if (
                             error.response.config.url === 'v1/api/account/update-avatar' ||
-                            error.response.config.url === 'v1/api/product/upload-product-thumb'
+                            error.response.config.url === 'v1/api/product/upload-product-thumb' ||
+                            error.response.config.url === 'v1/api/product/upload-product-images-full'
                         ) {
                             console.log('dung url ne')
                             error.config.headers['Content-Type'] = 'multipart/form-data'

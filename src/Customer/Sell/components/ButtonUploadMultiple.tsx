@@ -5,16 +5,17 @@ import { UploadImages } from '../RegisterSell'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
 import { useMutation } from '@tanstack/react-query'
-import ProductApi from '../../../apis/product.api'
+import ProductApi, { IFormDataImages } from '../../../apis/product.api'
 interface IProps {
     labelMessage: string
     width?: string
     multiple?: boolean
     setUrlProductMultipleImage: React.Dispatch<SetStateAction<UploadImages>>
+    product_id: string
 }
 
 const ButtonUploadMultiple = (props: IProps) => {
-    const { labelMessage, width, multiple, setUrlProductMultipleImage } = props
+    const { labelMessage, width, multiple, setUrlProductMultipleImage, product_id } = props
 
     const inputRef = useRef<HTMLInputElement>(null)
     const id = useId()
@@ -28,7 +29,7 @@ const ButtonUploadMultiple = (props: IProps) => {
 
     const uploadImages = useMutation({
         mutationKey: ['upload-image-full'],
-        mutationFn: (data: any) => ProductApi.uploadProductImagesFull(data),
+        mutationFn: (data: IFormDataImages) => ProductApi.uploadProductImagesFull(data),
     })
 
     const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -93,7 +94,8 @@ const ButtonUploadMultiple = (props: IProps) => {
         if (!fileProduct) setFilePreview([])
         const data = new FormData()
         if (fileProduct.length === 4) {
-            fileProduct.forEach((file, index) => data.append(`file`, file))
+            data.append('id', product_id)
+            fileProduct.forEach((file, index) => data.append(`files`, file))
             uploadImages.mutate(data)
         }
         return () => {

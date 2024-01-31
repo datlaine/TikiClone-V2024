@@ -164,6 +164,7 @@ const FormRegisterBook = () => {
                             width={'xl:w-[100%]'}
                             multiple={true}
                             setUrlProductMultipleImage={setUrlProductMultipleImage}
+                            product_id={urlProductThumb.product_id}
                         />
 
                         <button type='submit'>Bán</button>

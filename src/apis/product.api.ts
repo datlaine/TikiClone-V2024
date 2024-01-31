@@ -5,11 +5,21 @@ export type TProduct = {
     product_id: string
     product_name: string
     product_price: number
-    product_thumb_image: string
+    product_thumb_image: {
+        secure_url: string
+        public_id: string
+    }
+    product_desc_image: {
+        secure_url: string
+        public_id: string
+    }[]
 }
 
 export interface IFormDataImage extends FormData {
-    append(name: 'image', value: string | Blob, fileName?: string): void
+    append(name: 'file', value: string | Blob, fileName?: string): void
+}
+export interface IFormDataImages extends FormData {
+    append(name: 'files' | 'product_id', value: string | Blob, fileName?: string): void
 }
 
 export interface IFormDataProductFull extends FormData {
@@ -29,9 +39,9 @@ class ProductApi {
         })
     }
 
-    static async uploadProductImagesFull(image_product: IFormDataImage) {
+    static async uploadProductImagesFull(image_product: IFormDataImages) {
         return axiosCustom.post<
-            TResponseApi<{ product: { product_id: string; product_thumb_image: { secure_url: string; public_id: string } } }>
+            TResponseApi<{ product: { product_id: string; product_thumb_image: { secure_url: string; public_id: string }[] } }>
         >('v1/api/product/upload-product-images-full', image_product, {
             headers: { 'content-Type': 'multipart/form-data' },
         })

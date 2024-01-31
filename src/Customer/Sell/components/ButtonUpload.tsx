@@ -91,7 +91,7 @@ const ButtonUpload = (props: IProps) => {
         }
         if (fileProduct) {
             const formData = new FormData()
-            formData.append('image', fileProduct)
+            formData.append('file', fileProduct)
             formData.append('product_id', uploadProductThumb.data?.data.metadata.product.product_id as string)
 
             uploadProductThumb.mutate(formData)

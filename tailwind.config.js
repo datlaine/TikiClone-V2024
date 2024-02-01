@@ -16,7 +16,7 @@ module.exports = {
 				showSideBarAni: "showSideBar .8s linear ",
 				hideSideBarAni: "hideSideBar 1s linear ",
 				showToast: "toastAnimation 1s linear forwards",
-				mountComponent: "mountComponent 10s",
+				mountComponent: "mountComponent 1s",
 			},
 			keyframes: {
 				showSideBar: {
@@ -43,6 +43,7 @@ module.exports = {
 			},
 			colors: {
 				main: "rgb(245, 245, 250)",
+				bgTimeLine: "rgba(92, 167, 226,.1)",
 			},
 			fontFamily: {
 				openSans: ["Open Sans"],

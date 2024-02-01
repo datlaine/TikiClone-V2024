@@ -40,7 +40,6 @@ const ContextToastProvider = ({ children }: TProps) => {
             //       setContentToast((prev) => prev.slice(1))
             // }, 5000)
         }
-        console.log({ length: contentToast.length })
 
         return () => clearInterval(timer.current)
     }, [contentToast.length])

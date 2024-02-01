@@ -106,14 +106,13 @@ const RegisterSell = () => {
 
     const onSubmit = (data: TFormProduct) => {
         setFormStateSubmit(true)
-        console.log({ data })
         // chỉ submit khi có đủ image
         if (urlProductThumb.product_thumb_image.secure_url) {
             console.log({ urlProductThumb })
 
             // methods.setValue('product_thumb', urlProductThumb.product_thumb_image)
             const formData: IFormDataProductFull = new FormData()
-            formData.append('product_id ', urlProductThumb.product_id)
+            formData.append('_id ', urlProductThumb.product_id)
 
             formData.append('product_name', data.product_name)
             formData.append('product_price', data.product_price as number)
@@ -134,7 +133,6 @@ const RegisterSell = () => {
     if (!user.verify_email) {
         return <h1>Chức năng chỉ dành cho email đã được xác thực</h1>
     }
-    console.log({ error: methods.formState.errors })
     return (
         <div className='min-w-full min-h-[100px] h-auto flex '>
             <div className=' w-full h-full'>

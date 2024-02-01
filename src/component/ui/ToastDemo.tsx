@@ -33,7 +33,7 @@ const ToastDemo = (props: TProps) => {
         timeOut.current = setTimeout(() => {
             console.log({ id: toast.id })
             dispatch(removeToast({ id: toast.id }))
-            setShow(false)
+            // setShow(false)
         }, timerToast * 1000)
 
         timeInterval.current = setInterval(() => {
@@ -75,7 +75,7 @@ const ToastDemo = (props: TProps) => {
                     className={`${
                         toast.type === 'SUCCESS' ? ' text-green-900 ' : toast.type === 'ERROR' ? ' text-red-900 ' : '  text-orange-900'
                     } 
-bg-[#ffffff] border-y-[1px] border-green-400 py-[16px] px-[12px] shadow-xl relative min-w-[280px] w-full  min-[25px]  h-[90px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-700  flex items-center justify-center`}
+bg-[#ffffff] border-[3px] border-orange-400 py-[16px] px-[12px] shadow-xl relative min-w-[280px] w-full  min-[25px]  h-[120px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-700  flex items-center justify-center`}
                 >
                     <span className='absolute top-[25px] right-[25px]'>
                         {DateTime.now().setZone(localDateTime).toLocaleString(DateTime.TIME_24_SIMPLE)}

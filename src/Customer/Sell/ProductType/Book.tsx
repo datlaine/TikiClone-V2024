@@ -32,7 +32,9 @@ const Book = () => {
                 control={form.control}
                 render={({ field }) => <TextArea {...field} maxLength={1000} rows={8} />}
             />
-            {error['description'] && <span className='text-red-700 text-[12px]'>{error['description'].message as React.ReactNode}</span>}
+            {error['description'] && (
+                <span className='text-red-700 text-[12px] w-[200px] truncate'>{error['description'].message as React.ReactNode}</span>
+            )}
         </div>
     )
 }

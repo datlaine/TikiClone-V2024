@@ -6,7 +6,6 @@ import ToastDemo from './ToastDemo'
 const BoxContainerToast = () => {
     const toast = useSelector((state: RootState) => state.toast.toast)
 
-    console.log({ toast, random: Math.random() })
     // if (toast.length < 0) return null
     return (
         <>

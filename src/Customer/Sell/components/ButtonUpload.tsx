@@ -1,11 +1,24 @@
-import { useMutation } from '@tanstack/react-query'
 import React, { SetStateAction, useEffect, useId, useRef, useState } from 'react'
+
+//@api
 import ProductApi, { IFormDataImage } from '../../../apis/product.api'
+import { useMutation } from '@tanstack/react-query'
+
+//@icon
 import { View, X } from 'lucide-react'
+//@modal
 import BoxModal from '../../../component/ui/BoxModal'
+import { ui } from './FormRegisterBook'
+
+//@Props
 interface IProps {
+    //@Tên nút button
     labelMessage: string
+
+    //@width
     width?: string
+
+    //@tất cả thông tin về hình ảnh
     setUrlProductThumb: React.Dispatch<
         SetStateAction<{
             product_id: string
@@ -14,11 +27,13 @@ interface IProps {
             FileLength: number
         }>
     >
-    setFormStateSubmit: React.Dispatch<SetStateAction<boolean>>
+
+    //@trạng thái submit
+    isSubmit: boolean
 }
 
 const ButtonUpload = (props: IProps) => {
-    const { width, labelMessage, setUrlProductThumb, setFormStateSubmit } = props
+    const { width, labelMessage, setUrlProductThumb, isSubmit } = props
     const id = useId()
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -26,17 +41,19 @@ const ButtonUpload = (props: IProps) => {
     const [filePreview, setFilePreview] = useState<string | undefined>()
     const [modalFilePreview, setModalFilePreview] = useState(false)
 
+    //@api upload image
     const uploadProductThumb = useMutation({
         mutationKey: ['product-thumb'],
         mutationFn: (data: IFormDataImage) => ProductApi.uploadProductThumb(data),
     })
 
+    //@api delete image
     const deleteProductThumb = useMutation({
         mutationKey: ['delete-product-thumb'],
         mutationFn: ({ public_id, id }: { public_id: string; id: string }) => ProductApi.deleteProductThumb({ public_id, id }),
     })
 
-    //@handler
+    //@handler click
     const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation()
         e.preventDefault()
@@ -46,7 +63,9 @@ const ButtonUpload = (props: IProps) => {
         // setFormStateSubmit(false)
     }
 
+    //@input click
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        //@trước khi lấy cái mới thì xóa cái cũ
         if (filePreview || fileProduct) {
             setFilePreview(undefined)
             setFileProduct(undefined)
@@ -57,12 +76,20 @@ const ButtonUpload = (props: IProps) => {
                 FileLength: 0,
             })
         }
+
+        //@file hình ảnh
         if (e.target.files) {
-            console.log({ file: e.target.files })
             setFileProduct(e.target.files[0])
         }
     }
 
+    //@call api delete image thumb
+    /*
+        .gọi api xóa hình ở cloud và db
+        .xóa link blob
+        .set lại filePreview empty
+        .set lại toàn bộ thông tin về file
+    */
     const handleDeleteProductThumb = (public_id: string) => {
         deleteProductThumb.mutate({ public_id, id: uploadProductThumb?.data?.data?.metadata?.product?.product_id as string })
         URL.revokeObjectURL(filePreview as string)
@@ -79,16 +106,15 @@ const ButtonUpload = (props: IProps) => {
         })
     }
 
+    //@effect one
     useEffect(() => {
-        console.log({ ref: inputRef.current?.value })
-        console.log({ filePreview })
-    }, [filePreview])
-
-    useEffect(() => {
+        //@file empty
         if (!fileProduct) {
             setFilePreview('')
             return
         }
+
+        //@có file thì call gửi lên server -> phần product_id quan trọng nhất đó
         if (fileProduct) {
             const formData = new FormData()
             formData.append('file', fileProduct)
@@ -96,19 +122,19 @@ const ButtonUpload = (props: IProps) => {
 
             uploadProductThumb.mutate(formData)
         }
+
+        //@tạo blob từ file đã gữi
         const url = URL.createObjectURL(fileProduct)
         setFilePreview(url)
         return () => URL.revokeObjectURL(url)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fileProduct])
 
-    //@effect-api
-
+    //@effect-api - nếu call api thành công thì set lại state thông tin của file rồi gửi lại cho form cha,
     useEffect(() => {
         if (uploadProductThumb.isSuccess) {
             const { metadata } = uploadProductThumb.data.data
             if (metadata.product.product_thumb_image) {
-                console.log({ url: filePreview })
-
                 setUrlProductThumb({
                     product_id: metadata.product.product_id,
                     product_thumb_image: {
@@ -127,33 +153,42 @@ const ButtonUpload = (props: IProps) => {
         uploadProductThumb.data?.data.metadata.product.product_thumb_image,
         uploadProductThumb.data?.data.metadata.product.product_id,
         fileProduct?.name,
+        fileProduct,
     ])
 
+    const styleEffect = {
+        cursorButtonUpload: uploadProductThumb.isPending ? 'cursor-not-allowed' : 'cursor-pointer',
+        widthButtonUpload: width ? 'w-[25%]' : 'w-full',
+        stateButton:
+            isSubmit && !fileProduct
+                ? 'border-[2px] border-red-700 text-red-700 bg-white'
+                : 'text-white bg-slate-900 border-[2px] border-slate-900',
+
+        gap: ui.gapElementChildButton || 'gap-[8px]',
+        fontSizeError: ui.fontSizeError || 'text-[12px]',
+        colorError: ui.colorError || 'text-red-700',
+    }
+
+    //@element
     return (
-        <div className={`w-full min-h-[70px] h-auto flex flex-col gap-[8px]`}>
+        <div className={`${styleEffect.gap} w-full min-h-[70px] h-auto flex flex-col`}>
             <label htmlFor={id}>{labelMessage}</label>
             <input type='file' id={id} hidden ref={inputRef} onChange={(e) => handleInputChange(e)} />
             <button
                 hidden={filePreview ? true : false}
                 disabled={uploadProductThumb.isPending}
-                className={`${uploadProductThumb.isPending ? 'cursor-not-allowed' : 'cursor-pointer'} 
-${width ? 'w-[25%]' : 'w-full'}
-flex-1 text-white bg-slate-900 rounded-md`}
+                className={`${styleEffect.widthButtonUpload} ${styleEffect.widthButtonUpload} ${styleEffect.stateButton}  xl:w-[32%] min-h-[40px] flex-1  rounded-md`}
                 onClick={(e) => handleButtonClick(e)}
             >
-                Upload
+                Tải ảnh lên
             </button>
+            {isSubmit && !fileProduct && (
+                <span className={`${styleEffect.colorError} ${styleEffect.fontSizeError}`}>Hình ảnh chỉnh của sản phẩm là bắt buộc</span>
+            )}
 
             {filePreview && (
                 <div className='w-[150px]  relative flex justify-center items-center'>
-                    {/* <div className='w-[150px] h-[150px] bg-green-600'></div> */}
-                    <img
-                        src={filePreview}
-                        width={150}
-                        height={150}
-                        alt='preview'
-                        className={`bg-yellow-700 ${uploadProductThumb.isPending ? 'opacity-70' : 'opacity-100'}`}
-                    />
+                    <img src={filePreview} width={150} height={150} alt='preview' className={`bg-yellow-700 max-w-[150px] max-h-[150px]`} />
                     <div className='absolute top-0 right-[-100px] h-[35px] w-[95px] '>
                         <button
                             disabled={uploadProductThumb.isPending}
@@ -163,9 +198,9 @@ flex-1 text-white bg-slate-900 rounded-md`}
                                 )
                                 inputRef.current?.click()
                             }}
-                            className='px-[12px] py-[6px] bg-slate-700 text-white rounded-md '
+                            className='min-w-[150px] px-[12px] py-[6px] bg-slate-700 text-white rounded-md '
                         >
-                            Chon lai
+                            Chọn lại từ đầu
                         </button>
                     </div>
                     <div className='absolute bottom-[0px] right-[-40px] bg-white h-[35px] w-[35px] flex items-center justify-center rounded-full'>
@@ -181,9 +216,7 @@ flex-1 text-white bg-slate-900 rounded-md`}
                     )}
                     {modalFilePreview && (
                         <BoxModal>
-                            {/* <div className='w-[150px] h-[150px] bg-green-600'></div> */}
-
-                            <div className='relative w-[450px] h-[350px]'>
+                            <div className='relative w-[450px] h-[650px]'>
                                 <img src={filePreview} alt='preview' className='w-full h-full bg-yellow-700' />
                                 <div
                                     className='absolute top-[-10px] right-[-10px] bg-slate-900 flex items-center justify-center rounded-md'

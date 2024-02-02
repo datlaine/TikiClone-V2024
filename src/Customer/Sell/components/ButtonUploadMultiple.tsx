@@ -11,7 +11,8 @@ import { addToast } from '../../../Redux/toast'
 //@api
 import { useMutation } from '@tanstack/react-query'
 import ProductApi, { IFormDataImages } from '../../../apis/product.api'
-import { UploadImages, ui } from './FormRegisterBook'
+import { ui } from './FormRegisterBook'
+import { UploadImages } from '../types/product.type'
 
 //@Props
 interface IProps {
@@ -90,15 +91,14 @@ const ButtonUploadMultiple = (props: IProps) => {
 
     //@kích hoạt onChange input
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log({ file: fileProduct.length, e: e.target.files?.length, value: e.target.value })
-
+        console.log({ target: e.target.files?.length })
         //@nếu file vượt quá 4 thì xét 3 state chính lại mặc định và mount toast
         if (filePreview.length > 4 || fileProduct.length > 4 || e.target.files!.length > 4) {
-            setFilePreview([])
-            setFileProduct([])
-            setGetFileName([])
+            // setFilePreview([])
+            // setFileProduct([])
+            // setGetFileName([])
             dispatch(addToast({ type: 'WARNNING', message: 'Chỉ upload tối đa 4 files', id: Math.random().toString() }))
-            inputRef!.current!.value = ''
+            // inputRef!.current!.value = ''
 
             return
         }
@@ -108,15 +108,22 @@ const ButtonUploadMultiple = (props: IProps) => {
         */
 
         //@nếu file bé hơn 4, lưu ý là bé hơn chứ không = 4, bé hơn thì khả năng người dùng còn chọn thêm file mới nữa
-        if (e.target.files && e.target.files!.length < 4 && fileProduct.length < 4) {
+        if (e.target.files && e.target.files!.length <= 4 && fileProduct.length < 4) {
             //@nếu số file người dùng push vào + với số file sẵn có từ lần trước mà quá hơn 4 thì mount toast
             if (fileProduct.length + e.target.files.length > 4) {
-                dispatch(addToast({ type: 'WARNNING', message: 'Chỉ upload tối đa 4 files', id: Math.random().toString() }))
+                alert('OK')
+                dispatch(
+                    addToast({
+                        type: 'WARNNING',
+                        message: `Chỉ upload tối đa 4 files ${fileProduct.length}`,
+                        id: Math.random().toString(),
+                    }),
+                )
                 inputRef!.current!.value = ''
 
                 return
             }
-            dispatch(addToast({ type: 'ERROR', message: 'Upload mix', id: Math.random().toString() }))
+            // dispatch(addToast({ type: 'ERROR', message: 'Upload mix', id: Math.random().toString() }))
             //@nếu không lớn hơn kích thước thì tiến hành push file mới vào mảng file đã có sẵn
             setFileProduct((prev) => {
                 //@lấy số file mới người dùng chọn
@@ -170,6 +177,8 @@ const ButtonUploadMultiple = (props: IProps) => {
         }
         inputRef!.current!.value = ''
     }
+
+    console.log({ file: fileProduct.length })
 
     const handleDeleteProductImages = () => {
         //api

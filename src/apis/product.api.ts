@@ -33,7 +33,8 @@ export interface IFormDataProductFull extends FormData {
             | 'publishing'
             | 'page_number'
             | 'author'
-            | 'description',
+            | 'description'
+            | 'product_image_description',
         value: string | Blob | number,
         fileName?: string,
     ): void

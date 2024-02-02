@@ -10,7 +10,6 @@ import { useMutation } from '@tanstack/react-query'
 //@form
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
-import * as z from 'zod'
 
 //@components
 import InputText from './InputText'
@@ -18,10 +17,10 @@ import ButtonUpload from './ButtonUpload'
 import InputNumber from './InputNumber'
 import ButtonUploadMultiple from './ButtonUploadMultiple'
 import Timeline from './Timeline'
+import Book from '../Category/Book'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
 import { productBookSchema, productSchema } from '../types/product.schema'
-import Book from '../Category/Book'
 import { UploadImage, UploadImages } from '../types/product.type'
 
 //@Props - Product::Book
@@ -34,20 +33,21 @@ export type BookProduct = {
 
 //@type form chính
 export type TRegisterFormBook = {
-    product_id: string
     product_name: string
     product_price: number | null
+    product_thumb_image: { secure_url: string; public_id: string }
+    product_image_desc: string[]
 
     //@attribute book
     publishing: string
     page_number: 0
     author: string
     description: string
+    book_type: 'Novel' | 'Comin' | 'Memoir'
 }
 
 //@schema chính
 const schema = productSchema.merge(productBookSchema)
-
 export const ui = {
     gapElementChild: 'gap-[6px]',
     gapElementChildButton: 'gap-[12px]',
@@ -56,7 +56,7 @@ export const ui = {
 }
 
 //@Component
-const FormRegisterBook = () => {
+const FormRegisterFood = () => {
     //@trang thái submit
     const [, setFormStateSubmit] = useState(false)
     const dispatch = useDispatch()
@@ -79,6 +79,8 @@ const FormRegisterBook = () => {
         defaultValues: {
             product_name: '',
             product_price: null,
+            product_thumb_image: { secure_url: '', public_id: '' },
+            product_image_desc: [],
             publishing: '',
             page_number: 0,
             author: '',
@@ -93,22 +95,17 @@ const FormRegisterBook = () => {
         mutationFn: (data: IFormDataProductFull) => ProductApi.uploadProductFull(data),
     })
 
-    console.log({ error: methods!.formState.errors })
-
     //@hàm submit sản phẩm
     const onSubmit = (data: TRegisterFormBook) => {
         setFormStateSubmit(true)
         console.log({ data })
 
         if (urlProductMultipleImage.length < 4) {
-            // alert(urlProductMultipleImage.length)
             dispatch(addToast({ type: 'WARNNING', message: 'Xin upload ít nhất 4 hình ảnh mô tả sản phẩm', id: Math.random().toString() }))
         }
 
         // chỉ submit khi có đủ image
         if (urlProductThumb.product_thumb_image.secure_url && urlProductMultipleImage.length === 4) {
-            console.log({ urlProductThumb })
-
             const formData: IFormDataProductFull = new FormData()
             formData.append('_id ', urlProductThumb.product_id)
 
@@ -116,16 +113,19 @@ const FormRegisterBook = () => {
             formData.append('product_price', data.product_price as number)
             formData.append('product_thumb_image_url', urlProductThumb.product_thumb_image.secure_url)
             formData.append('product_thumb_image_public_id', urlProductThumb.product_thumb_image.public_id)
+
+            // for (let index = 0; index < urlProductMultipleImage.length; index++) {
+            //     formData.append('product_description_image_public_id', urlProductMultipleImage[index].public_id)
+            //     formData.append('product_description_image_url', urlProductMultipleImage[index].secure_url)
+            // }
+
             urlProductMultipleImage.forEach((url) => formData.append('product_image_description', JSON.stringify(url)))
 
             formData.append('publishing', data.publishing)
             formData.append('author', data.author)
             formData.append('page_number', data.page_number)
             formData.append('description', data.description)
-
-            for (let [key, value] of formData) {
-                console.log(`${key}: ${value}`)
-            }
+            console.log({ formData })
             // uploadProductFull.mutate(formData)
         }
     }
@@ -136,7 +136,7 @@ const FormRegisterBook = () => {
                 <FormProvider {...methods}>
                     <form className='w-full lg:w-[60%]  flex flex-col gap-[24px] p-[16px]' onSubmit={methods.handleSubmit(onSubmit)}>
                         <div className=''>Thông tin cơ bản về sản phẩm</div>
-                        <InputText<TRegisterFormBook>
+                        <InputText
                             methods={methods}
                             FieldName='product_name'
                             LabelMessage='Tên sản phẩm'
@@ -176,7 +176,6 @@ const FormRegisterBook = () => {
                     </form>
                 </FormProvider>
             </div>
-
             <div className='hidden h-max min-w-[160px] w-auto lg:flex flex-col gap-[24px]  py-[24px] pl-[8px] pr-[24px] bg-bgTimeLine border-r-4 border-blue-300 rounded-lg'>
                 <Timeline methods={methods} FieldName='product_name' TimeLineName='Tên sản phẩm' type='Text' />
                 <Timeline methods={methods} FieldName='product_price' TimeLineName='Giá sản phẩm' type='Money' />
@@ -198,18 +197,29 @@ const FormRegisterBook = () => {
                     }}
                     isSubmit={methods.formState.isSubmitted ? true : false}
                 />
-                <Timeline methods={methods} FieldName='publishing' TimeLineName='Nhà xuất bản' type='Text' />
+                <Timeline<TRegisterFormBook> methods={methods} FieldName='publishing' TimeLineName='Nhà xuất bản' type='Text' />
 
                 <Timeline methods={methods} FieldName='page_number' TimeLineName='Số trang' type='Text' />
                 <Timeline methods={methods} FieldName='author' TimeLineName='Tên tác giả' type='Text' />
                 <Timeline methods={methods} FieldName='description' TimeLineName='Mô tả chi tiết' type='Text' />
 
+                {/* <Timeline
+                    TimeLineName='Hình đại diện sản phẩm'
+                    type='Files'
+                    Files={{
+                        FileName: [urlProductThumb.FileName],
+                        CountFile: urlProductThumb.FileLength,
+                    }}
+                    isSubmit={methods.formState.isSubmitted ? true : false}
+                /> */}
+
                 <div className='flex items-center justify-center bg-blue-700 w-[20px] h-[20px] rounded-full'>
                     <Check color='white' size={12} />
                 </div>
+                {/* <button className='bg-slate-700 text-white p-[12px] '>submit</button> */}
             </div>
         </div>
     )
 }
 
-export default FormRegisterBook
+export default FormRegisterFood

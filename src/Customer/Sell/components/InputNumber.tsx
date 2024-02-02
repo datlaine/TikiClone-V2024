@@ -1,8 +1,7 @@
 import React, { useId } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { TFormProduct } from '../RegisterSell'
-import { TFormBook } from '../ProductType/Book'
 import { ui } from './FormRegisterBook'
+import { TFormBook, TFormProduct } from '../types/product.type'
 
 type TProps = {
     FieldName: keyof TFormProduct | keyof TFormBook

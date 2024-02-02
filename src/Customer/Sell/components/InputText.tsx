@@ -1,27 +1,28 @@
-import React, { memo, useId } from 'react'
-import { FieldValues, RegisterOptions, UseFormReturn, useFormContext } from 'react-hook-form'
-import { TFormBook } from '../ProductType/Book'
+import React, { PropsWithChildren, memo, useId } from 'react'
+import { FieldValues, Path, RegisterOptions, UseFormReturn, useFormContext } from 'react-hook-form'
 import { TRegisterFormBook, ui } from './FormRegisterBook'
+import { TFormBook, TFormProduct } from '../types/product.type'
 
-type TProps = {
-    methods?: UseFormReturn<TRegisterFormBook, any, undefined> | UseFormReturn<TFormBook, any, undefined>
-    FieldName: keyof TRegisterFormBook | keyof TFormBook
+type TProps<T extends FieldValues> = {
+    methods?: UseFormReturn<T, any, undefined>
+    FieldName: keyof T
     LabelMessage: string
     placehorder: string
     width?: string
     autofocus?: boolean
     require?: boolean
-    validate?: RegisterOptions<FieldValues, keyof TRegisterFormBook> | undefined
 }
 
-const InputText = (props: TProps) => {
-    const { placehorder, LabelMessage, width, require, autofocus = false, FieldName } = props
+const InputText = <T extends FieldValues>(props: TProps<T>) => {
+    const { placehorder, LabelMessage, width, autofocus = false, FieldName, methods } = props
     const id = useId()
 
     const formNested = useFormContext()
     const {
         formState: { errors },
     } = formNested
+
+    // methods?.watch(FieldName as unknown as Path<T>[])
 
     const styleEffect = {
         widthContainer: width ? width : 'w-full',
@@ -37,14 +38,14 @@ const InputText = (props: TProps) => {
                 {/* {require && <span className='block absolute top-[50%] translate-y-[-40%] text-red-500 text-[24px]  right-[-12px]'>*</span>} */}
             </label>
             <input
-                {...formNested.register(FieldName)}
+                {...formNested.register(FieldName as string)}
                 type='text'
                 placeholder={placehorder}
                 id={id}
                 autoFocus={autofocus}
                 className='border-[1px] border-slate-400 outline-none px-[12px] py-[4px] rounded-[3px]'
             />
-            {errors[FieldName] && (
+            {errors[FieldName as string] && (
                 <span className={`${styleEffect.fontSizeError} ${styleEffect.colorError}`}>
                     {errors[FieldName]?.message as React.ReactNode}
                 </span>
@@ -53,4 +54,4 @@ const InputText = (props: TProps) => {
     )
 }
 
-export default memo(InputText)
+export default InputText

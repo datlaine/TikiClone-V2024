@@ -4,13 +4,11 @@ import React from 'react'
 import { DateTime } from 'luxon'
 
 //@ form
-import { UseFormReturn } from 'react-hook-form'
-import { TRegisterFormBook } from './FormRegisterBook'
-import { types } from 'util'
+import { FieldValue, FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
-type TProps = {
+type TProps<T extends FieldValues> = {
     //@từ dùng hàm watch trong methods để lấy các giá trị cập nhập tức thì
-    methods?: UseFormReturn<TRegisterFormBook, any, undefined>
+    methods?: UseFormReturn<T, any, undefined>
 
     //@Tên Timeline
     TimeLineName: string
@@ -19,7 +17,7 @@ type TProps = {
     error?: boolean
 
     //@field cung cấp cho hàm watch
-    FieldName?: keyof TRegisterFormBook
+    FieldName?: keyof T
 
     //@các dạng timeline khác nhau
     type: 'Text' | 'File' | 'Files' | 'Money'
@@ -40,7 +38,7 @@ type TProps = {
     isSubmit?: boolean
 }
 
-const Timeline = (props: TProps) => {
+const Timeline = <T extends FieldValues>(props: TProps<T>) => {
     const { methods, TimeLineName, FieldName, File, Files, type, isSubmit } = props
     const error = methods?.formState.errors
     //@ui
@@ -69,14 +67,18 @@ const Timeline = (props: TProps) => {
                 {type === 'Text' && (
                     <div
                         className={`${width} flex flex-col gap-[6px] mt-[-5px]  min-w-[150px]`}
-                        title={`${TimeLineName}: ${methods?.watch(FieldName!) as string}`}
+                        title={`${TimeLineName}: ${methods?.watch(FieldName as unknown as Path<T>[])}`}
                     >
                         <p>{TimeLineName}</p>
                         {FieldName && error![FieldName]?.message && (
-                            <span className='text-[12px] text-red-700 w-[200px] truncate'>{error![FieldName]?.message}</span>
+                            <span className='text-[12px] text-red-700 w-[200px] truncate'>
+                                {error![FieldName]?.message as React.ReactNode}
+                            </span>
                         )}
                         {FieldName && !error![FieldName]?.message && (
-                            <span className='text-blue-700 w-[200px] truncate'>{methods?.watch(FieldName!) as React.ReactNode}</span>
+                            <span className='text-blue-700 w-[200px] truncate'>
+                                {methods?.watch(FieldName as unknown as Path<T>[]) as React.ReactNode}
+                            </span>
                         )}
                     </div>
                 )}
@@ -84,16 +86,18 @@ const Timeline = (props: TProps) => {
                 {type === 'Money' && (
                     <div
                         className={`${width} flex flex-col gap-[6px] mt-[-5px] min-w-[150px]`}
-                        title={`Giá sản phẩm: ${methods?.watch(FieldName!) as string}`}
+                        title={`Giá sản phẩm: ${methods?.watch(FieldName as unknown as Path<T>[])}`}
                     >
                         <p>{TimeLineName}</p>
                         {FieldName && error![FieldName]?.message && (
-                            <span className='text-[12px] text-red-700 w-[200px] truncate'>{error![FieldName]?.message}</span>
+                            <span className='text-[12px] text-red-700 w-[200px] truncate'>
+                                {error![FieldName]?.message as React.ReactNode}
+                            </span>
                         )}
                         {FieldName && !error![FieldName]?.message && (
                             <span className=' text-blue-700 w-[200px] truncate'>
                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                                    Number(methods?.watch(FieldName!)),
+                                    Number(methods?.watch(FieldName as unknown as Path<T>)),
                                 )}
                             </span>
                         )}

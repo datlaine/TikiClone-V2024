@@ -11,10 +11,12 @@ type TProps<T extends FieldValues> = {
     width?: string
     autofocus?: boolean
     require?: boolean
+    defaultValue?: boolean
+    flexDirectionRow?: boolean
 }
 
 const InputText = <T extends FieldValues>(props: TProps<T>) => {
-    const { placehorder, LabelMessage, width, autofocus = false, FieldName, methods } = props
+    const { placehorder, LabelMessage, width, autofocus = false, FieldName, defaultValue, flexDirectionRow } = props
     const id = useId()
 
     const formNested = useFormContext()
@@ -29,11 +31,12 @@ const InputText = <T extends FieldValues>(props: TProps<T>) => {
         gap: ui.gapElementChild || 'gap-[8px]',
         fontSizeError: ui.fontSizeError || 'text-[12px]',
         colorError: ui.colorError || 'text-red-700',
+        flexDirectionContrainer: flexDirectionRow ? 'flex-row' : 'flex-col',
     }
 
     return (
-        <div className={`${styleEffect.widthContainer} ${styleEffect.gap} flex flex-col `}>
-            <label htmlFor={id} className='relative flex flex-row items-center max-w-max'>
+        <div className={`${styleEffect.widthContainer} ${styleEffect.gap} ${styleEffect.flexDirectionContrainer} flex  `}>
+            <label htmlFor={id} className='relative flex flex-row items-center max-w-max min-w-[100px]'>
                 <span>{LabelMessage}</span>
                 {/* {require && <span className='block absolute top-[50%] translate-y-[-40%] text-red-500 text-[24px]  right-[-12px]'>*</span>} */}
             </label>
@@ -43,7 +46,8 @@ const InputText = <T extends FieldValues>(props: TProps<T>) => {
                 placeholder={placehorder}
                 id={id}
                 autoFocus={autofocus}
-                className='border-[1px] border-slate-400 outline-none px-[12px] py-[4px] rounded-[3px]'
+                defaultValue={defaultValue && formNested.watch(FieldName as string)}
+                className='flex-1 border-[1px] border-slate-400 outline-none px-[12px] py-[4px] rounded-[3px]'
             />
             {errors[FieldName as string] && (
                 <span className={`${styleEffect.fontSizeError} ${styleEffect.colorError}`}>

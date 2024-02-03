@@ -1,10 +1,9 @@
 import { Select } from 'antd'
 import moment from 'moment'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
 const CustomerAccountBirth = () => {
-    //react hook form
     const {
         clearErrors,
         control,
@@ -12,33 +11,31 @@ const CustomerAccountBirth = () => {
         formState: { errors },
     } = useFormContext()
 
-    //get date hien tại
+    //tham chiếu ngày tháng hiện tại
+    //instance Date
     const d = new Date()
     //lấy số ngày của tháng
-    const dayCurrent = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()
-    const day = useRef(dayCurrent)
-    const year = useRef(d.getFullYear())
+    const dayCurrent = new Date(Number(watch('birth.year')), Number(watch('birth.month')), 0).getDate()
 
-    //debug
-    const count = useRef(0)
-    count.current += 1
-    console.log('Birth')
+    //Năm hiện tại
+    const yearCurrent = new Date().getFullYear()
 
-    const [birth, setBirth] = useState({
-        day: '',
-        month: '',
-        year: '',
-    })
+    //DefaultValues - có thể từ db hoặc ngày tháng hiện tại
+    const daySelectDefault = watch('birth.day')
+    const monthSelectDefault = watch('birth.month')
+    const yearSelectDefault = watch('birth.year')
 
     //render day
-    const renderDay = useCallback(() => {
+    const renderDay = (soNgay: number, year: number) => {
+        console.log({ year })
         let newDayArray = []
-        for (let index = 1; index <= day.current; index++) {
+        for (let index = 1; index <= soNgay; index++) {
             newDayArray.push({ value: index, label: index })
         }
         return newDayArray
-    }, [])
-
+    }
+    console.log({ methods: watch('birth.month'), soNgay: dayCurrent, yearCurrent })
+    console.log({ monthSelectDefault })
     //render month
     const renderMonth = useCallback(() => {
         let newMonthYear = []
@@ -51,17 +48,14 @@ const CustomerAccountBirth = () => {
     //render year
     const renderYear = useCallback(() => {
         let newYearArray = []
-        for (let index = year.current; index > 1900; index--) {
+        for (let index = yearCurrent; index > 1900; index--) {
             newYearArray.push({ value: index, label: index })
         }
         return newYearArray
     }, [])
 
-    useEffect(() => {
-        console.log('count', count.current)
-    }, [count.current])
-
     const validator = (day: string, month: string, year: string) => {
+        clearErrors()
         /* điều kiện bắt buộc 3 biến giá trị nhận từ select của antd là number 
 phải convert sang string mới check được vaild của thư viện momnent
 -> Giá trị ban đầu lúc người dùng chưa cập nhập ngày sinh thì 'Ngày' 'Tháng' 'Năm', cho phải có ngoại lệ cho 3 trường trên
@@ -74,8 +68,6 @@ giá trị mặc định không bị sữa đổi -> true
         day = day.toString().trim()
         month = month.toString().trim()
         year = year.toString().trim()
-        // if (Number(day) < 9) day = `0${day}`.trim()
-        // if (Number(month) < 9) month = `0${month}`.trim()
         const birthFull = `${year.trim()}-${month.trim()}-${day.trim()}`
         const vaild = moment(birthFull).isValid()
         console.log('check ngay 2', moment('2021-2-30').isValid(), birthFull)
@@ -90,9 +82,9 @@ giá trị mặc định không bị sữa đổi -> true
         return true
     }
 
-    const dayAntd = useMemo(() => renderDay(), [])
-    const monthAntd = useMemo(() => renderMonth(), [])
-    const yearAntd = useMemo(() => renderYear(), [])
+    const dayAntd = useMemo(() => renderDay(dayCurrent, watch('birth.year')), [dayCurrent, watch])
+    const monthAntd = useMemo(() => renderMonth(), [renderMonth])
+    const yearAntd = useMemo(() => renderYear(), [renderYear])
 
     return (
         <div className='ml-[0px] flex-1 flex flex-col  gap-[10px] lg:items-start  w-full lg:justify-start'>
@@ -111,9 +103,9 @@ giá trị mặc định không bị sữa đổi -> true
                             },
                         },
                     }}
-                    render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
+                    render={({ field: { onChange: onChangeHookForm } }) => (
                         <Select
-                            defaultValue={value || 'Ngày'}
+                            defaultValue={daySelectDefault}
                             style={{ width: 110, borderRadius: '2px', padding: '0px 6px 0px 6px', height: 35, marginTop: -6 }}
                             options={dayAntd}
                             onChange={(value) => {
@@ -138,9 +130,9 @@ giá trị mặc định không bị sữa đổi -> true
                             },
                         },
                     }}
-                    render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
+                    render={({ field: { onChange: onChangeHookForm } }) => (
                         <Select
-                            defaultValue={value || 'Tháng'}
+                            defaultValue={monthSelectDefault}
                             style={{ width: 110, borderRadius: '2px', padding: '0px 6px 0px 6px', height: 35, marginTop: -6 }}
                             options={monthAntd}
                             onChange={(value) => {
@@ -165,9 +157,9 @@ giá trị mặc định không bị sữa đổi -> true
                             },
                         },
                     }}
-                    render={({ field: { onChange: onChangeHookForm, onBlur, value, ref } }) => (
+                    render={({ field: { onChange: onChangeHookForm } }) => (
                         <Select
-                            defaultValue={value || 'Năm'}
+                            defaultValue={yearSelectDefault}
                             style={{ width: 110, borderRadius: '2px', padding: '0px 6px 0px 6px', height: 35, marginTop: -6 }}
                             options={yearAntd}
                             onChange={(value) => {
@@ -183,4 +175,4 @@ giá trị mặc định không bị sữa đổi -> true
     )
 }
 
-export default CustomerAccountBirth
+export default memo(CustomerAccountBirth)

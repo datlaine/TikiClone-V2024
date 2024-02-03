@@ -66,40 +66,41 @@ const ToastDemo = (props: TProps) => {
         }, 1000)
         setShowDetail(false)
     }
+
+    const styleEffect = {
+        type_toast:
+            toast.type === 'SUCCESS'
+                ? ' bg-blue-500  text-blue-900 border-[2px] border-blue-500'
+                : toast.type === 'ERROR'
+                ? ' bg-red-500 text-red-900 border-[2px] border-red-500'
+                : ' bg-orange-500 text-orange-900 border-[2px] border-orange-500',
+        type_toast_icon: toast.type === 'SUCCESS' ? 'rgb(34 197 94)' : toast.type === 'ERROR' ? ' rgb(239 68 68)' : 'rgb(249 115 22)',
+        widthToastContainer: 'min-w-[280px]',
+        bgBoxTime: toast.type === 'SUCCESS' ? ' bg-blue-500' : toast.type === 'ERROR' ? ' bg-red-500' : ' bg-orange-500',
+        textColor: toast.type === 'SUCCESS' ? ' bg-blue-500 ' : toast.type === 'ERROR' ? ' bg-red-500' : ' bg-orange-500',
+    }
+
     return (
         <>
             {show && (
-                <p
+                <div
                     onMouseEnter={handleOnMouseEnter}
                     onMouseLeave={handleOnMouseLeave}
-                    className={`${
-                        toast.type === 'SUCCESS' ? ' text-green-900 ' : toast.type === 'ERROR' ? ' text-red-900 ' : '  text-orange-900'
-                    } 
-bg-[#ffffff] border-[3px] border-orange-400 py-[16px] px-[12px] shadow-xl relative min-w-[280px] w-full  min-[25px]  h-[120px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-700  flex items-center justify-center`}
+                    className={`${styleEffect.type_toast} !bg-[#ffffff] py-[16px] px-[12px] shadow-xl relative min-w-[280px] w-full  h-[120px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-1000  flex items-center justify-center`}
                 >
-                    <span className='absolute top-[25px] right-[25px]'>
-                        {DateTime.now().setZone(localDateTime).toLocaleString(DateTime.TIME_24_SIMPLE)}
-                    </span>
+                    <div
+                        className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[60px] h-[30px] flex items-center justify-center rounded-md  text-white `}
+                    >
+                        <span>{DateTime.now().setZone(localDateTime).toLocaleString(DateTime.TIME_24_SIMPLE)}</span>
+                    </div>
                     <span
                         style={{ width: `${295 / Math.ceil(time)}px` }}
-                        className={`${
-                            toast.type === 'SUCCESS'
-                                ? ' bg-green-500  text-green-900 '
-                                : toast.type === 'ERROR'
-                                ? ' bg-red-500 text-red-900 '
-                                : ' bg-orange-500 text-orange-900'
-                        }  absolute top-[0px] left-0  rounded-lg h-[3px] transition-all duration-300`}
+                        className={`${styleEffect.type_toast}  absolute top-[0px] left-0   h-[3px] transition-all duration-300`}
                     ></span>
 
                     <span
                         style={{ width: `${295 / Math.ceil(time)}px` }}
-                        className={`${
-                            toast.type === 'SUCCESS'
-                                ? ' bg-green-500  text-green-900 '
-                                : toast.type === 'ERROR'
-                                ? ' bg-red-500 text-red-900 '
-                                : ' bg-orange-500 text-orange-900'
-                        }  absolute bottom-[0px] left-0  rounded-lg h-[3px] transition-all duration-1000`}
+                        className={`${styleEffect.type_toast}  absolute bottom-[0px] left-0   h-[3px] transition-all duration-1000`}
                     ></span>
 
                     <div className='w-full flex gap-[8px] px-[16px] items-center'>
@@ -145,9 +146,7 @@ bg-[#ffffff] border-[3px] border-orange-400 py-[16px] px-[12px] shadow-xl relati
                         </div>
                     </div>
                     <span
-                        className={`${
-                            toast.type === 'SUCCESS' ? 'border-green-500' : toast.type === 'ERROR' ? 'border-red-500' : 'border-orange-500'
-                        } absolute flex justify-center items-center bottom-[5px] animate-pulse right-[5px] w-[30px] h-[30px] p-[4px] text-[12px] rounded-full border-[2px] `}
+                        className={`${styleEffect.textColor} !text-white absolute flex justify-center items-center bottom-[5px] animate-pulse right-[5px] w-[30px] h-[30px] p-[4px] text-[12px] rounded-full border-[2px] `}
                     >
                         {time}
                     </span>
@@ -161,7 +160,7 @@ bg-[#ffffff] border-[3px] border-orange-400 py-[16px] px-[12px] shadow-xl relati
                             }`}
                         />
                     </span>
-                </p>
+                </div>
             )}
         </>
     )

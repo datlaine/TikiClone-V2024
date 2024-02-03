@@ -115,10 +115,10 @@ const AuthLogin = (props: TProps) => {
                     <input
                         {...register('email')}
                         type='text'
-                        className={`w-full border-[1px] border-stone-300   focus:border-[2px] ${
+                        className={`w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
                             errors.email
-                                ? 'focus:border-red-700 placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                : 'focus:border-slate-900 placeholder:text-stone-500  border-stone-300'
+                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
+                                : 'border-slate-900 placeholder:text-stone-500  '
                         }
 }`}
                         placeholder='Email'
@@ -134,10 +134,10 @@ const AuthLogin = (props: TProps) => {
                     <input
                         {...register('password')}
                         type={typePassword}
-                        className={`w-full border-[1px] border-stone-300  focus:border-[2px] ${
+                        className={`w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
                             errors.password
-                                ? 'focus:border-red-700 placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                : 'focus:border-slate-900 placeholder:text-stone-500  border-stone-300'
+                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
+                                : 'border-slate-900 placeholder:text-stone-500  '
                         }`}
                         placeholder='Mật khẩu'
                     />
@@ -166,11 +166,17 @@ const AuthLogin = (props: TProps) => {
                 <button
                     onClick={() => console.log('click')}
                     type='submit'
-                    className='w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
+                    className='flex justify-center items-center gap-[8px] w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
                     disabled={!authLogin.isPending && Object.keys(errors).length > 0}
                     title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
                 >
-                    Login
+                    <span>Login</span>
+                    {authLogin.isPending && (
+                        <span
+                            className=' inline-block h-[25px] w-[25px] text-[#ffffff] animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                            role='status'
+                        ></span>
+                    )}
                 </button>
             </form>
         </div>

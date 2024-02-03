@@ -12,7 +12,6 @@ const BoxAvatarMode = () => {
     const user = useSelector((state: RootState) => state.authentication.user)
     const [state, modeDispatch] = useReducer(customerAccountReducer, initialValue)
     const refModelAvatar = useRef<HTMLDivElement>(null)
-    console.log({ debug: state.modeAvatarUpdate })
     useEffect(() => {
         // count.current = count.current += 1
         const handleEvent = (e: MouseEvent) => {
@@ -27,7 +26,6 @@ const BoxAvatarMode = () => {
                 }
             }
         }
-        console.log({ state: state.modeAvatarSee })
         document.addEventListener('click', handleEvent)
 
         return () => document.removeEventListener('click', handleEvent)

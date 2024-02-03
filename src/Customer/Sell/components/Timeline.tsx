@@ -121,12 +121,12 @@ const Timeline = <T extends FieldValues>(props: TProps<T>) => {
                         <p>{TimeLineName}</p>
 
                         {isSubmit && Files!.CountFile === 0 && (
-                            <span className='text-[12px] text-red-700'>{'Hình đại diện sản phẩm là bắt buộc'}</span>
+                            <span className='text-[12px] text-red-700 w-[200px] truncate'>{'Hình đại diện sản phẩm là bắt buộc'}</span>
                         )}
                         {Files!.CountFile >= 1 && (
                             <div className='flex flex-col gap-[4px] text-blue-700'>
                                 {Files!.FileName.map((file) => (
-                                    <span key={file} className='text-[12px]'>
+                                    <span key={file} className='text-[12px] w-[200px] truncate'>
                                         {file}
                                     </span>
                                 ))}

@@ -5,7 +5,7 @@ import { Check } from 'lucide-react'
 
 //@api
 import ProductApi, { IFormDataProductFull } from '../../../apis/product.api'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 //@form
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -60,6 +60,9 @@ const FormRegisterBook = () => {
     //@trang thái submit
     const [, setFormStateSubmit] = useState(false)
     const dispatch = useDispatch()
+
+    const queryClient = useQueryClient()
+
     //@lấy thông tin hình ảnh
     const [urlProductThumb, setUrlProductThumb] = useState<UploadImage>({
         product_thumb_image: { secure_url: '', public_id: '' },
@@ -123,18 +126,35 @@ const FormRegisterBook = () => {
             formData.append('page_number', data.page_number)
             formData.append('description', data.description)
 
-            for (let [key, value] of formData) {
-                console.log(`${key}: ${value}`)
-            }
-            // uploadProductFull.mutate(formData)
+            // for (let [key, value] of formData) {
+            //     console.log(`${key}: ${value}`)
+            // }
+            uploadProductFull.mutate(formData)
         }
     }
+
+    useEffect(() => {
+        const callAgain = async () => {
+            queryClient.invalidateQueries({
+                queryKey: ['product-all'],
+                refetchType: 'active',
+            })
+        }
+
+        if (uploadProductFull.isSuccess) {
+            callAgain()
+        }
+    }, [uploadProductFull.isSuccess, queryClient])
 
     return (
         <div className='animate-mountComponent w-full h-auto flex justify-center '>
             <div className=' w-[full] lg:w-[65%]  h-full'>
                 <FormProvider {...methods}>
-                    <form className='w-full lg:w-[60%]  flex flex-col gap-[24px] p-[16px]' onSubmit={methods.handleSubmit(onSubmit)}>
+                    <form
+                        className='w-full lg:w-[60%]  flex flex-col gap-[24px] p-[16px]'
+                        onSubmit={methods.handleSubmit(onSubmit)}
+                        spellCheck={false}
+                    >
                         <div className=''>Thông tin cơ bản về sản phẩm</div>
                         <InputText<TRegisterFormBook>
                             methods={methods}

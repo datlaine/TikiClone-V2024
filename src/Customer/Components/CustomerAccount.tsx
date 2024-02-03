@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 
 //@react-router
 import { Link } from 'react-router-dom'
@@ -21,9 +21,6 @@ import CustomerAccountGender from '../Account/form/CustomerAccountGender'
 //@auth - api
 import Account from '../../apis/account.api'
 
-//@toast - notification
-import BoxToast from '../../component/ui/BoxToast'
-
 //@utils
 import { checkAxiosError } from '../../utils/handleAxiosError'
 import { sleep } from '../../utils/sleep'
@@ -31,17 +28,17 @@ import { sleep } from '../../utils/sleep'
 //@icon
 import BoxAvatarMode from '../Account/Box/BoxAvatarMode'
 import TErrorAxios from '../../types/axios.response.error'
-import { ContextToast } from '../../component/Context/ToastContext'
 import { addToast } from '../../Redux/toast'
+import InputText from '../Sell/components/InputText'
 
 //@type form
 type TFormCustomer = {
     fullName: string
     nickName: string
     birth: {
-        day: string
-        month: string
-        year: string
+        day: number
+        month: number
+        year: number
     }
 
     gender: string
@@ -52,24 +49,25 @@ type TFormCustomer = {
 //@Component :: api
 const CustomerAccount = () => {
     const user = useSelector((state: RootState) => state.authentication.user)
-    const toast = useSelector((state: RootState) => state.toast.toast)
-    // const [toast, setShowToast] = useState(false)
-    const { setShowToast, showToast, setContentToast, contentToast } = useContext(ContextToast)
-    const count = useRef<number>(0)
     const dispatch = useDispatch()
+
+    const dayTime = new Date()
     // console.log({ id: Math.random() })
     const methods = useForm<TFormCustomer>({
         defaultValues: {
             fullName: `${user.fullName || user?.email?.split('@')[0]}`,
             nickName: `${user.nickName || '@' + user.email.split('@')[0] || 'none'}`,
             birth: {
-                day: `${new Date(`${user.bob}`).getDate() || 'Ngày'} `,
-                month: `${new Date(`${user.bob}`).getMonth() + 1 || 'Tháng'} `,
-                year: `${new Date(`${user.bob}`).getFullYear() || 'Năm'} `,
+                day: new Date(`${user.bob}`).getDate() || dayTime.getDate(),
+                month: new Date(`${user.bob}`).getMonth() + 1 || dayTime.getMonth() + 1,
+                year: new Date(`${user.bob}`).getFullYear() || dayTime.getFullYear(),
             },
             gender: `${user.gender}` || 'Male',
         },
+        mode: 'onChange',
     })
+
+    console.log({ day: methods.watch('birth.day') })
 
     const getMe = useMutation({
         mutationKey: ['getMe'],
@@ -83,11 +81,7 @@ const CustomerAccount = () => {
                     error.response.statusText === 'Forbidden' &&
                     error.response.data?.detail === 'Refresh failed'
                 )
-                    setContentToast((prev) => [
-                        ...prev,
-                        { type: 'ERROR', message: 'Refresh token khong ton tai', id: Math.random().toString() },
-                    ])
-                await sleep(3000)
+                    await sleep(3000)
                 window.location.reload()
             }
         },
@@ -139,12 +133,8 @@ const CustomerAccount = () => {
         // còn ngược lại thì ghép 3 chuỗi vừa nhận được từ hàm vaild kia để tạo ra 1 ngày hoàn chỉnh rồi gửi lên server
         // Tháng sẽ bằng giá trị tháng hiện có -1 vì mảng tháng bắt đầu = 0
         // Còn vì sao phải chia bob thành 3 field khác nhau vì ta cho chọn select riêng lẻ
-        let newBirth: null | Date
-        if (form.birth.day === 'Ngày' && form.birth.month === 'Tháng' && form.birth.year) {
-            newBirth = null
-        } else {
-            newBirth = new Date(+form.birth.year, Number(form.birth.month) - 1, +form.birth.day)
-        }
+        const newBirth = new Date(+form.birth.year, Number(form.birth.month) - 1, +form.birth.day)
+
         updateInfo.mutate({
             ...form,
             birth: newBirth,
@@ -157,20 +147,26 @@ const CustomerAccount = () => {
             // dispatch(fetchUser({ user: getMe.data }))
             dispatch(
                 addToast({
-                    type: 'SUCCESS',
-                    message: `Lấy thông tin thành công`,
+                    type: 'WARNNING',
+                    message: `[Đã cập nhập thành công]`,
                     id: Math.random().toString(),
                 }),
             )
         }
     }, [getMe.isSuccess, dispatch])
 
+    console.log({ watch: methods.watch('fullName') })
+
     return (
         <div className='flex flex-col xl:flex-row min-h-full w-full gap-[20px] xl:gap-[2%] p-[4px]'>
             {/* {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />} */}
 
             <FormProvider {...methods}>
-                <form className='w-full xl:w-[59%] h-auto flex flex-col gap-[8px]' onSubmit={methods.handleSubmit(onSubmit)}>
+                <form
+                    className='w-full xl:w-[59%] h-auto flex flex-col gap-[8px]'
+                    onSubmit={methods.handleSubmit(onSubmit)}
+                    spellCheck={false}
+                >
                     {/* @header */}
                     <h3 className='h-[45px] font-openSans'>Thông tin cá nhân</h3>
 
@@ -181,33 +177,28 @@ const CustomerAccount = () => {
                             <BoxAvatarMode />
                             {/* @ form update infomation account */}
                             {/* @ formLayout - 1 */}
-                            <div className='flex flex-1  flex-col justify-between gap-4'>
+                            <div className='flex flex-1  flex-col justify-between'>
                                 {/* @ field::name -> fullname */}
                                 <div className='flex justify-between gap-[32px] w-full h-[35%] pl-[15px] items-center text-[14px]'>
-                                    <label htmlFor='form_name' className='w-[24%]'>
-                                        Họ & tên
-                                    </label>
-                                    <input
-                                        {...methods.register('fullName')}
-                                        type='text'
-                                        id='form_name'
-                                        defaultValue={methods.getValues('fullName')}
-                                        className='flex-1 px-[12px] py-[8px] w-[60%] border-stone-300'
+                                    <InputText
+                                        FieldName='fullName'
+                                        LabelMessage='Họ và tên'
+                                        placehorder='Nhập tên đầy đủ'
+                                        defaultValue={true}
+                                        autofocus={true}
+                                        width='w-full'
+                                        flexDirectionRow={true}
                                     />
                                 </div>
                                 {/* @ field::name -> nickname */}
                                 <div className='flex justify-between w-full gap-[32px] h-[35%] pl-[15px] items-center text-[14px]'>
-                                    <label htmlFor='form_nickname' className='w-[24%]'>
-                                        Nickname
-                                    </label>
-                                    <input
-                                        {...methods.register('nickName')}
-                                        placeholder={methods.getValues('nickName')}
-                                        type='text'
-                                        id='form_nickname'
-                                        className={`italic ${
-                                            methods.formState.isDirty ? 'text-slate-900' : 'text-stone-300'
-                                        } flex-1 px-[12px] py-[8px] w-[60%] border-stone-300`}
+                                    <InputText
+                                        FieldName='nickName'
+                                        LabelMessage='NickName'
+                                        placehorder='Nhập nickname của bạn'
+                                        defaultValue={true}
+                                        width='w-full'
+                                        flexDirectionRow={true}
                                     />
                                 </div>
                             </div>

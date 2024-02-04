@@ -1,25 +1,23 @@
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { doCloseBoxLogin, doOpenBoxLogin, userLogout } from '../../../Redux/authSlice'
+import { userLogout } from '../../../Redux/authSlice'
 import { RootState, store } from '../../../store'
 import { clearCart } from '../../../Redux/reducer'
 import { useState } from 'react'
 import Portal from '../../Portal'
 import AuthWrapper from '../../Auth/AuthWrapper'
-import { doLogout } from '../../../Redux/authenticationSlice'
-type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProp>
+import { doOpenBoxLogin } from '../../../Redux/authenticationSlice'
 
-function HeaderBoxHover(props: Props) {
+function HeaderBoxHover() {
     // const { user, doCloseBoxLogin, doOpenBoxLogin, isOpenBoxLogin, userLogout, clearCart } = props
     const navigate = useNavigate()
-    const [showBoxAuth, setShowBoxAuth] = useState(false)
     const user = useSelector((state: RootState) => state.authentication.user)
     const dispatch = useDispatch()
     // console.log('om', user)
     const handleGoToInfo = () => {
         if (!user) {
             // doOpenBoxLogin()
-            setShowBoxAuth(true)
+            dispatch(doOpenBoxLogin())
             return
         }
         navigate('/customer/order_history')
@@ -27,7 +25,7 @@ function HeaderBoxHover(props: Props) {
     }
 
     const handleLogOut = () => {
-        dispatch(doLogout())
+        // dispatch(doLogout())
         // if (user) {
         //       setTimeout(() => {
         //             navigate('/')
@@ -55,25 +53,8 @@ function HeaderBoxHover(props: Props) {
                 )}
                 <p className='thongBao'></p>
             </ul>
-            {showBoxAuth && (
-                <Portal>
-                    <AuthWrapper setShowBoxAuth={setShowBoxAuth} />
-                </Portal>
-            )}
         </>
     )
 }
 
-const mapStateToProps = (state: RootState) => ({
-    user: state.auth.userCurrent,
-    isOpenBoxLogin: state.auth.isOpenBoxLogin,
-})
-
-const mapDispatchToProp = (dispatch: any) => ({
-    doCloseBoxLogin: () => store.dispatch(doCloseBoxLogin()),
-    doOpenBoxLogin: () => store.dispatch(doOpenBoxLogin()),
-    userLogout: () => store.dispatch(userLogout()),
-    clearCart: () => store.dispatch(clearCart()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProp)(HeaderBoxHover)
+export default HeaderBoxHover

@@ -6,6 +6,7 @@ const initialUi = {
     showBoxSticky: true,
     flag: false,
     topButton: 0,
+    isLoading: false,
 }
 
 const uiSlice = createSlice({
@@ -37,10 +38,21 @@ const uiSlice = createSlice({
         setTopButton: (state, action: PayloadAction<number>) => {
             state.topButton = action.payload
         },
+
+        doIsLoading: (state, payload: PayloadAction<boolean>) => {
+            state.isLoading = payload.payload
+        },
     },
 })
 
-export const { toDoHideSideBar, toDoShowSideBar, setPositionBottomBoxSticky, toDoHideBoxSticky, toDoShowBoxSticky, setTopButton } =
-    uiSlice.actions
+export const {
+    toDoHideSideBar,
+    toDoShowSideBar,
+    setPositionBottomBoxSticky,
+    toDoHideBoxSticky,
+    toDoShowBoxSticky,
+    setTopButton,
+    doIsLoading,
+} = uiSlice.actions
 
 export default uiSlice.reducer

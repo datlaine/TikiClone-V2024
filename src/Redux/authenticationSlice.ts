@@ -21,9 +21,9 @@ const authSlice = createSlice({
         // isAuthencation: false,
         // userCurrent: null, // chưa học back-end nên setup fake data hơi lubu...
         // isOpenBoxLogin: false,
-        loading: false,
+        isOpenBoxLogin: false,
         token: JSON.parse(localStorage.getItem('token') as string) || null,
-        user: (JSON.parse(localStorage.getItem('user') as string) || null) as TUser,
+        user: JSON.parse(localStorage.getItem('user') as string) || null,
     },
     reducers: {
         fetchUser: (state, payload: PayloadAction<{ user: TUser; access_token?: string }>) => {
@@ -36,18 +36,25 @@ const authSlice = createSlice({
             state.user = payload.payload.user
         },
 
-        doLogout: (state) => {
+        userLogout: (state) => {
             localStorage.remove('user')
-            localStorage.remove('token')
             state.token = null
-            state.user = {} as TUser
+            state.user = null
+            alert(1234)
         },
-        isLoading: (state, payload: PayloadAction<boolean>) => {
-            state.loading = payload.payload
+        doOpenBoxLogin: (state) => {
+            state.isOpenBoxLogin = true
+            state.user = null
+            state.token = null
+            localStorage.removeItem('user')
+            localStorage.removeItem('token')
+        },
+        doCloseBoxLogin: (state) => {
+            state.isOpenBoxLogin = false
         },
     },
 })
 
-export const { fetchUser, doLogout, isLoading } = authSlice.actions
+export const { fetchUser, userLogout, doOpenBoxLogin, doCloseBoxLogin } = authSlice.actions
 
 export default authSlice.reducer

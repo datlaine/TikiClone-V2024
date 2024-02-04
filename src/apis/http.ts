@@ -46,9 +46,9 @@ class AxiosCustom {
                     originalRequest.retry = true
 
                     const res = await Auth.refresh_token()
-
+                    console.log({ res })
                     if (res) {
-                        const { token } = res.data.metadata
+                        const { token } = res!.data!.metadata
                         if (
                             error.response.config.url === 'v1/api/account/update-avatar' ||
                             error.response.config.url === 'v1/api/product/upload-product-thumb' ||

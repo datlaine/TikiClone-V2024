@@ -1,17 +1,16 @@
-import { connect } from 'react-redux'
-import { useEffect } from 'react'
+import { connect, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 // import BoxLogin from './component/AuthLoginResister/BoxLogin/BoxLogin'
 import Header from './component/Header/Header'
 import RouterController from './component/Routes/RouterController'
 import AboutTiki from './component/AboutTiki/AboutTiki'
 import Footer from './component/Footer/Footer'
+import { RootState } from './store'
+import AuthWrapper from './component/Auth/AuthWrapper'
 
-type Props = ReturnType<typeof mapStateToProps>
-
-function App(props: Props) {
-    const { isOpenBoxLogin } = props
-    // console.log(isOpenBoxLogin)
-
+function App() {
+    const boxLogin = useSelector((state: RootState) => state.authentication.isOpenBoxLogin)
+    const [, setShowBoxAuth] = useState(true)
     useEffect(() => {
         window.scrollTo({
             top: 0,
@@ -19,26 +18,17 @@ function App(props: Props) {
         })
     }, [])
 
-    useEffect(() => {
-        // console.log('re-render')
-    }, [])
+    useEffect(() => {}, [boxLogin])
 
     return (
         <div className=' min-h-screen'>
             <div id='main' className='min-h-screen'>
                 <RouterController />
             </div>
-            {/* {isOpenBoxLogin && (
-                        <div className=''>
-                              <BoxLogin />
-                        </div>
-                  )} */}
+
+            {boxLogin && <AuthWrapper setShowBoxAuth={setShowBoxAuth} />}
         </div>
     )
 }
 
-const mapStateToProps = (state: any) => ({
-    isOpenBoxLogin: state.auth.isOpenBoxLogin,
-})
-
-export default connect(mapStateToProps, null)(App)
+export default App

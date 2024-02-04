@@ -100,7 +100,7 @@ const AuthRegister = (props: TProps) => {
                     <input
                         {...register('email')}
                         type='text'
-                        className={`w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
+                        className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
                             errors.email
                                 ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
                                 : 'border-slate-900 placeholder:text-stone-500  '
@@ -118,7 +118,7 @@ const AuthRegister = (props: TProps) => {
                     <input
                         {...register('password')}
                         type={typePassword}
-                        className={`w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
+                        className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
                             errors.password
                                 ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
                                 : 'border-slate-900 placeholder:text-stone-500  '
@@ -144,7 +144,7 @@ const AuthRegister = (props: TProps) => {
                     <input
                         {...register('confirm_password')}
                         type={typeConfirmPassword}
-                        className={`w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
+                        className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
                             errors.confirm_password
                                 ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
                                 : 'border-slate-900 placeholder:text-stone-500  '

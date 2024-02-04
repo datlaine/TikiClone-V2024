@@ -9,7 +9,7 @@ import { sleep } from '../../../utils/sleep'
 import TErrorAxios from '../../../types/axios.response.error'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
-import { fetchUser, isLoading } from '../../../Redux/authenticationSlice'
+import { fetchUser } from '../../../Redux/authenticationSlice'
 import { addToast } from '../../../Redux/toast'
 
 //@props
@@ -76,10 +76,8 @@ const ModelAvatarUpdate = (props: TProps) => {
 
     useEffect(() => {
         if (updateAvatarResponse.isSuccess) {
-            dispatch(isLoading(true))
             dispatch(fetchUser({ user: updateAvatarResponse.data.data.metadata.user }))
             modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
-            dispatch(isLoading(false))
             dispatch(addToast({ type: 'SUCCESS', message: 'Cập nhập avtar thành công', id: Math.random().toString() }))
         }
         if (updateAvatarResponse.isSuccess && updateAvatarResponse.data) {

@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from 'react'
+import { memo, useState } from 'react'
 
 //@react router
 import { Link, Outlet, useLocation } from 'react-router-dom'
@@ -34,9 +34,9 @@ const Customer = () => {
     let pathName = useLocation()?.pathname
     //@context pathname
     const [_, setSectionActive] = useState('/customer/account')
-    const refLink = useRef()
     //@connect state redux
     const user = useSelector((state: RootState) => state.authentication.user)
+    const authLogin = useSelector((state: RootState) => state.authentication.isOpenBoxLogin)
     const auth = Boolean(user)
 
     //@check path
@@ -156,7 +156,7 @@ const Customer = () => {
                     {/*@ Outlet */}
                     <div className='w-full 2xl:w-[80%]'>
                         <div className='hidden xl:flex h-[55px]  items-center'>{textLink?.text}</div>
-                        {auth ? (
+                        {auth && !authLogin ? (
                             <CustomerWrapperItem>
                                 <Outlet />
                             </CustomerWrapperItem>

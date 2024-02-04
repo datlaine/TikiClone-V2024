@@ -14,6 +14,7 @@ import TErrorAxios from './types/axios.response.error'
 import ContextToastProvider from './component/Context/ToastContext'
 import { addToast } from './Redux/toast'
 import BoxContainerToast from './component/ui/BoxContainerToast'
+import { doOpenBoxLogin, userLogout } from './Redux/authenticationSlice'
 
 // store.dispatch(addToast({ type: 'ERROR', message: '123', id: '1' }))
 // setTimeout(() => {}, 5000)
@@ -30,18 +31,33 @@ const client = new QueryClient({
             retryDelay: 1000,
         },
     },
-    queryCache: new QueryCache({}),
+    queryCache: new QueryCache({
+        onError: (error) => {
+            if (checkAxiosError(error)) {
+                if (error.response?.status === 401) {
+                    // store.dispatch(addToast({ type: 'ERROR', message: 'Loi token', id: Math.random().toString() }))
+                    // store.dispatch(doOpenBoxLogin())
+                }
+            }
+        },
+    }),
     mutationCache: new MutationCache({
         onError: async (error, varibale, context, mutation) => {
             console.log({ error, mutation, varibale, context })
             if (checkAxiosError<TErrorAxios>(error)) {
                 if (
                     error?.response?.status === 403 &&
-                    error?.response.statusText === 'Forbidden' &&
-                    error?.response.data?.detail === 'Refresh failed'
+                    error?.response.statusText === 'Forbidden'
+                    // error?.response.data?.detail === 'Refresh failed'
                 ) {
-                    localStorage.removeItem('user')
-                    localStorage.removeItem('token')
+                    // store.dispatch(userLogout())
+                    // store.dispatch(addToast({ type: 'ERROR', message: 'Loi token', id: Math.random().toString() }))
+                    // store.dispatch(addToast({ type: 'ERROR', message: 'Loi token', id: Math.random().toString() }))
+
+                    store.dispatch(addToast({ type: 'ERROR', message: 'Loi token', id: Math.random().toString() }))
+                    store.dispatch(doOpenBoxLogin())
+                }
+                if (error.response?.status === 401) {
                 }
             }
         },

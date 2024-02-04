@@ -18,8 +18,8 @@ const ToastDemo = (props: TProps) => {
     const timeOut = useRef<NodeJS.Timeout>()
     const timeInterval = useRef<NodeJS.Timeout>()
     const now = new Date()
-    const token = JSON.parse(localStorage.getItem('token') as string)
-    console.log(jwtDecode(token))
+    // const token = JSON.parse(localStorage.getItem('token') as string)
+    // console.log(jwtDecode(token))
     const [show, setShow] = useState(true)
     const [time, setTime] = useState(timerToast)
     const [showDetail, setShowDetail] = useState(false)
@@ -33,7 +33,6 @@ const ToastDemo = (props: TProps) => {
         timeOut.current = setTimeout(() => {
             console.log({ id: toast.id })
             dispatch(removeToast({ id: toast.id }))
-            // setShow(false)
         }, timerToast * 1000)
 
         timeInterval.current = setInterval(() => {
@@ -70,10 +69,10 @@ const ToastDemo = (props: TProps) => {
     const styleEffect = {
         type_toast:
             toast.type === 'SUCCESS'
-                ? ' bg-blue-500  text-blue-900 border-[2px] border-blue-500'
+                ? '   text-blue-900 shadow-2xl shadow-blue-700 border-[2px] border-blue-500'
                 : toast.type === 'ERROR'
-                ? ' bg-red-500 text-red-900 border-[2px] border-red-500'
-                : ' bg-orange-500 text-orange-900 border-[2px] border-orange-500',
+                ? ' text-red-900 shadow-2xl shadow-red-700  border-[2px] border-red-500'
+                : '  text-orange-900 shadow-2xl shadow-orange-700  border-[2px] border-orange-500',
         type_toast_icon: toast.type === 'SUCCESS' ? 'rgb(34 197 94)' : toast.type === 'ERROR' ? ' rgb(239 68 68)' : 'rgb(249 115 22)',
         widthToastContainer: 'min-w-[280px]',
         bgBoxTime: toast.type === 'SUCCESS' ? ' bg-blue-500' : toast.type === 'ERROR' ? ' bg-red-500' : ' bg-orange-500',
@@ -86,7 +85,7 @@ const ToastDemo = (props: TProps) => {
                 <div
                     onMouseEnter={handleOnMouseEnter}
                     onMouseLeave={handleOnMouseLeave}
-                    className={`${styleEffect.type_toast} !bg-[#ffffff] py-[16px] px-[12px] shadow-xl relative min-w-[280px] w-full  h-[120px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-1000  flex items-center justify-center`}
+                    className={`${styleEffect.type_toast} !bg-[#ffffff] py-[16px] px-[12px] shadow-xl relative min-w-[280px] w-full  h-[114px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-1000  flex items-center justify-center`}
                 >
                     <div
                         className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[60px] h-[30px] flex items-center justify-center rounded-md  text-white `}

@@ -82,7 +82,6 @@ const CustomerAccount = () => {
                     error.response.data?.detail === 'Refresh failed'
                 )
                     await sleep(3000)
-                window.location.reload()
             }
         },
     })
@@ -103,13 +102,11 @@ const CustomerAccount = () => {
                 if (error.response?.data?.code === 403 && error.response.data.message === 'Forbidden') {
                     // setShowToast(true)
                     await sleep(2000)
-                    window.location.reload()
                 }
 
                 if (error.response?.data?.code === 400 && error.response.data.message === 'Bad Request') {
                     // setShowToast(true)
                     await sleep(2000)
-                    window.location.reload()
                 }
             }
         },

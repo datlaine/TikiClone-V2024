@@ -1,4 +1,3 @@
-import { jwtDecode } from 'jwt-decode'
 import { Span } from 'next/dist/trace'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -51,12 +50,12 @@ const Admin = () => {
     if (!localStorage.getItem('token')) {
         return <NotFound />
     }
-    const token = JSON.parse(localStorage.getItem('token') || 'none')
-    const decode = jwtDecode<{ email: string; _id: string; roles: string[] }>(token)
-    if (!decode.roles.includes('admin')) {
-        // navigate('/customer/account')
-        return <NotFound />
-    }
+    // const token = JSON.parse(localStorage.getItem('token') || 'none')
+    // const decode = jwtDecode<{ email: string; _id: string; roles: string[] }>(token)
+    // if (!decode.roles.includes('admin')) {
+    //     // navigate('/customer/account')
+    //     return <NotFound />
+    // }
 
     const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) {

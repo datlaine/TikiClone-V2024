@@ -19,6 +19,8 @@ module.exports = {
 				hideSideBarAni: "hideSideBar 1s linear ",
 				showToast: "toastAnimation 1s linear forwards",
 				mountComponent: "mountComponent 1s",
+				toastAnimation: "toastAnimation 1s",
+				authBox: "authBox 1s",
 			},
 			keyframes: {
 				showSideBar: {
@@ -30,14 +32,18 @@ module.exports = {
 					"100%": { transform: "translateX(-200px)" },
 				},
 
-				toastAnimation: {
-					"0%": { opacity: "1" },
-					"100%": { opacity: "0" },
-				},
-
 				mountComponent: {
 					"0%": { opacity: "0" },
 					"100%": { opacity: "1" },
+				},
+
+				toastAnimation: {
+					"0%": { right: "-200%" },
+					"100%": { right: "0px" },
+				},
+				authBox: {
+					"0%": { transform: "translateY(-100%)" },
+					"100%": { transform: "translateY(0px)" },
 				},
 			},
 			boxShadow: {

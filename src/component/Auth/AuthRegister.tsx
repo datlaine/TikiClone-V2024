@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query'
 import Auth from '../../apis/auth.api'
 import { useDispatch } from 'react-redux'
 import { fetchUser } from '../../Redux/authenticationSlice'
+import { addToast } from '../../Redux/toast'
 type TProps = {
     setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
 }
@@ -54,6 +55,7 @@ const AuthRegister = (props: TProps) => {
         mutationFn: (data: Omit<TRegisterZodSchema, 'confirm_password'>) => Auth.register(data),
         onSuccess: (res) => {
             dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
+            dispatch(addToast({ type: 'SUCCESS', message: 'Welcome các bạn đến với project của mình', id: Math.random().toString() }))
         },
 
         onError: (data: unknown) => console.log('error data check', data),
@@ -181,7 +183,7 @@ const AuthRegister = (props: TProps) => {
                         disabled={!authRegister.isPending && Object.keys(errors).length > 0}
                         title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
                     >
-                        <span>Login</span>
+                        <span>Register</span>
                         {authRegister.isPending && (
                             <span
                                 className=' inline-block h-[25px] w-[25px] text-[#ffffff] animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'

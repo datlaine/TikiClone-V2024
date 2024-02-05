@@ -69,11 +69,11 @@ const ToastDemo = (props: TProps) => {
     const styleEffect = {
         type_toast:
             toast.type === 'SUCCESS'
-                ? '   text-blue-900 shadow-2xl shadow-blue-700 border-[2px] border-blue-500'
+                ? '   text-blue-900 shadow-lg shadow-blue-700 border-[2px] border-blue-500'
                 : toast.type === 'ERROR'
-                ? ' text-red-900 shadow-2xl shadow-red-700  border-[2px] border-red-500'
-                : '  text-orange-900 shadow-2xl shadow-orange-700  border-[2px] border-orange-500',
-        type_toast_icon: toast.type === 'SUCCESS' ? 'rgb(34 197 94)' : toast.type === 'ERROR' ? ' rgb(239 68 68)' : 'rgb(249 115 22)',
+                ? ' text-red-900 shadow-lg shadow-red-700  border-[2px] border-red-500'
+                : '  text-orange-900 shadow-lg shadow-orange-700  border-[2px] border-orange-500',
+        type_toast_icon: toast.type === 'SUCCESS' ? '#2563eb' : toast.type === 'ERROR' ? ' rgb(239 68 68)' : 'rgb(249 115 22)',
         widthToastContainer: 'min-w-[280px]',
         bgBoxTime: toast.type === 'SUCCESS' ? ' bg-blue-500' : toast.type === 'ERROR' ? ' bg-red-500' : ' bg-orange-500',
         textColor: toast.type === 'SUCCESS' ? ' bg-blue-500 ' : toast.type === 'ERROR' ? ' bg-red-500' : ' bg-orange-500',
@@ -85,7 +85,7 @@ const ToastDemo = (props: TProps) => {
                 <div
                     onMouseEnter={handleOnMouseEnter}
                     onMouseLeave={handleOnMouseLeave}
-                    className={`${styleEffect.type_toast} !bg-[#ffffff] py-[16px] px-[12px] shadow-xl relative min-w-[280px] w-full  h-[114px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-1000  flex items-center justify-center`}
+                    className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] py-[16px] px-[12px]  relative min-w-[280px] w-full  h-[114px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-1000  flex items-center justify-center`}
                 >
                     <div
                         className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[60px] h-[30px] flex items-center justify-center rounded-md  text-white `}
@@ -102,7 +102,7 @@ const ToastDemo = (props: TProps) => {
                         className={`${styleEffect.type_toast}  absolute bottom-[0px] left-0   h-[3px] transition-all duration-1000`}
                     ></span>
 
-                    <div className='w-full flex gap-[8px] px-[16px] items-center'>
+                    <div className='w-full flex gap-[8px] mt-[10px] px-[16px] items-center'>
                         <span>
                             {toast.type === 'SUCCESS' ? (
                                 <ShieldCheck size={32} />
@@ -153,11 +153,7 @@ const ToastDemo = (props: TProps) => {
                         onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => handleControllCloseToast(e, toast.id)}
                         className={`absolute flex justify-center items-center top-[5px] animate-pulse right-[5px] w-[30px] h-[30px] p-[4px] text-[12px]  `}
                     >
-                        <X
-                            color={`${
-                                toast.type === 'SUCCESS' ? 'rgb(34 197 94)' : toast.type === 'ERROR' ? ' rgb(239 68 68)' : 'rgb(249 115 22)'
-                            }`}
-                        />
+                        <X color={`${styleEffect.type_toast_icon}`} />
                     </span>
                 </div>
             )}

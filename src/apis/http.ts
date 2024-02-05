@@ -1,6 +1,8 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import Auth from './auth.api'
 import TErrorAxios from '../types/axios.response.error'
+import { store } from '../store'
+import { addToast } from '../Redux/toast'
 
 let retry = false
 class AxiosCustom {
@@ -44,6 +46,7 @@ class AxiosCustom {
                     !originalRequest.retry
                 ) {
                     originalRequest.retry = true
+                    store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
 
                     const res = await Auth.refresh_token()
                     console.log({ res })
@@ -71,8 +74,8 @@ class AxiosCustom {
                 if (
                     error.response?.status === 403 &&
                     error.response?.statusText === 'Forbidden' &&
-                    error.response?.data.detail === 'Refresh failed' &&
-                    error.response.config.url === 'v1/api/auth/rf'
+                    error.response?.data.detail === 'Token không đúng' &&
+                    error.response.config.url === '/v1/api/auth/rf'
                 ) {
                     return Promise.reject(error)
                 }

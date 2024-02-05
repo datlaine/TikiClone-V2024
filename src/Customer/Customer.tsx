@@ -36,7 +36,6 @@ const Customer = () => {
     const [_, setSectionActive] = useState('/customer/account')
     //@connect state redux
     const user = useSelector((state: RootState) => state.authentication.user)
-    const authLogin = useSelector((state: RootState) => state.authentication.isOpenBoxLogin)
     const auth = Boolean(user)
 
     //@check path
@@ -156,7 +155,7 @@ const Customer = () => {
                     {/*@ Outlet */}
                     <div className='w-full 2xl:w-[80%]'>
                         <div className='hidden xl:flex h-[55px]  items-center'>{textLink?.text}</div>
-                        {auth && !authLogin ? (
+                        {auth ? (
                             <CustomerWrapperItem>
                                 <Outlet />
                             </CustomerWrapperItem>

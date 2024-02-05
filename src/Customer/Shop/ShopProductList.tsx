@@ -5,7 +5,7 @@ import ProductApi from '../../apis/product.api'
 const ShopProductList = () => {
     const product_all = useQuery({
         queryKey: ['product-all'],
-        queryFn: () => ProductApi.getAllProduct(),
+        queryFn: () => ProductApi.getProductShop(),
         gcTime: 1000 * 10 * 60,
         staleTime: 1000 * 5 * 60,
     })

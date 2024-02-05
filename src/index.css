@@ -84,6 +84,11 @@ code {
 }
 
 /* width */
+
+.hideScrollBar::-webkit-scrollbar {
+    display: none;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
 }

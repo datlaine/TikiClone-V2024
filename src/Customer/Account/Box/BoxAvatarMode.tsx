@@ -47,27 +47,29 @@ const BoxAvatarMode = () => {
     }
     return (
         <div
-            className='relative flex  items-center justify-center h-[60px] w-full xl:h-[120px] xl:w-[120px] rounded-full mb-[15px]'
+            className=' flex  items-center justify-center h-[180px] w-full xl:h-[120px] xl:w-[120px] rounded-full mb-[15px]'
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                 e.stopPropagation()
                 modeDispatch({ type: 'OPEN_BOX_AVATAR', payload: { boxModeAvatar: true } })
             }}
         >
-            <img
-                src={user.avatar?.secure_url || user.avartar_url_default || ''}
-                alt='user_avatar'
-                className='w-[100px] h-[100px] lg:w-[120px]  lg:h-[120px] rounded-full border-[4px] border-cyan-200'
-            />
+            <div className='relative'>
+                <img
+                    src={user.avatar?.secure_url || user.avartar_url_default || ''}
+                    alt='user_avatar'
+                    className='w-[180px] h-[180px] xl:w-[120px]  xl:h-[120px] rounded-full border-[4px] border-cyan-200'
+                />
 
-            <div className='absolute bottom-[10px] right-[4px] w-[20px] h-[20px] bg-slate-500 rounded-full flex items-center justify-center'>
-                <Pencil className=' text-white' size={12} />
+                <div className='absolute bottom-[10px] right-[4px] w-[20px] h-[20px] bg-slate-500 rounded-full flex items-center justify-center'>
+                    <Pencil className=' text-white' size={12} />
+                </div>
             </div>
 
             {/* @box avatar action*/}
             {state.boxModeAvatar && (
                 <>
                     <div
-                        className='absolute z-[10] top-[100%]  shadow-xl border-[1px] border-stone-300 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
+                        className='absolute z-[10] top-[100%]  shadow-2xl shadow-blue-700 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
                         ref={refModelAvatar}
                     >
                         <div className='relative z-[500]'>

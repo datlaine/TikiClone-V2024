@@ -1,6 +1,6 @@
 import { QueryClient, useMutation } from '@tanstack/react-query'
 import { X } from 'lucide-react'
-import React, { SetStateAction, useEffect, useState } from 'react'
+import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import Account from '../../../apis/account.api'
 import { TAvatarActions } from '../../../reducer/customer.reducer'
@@ -25,14 +25,15 @@ type TForm = {
 
 //@component::api
 const ModelAvatarUpdate = (props: TProps) => {
-    const queryClient = new QueryClient()
     const dispatch = useDispatch()
     //@props
     const { modeDispatch } = props
     const methods = useForm<TForm>({
         defaultValues: { file: null },
     })
-    const [toast, setShowToast] = useState(false)
+
+    const form = methods.register('file')
+
     const user = useSelector((state: RootState) => state.authentication.user)
     const updateAvatarResponse = useMutation({
         mutationKey: ['update-avatar'],
@@ -42,24 +43,12 @@ const ModelAvatarUpdate = (props: TProps) => {
         },
         onError: async (error) => {
             //@[shape] :: error.response.data.error
-            if (checkAxiosError<TErrorAxios>(error)) {
-                if (
-                    error.response?.status === 403 &&
-                    error.response?.statusText === 'Forbidden' &&
-                    error.response?.data?.detail === 'Login again'
-                ) {
-                    setShowToast(true)
-                    // localStorage.removeItem('user')
-                    // localStorage.removeItem('token')
-                    await sleep(2000)
-                    // window.location.reload()
-                }
-            }
         },
     })
 
     const [fileAvatar, setFileAvatar] = useState<File>()
     const [filePreview, setFilePreview] = useState<string | undefined>()
+    const inputRef = useRef<HTMLInputElement | null>()
 
     useEffect(() => {
         if (!fileAvatar) {
@@ -94,6 +83,14 @@ const ModelAvatarUpdate = (props: TProps) => {
         modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
     }
 
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.stopPropagation()
+        e.preventDefault()
+        if (inputRef.current) {
+            inputRef.current.click()
+        }
+    }
+
     const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (filePreview || fileAvatar) {
             setFilePreview(undefined)
@@ -125,10 +122,8 @@ const ModelAvatarUpdate = (props: TProps) => {
                 modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
             }}
         >
-            {/* {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />} */}
-
             <div
-                className={`w-[650px] ${filePreview ? 'h-[650px]' : 'h-[740px]'} bg-white rounded-2xl p-[40px] relative`}
+                className={`w-[650px] h-max bg-white rounded-2xl p-[40px] relative`}
                 onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
             >
                 <div className='text-[25px] absolute top-[25px] right-[25px]' onClick={modelControllClose}>
@@ -144,36 +139,25 @@ const ModelAvatarUpdate = (props: TProps) => {
                         return methods.handleSubmit(onSubmit)(e)
                     }}
                 >
-                    <div
-                        className={`flex ${
-                            filePreview ? 'h-[calc(90%-32px)]' : 'justify-center h-[calc(100%-85px)]'
-                        } mt-[25px] bg-stone-100 mb-[25px] p-[20px] items-center `}
-                    >
+                    <div className={`flex flex-col gap-[16px] mt-[25px] bg-stone-100 mb-[25px] p-[20px] items-center justify-center`}>
                         {filePreview && (
-                            <img src={filePreview} width={200} height={300} alt='avatar_update' className='order-1 w-[300px] h-[300px]' />
+                            <img src={filePreview} width={200} height={300} alt='avatar_update' className='w-[300px] h-[300px]' />
                         )}
-                        <label
-                            htmlFor='avatar_update'
-                            className={`${
-                                filePreview ? 'text-center order-2 w-[50%]' : 'w-full'
-                            }  h-full border-[2px] border-dashed border-slate-700 flex justify-center items-center text-blue-500`}
-                        >
-                            {filePreview ? 'Chọn ảnh khác' : 'Nhấn để chọn hoặc kéo thả hình ảnh vào khung này'}
-                        </label>
-                        <Controller
-                            name='file'
-                            control={methods.control}
-                            render={({ field }) => (
-                                <input
-                                    type='file'
-                                    id='avatar_update'
-                                    onChange={(event) => {
-                                        handleUploadAvatar(event)
-                                        field.onChange(event)
-                                    }}
-                                    hidden
-                                />
-                            )}
+                        <button className='px-[12px] py-[8px] rounded-md text-white bg-blue-700' onClick={(e) => handleClick(e)}>
+                            {!filePreview ? 'Chọn ảnh' : 'Chọn lại ảnh khác'}
+                        </button>
+                        <input
+                            type='file'
+                            id='avatar_update'
+                            onChange={(event) => {
+                                handleUploadAvatar(event)
+                                form.onChange(event)
+                            }}
+                            ref={(e) => {
+                                form.ref(e)
+                                inputRef.current = e
+                            }}
+                            hidden
                         />
                     </div>
 

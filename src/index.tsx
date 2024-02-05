@@ -35,7 +35,7 @@ const client = new QueryClient({
         onError: (error) => {
             if (checkAxiosError(error)) {
                 if (error.response?.status === 401) {
-                    // store.dispatch(addToast({ type: 'ERROR', message: 'Loi token', id: Math.random().toString() }))
+                    store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
                     // store.dispatch(doOpenBoxLogin())
                 }
             }
@@ -47,17 +47,14 @@ const client = new QueryClient({
             if (checkAxiosError<TErrorAxios>(error)) {
                 if (
                     error?.response?.status === 403 &&
-                    error?.response.statusText === 'Forbidden'
-                    // error?.response.data?.detail === 'Refresh failed'
+                    error?.response.statusText === 'Forbidden' &&
+                    error?.response.data?.detail === 'Token không đúng'
                 ) {
-                    // store.dispatch(userLogout())
-                    // store.dispatch(addToast({ type: 'ERROR', message: 'Loi token', id: Math.random().toString() }))
-                    // store.dispatch(addToast({ type: 'ERROR', message: 'Loi token', id: Math.random().toString() }))
-
-                    store.dispatch(addToast({ type: 'ERROR', message: 'Loi token', id: Math.random().toString() }))
+                    store.dispatch(addToast({ type: 'ERROR', message: 'Refresh Token không hợp lệ', id: Math.random().toString() }))
                     store.dispatch(doOpenBoxLogin())
                 }
                 if (error.response?.status === 401) {
+                    store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
                 }
             }
         },

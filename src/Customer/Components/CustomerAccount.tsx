@@ -93,7 +93,7 @@ const CustomerAccount = () => {
             // console.log('dispatch', { data })
             dispatch(fetchUser({ user: data.data.metadata.user }))
             // setShowToast((prev) => !prev)
-            dispatch(addToast({ type: 'SUCCESS', message: 'Cap nhap success', id: Math.random().toString() }))
+            dispatch(addToast({ type: 'SUCCESS', message: 'Cập nhập thông tin thành công', id: Math.random().toString() }))
         },
 
         onError: async (error) => {
@@ -174,7 +174,7 @@ const CustomerAccount = () => {
                             <BoxAvatarMode />
                             {/* @ form update infomation account */}
                             {/* @ formLayout - 1 */}
-                            <div className='flex flex-1  flex-col justify-between'>
+                            <div className='min-h-[90px] flex flex-1  flex-col justify-between'>
                                 {/* @ field::name -> fullname */}
                                 <div className='flex justify-between gap-[32px] w-full h-[35%] pl-[15px] items-center text-[14px]'>
                                     <InputText
@@ -202,7 +202,7 @@ const CustomerAccount = () => {
                         </div>
                     </div>
                     {/* @ formLayout - 2 */}
-                    <div className='form_user w-full min-h-[50%] sm:min-h-[40%] xl:h-[40%]  max-h-auto md:mt-[30px] flex mt-[20px]'>
+                    <div className='form_user w-full min-h-[50%] sm:min-h-[40%] xl:h-[40%]  max-h-auto mt-[90px] flex xl:mt-[20px]'>
                         <div className='flex flex-col w-full gap-[16px] justify-between xl:gap-[32px] lg:pt-[15px] 2xl:pt-[10px]'>
                             {/* @ field::bob */}
                             <div className='mb-[30px] flex flex-col md:flex-row justify-between w-full h-[30%] sm:h-[20%] pl-[15px] sm:items-center text-[14px] gap-[20px]'>
@@ -218,10 +218,16 @@ const CustomerAccount = () => {
                             <div className='w-full mt-[50px] sm:mt-0 pl:[35px] sm:pl-[130px]'>
                                 <button
                                     disabled={updateInfo.isPending}
-                                    className='flex items-center justify-center gap-[6px] ml-0  w-[160px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
+                                    className='flex items-center justify-center gap-[6px] ml-0  w-[180px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'
                                     type='submit'
                                 >
                                     <span>Lưu thay đổi</span>
+                                    {updateInfo.isPending && (
+                                        <span
+                                            className=' inline-block h-[18px] w-[18px] text-[#ffffff] animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                            role='status'
+                                        ></span>
+                                    )}
                                 </button>
                             </div>
 

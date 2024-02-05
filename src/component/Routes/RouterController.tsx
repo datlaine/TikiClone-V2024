@@ -24,6 +24,7 @@ import CustomerUpdatePassword from '../../Customer/Account/Update/CustomerUpdate
 import Shop from '../../Customer/Shop/Shop'
 import ShopProductList from '../../Customer/Shop/ShopProductList'
 import RegisterSell from '../../Customer/Sell/RegisterSell'
+import Buy from '../../pages/Buy/Buy'
 
 const RouterController = () => {
     const matchAdminPath = useMatch('/admin')
@@ -33,40 +34,42 @@ const RouterController = () => {
         <>
             {!hiddenHeader && <Header />}
 
-            {/* <Sidebar /> */}
-            <Routes>
-                <Route path='/admin' element={<Admin />} />
-                <div
-                    id=''
-                    className={` bg-main relative ${
-                        pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]'
-                    }  lg:flex px-0 lg:px-[50px] gap-8 `}
-                >
-                    <Route path='/' element={<Content />} />
-                    {/* <Route path='/Buy/:id' element={<Buy />} /> */}
-                    <Route path='/Cart' element={<Cart />} />
-                    {/* <Route path='/login' element={<Login />} /> */}
-                    {/* <Route path='/resister' element={<Resister />} /> */}
-                    {/* <Route path='/Contact' element={<Contact />} /> */}
-                    <Routes>
-                        <Route path='/customer' element={<Customer />}>
-                            <Route path='account' element={<CustomerAccount />} />
-                            <Route path='account/update/email' element={<CustomerUpdateEmail />} />
-                            <Route path='account/update/password' element={<CustomerUpdatePassword />} />
+            <div className='flex gap-[150px] px-[50px]'>
+                <Sidebar />
+                <Routes>
+                    <Route path='/admin' element={<Admin />} />
+                    <div
+                        id=''
+                        className={` bg-main relative ${
+                            pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]'
+                        }  lg:flex px-0 lg:px-[50px] gap-8 `}
+                    >
+                        <Route path='/' element={<Content />} />
+                        <Route path='/Buy/:id' element={<Buy />} />
+                        <Route path='/Cart' element={<Cart />} />
+                        {/* <Route path='/login' element={<Login />} /> */}
+                        {/* <Route path='/resister' element={<Resister />} /> */}
+                        {/* <Route path='/Contact' element={<Contact />} /> */}
+                        <Routes>
+                            <Route path='/customer' element={<Customer />}>
+                                <Route path='account' element={<CustomerAccount />} />
+                                <Route path='account/update/email' element={<CustomerUpdateEmail />} />
+                                <Route path='account/update/password' element={<CustomerUpdatePassword />} />
 
-                            <Route path='notification' element={<CustomerNotification />} />
-                            <Route path='order_history' element={<CustomerOrderHistory />} />
-                            <Route path='shop' element={<Shop />} />
-                            <Route path='shop/product-list' element={<ShopProductList />} />
+                                <Route path='notification' element={<CustomerNotification />} />
+                                <Route path='order_history' element={<CustomerOrderHistory />} />
+                                <Route path='shop' element={<Shop />} />
+                                <Route path='shop/product-list' element={<ShopProductList />} />
 
-                            <Route path='register-sell' element={<RegisterSell />} />
-                        </Route>
-                        <Route path='query-params' element={<QueryParams />} />
-                    </Routes>
-                </div>
+                                <Route path='register-sell' element={<RegisterSell />} />
+                            </Route>
+                            <Route path='query-params' element={<QueryParams />} />
+                        </Routes>
+                    </div>
 
-                <Route path='*' element={<NotFound />} />
-            </Routes>
+                    <Route path='*' element={<NotFound />} />
+                </Routes>
+            </div>
         </>
     )
 }

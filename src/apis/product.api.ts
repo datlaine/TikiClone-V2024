@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { TResponseApi } from '../types/axiosResponse'
 import axiosCustom from './http'
 
@@ -13,6 +14,16 @@ export type TProduct = {
         secure_url: string
         public_id: string
     }[]
+}
+
+export type TProductReturn = {
+    _id: string
+    product_name: string
+    product_price: number
+    product_thumb_image: {
+        secure_url: string
+        public_id: string
+    }
 }
 
 export interface IFormDataImage extends FormData {
@@ -63,7 +74,7 @@ class ProductApi {
         >('v1/api/product/upload-product-book', product)
     }
 
-    static async getAllProduct() {
+    static async getProductShop() {
         return axiosCustom.get<TResponseApi<{ product_all: TProduct[] }>>('v1/api/product/shop-product-all')
     }
 
@@ -73,6 +84,14 @@ class ProductApi {
 
     static async deleteImages({ id }: { id: string }) {
         return axiosCustom.post<TResponseApi<{ message: string }>>('v1/api/product/delete-product-image-full', { id })
+    }
+
+    static async getAllProduct() {
+        return axiosCustom.get<{ metadata: { products: TProductReturn[] } }>('v1/api/product/get-all-product')
+    }
+
+    static async getProductWithId({ id }: { id: string }) {
+        return axiosCustom.get<{ metadata: { product: TProduct } }>(`v1/api/product/get-product/${id}`)
     }
 }
 

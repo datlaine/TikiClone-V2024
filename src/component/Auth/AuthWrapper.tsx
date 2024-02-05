@@ -30,7 +30,7 @@ const AuthWrapper = (props: TProps) => {
             }}
         >
             <div
-                className='relative w-[420px] max-w-[420px] bg-white min-h-[400px] h-auto shadow-lg rounded-lg p-[8px]'
+                className='animate-authBox relative w-[420px] max-w-[420px] bg-white min-h-[400px] h-auto shadow-lg rounded-lg p-[8px]'
                 onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
             >
                 {modeAuth === ('Login' as const) ? <AuthLogin setModeAuth={setModeAuth} /> : <AuthRegister setModeAuth={setModeAuth} />}

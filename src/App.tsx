@@ -18,7 +18,9 @@ function App() {
         })
     }, [])
 
-    useEffect(() => {}, [boxLogin])
+    useEffect(() => {
+        console.log({ boxLogin })
+    }, [boxLogin])
 
     return (
         <div className=' min-h-screen'>

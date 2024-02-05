@@ -28,11 +28,12 @@ const Content = () => {
                 <SliderProducts hinhAnhSlider={hinhAnhSlider} height={300} delay={1} />
                 <Banner />
             </div>
-            {/* <SectionProduct
-                        title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
-                        other={<CountDown />}
-                        ListProducts={<ListProduct query={giaTotHomNay} />}
-                  />
+            <SectionProduct
+                title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
+                other={<CountDown />}
+                ListProducts={<ListProduct />}
+            />
+            {/* 
                   <SectionProduct
                         title={<TitleProductSection content='Thương hiệu chính hãng' />}
                         ListProducts={<ListProduct query={thuongHieuChinhHang} />}

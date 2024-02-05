@@ -10,7 +10,7 @@ const BoxContainerToast = () => {
     return (
         <>
             {toast.length !== 0 && (
-                <div className='fixed flex flex-col gap-[50px]  text-white top-[60px] border-none h-screen overflow-y-scroll max-h-[auto] bg-transparent right-[0px] w-[350px] max-w-[360px] z-[12]'>
+                <div className='hideScrollBar fixed flex flex-col gap-[60px]  text-white top-[100px] xl:top-[60px] border-none h-max overflow-y-scroll max-h-[auto] bg-transparent py-[12px] right-[8px] w-[350px] max-w-[360px] z-[12]'>
                     {toast.map((t) => (
                         <React.Fragment key={t.id}>
                             {/* <span>{t.id}</span> */}

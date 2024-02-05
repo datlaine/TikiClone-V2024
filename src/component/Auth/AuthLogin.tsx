@@ -13,6 +13,7 @@ import { debounce } from 'lodash'
 import { doCloseBoxLogin, fetchUser } from '../../Redux/authenticationSlice'
 import { RootState } from '../../store'
 import { doIsLoading } from '../../Redux/uiSlice'
+import { addToast } from '../../Redux/toast'
 
 type TProps = {
     setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
@@ -103,7 +104,7 @@ const AuthLogin = (props: TProps) => {
     }
 
     return (
-        <div className='flex flex-col items-center gap-[15px] py-[35px]'>
+        <div className=' flex flex-col items-center gap-[15px] py-[35px]'>
             {/* {toast && <BoxToast setShowToast={setShowToast} message={'Thông tin không hợp lệ'} children={<p>OK</p>} />} */}
 
             <h3 className={`${Object.keys(errors).length > 0 ? 'text-red-700' : 'text-slate-900'} font-black tracking-[5px] text-[24px]`}>

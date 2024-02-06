@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { TResponseApi } from '../types/axiosResponse'
 import axiosCustom from './http'
+import { TProductFull } from '../types/product.type'
 
 export type TProduct = {
     product_id: string
@@ -91,7 +92,7 @@ class ProductApi {
     }
 
     static async getProductWithId({ id }: { id: string }) {
-        return axiosCustom.get<{ metadata: { product: TProduct } }>(`v1/api/product/get-product/${id}`)
+        return axiosCustom.get<{ metadata: { product: TProductFull } }>(`v1/api/product/get-product/${id}`)
     }
 }
 

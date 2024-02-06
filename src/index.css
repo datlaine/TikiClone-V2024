@@ -9,7 +9,7 @@
     }
 
     .custom-product-item {
-        @apply my-8 flex flex-col gap-4 h-[250px]  p-2 2xl:py-4 2xl:px-3  lg:h-[250px] lg:overflow-y-hidden  2xl:min-h-[300px] 2xl:h-auto  bg-white rounded-[8px];
+        @apply my-8 flex flex-col gap-4 p-2 2xl:py-4 2xl:px-3 h-[300px] lg:h-[280px] lg:overflow-y-hidden   bg-white rounded-[8px];
     }
 
     .wrapper {
@@ -85,28 +85,28 @@ code {
 
 /* width */
 
-.hideScrollBar::-webkit-scrollbar {
+:not(body)::-webkit-scrollbar {
     display: none;
 }
 
-::-webkit-scrollbar {
+body::-webkit-scrollbar {
     width: 8px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 5px;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
     background: rgb(15 23 42);
     /* border-radius: 5px; */
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+body::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
 

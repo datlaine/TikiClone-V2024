@@ -42,7 +42,7 @@ class AxiosCustom {
                 if (
                     error.response?.status === 401 &&
                     error.response?.statusText === 'Unauthorized' &&
-                    error.response?.data?.detail === 'Token expires' &&
+                    error.response?.data?.detail === 'Token hết hạn' &&
                     !originalRequest.retry
                 ) {
                     originalRequest.retry = true

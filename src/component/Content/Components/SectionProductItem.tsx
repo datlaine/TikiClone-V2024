@@ -4,7 +4,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import BoxCenter from '../../ui/BoxCenter'
 import BoxIsBought from '../../ui/BoxIsBought'
 import BoxAbsolute from '../../ui/BoxAbsolute'
-import { AxiosResponse } from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import ProductApi, { TProduct, TProductReturn } from '../../../apis/product.api'
 import { Link } from 'react-router-dom'
@@ -25,9 +24,8 @@ const SectionProductItem = (props: Props) => {
     const handleClickNext = () => {
         if (wrapperListProductsRef.current) {
             setCount((prev) => prev + 1)
-            const width = wrapperListProductsRef.current.getBoundingClientRect().width * -1
-            // console.log(Math.trunc(width))
-            PositionScrollCurrent.current = PositionScrollCurrent.current - width * -1
+            const width = wrapperListProductsRef.current.getBoundingClientRect().width
+            PositionScrollCurrent.current = PositionScrollCurrent.current - width - 50
             wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
             wrapperListProductsRef.current.style.transition = `all 2s`
         }
@@ -38,7 +36,7 @@ const SectionProductItem = (props: Props) => {
             setCount((prev) => prev - 1)
 
             const width = wrapperListProductsRef.current.getBoundingClientRect().width
-            PositionScrollCurrent.current = PositionScrollCurrent.current + width
+            PositionScrollCurrent.current = PositionScrollCurrent.current + width + 50
 
             // console.log(Math.trunc(width))
             wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
@@ -50,60 +48,77 @@ const SectionProductItem = (props: Props) => {
         console.log({ allProduct: allProduct.data.data.metadata.products })
     }
 
+    const ProductArrayLength = allProduct.data?.data && (allProduct!.data!.data!.metadata!.products!.length * 2) / 6
+
+    const styleEffect = {
+        buttonPrev: count === 1 ? 'cursor-not-allowed' : 'cursor-pointer',
+        buttonNext: ProductArrayLength === count ? 'cursor-not-allowed' : 'cursor-pointer',
+        disButtonPrev: count === 1 ? true : false,
+        disButtonNext: ProductArrayLength === count ? true : false,
+    }
+
     return (
-        <div className='h-[75%]  relative  overflow-x-scroll lg:overflow-x-hidden  lg:pl-[15px]'>
-            <div ref={wrapperListProductsRef} className=' h-full gap-5 flex    lg:pl-[-12px] lg:flex '>
+        <div className='h-[75%] px-[36px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
+            <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  '>
                 {allProduct.isSuccess &&
                     allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
                         return (
                             <Link
-                                to={`/buy/${product._id}`}
+                                to={`/product/${product._id}`}
+                                className='flex flex-col min-w-[30%] lg:min-w-[15%] h-full '
+                                key={product._id}
+                            >
+                                <div className='basis-[30%] xl:basis-[16%] min-h-full'>
+                                    <img
+                                        src={product.product_thumb_image.secure_url}
+                                        className='min-w-full min-h-[85%] max-h-[85%]'
+                                        alt='product'
+                                    />
+                                    <p className='w-full text-center'>{product.product_price}</p>
+                                </div>
+                            </Link>
+                        )
+                    })}
+
+                {allProduct.isSuccess &&
+                    allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
+                        return (
+                            <Link
+                                to={`/product/${product._id}`}
                                 className='flex flex-col min-w-[20%] overflow-hidden lg:min-w-[15%] h-full relative rounded-tl-[8px]'
                                 key={product._id}
                             >
-                                {/* {item.discount && (
-                                    <PositionIcon
-                                        Icon={
-                                            <span className=' bg-[red] rounded-[8px] text-red-200 inline-flex justify-center items-center w-[50px] h-[50px] lg:w-[38px] lg:h-[38px]'>
-                                                {item.discount}
-                                            </span>
-                                        }
-                                        Mode={{ mode: 'NORMAL', Corner: { top: 0, bottom: 0, left: 0, right: 0 } }}
+                                <div className='basis-[16%] min-h-full'>
+                                    <img
+                                        src={product.product_thumb_image.secure_url}
+                                        className='min-w-full min-h-[85%] max-h-[85%]'
+                                        alt='product'
                                     />
-                                )} */}
-
-                                <img src={product.product_thumb_image.secure_url} className=' w-[175px] h-[175px] 2xl:relative' alt='' />
-
-                                <div className='2xl:w-full 2xl:mt-[5px] h-[75px]'>
-                                    <BoxCenter
-                                        content={product.product_price}
-                                        ClassName='h-[50%] text-[red] 2xl:font-bold text-[12px] 2xl:text-[16px]'
-                                    />
-                                    {/* <BoxIsBought Quantity={item.isBought} ClassName='w-full h-[50%]' /> */}
+                                    <p className='w-full text-center'>{product.product_price}</p>
                                 </div>
                             </Link>
                         )
                     })}
             </div>
+            <div className='hidden xl:flex absolute top-0 left-0 h-full bg-[#ffffff]  items-center px-[8px]'>
+                <button
+                    className={`${styleEffect.buttonPrev} border-[1px] border-blue-400 rounded-full`}
+                    onClick={handleClickPrev}
+                    disabled={styleEffect.disButtonPrev}
+                >
+                    <ChevronLeft size={30} color='blue' />
+                </button>
+            </div>
 
-            <BoxAbsolute
-                Icon={<ChevronLeft size={40} />}
-                Mode={{ mode: 'CENTER', CornerCenter: 'TOP', CornerRemaining: { left: 0 } }}
-                ClassName={`hidden w-[40px] bg-white rounded-[999px]  shadow-lg  hover:lg-!scale-125 ${
-                    count === 1 ? 'hidden' : 'lg:flex justify-center items-center'
-                }`}
-                zIndex={21}
-                onClick={handleClickPrev}
-            />
-            {/* <BoxAbsolute
-                Icon={<ChevronRight size={40} />}
-                Mode={{ mode: 'CENTER', CornerCenter: 'TOP', CornerRemaining: { right: 0 } }}
-                ClassName={`hidden lg:flex justify-center items-center w-[40px] bg-white rounded-[999px]  shadow-2xl ${
-                    count >= (data ? data.data.length / 6 : 0) ? 'lg:hidden' : 'lg:flex lg:justify-center lg:items-center'
-                }`}
-                zIndex={21}
-                onClick={handleClickNext}
-            /> */}
+            <div className='hidden xl:flex absolute top-0 right-0 h-full bg-[#ffffff]  items-center px-[8px]'>
+                <button
+                    className={`${styleEffect.buttonNext} border-[1px] border-blue-400 rounded-full `}
+                    onClick={handleClickNext}
+                    disabled={styleEffect.disButtonNext}
+                >
+                    <ChevronRight size={30} color='blue' />
+                </button>
+            </div>
         </div>
     )
 }

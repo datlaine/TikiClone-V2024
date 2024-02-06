@@ -48,13 +48,19 @@ const client = new QueryClient({
                 if (
                     error?.response?.status === 403 &&
                     error?.response.statusText === 'Forbidden' &&
-                    error?.response.data?.detail === 'Token không đúng'
+                    (error?.response.data?.detail === 'Token không đúng' || error?.response.data?.detail === 'Phiên đăng nhập hết hạn')
                 ) {
                     store.dispatch(addToast({ type: 'ERROR', message: 'Refresh Token không hợp lệ', id: Math.random().toString() }))
                     store.dispatch(doOpenBoxLogin())
                 }
                 if (error.response?.status === 401) {
-                    store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
+                    if (error.response.data?.detail === 'Đăng nhập thất bại, vui lòng nhập thông tin hợp lệ') {
+                        store.dispatch(addToast({ type: 'ERROR', message: error.response.data.detail, id: Math.random().toString() }))
+                    }
+
+                    if (error.response.data?.detail === 'Token hết hạn') {
+                        store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
+                    }
                 }
             }
         },

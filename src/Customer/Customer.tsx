@@ -56,7 +56,7 @@ const Customer = () => {
     //@element
     return (
         <>
-            <div className='px-[20px] xl:px-[120px] w-full min-h-screen h-full flex items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
+            <div className='px-[20px] text-[14px] xl:px-[120px] w-full min-h-screen h-full flex items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
                 {/* @header */}
                 <div className='hidden lg:block mb-[1px]'>
                     <Link to={'/'}>Trang chủ</Link>
@@ -154,7 +154,7 @@ const Customer = () => {
 
                     {/*@ Outlet */}
                     <div className='w-full 2xl:w-[80%]'>
-                        <div className='hidden xl:flex h-[55px]  items-center'>{textLink?.text}</div>
+                        <div className='hidden xl:flex h-[36px]  items-center'>{textLink?.text}</div>
                         {auth ? (
                             <CustomerWrapperItem>
                                 <Outlet />

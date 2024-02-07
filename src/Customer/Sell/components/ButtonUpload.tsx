@@ -29,7 +29,7 @@ interface IProps {
     >
 
     //@trạng thái submit
-    isSubmit: boolean
+    isSubmit?: boolean
 }
 
 const ButtonUpload = (props: IProps) => {

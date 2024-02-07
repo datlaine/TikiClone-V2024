@@ -48,8 +48,11 @@ const client = new QueryClient({
                 if (
                     error?.response?.status === 403 &&
                     error?.response.statusText === 'Forbidden' &&
-                    (error?.response.data?.detail === 'Token không đúng' || error?.response.data?.detail === 'Phiên đăng nhập hết hạn')
+                    (error?.response.data?.detail === 'Token không đúng' ||
+                        error?.response.data?.detail === 'Phiên đăng nhập hết hạn' ||
+                        error?.response.data?.detail === 'Không tìm thấy tài khoản')
                 ) {
+                    alert('OK')
                     store.dispatch(addToast({ type: 'ERROR', message: 'Refresh Token không hợp lệ', id: Math.random().toString() }))
                     store.dispatch(doOpenBoxLogin())
                 }

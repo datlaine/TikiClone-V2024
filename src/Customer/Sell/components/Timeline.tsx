@@ -46,13 +46,13 @@ const Timeline = <T extends FieldValues>(props: TProps<T>) => {
     const widthFile = ((File?.CountFile as number) || (Files?.CountFile as number)) < 1 ? 'w-[250px]' : 'w-[200px]'
 
     const styleEffect = {
-        heightScale: type === 'Files' ? 85 : 85,
-        heightContainer: type === 'Files' ? 85 : 85,
+        heightScale: type === 'Files' ? 85 : 70,
+        heightContainer: type === 'Files' ? 75 : 70,
     }
 
     //@element
     return (
-        <div style={{ minHeight: styleEffect.heightContainer }} className=' min-h-[65px] h-auto flex'>
+        <div style={{ minHeight: styleEffect.heightContainer }} className={` h-auto flex`}>
             <div className='flex gap-[12px] items-start'>
                 <div className='relative w-[16px] h-[16px] border-[2px] border-blue-700 rounded-full'>
                     <div

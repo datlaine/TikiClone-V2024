@@ -1,11 +1,11 @@
 import { BookOpenText, Hotel, NotepadText, Pen, Store } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
-import { TProductFull } from '../../types/product.type'
+import { TProductDetail, TProductFull } from '../../types/product.type'
 import { TImage } from './Product'
 import BoxModalImage from './BoxModalImage'
 
 type TProps = {
-    product: TProductFull
+    product: TProductDetail
     isSuccess: boolean
 }
 
@@ -62,7 +62,7 @@ const ProductDetail = (props: TProps) => {
             <div className='basis-[20%] md:basis-[35%] rounded-lg'>
                 <img
                     src={product!.product_thumb_image.secure_url}
-                    className='p-[8px] w-full h-full max-w-full min-h-[200px] max-h-[200px] sm:min-h-[350px] sm:max-h-[350px] transition-all duration-700 rounded-lg'
+                    className='cursor-pointer p-[8px] w-full h-full max-w-full min-h-[200px] max-h-[200px] sm:min-h-[350px] sm:max-h-[350px] transition-all duration-700 rounded-lg'
                     alt='product'
                     ref={image}
                     onClick={handleOpenModal}
@@ -90,7 +90,7 @@ const ProductDetail = (props: TProps) => {
                     <div className='w-[32px] h-[32px] rounded-full bg-blue-700 flex items-center justify-center'>
                         <Store color='white' size={20} />
                     </div>
-                    <span>Shops: {product?.shop_id}</span>
+                    <span>Shops: {product?.shop_id.shop_name}</span>
                 </div>
                 <div className='px-[16px] flex gap-[8px] items-center'>
                     <div className='w-[32px] h-[32px] rounded-full bg-blue-700 flex items-center justify-center'>

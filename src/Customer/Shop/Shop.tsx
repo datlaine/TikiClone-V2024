@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { TUser } from '../../types/axiosResponse'
-import Owner from './Owner'
+import Owner from './Owner/Owner'
 import RegisterShop from './RegisterShop'
 
 const Shop = () => {

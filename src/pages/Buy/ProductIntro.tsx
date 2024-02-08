@@ -1,9 +1,9 @@
 import { BoxSelect, CaravanIcon, Check } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
-import { TProductFull } from '../../types/product.type'
+import { TProductDetail, TProductFull } from '../../types/product.type'
 import BoxSelectAdrees from '../../component/ui/BoxSelectAdrees'
 
-type TProps = { product: TProductFull }
+type TProps = { product: TProductDetail }
 
 const ProductIntro = (props: TProps) => {
     const { product } = props

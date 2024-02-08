@@ -42,7 +42,7 @@ const Product = () => {
                     </div>
                 )}
 
-                {getProductWithId.isSuccess && (
+                {getProductWithId.isSuccess && product && (
                     <div className='flex gap-[24px]'>
                         <div className='basis-[70%] flex flex-col gap-[24px]'>
                             <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>

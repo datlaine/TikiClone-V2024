@@ -21,8 +21,8 @@ import Timeline from './Timeline'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
 import { productBookSchema, productSchema } from '../types/product.schema'
-import Book from '../Category/Book'
 import { UploadImage, UploadImages } from '../types/product.type'
+import Book from '../Category/Book/Book'
 
 //@Props - Product::Book
 export type BookProduct = {

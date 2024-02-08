@@ -1,5 +1,6 @@
 import { TFormRegisterShop } from '../Customer/Shop/RegisterShop'
 import { TUser } from '../types/axiosResponse'
+import { TProductFull } from '../types/product.type'
 import axiosCustom from './http'
 
 type ImageCloudinary = {
@@ -52,6 +53,14 @@ class ShopApi {
 
     static async getShopName() {
         return axiosCustom.get<any>(`v1/api/shop/get-shop-name`)
+    }
+
+    static async getMyShop() {
+        return axiosCustom.get<{ metadata: { shop: TShop } }>('v1/api/shop/get-my-shop')
+    }
+
+    static async getProductMyShop() {
+        return axiosCustom.get<{ metadata: { myProductOfShop: TProductFull[] } }>('v1/api/shop/get-product-my-shop')
     }
 }
 

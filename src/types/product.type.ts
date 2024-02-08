@@ -23,7 +23,6 @@ export type TProductFull =
 
 export type TProductDetail = {
     _id: string
-    shop_id: string
     product_name: string
     product_price: number
     product_thumb_image: {
@@ -36,11 +35,11 @@ export type TProductDetail = {
         public_id: string
     }[]
 
-    isProductFull?: boolean
-    expireAt?: Date
+    // isProductFull?: boolean
+    // expireAt?: Date
     product_type: string
     attribute: IProductBook
-    shop: { shop_name: string }
+    shop_id: { shop_name: string; _id: string }
 }
 
 export type IProductBook = {

@@ -63,69 +63,69 @@ const BoxAvatarMode = () => {
                 <div className='absolute bottom-[10px] right-[4px] w-[20px] h-[20px] bg-slate-500 rounded-full flex items-center justify-center'>
                     <Pencil className=' text-white' size={12} />
                 </div>
-            </div>
 
-            {/* @box avatar action*/}
-            {state.boxModeAvatar && (
-                <>
-                    <div
-                        className='absolute z-[10] top-[100%]  shadow-2xl shadow-blue-700 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
-                        ref={refModelAvatar}
-                    >
-                        <div className='relative z-[500]'>
-                            <span className='clip-path-modelAvatar absolute w-[20px] h-[13.5px] border-[1px] border-stone-300 border-b-0  bg-white top-[-13px] left-[50%] translate-x-[-50%]'></span>
-                            {/* @ list avatar action*/}
-                            <ul className='h-full'>
-                                {/* @ modeAvater::see */}
-                                <li
-                                    className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 gap-[8px]'
-                                    onClick={handleControllmodelAvatarSee}
-                                >
-                                    {/* <img src='' alt='' /> */}
-                                    <Image />
-                                    <span>Xem ảnh đại diện</span>
-                                </li>
+                {/* @box avatar action*/}
+                {state.boxModeAvatar && (
+                    <>
+                        <div
+                            className='absolute z-[10] top-[70%] left-[50%] translate-x-[-50%]  shadow-2xl shadow-blue-700 bg-white rounded-md w-[250px] h-[150px] max-h-auto '
+                            ref={refModelAvatar}
+                        >
+                            <div className='relative z-[500]'>
+                                <span className='clip-path-modelAvatar absolute w-[20px] h-[13.5px] border-[1px] border-stone-300 border-b-0  bg-white top-[-13px] left-[50%] translate-x-[-50%]'></span>
+                                {/* @ list avatar action*/}
+                                <ul className='h-full'>
+                                    {/* @ modeAvater::see */}
+                                    <li
+                                        className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 gap-[8px]'
+                                        onClick={handleControllmodelAvatarSee}
+                                    >
+                                        {/* <img src='' alt='' /> */}
+                                        <Image />
+                                        <span>Xem ảnh đại diện</span>
+                                    </li>
 
-                                {/* @ modeAvatar::update */}
-                                <li
-                                    className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 gap-[8px]'
-                                    onClick={handleControllmodelAvatarUpdate}
-                                >
-                                    <Eye />
-                                    <span>Cập nhập ảnh đại diện</span>
-                                </li>
-                                {/* @ modeAvater::delete*/}
-                                <li
-                                    className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 gap-[8px]'
-                                    onClick={handleControllmodelAvatarDelete}
-                                >
-                                    <Trash2 />
-                                    <span>Xóa ảnh đại diện</span>
-                                </li>
-                            </ul>
+                                    {/* @ modeAvatar::update */}
+                                    <li
+                                        className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 gap-[8px]'
+                                        onClick={handleControllmodelAvatarUpdate}
+                                    >
+                                        <Eye />
+                                        <span>Cập nhập ảnh đại diện</span>
+                                    </li>
+                                    {/* @ modeAvater::delete*/}
+                                    <li
+                                        className='flex items-center w-full h-[50px] px-[20px] hover:bg-sky-100 gap-[8px]'
+                                        onClick={handleControllmodelAvatarDelete}
+                                    >
+                                        <Trash2 />
+                                        <span>Xóa ảnh đại diện</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            {/* @model */}
+                            {/* @model::boxAvatar->see */}
+                            {state.modeAvatarSee && (
+                                <Portal>
+                                    <ModelAvatarSee modeDispatch={modeDispatch} />
+                                </Portal>
+                            )}
+                            {/* @model::boxAvatar->update */}
+                            {state.modeAvatarUpdate && (
+                                <Portal>
+                                    <ModelAvatarUpdate modeDispatch={modeDispatch} />
+                                </Portal>
+                            )}
+                            {/* @model::boxAvatar->delete */}
+                            {state.modeAvatarDelete && (
+                                <Portal>
+                                    <ModelAvatarDelete modeDispatch={modeDispatch} />
+                                </Portal>
+                            )}
                         </div>
-                        {/* @model */}
-                        {/* @model::boxAvatar->see */}
-                        {state.modeAvatarSee && (
-                            <Portal>
-                                <ModelAvatarSee modeDispatch={modeDispatch} />
-                            </Portal>
-                        )}
-                        {/* @model::boxAvatar->update */}
-                        {state.modeAvatarUpdate && (
-                            <Portal>
-                                <ModelAvatarUpdate modeDispatch={modeDispatch} />
-                            </Portal>
-                        )}
-                        {/* @model::boxAvatar->delete */}
-                        {state.modeAvatarDelete && (
-                            <Portal>
-                                <ModelAvatarDelete modeDispatch={modeDispatch} />
-                            </Portal>
-                        )}
-                    </div>
-                </>
-            )}
+                    </>
+                )}
+            </div>
         </div>
     )
 }

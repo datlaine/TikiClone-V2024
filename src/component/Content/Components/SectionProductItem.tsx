@@ -48,7 +48,10 @@ const SectionProductItem = (props: Props) => {
         console.log({ allProduct: allProduct.data.data.metadata.products })
     }
 
-    const ProductArrayLength = allProduct.data?.data && (allProduct!.data!.data!.metadata!.products!.length * 2) / 6
+    const ProductArrayLength =
+        allProduct.data?.data && allProduct!.data!.data!.metadata!.products!.length / allProduct!.data!.data!.metadata!.products!.length
+
+    console.log({ ProductArrayLength })
 
     const styleEffect = {
         buttonPrev: count === 1 ? 'cursor-not-allowed' : 'cursor-pointer',
@@ -69,26 +72,6 @@ const SectionProductItem = (props: Props) => {
                                 key={product._id}
                             >
                                 <div className='basis-[30%] xl:basis-[16%] min-h-full'>
-                                    <img
-                                        src={product.product_thumb_image.secure_url}
-                                        className='min-w-full min-h-[85%] max-h-[85%]'
-                                        alt='product'
-                                    />
-                                    <p className='w-full text-center'>{product.product_price}</p>
-                                </div>
-                            </Link>
-                        )
-                    })}
-
-                {allProduct.isSuccess &&
-                    allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
-                        return (
-                            <Link
-                                to={`/product/${product._id}`}
-                                className='flex flex-col min-w-[20%] overflow-hidden lg:min-w-[15%] h-full relative rounded-tl-[8px]'
-                                key={product._id}
-                            >
-                                <div className='basis-[16%] min-h-full'>
                                     <img
                                         src={product.product_thumb_image.secure_url}
                                         className='min-w-full min-h-[85%] max-h-[85%]'

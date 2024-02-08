@@ -26,6 +26,7 @@ import ShopProductList from '../../Customer/Shop/ShopProductList'
 import RegisterSell from '../../Customer/Sell/RegisterSell'
 import Buy from '../../pages/Buy/Product'
 import Product from '../../pages/Buy/Product'
+import BookUpdate from '../../Customer/Sell/Category/Book/BookUpdate'
 
 const RouterController = () => {
     const matchAdminPath = useMatch('/admin')
@@ -61,6 +62,7 @@ const RouterController = () => {
                                 <Route path='order_history' element={<CustomerOrderHistory />} />
                                 <Route path='shop' element={<Shop />} />
                                 <Route path='shop/product-list' element={<ShopProductList />} />
+                                <Route path='shop/update-book/:product_id' element={<BookUpdate />} />
 
                                 <Route path='register-sell' element={<RegisterSell />} />
                             </Route>

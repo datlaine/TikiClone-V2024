@@ -1,9 +1,9 @@
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import InputText from '../components/InputText'
-import InputNumber from '../components/InputNumber'
+import InputText from '../../components/InputText'
+import InputNumber from '../../components/InputNumber'
 import { Input } from 'antd'
-import { TRegisterFormBook } from '../components/FormRegisterFood'
+import { TRegisterFormBook } from '../../components/FormRegisterFood'
 
 // const schema = z.object({
 //     producpublishing: z.string().min(1, { message: 'Tên nhà xuất bản là bắt buộc' }),

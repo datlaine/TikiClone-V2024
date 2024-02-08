@@ -4,12 +4,13 @@ import { RootState } from '../../store'
 import { Select } from 'antd'
 import FormRegisterBook from './components/FormRegisterBook'
 import FormRegisterFood from './components/FormRegisterFood'
+import { TUser } from '../../types/axiosResponse'
 
 const RegisterSell = () => {
-    const user = useSelector((state: RootState) => state.authentication.user)
+    const user = useSelector((state: RootState) => state.authentication.user) as TUser
     const [productType, setProductType] = useState<'Book' | 'Food'>()
 
-    if (!user.verify_email) {
+    if (!user.isOpenShop) {
         return <h1>Chức năng chỉ dành cho email đã được xác thực</h1>
     }
     return (

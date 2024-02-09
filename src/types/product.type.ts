@@ -35,8 +35,6 @@ export type TProductDetail = {
         public_id: string
     }[]
 
-    // isProductFull?: boolean
-    // expireAt?: Date
     product_type: string
     attribute: IProductBook
     shop_id: { shop_name: string; _id: string }

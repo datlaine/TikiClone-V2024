@@ -1,14 +1,14 @@
 import React, { SetStateAction, useEffect, useId, useRef, useState } from 'react'
 
 //@api
-import ProductApi, { IFormDataImage } from '../../../apis/product.api'
+import ProductApi, { IFormDataImage } from '../../../../apis/product.api'
 import { useMutation } from '@tanstack/react-query'
 
 //@icon
 import { View, X } from 'lucide-react'
 //@modal
-import BoxModal from '../../../component/ui/BoxModal'
-import { ui } from './FormRegisterBook'
+import BoxModal from '../../../../component/ui/BoxModal'
+import { ui } from '../FormRegisterBook'
 
 //@Props
 interface IProps {
@@ -27,13 +27,14 @@ interface IProps {
             FileLength: number
         }>
     >
+    product_id?: string
 
     //@trạng thái submit
     isSubmit?: boolean
 }
 
 const ButtonUpload = (props: IProps) => {
-    const { width, labelMessage, setUrlProductThumb, isSubmit } = props
+    const { width, labelMessage, setUrlProductThumb, isSubmit, product_id } = props
     const id = useId()
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -60,7 +61,6 @@ const ButtonUpload = (props: IProps) => {
         if (inputRef.current) {
             inputRef.current.click()
         }
-        // setFormStateSubmit(false)
     }
 
     //@input click
@@ -91,7 +91,7 @@ const ButtonUpload = (props: IProps) => {
         .set lại toàn bộ thông tin về file
     */
     const handleDeleteProductThumb = (public_id: string) => {
-        deleteProductThumb.mutate({ public_id, id: uploadProductThumb?.data?.data?.metadata?.product?.product_id as string })
+        deleteProductThumb.mutate({ public_id, id: product_id as string })
         URL.revokeObjectURL(filePreview as string)
         setFilePreview('')
         if (inputRef) {
@@ -118,7 +118,7 @@ const ButtonUpload = (props: IProps) => {
         if (fileProduct) {
             const formData = new FormData()
             formData.append('file', fileProduct)
-            formData.append('product_id', uploadProductThumb.data?.data.metadata.product.product_id as string)
+            formData.append('product_id', product_id as string)
 
             uploadProductThumb.mutate(formData)
         }

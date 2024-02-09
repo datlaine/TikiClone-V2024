@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import InputText from '../../components/InputText'
 import InputNumber from '../../components/InputNumber'
 import { Input } from 'antd'
-import { TRegisterFormBook } from '../../components/FormRegisterFood'
+import { TRegisterFormBook } from '../../RegisterProductForm/FormRegisterFood'
 
 // const schema = z.object({
 //     producpublishing: z.string().min(1, { message: 'Tên nhà xuất bản là bắt buộc' }),
@@ -15,16 +15,30 @@ import { TRegisterFormBook } from '../../components/FormRegisterFood'
 
 const { TextArea } = Input
 
-const Book = () => {
+export type TProps = {
+    mode: 'UPLOAD' | 'UPDATE'
+}
+
+const Book = (props: TProps) => {
+    const { mode } = props
+
     const form = useFormContext()
     const error = form.formState.errors
     return (
         <div className='flex flex-col gap-[16px]'>
-            <InputText FieldName='publishing' LabelMessage='Tên nhà sản xuất' placehorder='Nhập tên sản xuất' />
-            <InputNumber FieldName='page_number' LabelMessage='Số trang của sách' placehorder='Số trang của sách' />
-            <InputText FieldName='author' LabelMessage='Tác giả' placehorder='Tên tác giả' />
+            <InputText
+                FieldName={mode === 'UPLOAD' ? 'publishing' : 'attribute.publishing'}
+                LabelMessage='Tên nhà sản xuất'
+                placehorder='Nhập tên sản xuất'
+            />
+            <InputNumber
+                FieldName={mode === 'UPLOAD' ? 'page_number' : 'attribute.page_number'}
+                LabelMessage='Số trang của sách'
+                placehorder='Số trang của sách'
+            />
+            <InputText FieldName={mode === 'UPLOAD' ? 'author' : 'attribute.author'} LabelMessage='Tác giả' placehorder='Tên tác giả' />
             <Controller
-                name='description'
+                name={mode === 'UPLOAD' ? 'description' : 'attribute.description'}
                 control={form.control}
                 render={({ field }) => <TextArea {...field} maxLength={1000} rows={8} />}
             />

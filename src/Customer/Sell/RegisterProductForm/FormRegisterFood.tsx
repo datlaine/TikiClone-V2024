@@ -12,11 +12,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 
 //@components
-import InputText from './InputText'
-import ButtonUpload from './ButtonUpload'
-import InputNumber from './InputNumber'
-import ButtonUploadMultiple from './ButtonUploadMultiple'
-import Timeline from './Timeline'
+import InputText from '../components/InputText'
+import ButtonUpload from './components/ButtonUpload'
+import InputNumber from '../components/InputNumber'
+import ButtonUploadMultiple from './components/ButtonUploadMultiple'
+import Timeline from '../components/Timeline'
 import Book from '../Category/Book/Book'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
@@ -168,7 +168,7 @@ const FormRegisterFood = () => {
                             product_id={urlProductThumb.product_id}
                             isSubmit={methods.formState.isSubmitted ? true : false}
                         />
-                        <Book />
+                        <Book mode='UPLOAD' />
 
                         <button type='submit' className='min-w-[150px] px-[12px] py-[6px] bg-slate-700 text-white'>
                             Đăng bán

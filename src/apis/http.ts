@@ -7,6 +7,7 @@ import { addToast } from '../Redux/toast'
 let retry = false
 class AxiosCustom {
     instance: AxiosInstance
+    refreshTokenPromise: any // this holds any in-progress token refresh requests
 
     constructor() {
         console.log(process.env.REACT_APP_BASE_URL)
@@ -47,29 +48,41 @@ class AxiosCustom {
                 ) {
                     originalRequest.retry = true
                     store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
-
-                    const res = await Auth.refresh_token()
-                    console.log({ res })
-                    if (res) {
-                        const { token } = res!.data!.metadata
-                        if (
-                            error.response.config.url === 'v1/api/account/update-avatar' ||
-                            error.response.config.url === 'v1/api/product/upload-product-thumb' ||
-                            error.response.config.url === 'v1/api/product/upload-product-images-full' ||
-                            error.response.config.url === 'v1/api/shop/upload-avatar-shop'
-                        ) {
-                            console.log('dung url ne')
-                            error.config.headers['Content-Type'] = 'multipart/form-data'
-                            error.config.timeout = 20000
-                        }
-                        error.config.headers['Authorization'] = `Bearer ${token}`
-                        localStorage.setItem('token', JSON.stringify(token))
-                        originalRequest.retry = false
-                        return this.instance(error.config)
+                    if (!this.refreshTokenPromise) {
+                        // check for an existing in-progress request
+                        // if nothing is in-progress, start a new refresh token request
+                        this.refreshTokenPromise = Auth.refresh_token().then((token) => {
+                            this.refreshTokenPromise = null // clear state
+                            return token // resolve with the new token
+                        })
                     }
-                    if (!res) {
-                        return Promise.reject(res)
-                    }
+                    // const res = await Auth.refresh_token()
+                    // console.log({ res })
+                    return this.refreshTokenPromise.then(
+                        (data: any) => {
+                            console.log({ data })
+                            const { token } = data.data.metadata
+                            if (
+                                error.response.config.url === 'v1/api/account/update-avatar' ||
+                                error.response.config.url === 'v1/api/product/upload-product-thumb' ||
+                                error.response.config.url === 'v1/api/product/upload-product-images-full' ||
+                                error.response.config.url === 'v1/api/product/update-product-thumb' ||
+                                error.response.config.url === 'v1/api/product/update-product-images-full' ||
+                                error.response.config.url === 'v1/api/shop/upload-avatar-shop'
+                            ) {
+                                console.log('dung url ne')
+                                error.config.headers['Content-Type'] = 'multipart/form-data'
+                                error.config.timeout = 20000
+                            }
+                            error.config.headers['Authorization'] = `Bearer ${token}`
+                            localStorage.setItem('token', JSON.stringify(token))
+                            originalRequest.retry = false
+                            return this.instance(error.config)
+                        },
+                        // if (!this.refreshTokenPromise) {
+                        //     return Promise.reject(this.refreshTokenPromise)
+                        // }
+                    )
                 }
 
                 if (

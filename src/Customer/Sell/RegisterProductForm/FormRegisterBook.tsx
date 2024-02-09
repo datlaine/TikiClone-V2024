@@ -13,11 +13,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 //@components
-import InputText from './InputText'
-import ButtonUpload from './ButtonUpload'
-import InputNumber from './InputNumber'
-import ButtonUploadMultiple from './ButtonUploadMultiple'
-import Timeline from './Timeline'
+import InputText from '../components/InputText'
+import ButtonUpload from './components/ButtonUpload'
+import InputNumber from '../components/InputNumber'
+import ButtonUploadMultiple from './components/ButtonUploadMultiple'
+import Timeline from '../components/Timeline'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
 import { productBookSchema, productSchema } from '../types/product.schema'
@@ -54,9 +54,14 @@ export const ui = {
     fontSizeError: 'text-[12px]',
     colorError: 'text-red-700',
 }
+type TProps = {
+    product_id: string
+}
 
 //@Component
-const FormRegisterBook = () => {
+const FormRegisterBook = (props: TProps) => {
+    const { product_id } = props
+
     //@trang thái submit
     const [, setFormStateSubmit] = useState(false)
     const dispatch = useDispatch()
@@ -113,7 +118,7 @@ const FormRegisterBook = () => {
             console.log({ urlProductThumb })
 
             const formData: IFormDataProductFull = new FormData()
-            formData.append('_id ', urlProductThumb.product_id)
+            formData.append('_id ', product_id)
 
             formData.append('product_name', data.product_name)
             formData.append('product_price', data.product_price as number)
@@ -174,6 +179,7 @@ const FormRegisterBook = () => {
                             require={true}
                         />
                         <ButtonUpload
+                            product_id={product_id}
                             labelMessage='Chọn hình đại diện cho sản phẩm'
                             width={'xl:w-[32%]'}
                             setUrlProductThumb={setUrlProductThumb}
@@ -188,7 +194,7 @@ const FormRegisterBook = () => {
                             product_id={urlProductThumb.product_id}
                             isSubmit={methods.formState.isSubmitted ? true : false}
                         />
-                        <Book />
+                        <Book mode='UPLOAD' />
 
                         <button type='submit' className='min-w-[150px] px-[12px] py-[6px] bg-slate-700 text-white'>
                             Đăng bán

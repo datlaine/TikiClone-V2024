@@ -62,10 +62,10 @@ const RouterController = () => {
                                 <Route path='order_history' element={<CustomerOrderHistory />} />
                                 <Route path='shop' element={<Shop />} />
                                 <Route path='shop/product-list' element={<ShopProductList />} />
-                                <Route path='shop/update-book/:product_id' element={<BookUpdate />} />
 
                                 <Route path='register-sell' element={<RegisterSell />} />
                             </Route>
+                            <Route path='product/update-book/:product_id' element={<BookUpdate />} />
                             <Route path='query-params' element={<QueryParams />} />
                         </Routes>
                     </div>

@@ -33,18 +33,8 @@ const client = new QueryClient({
     },
     queryCache: new QueryCache({
         onError: (error) => {
-            if (checkAxiosError(error)) {
-                if (error.response?.status === 401) {
-                    store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
-                    // store.dispatch(doOpenBoxLogin())
-                }
-            }
-        },
-    }),
-    mutationCache: new MutationCache({
-        onError: async (error, varibale, context, mutation) => {
-            console.log({ error, mutation, varibale, context })
             if (checkAxiosError<TErrorAxios>(error)) {
+                console.log({ mute: error })
                 if (
                     error?.response?.status === 403 &&
                     error?.response.statusText === 'Forbidden' &&
@@ -62,6 +52,38 @@ const client = new QueryClient({
                     }
 
                     if (error.response.data?.detail === 'Token hết hạn') {
+                        alert('OK')
+
+                        store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
+                    }
+                }
+            }
+        },
+    }),
+    mutationCache: new MutationCache({
+        onError: async (error, varibale, context, mutation) => {
+            console.log({ error, mutation, varibale, context })
+            if (checkAxiosError<TErrorAxios>(error)) {
+                console.log({ mute: error })
+                if (
+                    error?.response?.status === 403 &&
+                    error?.response.statusText === 'Forbidden' &&
+                    (error?.response.data?.detail === 'Token không đúng' ||
+                        error?.response.data?.detail === 'Phiên đăng nhập hết hạn' ||
+                        error?.response.data?.detail === 'Không tìm thấy tài khoản')
+                ) {
+                    alert('OK')
+                    store.dispatch(addToast({ type: 'ERROR', message: 'Refresh Token không hợp lệ', id: Math.random().toString() }))
+                    store.dispatch(doOpenBoxLogin())
+                }
+                if (error.response?.status === 401) {
+                    if (error.response.data?.detail === 'Đăng nhập thất bại, vui lòng nhập thông tin hợp lệ') {
+                        store.dispatch(addToast({ type: 'ERROR', message: error.response.data.detail, id: Math.random().toString() }))
+                    }
+
+                    if (error.response.data?.detail === 'Token hết hạn') {
+                        alert('OK')
+
                         store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
                     }
                 }

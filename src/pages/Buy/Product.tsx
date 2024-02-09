@@ -22,7 +22,6 @@ const Product = () => {
     })
 
     const product = getProductWithId.isSuccess ? getProductWithId!.data!.data!.metadata.product : undefined
-    console.log({ product })
     useEffect(() => {
         window.scrollTo({
             top: 0,

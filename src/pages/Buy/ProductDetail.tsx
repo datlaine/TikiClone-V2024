@@ -17,6 +17,8 @@ const ProductDetail = (props: TProps) => {
     const [imageArray, setImageArray] = useState<TImage[]>([])
     const [openModal, setOpenModal] = useState<boolean>(false)
 
+    console.log({ product })
+
     const handleMouseEnter = (secure_url: string) => {
         if (image.current) {
             image.current.src = secure_url
@@ -43,15 +45,19 @@ const ProductDetail = (props: TProps) => {
     useEffect(() => {
         if (isSuccess) {
             setImageActive(product?.product_thumb_image.secure_url as string)
-            product?.product_desc_image.unshift(product.product_thumb_image)
-            setImageArray(
-                product?.product_desc_image.map((img) => {
+            // product?.product_desc_image.unshift(product.product_thumb_image)
+            setImageArray(() => {
+                const array = product?.product_desc_image.map((img) => {
                     return { secure_url: img.secure_url }
-                }) as TImage[],
-            )
+                })
+                const temp = array.unshift({ secure_url: product.product_thumb_image.secure_url })
+                return array
+            })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess])
+    }, [isSuccess, product])
+
+    console.log({ imageArray })
 
     const styleEffect = {
         isActive: 'border-[5px] border-blue-900',
@@ -69,14 +75,25 @@ const ProductDetail = (props: TProps) => {
                 />
             </div>
             <div className='flex gap-[8px] flex-wrap md:flex-nowrap rounded-lg'>
-                {product!.product_desc_image.map((image) => (
+                {/* <img
+                    src={image.secure_url}
+                    className={`${
+                        imageActive === image.secure_url ? styleEffect.isActive : 'border-[5px] border-transparent'
+                    } h-[100px] w-[100px] md:w-[60px] md:h-[60px] rounded-lg`}
+                    alt='product_sub'
+                    key={image.public_id}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseEnter={() => handleMouseEnter(image.secure_url)}
+                    onClick={() => handleClickImage(image.secure_url as string)}
+                /> */}
+                {imageArray.map((image) => (
                     <img
                         src={image.secure_url}
                         className={`${
                             imageActive === image.secure_url ? styleEffect.isActive : 'border-[5px] border-transparent'
                         } h-[100px] w-[100px] md:w-[60px] md:h-[60px] rounded-lg`}
                         alt='product_sub'
-                        key={image.public_id}
+                        key={image.secure_url}
                         onMouseLeave={handleMouseLeave}
                         onMouseEnter={() => handleMouseEnter(image.secure_url)}
                         onClick={() => handleClickImage(image.secure_url as string)}

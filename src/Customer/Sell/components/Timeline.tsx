@@ -5,6 +5,7 @@ import { DateTime } from 'luxon'
 
 //@ form
 import { FieldValue, FieldValues, Path, UseFormReturn } from 'react-hook-form'
+import { TFormBook } from '../types/product.type'
 
 type TProps<T extends FieldValues> = {
     //@từ dùng hàm watch trong methods để lấy các giá trị cập nhập tức thì
@@ -17,7 +18,7 @@ type TProps<T extends FieldValues> = {
     error?: boolean
 
     //@field cung cấp cho hàm watch
-    FieldName?: keyof T
+    FieldName?: keyof T | any
 
     //@các dạng timeline khác nhau
     type: 'Text' | 'File' | 'Files' | 'Money'
@@ -34,12 +35,14 @@ type TProps<T extends FieldValues> = {
         FileName: string[]
     }
 
+    mode?: 'UPLOAD' | 'UPDATE'
+
     //@ trạng thái submit, chỉ check khi người dùng nhấn submit
     isSubmit?: boolean
 }
 
 const Timeline = <T extends FieldValues>(props: TProps<T>) => {
-    const { methods, TimeLineName, FieldName, File, Files, type, isSubmit } = props
+    const { methods, TimeLineName, FieldName, File, Files, type, isSubmit, mode = 'UPLOAD' } = props
     const error = methods?.formState.errors
     //@ui
     const width = FieldName && error![FieldName] ? 'w-[200px]' : 'w-[150px]'
@@ -49,6 +52,8 @@ const Timeline = <T extends FieldValues>(props: TProps<T>) => {
         heightScale: type === 'Files' ? 85 : 70,
         heightContainer: type === 'Files' ? 75 : 70,
     }
+
+    console.log({ timeLine: mode })
 
     //@element
     return (
@@ -113,7 +118,7 @@ const Timeline = <T extends FieldValues>(props: TProps<T>) => {
                         {isSubmit && File!.CountFile === 0 && (
                             <span className='text-[12px] text-red-700 w-[200px] truncate'>{'Hình đại diện sản phẩm là bắt buộc'}</span>
                         )}
-                        {File!.CountFile === 1 && <span className='text-[12px] text-blue-700 w-[200px] truncate'>{File?.FileName}</span>}
+                        {File!.CountFile === 1 && <span className='text-[12px] text-blue-700 w-[200px] break-words'>{File?.FileName}</span>}
                     </div>
                 )}
                 {type === 'Files' && (

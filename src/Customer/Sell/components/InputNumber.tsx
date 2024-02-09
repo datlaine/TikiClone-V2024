@@ -1,10 +1,10 @@
 import React, { useId } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { ui } from './FormRegisterBook'
+import { FieldValue, FieldValues, useFormContext } from 'react-hook-form'
+import { ui } from '../RegisterProductForm/FormRegisterBook'
 import { TFormBook, TFormProduct } from '../types/product.type'
 
-type TProps = {
-    FieldName: keyof TFormProduct | keyof TFormBook
+type TProps<T extends FieldValues> = {
+    FieldName: keyof T
     LabelMessage: string
     placehorder: string
     width?: string
@@ -12,7 +12,7 @@ type TProps = {
     require?: boolean
 }
 
-const InputNumber = (props: TProps) => {
+const InputNumber = <T extends FieldValues>(props: TProps<T>) => {
     const { placehorder, LabelMessage, width, autofocus = false, FieldName } = props
     const formNested = useFormContext()
     const {
@@ -34,7 +34,7 @@ const InputNumber = (props: TProps) => {
             </label>
             <input
                 type='number'
-                {...formNested.register(FieldName, {
+                {...formNested.register(FieldName as string, {
                     setValueAs: (value) => Number(value),
                 })}
                 placeholder={placehorder}

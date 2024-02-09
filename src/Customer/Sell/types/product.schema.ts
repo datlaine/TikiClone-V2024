@@ -25,6 +25,16 @@ export const productBookSchema = z.object({
     description: z.string().min(1, 'Vui lòng nhập thêm thông tin mô tả về sản phẩm').max(1000, 'Tối đa 1000 từ'),
 })
 
+export const productBookSchemaUpdate = z.object({
+    attribute: z.object({
+        publishing: z.string().min(1, 'Tên nhà xuất bản là bắt buộc'),
+        page_number: z.number().min(1, 'Số trang là bắt buộc').max(3004, 'Sách nhiều nhất 3004'),
+        author: z.string().min(1, 'Tên tác giả là bắt buộc'),
+        // book_type: z.enum(['Comic', 'Novel', 'Memoir']),
+        description: z.string().min(1, 'Vui lòng nhập thêm thông tin mô tả về sản phẩm').max(1000, 'Tối đa 1000 từ'),
+    }),
+})
+
 //@schema product -> food
 export const productFoodSchema = z.object({
     factory: z.string().min(1, 'Tên xưởng sản xuất là bắt buộc'),

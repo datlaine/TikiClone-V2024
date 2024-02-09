@@ -2,17 +2,17 @@ import React, { SetStateAction, useEffect, useId, useRef, useState } from 'react
 
 //@modal và icon
 import { View, X } from 'lucide-react'
-import BoxModal from '../../../component/ui/BoxModal'
+import BoxModal from '../../../../component/ui/BoxModal'
 
 //@dispatch toast
 import { useDispatch } from 'react-redux'
-import { addToast } from '../../../Redux/toast'
+import { addToast } from '../../../../Redux/toast'
 
 //@api
 import { useMutation } from '@tanstack/react-query'
-import ProductApi, { IFormDataImages } from '../../../apis/product.api'
-import { ui } from './FormRegisterBook'
-import { UploadImages } from '../types/product.type'
+import ProductApi, { IFormDataImages } from '../../../../apis/product.api'
+import { ui } from '../FormRegisterBook'
+import { UploadImages } from '../../types/product.type'
 
 //@Props
 interface IProps {

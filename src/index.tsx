@@ -42,7 +42,6 @@ const client = new QueryClient({
                         error?.response.data?.detail === 'Phiên đăng nhập hết hạn' ||
                         error?.response.data?.detail === 'Không tìm thấy tài khoản')
                 ) {
-                    alert('OK')
                     store.dispatch(addToast({ type: 'ERROR', message: 'Refresh Token không hợp lệ', id: Math.random().toString() }))
                     store.dispatch(doOpenBoxLogin())
                 }
@@ -52,8 +51,6 @@ const client = new QueryClient({
                     }
 
                     if (error.response.data?.detail === 'Token hết hạn') {
-                        alert('OK')
-
                         store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
                     }
                 }
@@ -72,7 +69,6 @@ const client = new QueryClient({
                         error?.response.data?.detail === 'Phiên đăng nhập hết hạn' ||
                         error?.response.data?.detail === 'Không tìm thấy tài khoản')
                 ) {
-                    alert('OK')
                     store.dispatch(addToast({ type: 'ERROR', message: 'Refresh Token không hợp lệ', id: Math.random().toString() }))
                     store.dispatch(doOpenBoxLogin())
                 }
@@ -82,8 +78,6 @@ const client = new QueryClient({
                     }
 
                     if (error.response.data?.detail === 'Token hết hạn') {
-                        alert('OK')
-
                         store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
                     }
                 }

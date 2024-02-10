@@ -3,7 +3,6 @@ import { Controller, useFormContext } from 'react-hook-form'
 import InputText from '../../components/InputText'
 import InputNumber from '../../components/InputNumber'
 import { Input } from 'antd'
-import { TRegisterFormBook } from '../../RegisterProductForm/FormRegisterFood'
 
 // const schema = z.object({
 //     producpublishing: z.string().min(1, { message: 'Tên nhà xuất bản là bắt buộc' }),

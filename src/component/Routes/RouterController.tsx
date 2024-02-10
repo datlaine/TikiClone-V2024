@@ -27,6 +27,7 @@ import RegisterSell from '../../Customer/Sell/RegisterSell'
 import Buy from '../../pages/Buy/Product'
 import Product from '../../pages/Buy/Product'
 import BookUpdate from '../../Customer/Sell/Category/Book/BookUpdate'
+import UpdateWrapper from '../../Customer/Sell/Category/Book/UpdateWrapper'
 
 const RouterController = () => {
     const matchAdminPath = useMatch('/admin')
@@ -65,7 +66,7 @@ const RouterController = () => {
 
                                 <Route path='register-sell' element={<RegisterSell />} />
                             </Route>
-                            <Route path='product/update-book/:product_id' element={<BookUpdate />} />
+                            <Route path='product/update-book/:product_id' element={<UpdateWrapper />} />
                             <Route path='query-params' element={<QueryParams />} />
                         </Routes>
                     </div>

@@ -56,6 +56,7 @@ class AxiosCustom {
                             return token // resolve with the new token
                         })
                     }
+                    console.log({ http: this.refreshTokenPromise })
                     // const res = await Auth.refresh_token()
                     // console.log({ res })
                     return this.refreshTokenPromise.then(

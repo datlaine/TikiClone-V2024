@@ -4,7 +4,7 @@ import { Eye, EyeOff, ShieldX } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Auth from '../../apis/auth.api'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkAxiosError } from '../../utils/handleAxiosError'
@@ -47,7 +47,7 @@ const AuthLogin = (props: TProps) => {
     const countRef = useRef(0)
     //state type password
     const [typePassword, setTypePassword] = useState<'password' | 'text'>('password')
-
+    const queryClient = useQueryClient()
     //react-hook-form
     const {
         register,
@@ -71,6 +71,7 @@ const AuthLogin = (props: TProps) => {
             dispatch(doCloseBoxLogin())
             dispatch(doIsLoading(false))
             dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
+            queryClient.invalidateQueries()
         },
         onError: async (error: unknown) => {
             //@[shape] :: error.response.data.error

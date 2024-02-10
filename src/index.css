@@ -3,111 +3,111 @@
 @tailwind utilities;
 
 @layer components {
-    .isActive {
-        background-color: #ceced1;
-        color: white !important;
-    }
+      .isActive {
+            background-color: #ceced1;
+            color: white !important;
+      }
 
-    .custom-product-item {
-        @apply my-8 flex flex-col gap-4 p-2 2xl:py-4 2xl:px-3 h-[300px] lg:h-[280px] lg:overflow-y-hidden   bg-white rounded-[8px];
-    }
+      .custom-product-item {
+            @apply my-8 flex flex-col gap-4 p-2 2xl:py-4 2xl:px-3 h-[300px] lg:h-[280px] lg:overflow-y-hidden   bg-white rounded-[8px];
+      }
 
-    .wrapper {
-        @apply w-full lg:w-[calc(100%-254px)] mb-[50px];
-    }
+      .wrapper {
+            @apply w-full lg:w-[calc(100%-254px)] mb-[50px];
+      }
 
-    .footer-title {
-        @apply font-medium text-[20px] min-h-[60px] h-[40px] flex  items-center;
-    }
+      .footer-title {
+            @apply font-medium text-[20px] min-h-[60px] h-[40px] flex  items-center;
+      }
 
-    .footer-span {
-        @apply text-zinc-500 text-[10px] flex flex-col max-w-max  relative  hover:after:absolute hover:after:content-["-"] hover:after:opacity-70 hover:after:bottom-[2px]  hover:after:bg-zinc-400 hover:after:w-full hover:after:h-[0.2px];
-    }
+      .footer-span {
+            @apply text-zinc-500 text-[10px] flex flex-col max-w-max  relative  hover:after:absolute hover:after:content-["-"] hover:after:opacity-70 hover:after:bottom-[2px]  hover:after:bg-zinc-400 hover:after:w-full hover:after:h-[0.2px];
+      }
 
-    /* input {
+      /* input {
         @apply border-[1px] px-[16px] py-[8px] border-blue-500 focus:border-cyan-600 focus:border-[1px] focus:shadow-sm rounded-[4px] outline-none;
     } */
 
-    .customer-item-bg {
-        @apply flex gap-[12px] items-center pl-[20px];
-    }
+      .customer-item-bg {
+            @apply flex gap-[12px] items-center pl-[20px];
+      }
 
-    .customer-item-isActive {
-        @apply bg-slate-700 transition-all duration-500;
-    }
+      .customer-item-isActive {
+            @apply bg-slate-700 transition-all duration-500;
+      }
 }
 
 @layer utilities {
-    .clip-path-modelAvatar {
-        clip-path: polygon(50% 0, 100% 100%, 0 100%);
-    }
+      .clip-path-modelAvatar {
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      }
 }
 input[type='number']::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+      -webkit-appearance: none;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+      -webkit-appearance: none;
+      margin: 0;
 }
 
 /* Firefox */
 input[type='number'] {
-    -moz-appearance: textfield;
+      -moz-appearance: textfield;
 }
 
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-        'Helvetica Neue', sans-serif;
-    font-family: 'Open Sans';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    padding: 0;
-    min-height: 100vh;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+            'Helvetica Neue', sans-serif;
+      font-family: 'Open Sans';
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 0;
+      min-height: 100vh;
 }
 
 #root {
-    min-height: 100vh;
-    max-height: auto;
+      min-height: 100vh;
+      max-height: auto;
 }
 
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
+      font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
 }
 
 /* width */
 
 :not(body)::-webkit-scrollbar {
-    display: none;
+      display: none;
 }
 
 body::-webkit-scrollbar {
-    width: 8px;
+      width: 8px;
 }
 
 /* Track */
 body::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 5px;
+      background: transparent;
+      border-radius: 5px;
 }
 
 /* Handle */
 body::-webkit-scrollbar-thumb {
-    background: rgb(15 23 42);
-    /* border-radius: 5px; */
+      background: rgb(15 23 42);
+      /* border-radius: 5px; */
 }
 
 /* Handle on hover */
 body::-webkit-scrollbar-thumb:hover {
-    background: #555;
+      background: #555;
 }
 
 /* overide antd  */

@@ -11,99 +11,99 @@ import { Link } from 'react-router-dom'
 type Props = {}
 
 const SectionProductItem = (props: Props) => {
-    const wrapperListProductsRef = useRef<HTMLDivElement>(null)
-    const PositionScrollCurrent = useRef<number>(0)
-    const [count, setCount] = useState(1)
+      const wrapperListProductsRef = useRef<HTMLDivElement>(null)
+      const PositionScrollCurrent = useRef<number>(0)
+      const [count, setCount] = useState(1)
 
-    const allProduct = useQuery({
-        queryKey: ['get-all-product'],
-        queryFn: () => ProductApi.getAllProduct(),
-        staleTime: 1000 * 60 * 5,
-    })
+      const allProduct = useQuery({
+            queryKey: ['get-all-product'],
+            queryFn: () => ProductApi.getAllProduct(),
+            staleTime: 1000 * 60 * 5,
+      })
 
-    const handleClickNext = () => {
-        if (wrapperListProductsRef.current) {
-            setCount((prev) => prev + 1)
-            const width = wrapperListProductsRef.current.getBoundingClientRect().width
-            PositionScrollCurrent.current = PositionScrollCurrent.current - width - 50
-            wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
-            wrapperListProductsRef.current.style.transition = `all 2s`
-        }
-    }
+      const handleClickNext = () => {
+            if (wrapperListProductsRef.current) {
+                  setCount((prev) => prev + 1)
+                  const width = wrapperListProductsRef.current.getBoundingClientRect().width
+                  PositionScrollCurrent.current = PositionScrollCurrent.current - width - 50
+                  wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
+                  wrapperListProductsRef.current.style.transition = `all 2s`
+            }
+      }
 
-    const handleClickPrev = () => {
-        if (wrapperListProductsRef.current) {
-            setCount((prev) => prev - 1)
+      const handleClickPrev = () => {
+            if (wrapperListProductsRef.current) {
+                  setCount((prev) => prev - 1)
 
-            const width = wrapperListProductsRef.current.getBoundingClientRect().width
-            PositionScrollCurrent.current = PositionScrollCurrent.current + width + 50
+                  const width = wrapperListProductsRef.current.getBoundingClientRect().width
+                  PositionScrollCurrent.current = PositionScrollCurrent.current + width + 50
 
-            // console.log(Math.trunc(width))
-            wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
-            wrapperListProductsRef.current.style.transition = `all 2s`
-        }
-    }
+                  // console.log(Math.trunc(width))
+                  wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
+                  wrapperListProductsRef.current.style.transition = `all 2s`
+            }
+      }
 
-    if (allProduct.isSuccess) {
-        console.log({ allProduct: allProduct.data.data.metadata.products })
-    }
+      if (allProduct.isSuccess) {
+            console.log({ allProduct: allProduct.data.data.metadata.products })
+      }
 
-    const ProductArrayLength =
-        allProduct.data?.data && allProduct!.data!.data!.metadata!.products!.length / allProduct!.data!.data!.metadata!.products!.length
+      const ProductArrayLength =
+            allProduct.data?.data && allProduct!.data!.data!.metadata!.products!.length / allProduct!.data!.data!.metadata!.products!.length
 
-    console.log({ ProductArrayLength })
+      console.log({ ProductArrayLength })
 
-    const styleEffect = {
-        buttonPrev: count === 1 ? 'cursor-not-allowed' : 'cursor-pointer',
-        buttonNext: ProductArrayLength === count ? 'cursor-not-allowed' : 'cursor-pointer',
-        disButtonPrev: count === 1 ? true : false,
-        disButtonNext: ProductArrayLength === count ? true : false,
-    }
+      const styleEffect = {
+            buttonPrev: count === 1 ? 'cursor-not-allowed' : 'cursor-pointer',
+            buttonNext: ProductArrayLength === count ? 'cursor-not-allowed' : 'cursor-pointer',
+            disButtonPrev: count === 1 ? true : false,
+            disButtonNext: ProductArrayLength === count ? true : false,
+      }
 
-    return (
-        <div className='h-[75%] px-[36px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
-            <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  '>
-                {allProduct.isSuccess &&
-                    allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
-                        return (
-                            <Link
-                                to={`/product/${product._id}`}
-                                className='flex flex-col min-w-[30%] lg:min-w-[15%] h-full '
-                                key={product._id}
-                            >
-                                <div className='basis-[30%] xl:basis-[16%] min-h-full'>
-                                    <img
-                                        src={product.product_thumb_image.secure_url}
-                                        className='min-w-full min-h-[85%] max-h-[85%]'
-                                        alt='product'
-                                    />
-                                    <p className='w-full text-center'>{product.product_price}</p>
-                                </div>
-                            </Link>
-                        )
-                    })}
+      return (
+            <div className='h-[75%] px-[36px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
+                  <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  '>
+                        {allProduct.isSuccess &&
+                              allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
+                                    return (
+                                          <Link
+                                                to={`/product/${product._id}`}
+                                                className='flex flex-col max-w-[30%] lg:max-w-[15%] h-full '
+                                                key={product._id}
+                                          >
+                                                <div className='basis-[30%] xl:basis-[16%] min-h-full'>
+                                                      <img
+                                                            src={product.product_thumb_image.secure_url}
+                                                            className='min-w-full min-h-[85%] max-h-[85%]'
+                                                            alt='product'
+                                                      />
+                                                      <p className='w-full text-center'>{product.product_price}</p>
+                                                </div>
+                                          </Link>
+                                    )
+                              })}
+                  </div>
+                  <div className='hidden xl:flex absolute top-0 left-0 h-full bg-[#ffffff]  items-center px-[8px]'>
+                        <button
+                              className={`${styleEffect.buttonPrev} border-[1px] border-blue-400 rounded-full`}
+                              onClick={handleClickPrev}
+                              disabled={styleEffect.disButtonPrev}
+                        >
+                              <ChevronLeft size={30} color='blue' />
+                        </button>
+                  </div>
+
+                  <div className='hidden xl:flex absolute top-0 right-0 h-full bg-[#ffffff]  items-center px-[8px]'>
+                        <button
+                              className={`${styleEffect.buttonNext} border-[1px] border-blue-400 rounded-full `}
+                              onClick={handleClickNext}
+                              disabled={styleEffect.disButtonNext}
+                        >
+                              <ChevronRight size={30} color='blue' />
+                        </button>
+                  </div>
             </div>
-            <div className='hidden xl:flex absolute top-0 left-0 h-full bg-[#ffffff]  items-center px-[8px]'>
-                <button
-                    className={`${styleEffect.buttonPrev} border-[1px] border-blue-400 rounded-full`}
-                    onClick={handleClickPrev}
-                    disabled={styleEffect.disButtonPrev}
-                >
-                    <ChevronLeft size={30} color='blue' />
-                </button>
-            </div>
-
-            <div className='hidden xl:flex absolute top-0 right-0 h-full bg-[#ffffff]  items-center px-[8px]'>
-                <button
-                    className={`${styleEffect.buttonNext} border-[1px] border-blue-400 rounded-full `}
-                    onClick={handleClickNext}
-                    disabled={styleEffect.disButtonNext}
-                >
-                    <ChevronRight size={30} color='blue' />
-                </button>
-            </div>
-        </div>
-    )
+      )
 }
 
 export default SectionProductItem

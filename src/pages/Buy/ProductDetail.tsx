@@ -50,7 +50,7 @@ const ProductDetail = (props: TProps) => {
                         const array = product?.product_desc_image.map((img) => {
                               return { secure_url: img.secure_url }
                         })
-                        const temp = array.unshift({ secure_url: product.product_thumb_image.secure_url })
+                        array.unshift({ secure_url: product.product_thumb_image.secure_url })
                         return array
                   })
             }
@@ -75,17 +75,6 @@ const ProductDetail = (props: TProps) => {
                         />
                   </div>
                   <div className='flex gap-[8px] flex-wrap md:flex-nowrap rounded-lg'>
-                        {/* <img
-                    src={image.secure_url}
-                    className={`${
-                        imageActive === image.secure_url ? styleEffect.isActive : 'border-[5px] border-transparent'
-                    } h-[100px] w-[100px] md:w-[60px] md:h-[60px] rounded-lg`}
-                    alt='product_sub'
-                    key={image.public_id}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseEnter={() => handleMouseEnter(image.secure_url)}
-                    onClick={() => handleClickImage(image.secure_url as string)}
-                /> */}
                         {imageArray.map((image) => (
                               <img
                                     src={image.secure_url}

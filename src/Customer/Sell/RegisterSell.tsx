@@ -2,46 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { Select } from 'antd'
-import FormRegisterBook, { TRegisterFormBook } from './RegisterProductForm/FormRegisterBook'
+import FormRegisterBook from './RegisterProductForm/FormRegisterBook'
 // import FormRegisterFood from './RegisterProductForm/FormRegisterFood'
 import { TUser } from '../../types/axiosResponse'
 import { useMutation } from '@tanstack/react-query'
 import ProductApi from '../../apis/product.api'
 import Book from './Category/Book/Book'
-
-export type timeLineRef = {
-      publishing: string
-      page_number: number
-      author: string
-      description: string
-}
-
-const defaultValues: Array<keyof timeLineRef> = ['publishing', 'author', 'page_number', 'description']
+import {
+      TTimeLineBookField,
+      TTimeLineBookLabel,
+      renderTimeLine,
+      timelineFieldNameBook,
+      timelineLabelNameBook,
+} from '../../types/timeline/timeline.book.type'
+import { TRegisterFormBook } from '../../types/product/product.book.type'
 
 // const version2 = t
-
-export type timeLineLabel = {
-      'Nhà xuất bản': string
-      'Tác giả': string
-      'Số trang': string
-      'Mô tả chi tiết': string
-}
-const labelValues: Array<keyof timeLineLabel> = ['Nhà xuất bản', 'Tác giả', 'Số trang', 'Mô tả chi tiết']
-
-export type Timeline<T, K> = {
-      FieldName: keyof T
-      text: keyof K
-}
-
-const renderTimeLine = () => {
-      const result: { FieldName: keyof timeLineRef; label: keyof timeLineLabel }[] = defaultValues.map((field, index) => {
-            return {
-                  FieldName: field,
-                  label: labelValues[index] as keyof timeLineLabel,
-            }
-      })
-      return result
-}
 
 const defaultValuesForm: TRegisterFormBook = {
       product_id: '',
@@ -53,9 +29,7 @@ const defaultValuesForm: TRegisterFormBook = {
       description: '',
 }
 
-// const a: keyof timeLineRef =
-
-console.log({ check: renderTimeLine() })
+// const a: keyof TTimeLineBook =
 
 const RegisterSell = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as TUser
@@ -86,10 +60,13 @@ const RegisterSell = () => {
                         {createBaseProductId.isSuccess && (
                               <>
                                     {productType === 'Book' && (
-                                          <FormRegisterBook<timeLineRef, timeLineLabel, TRegisterFormBook>
+                                          <FormRegisterBook<TTimeLineBookField, TTimeLineBookLabel, TRegisterFormBook>
                                                 ProductAttribute={<Book mode='UPLOAD' />}
                                                 product_id={createBaseProductId.data.data.metadata.product_id}
-                                                TimelineProps={renderTimeLine()}
+                                                TimelineProps={renderTimeLine({
+                                                      defaultFieldName: timelineFieldNameBook,
+                                                      defaultLabelName: timelineLabelNameBook,
+                                                })}
                                                 defaultValues={defaultValuesForm}
                                           />
                                     )}

@@ -84,8 +84,6 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
             mutationFn: ({ id }: { id: string }) => ProductApi.deleteImages({ id: product_id }),
       })
 
-      console.log({ filePreview, public_id_array })
-
       //@Click vào button, kích hoạt inputRef click
       const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             //@chặn submit tới form cha
@@ -97,27 +95,21 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
 
       //@kích hoạt onChange input
       const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            console.log({ target: e.target.files?.length })
             //@nếu file vượt quá 4 thì xét 3 state chính lại mặc định và mount toast
             if (filePreview.length > 4 || fileProduct.length > 4 || e.target.files!.length > 4) {
-                  // setFilePreview([])
-                  // setFileProduct([])
-                  // setGetFileName([])
+                  setFilePreview([])
+                  setFileProduct([])
+                  setGetFileName([])
                   dispatch(addToast({ type: 'WARNNING', message: 'Chỉ upload tối đa 4 files', id: Math.random().toString() }))
                   // inputRef!.current!.value = ''
 
                   return
             }
 
-            /* khi xét state trong loop, không được dùng setState(prev => [prev, ...index])
-            phải tạo 1 biến lưu lại kết quả của loop rồi xét 1 lượt luôn nè
-        */
-
             //@nếu file bé hơn 4, lưu ý là bé hơn chứ không = 4, bé hơn thì khả năng người dùng còn chọn thêm file mới nữa
             if (e.target.files && e.target.files!.length <= 4 && fileProduct.length < 4) {
                   //@nếu số file người dùng push vào + với số file sẵn có từ lần trước mà quá hơn 4 thì mount toast
                   if (fileProduct.length + e.target.files.length > 4) {
-                        alert('OK')
                         dispatch(
                               addToast({
                                     type: 'WARNNING',
@@ -129,7 +121,6 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
 
                         return
                   }
-                  // dispatch(addToast({ type: 'ERROR', message: 'Upload mix', id: Math.random().toString() }))
                   //@nếu không lớn hơn kích thước thì tiến hành push file mới vào mảng file đã có sẵn
                   setFileProduct((prev) => {
                         //@lấy số file mới người dùng chọn
@@ -142,30 +133,11 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
                   })
 
                   // @lấy tên file gửi cho timeline, quy luật giống với push file
-                  setGetFileName((prev) => {
-                        const countFile = e.target.files?.length as number
-                        const newArrayFile = [...prev]
-                        for (let index = 0; index < countFile; index++) {
-                              newArrayFile.push(e!.target!.files![index].name)
-                        }
-                        return newArrayFile
-                  })
 
                   return
             }
 
             if (e.target.files && e.target.files.length <= 4) {
-                  //     alert(2)
-                  // setFileProduct((prev) => {
-                  //     //@lấy số file mới người dùng chọn
-                  //     const countFile = e.target.files?.length as number
-                  //     const newArrayFile = []
-                  //     for (let index = 0; index < countFile; index++) {
-                  //         newArrayFile.push(e!.target!.files![index])
-                  //     }
-                  //     return newArrayFile
-                  // })
-
                   setFileProduct(Array.from(e.target.files))
                   const arrayURL = Array.from(e.target.files).map((file) => URL.createObjectURL(file))
                   setFilePreview((prev) => prev.concat(arrayURL))
@@ -177,9 +149,6 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
                         }
                         return newArrayFile
                   })
-                  // const arrayURL = Array.from(e.target.files).map((file) => URL.createObjectURL(file))
-                  // setFilePreview(() => arrayURL)
-                  // setFileProduct(Array.from(e.target.files))
             }
             inputRef!.current!.value = ''
       }
@@ -213,8 +182,6 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
                   updateImages.mutate(data)
             }
             if (fileProduct.length > 0) {
-                  // const arrayURL = fileProduct.map((file) => URL.createObjectURL(file))
-                  // setFilePreview(() => arrayURL)
             }
 
             return () => {
@@ -383,3 +350,10 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
 }
 
 export default ButtonUploadMultipleWithId
+// import React from 'react'
+
+// const ButtonUploadMultipleWithId = () => {
+//       return <div>ButtonUploadMultipleWithId</div>
+// }
+
+// export default ButtonUploadMultipleWithId

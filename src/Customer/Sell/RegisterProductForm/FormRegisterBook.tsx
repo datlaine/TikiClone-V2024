@@ -22,23 +22,12 @@ import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
 import { productBookSchema, productSchema } from '../types/product.schema'
 import Book from '../Category/Book/Book'
-import { timeLineRef } from '../RegisterSell'
-import { UploadImage, UploadImages } from '../../../types/product/product.type'
+import { TCheckDescriptionImage, TChekUploadImage, TProfileImage } from '../../../types/product/product.type'
+import { TRegisterFormBook } from '../../../types/product/product.book.type'
 
 //@Props - Product::Book
 
 //@type form chính
-export type TRegisterFormBook = {
-      product_id: string
-      product_name: string
-      product_price: number | null
-
-      //@attribute book
-      // publishing: string
-      // page_number: 0
-      // author: string
-      // description: string
-} & timeLineRef
 
 //@schema chính
 const schema = productSchema.merge(productBookSchema)
@@ -50,6 +39,7 @@ export const ui = {
       colorError: 'text-red-700',
 }
 type TProps<T, K, Form> = {
+      mode?: 'UPLOAD' | 'UPDATE'
       product_id: string
       ProductAttribute: React.ReactNode
       TimelineProps: {
@@ -70,7 +60,7 @@ const defaultValues: TRegisterFormBook = {
 }
 
 //@Component
-const FormRegisterBook = <T, K, Form>(props: TProps<T, K, Form>) => {
+const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>) => {
       const { product_id, ProductAttribute, TimelineProps } = props
 
       //@trang thái submit
@@ -80,14 +70,17 @@ const FormRegisterBook = <T, K, Form>(props: TProps<T, K, Form>) => {
       const queryClient = useQueryClient()
 
       //@lấy thông tin hình ảnh
-      const [urlProductThumb, setUrlProductThumb] = useState<UploadImage>({
-            product_thumb_image: { secure_url: '', public_id: '' },
+      const [urlProductThumb, setUrlProductThumb] = useState<TProfileImage>({
+            isUploadImage: false,
             FileName: '',
             FileLength: 0,
       })
 
       //@lấy thông tin các hình
-      const [urlProductMultipleImage, setUrlProductMultipleImage] = useState<UploadImages[]>([])
+      const [urlProductMultipleImage, setUrlProductMultipleImage] = useState<TCheckDescriptionImage>({
+            numberImage: 0,
+            isUploadImage: false,
+      })
 
       //@lấy thông tin tên các hình
       const [getFileName, setGetFileName] = useState<string[]>([])
@@ -109,19 +102,28 @@ const FormRegisterBook = <T, K, Form>(props: TProps<T, K, Form>) => {
             setFormStateSubmit(true)
             console.log({ data })
 
-            if (urlProductMultipleImage.length < 4) {
-                  // alert(urlProductMultipleImage.length)
+            if (!urlProductMultipleImage.isUploadImage) {
                   dispatch(
                         addToast({
-                              type: 'WARNNING',
-                              message: 'Xin upload ít nhất 4 hình ảnh mô tả sản phẩm',
+                              type: 'ERROR',
+                              message: `Upload thêm ${4 - urlProductMultipleImage.numberImage} để đủ 4 ảnh bạn nhé`,
+                              id: Math.random().toString(),
+                        }),
+                  )
+            }
+
+            if (!urlProductThumb.isUploadImage) {
+                  dispatch(
+                        addToast({
+                              type: 'ERROR',
+                              message: 'Hình đại diện sản phẩm là bắt buộc',
                               id: Math.random().toString(),
                         }),
                   )
             }
 
             // chỉ submit khi có đủ image
-            if (urlProductThumb.product_thumb_image.secure_url && urlProductMultipleImage.length === 4) {
+            if (urlProductThumb.isUploadImage && urlProductMultipleImage.isUploadImage) {
                   console.log({ urlProductThumb })
 
                   const formData: IFormDataProductFull = new FormData()
@@ -129,9 +131,6 @@ const FormRegisterBook = <T, K, Form>(props: TProps<T, K, Form>) => {
 
                   formData.append('product_name', data.product_name)
                   formData.append('product_price', data.product_price as number)
-                  formData.append('product_thumb_image_url', urlProductThumb.product_thumb_image.secure_url)
-                  formData.append('product_thumb_image_public_id', urlProductThumb.product_thumb_image.public_id)
-                  urlProductMultipleImage.forEach((url) => formData.append('product_image_description', JSON.stringify(url)))
 
                   formData.append('publishing', data.publishing)
                   formData.append('author', data.author)
@@ -145,7 +144,7 @@ const FormRegisterBook = <T, K, Form>(props: TProps<T, K, Form>) => {
       useEffect(() => {
             const callAgain = async () => {
                   queryClient.invalidateQueries({
-                        queryKey: ['product-all'],
+                        queryKey: ['get-all-product   '],
                         refetchType: 'active',
                   })
             }
@@ -166,7 +165,7 @@ const FormRegisterBook = <T, K, Form>(props: TProps<T, K, Form>) => {
                                     spellCheck={false}
                               >
                                     <div className=''>Thông tin cơ bản về sản phẩm</div>
-                                    <InputText<TRegisterFormBook>
+                                    <InputText
                                           methods={methods}
                                           FieldName='product_name'
                                           LabelMessage='Tên sản phẩm'
@@ -200,22 +199,44 @@ const FormRegisterBook = <T, K, Form>(props: TProps<T, K, Form>) => {
                                           isSubmit={methods.formState.isSubmitted ? true : false}
                                     />
                                     <>{ProductAttribute}</>
-                                    <button type='submit' className='min-w-[150px] px-[12px] py-[6px] bg-slate-700 text-white'>
-                                          Đăng bán
+                                    <button
+                                          type='submit'
+                                          className='min-w-[150px] px-[12px] py-[6px] bg-slate-700 text-white flex justify-center items-center gap-[8px]'
+                                    >
+                                          <span>{!uploadProductFull.isSuccess ? 'Đăng bán' : 'Đăng sản phẩm thành công'}</span>
+
+                                          {uploadProductFull.isPending && (
+                                                <span
+                                                      className='inline-block h-[25px] w-[25px] text-white animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                                      role='status'
+                                                ></span>
+                                          )}
                                     </button>
                               </form>
                         </FormProvider>
                   </div>
 
                   <div className='hidden h-max min-w-[160px] w-auto lg:flex flex-col gap-[28px]  py-[24px] pl-[8px] pr-[24px] bg-bgTimeLine border-r-4 border-blue-300 rounded-lg'>
-                        <Timeline methods={methods} FieldName='product_name' TimeLineName='Tên sản phẩm' type='Text' />
-                        <Timeline methods={methods} FieldName='product_price' TimeLineName='Giá sản phẩm' type='Money' />
+                        <Timeline
+                              methods={methods}
+                              value={methods.watch('product_name')}
+                              FieldName='product_name'
+                              TimeLineName='Tên sản phẩm'
+                              type='Text'
+                        />
+                        <Timeline
+                              methods={methods}
+                              value={methods.watch('product_price')?.toString()}
+                              FieldName='product_price'
+                              TimeLineName='Giá sản phẩm'
+                              type='Money'
+                        />
                         <Timeline
                               TimeLineName='Hình đại diện sản phẩm'
                               type='File'
                               File={{
+                                    isUploadImage: urlProductThumb.isUploadImage,
                                     FileName: urlProductThumb.FileName,
-                                    CountFile: urlProductThumb.FileLength,
                               }}
                               isSubmit={methods.formState.isSubmitted ? true : false}
                         />
@@ -224,12 +245,12 @@ const FormRegisterBook = <T, K, Form>(props: TProps<T, K, Form>) => {
                               type='Files'
                               Files={{
                                     FileName: getFileName || '',
-                                    CountFile: getFileName.length || 0,
+                                    isUploadImages: urlProductMultipleImage.isUploadImage,
                               }}
                               isSubmit={methods.formState.isSubmitted ? true : false}
                         />
                         {TimelineProps.map((timeline) => (
-                              <Timeline<T, TRegisterFormBook>
+                              <Timeline<T, typeof defaultValues>
                                     methods={methods}
                                     type='Text'
                                     FieldName={timeline.FieldName}

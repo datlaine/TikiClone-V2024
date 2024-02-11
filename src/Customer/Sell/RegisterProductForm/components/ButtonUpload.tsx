@@ -9,6 +9,7 @@ import { View, X } from 'lucide-react'
 //@modal
 import BoxModal from '../../../../component/ui/BoxModal'
 import { ui } from '../FormRegisterBook'
+import { TChekUploadImage, TProfileImage } from '../../../../types/product/product.type'
 
 //@Props
 interface IProps {
@@ -19,13 +20,7 @@ interface IProps {
       width?: string
 
       //@tất cả thông tin về hình ảnh
-      setUrlProductThumb: React.Dispatch<
-            SetStateAction<{
-                  product_thumb_image: { secure_url: string; public_id: string }
-                  FileName: string
-                  FileLength: number
-            }>
-      >
+      setUrlProductThumb: React.Dispatch<SetStateAction<TProfileImage>>
       product_id?: string
 
       //@trạng thái submit
@@ -44,7 +39,8 @@ const ButtonUpload = (props: IProps) => {
       //@api upload image
       const uploadProductThumb = useMutation({
             mutationKey: ['product-thumb'],
-            mutationFn: (data: IFormDataImage) => ProductApi.uploadProductThumb(data),
+            mutationFn: (data: IFormDataImage) =>
+                  ProductApi.uploadProductImage({ formData: data, url: 'v1/api/product/upload-product-thumb' }),
       })
 
       //@api delete image
@@ -69,7 +65,7 @@ const ButtonUpload = (props: IProps) => {
                   setFilePreview(undefined)
                   setFileProduct(undefined)
                   setUrlProductThumb({
-                        product_thumb_image: { secure_url: '', public_id: '' },
+                        isUploadImage: false,
                         FileName: '',
                         FileLength: 0,
                   })
@@ -81,13 +77,6 @@ const ButtonUpload = (props: IProps) => {
             }
       }
 
-      //@call api delete image thumb
-      /*
-        .gọi api xóa hình ở cloud và db
-        .xóa link blob
-        .set lại filePreview empty
-        .set lại toàn bộ thông tin về file
-    */
       const handleDeleteProductThumb = (public_id: string) => {
             deleteProductThumb.mutate({ public_id, id: product_id as string })
             URL.revokeObjectURL(filePreview as string)
@@ -97,7 +86,7 @@ const ButtonUpload = (props: IProps) => {
             }
 
             setUrlProductThumb({
-                  product_thumb_image: { secure_url: '', public_id: '' },
+                  isUploadImage: false,
                   FileName: '',
                   FileLength: 0,
             })
@@ -133,10 +122,7 @@ const ButtonUpload = (props: IProps) => {
                   const { metadata } = uploadProductThumb.data.data
                   if (metadata.product.product_thumb_image) {
                         setUrlProductThumb({
-                              product_thumb_image: {
-                                    secure_url: metadata.product.product_thumb_image.secure_url,
-                                    public_id: metadata.product.product_thumb_image.public_id,
-                              },
+                              isUploadImage: true,
                               FileLength: fileProduct ? 1 : 0,
                               FileName: fileProduct?.name.replace(/.*[\/\\]/, '') as string,
                         })
@@ -205,11 +191,12 @@ const ButtonUpload = (props: IProps) => {
                                           }}
                                           className='min-w-[150px] px-[12px] py-[6px] bg-slate-700 text-white rounded-md '
                                     >
-                                          Chọn lại từ đầu
+                                          Chọn lại
                                     </button>
                               </div>
-                              <div className='absolute bottom-[0px] right-[-40px] bg-white h-[35px] w-[35px] flex items-center justify-center rounded-full'>
+                              <div className='absolute bottom-[0px] right-[-140px] bg-white h-[35px] min-w-[150px] flex items-center justify-center rounded-full gap-[16px]'>
                                     <View onClick={() => setModalFilePreview(true)} size={28} className=' ' />
+                                    <span>Xem trước</span>
                               </div>
                               {uploadProductThumb.isPending && (
                                     <div className='absolute'>

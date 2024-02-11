@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 //@handle time
 import { DateTime } from 'luxon'
 
 //@ form
 import { FieldValues, Path } from 'react-hook-form'
-import { TimeLineProps } from '../../../types/timeLine.type'
+import { TimeLineProps } from '../../../types/timeline/timeLine.type'
 
 const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, HookFormType>) => {
-      const { methods, TimeLineName, FieldName, File, Files, type, isSubmit, mode = 'UPLOAD' } = props
+      const { methods, TimeLineName, FieldName, File, Files, type, isSubmit, mode = 'UPLOAD', messageError, value } = props
       // const methods = useFormContext()
       const error = methods?.formState.errors
       //@ui
-
-      console.log({ error })
+      console.log({ messageError, value })
 
       const width = FieldName && error![FieldName as string] ? 'w-[200px]' : 'w-[150px]'
-      const widthFile = ((File?.CountFile as number) || (Files?.CountFile as number)) < 1 ? 'w-[250px]' : 'w-[200px]'
+      const widthFile =
+            //  ((File?.CountFile as number) || (Files?.CountFile as number)) < 1 ?
+            'w-[250px]'
+
+      //  : 'w-[200px]'
 
       const styleEffect = {
             heightScale: type === 'Files' ? 85 : 70,
@@ -85,12 +88,12 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
                                     title={`Hình đại diện sản phẩm là bắt buộc'`}
                               >
                                     <p>{TimeLineName}</p>
-                                    {isSubmit && File!.CountFile === 0 && (
+                                    {isSubmit && !File?.isUploadImage && (
                                           <span className='text-[12px] text-red-700 w-[200px] truncate'>
                                                 {'Hình đại diện sản phẩm là bắt buộc'}
                                           </span>
                                     )}
-                                    {File!.CountFile === 1 && (
+                                    {File?.isUploadImage && (
                                           <span className='text-[12px] text-blue-700 w-[200px] break-words'>{File?.FileName}</span>
                                     )}
                               </div>
@@ -99,12 +102,12 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
                               <div className={`${widthFile} flex flex-col gap-[6px] mt-[-5px] transition-all duration-500 min-w-[150px]`}>
                                     <p>{TimeLineName}</p>
 
-                                    {isSubmit && Files!.CountFile === 0 && (
+                                    {isSubmit && !Files?.isUploadImages && (
                                           <span className='text-[12px] text-red-700 w-[200px] truncate'>
                                                 {'Hình đại diện sản phẩm là bắt buộc'}
                                           </span>
                                     )}
-                                    {Files!.CountFile >= 1 && (
+                                    {Files!.isUploadImages && (
                                           <div className='flex flex-col gap-[4px] text-blue-700'>
                                                 {Files!.FileName.map((file) => (
                                                       <span key={file} className='text-[12px] w-[200px] truncate'>

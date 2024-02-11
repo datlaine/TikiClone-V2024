@@ -20,7 +20,7 @@ import InputNumber from '../components/InputNumber'
 import ButtonUploadWithId from './components/ButtonUploadWithId'
 import ButtonUploadMultipleWithId from './components/ButtonUploadMultipleWithId'
 import { TImageCLoudinary } from '../../../types/cloudinary.type'
-import { TFormBook, TProductDetail, UploadImage, UploadImages } from '../../../types/product/product.type'
+import { TFormBook, TProductDetail, UploadImages } from '../../../types/product/product.type'
 
 //@components
 
@@ -77,7 +77,7 @@ const FormUpdateBook = (props: TProps) => {
       const queryClient = useQueryClient()
 
       //@lấy thông tin hình ảnh
-      const [urlProductThumb, setUrlProductThumb] = useState<UploadImage>({
+      const [urlProductThumb, setUrlProductThumb] = useState<UploadImages>({
             product_thumb_image: { secure_url: '', public_id: '' },
             FileName: '',
             FileLength: 0,
@@ -137,8 +137,6 @@ const FormUpdateBook = (props: TProps) => {
 
             formData.append('product_name', data.product_name)
             formData.append('product_price', data.product_price as number)
-            formData.append('product_thumb_image_url', urlProductThumb.product_thumb_image.secure_url)
-            formData.append('product_thumb_image_public_id', urlProductThumb.product_thumb_image.public_id)
             urlProductMultipleImage.forEach((url) => formData.append('product_image_description', JSON.stringify(url)))
 
             formData.append('publishing', data.attribute.publishing)
@@ -180,15 +178,15 @@ const FormUpdateBook = (props: TProps) => {
       useEffect(() => {
             if (product.product_thumb_image.secure_url) {
                   // setGetFileName(prev => {...prev,})
-                  setUrlProductThumb((prev) => {
-                        return {
-                              ...prev,
-                              FileLength: 1,
-                              product_id: product._id,
-                              product_thumb_image: product.product_thumb_image,
-                              FileName: product.product_thumb_image.secure_url,
-                        }
-                  })
+                  // setUrlProductThumb((prev) => {
+                  //       return {
+                  //             ...prev,
+                  //             FileLength: 1,
+                  //             product_id: product._id,
+                  //             product_thumb_image: product.product_thumb_image,
+                  //             FileName: product.product_thumb_image.secure_url,
+                  //       }
+                  // })
             }
       }, [])
 
@@ -258,8 +256,9 @@ const FormUpdateBook = (props: TProps) => {
                               TimeLineName='Hình đại diện sản phẩm'
                               type='File'
                               File={{
-                                    FileName: urlProductThumb.FileName,
-                                    CountFile: urlProductThumb.FileLength,
+                                    FileName: '',
+                                    // CountFile: urlProductThumb.FileLength,
+                                    isUploadImage: true,
                               }}
                               mode={mode}
                               isSubmit={methods.formState.isSubmitted ? true : false}
@@ -269,7 +268,8 @@ const FormUpdateBook = (props: TProps) => {
                               type='Files'
                               Files={{
                                     FileName: getFileName || '',
-                                    CountFile: getFileName.length || 0,
+                                    // CountFile: getFileName.length || 0,
+                                    isUploadImages: true,
                               }}
                               isSubmit={methods.formState.isSubmitted ? true : false}
                         />
@@ -288,3 +288,10 @@ const FormUpdateBook = (props: TProps) => {
 }
 
 export default FormUpdateBook
+// import React from 'react'
+
+// const FormUpdateBook = () => {
+//       return <div>FormUpdateBook</div>
+// }
+
+// export default FormUpdateBook

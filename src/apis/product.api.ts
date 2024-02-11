@@ -65,10 +65,36 @@ class ProductApi {
             return axiosCustom.post<{ metadata: { product_id: string } }>('v1/api/product/create-base-product-id')
       }
 
-      static async uploadProductThumb(image_product: IFormDataImage) {
+      static async uploadProductDescriptionImageOne({ formData }: { formData: IFormDataImage }) {
+            return axiosCustom.post<
+                  TResponseApi<{
+                        product: {
+                              product_id: string
+                              public_id: string
+                        }
+                  }>
+            >('v1/api/product/upload-product-description-image-one', formData, {
+                  headers: { 'content-Type': 'multipart/form-data' },
+            })
+      }
+
+      static async deleteProductDescriptionImageOne({ formData }: { formData: IFormDataImage }) {
+            return axiosCustom.post<
+                  TResponseApi<{
+                        product: {
+                              product_id: string
+                              public_id: string
+                        }
+                  }>
+            >('v1/api/product/delete-product-description-image-one', formData, {
+                  headers: { 'content-Type': 'multipart/form-data' },
+            })
+      }
+
+      static async uploadProductImage({ formData, url }: { formData: IFormDataImage; url: string }) {
             return axiosCustom.post<
                   TResponseApi<{ product: { product_id: string; product_thumb_image: { secure_url: string; public_id: string } } }>
-            >('v1/api/product/upload-product-thumb', image_product, {
+            >(url, formData, {
                   headers: { 'content-Type': 'multipart/form-data' },
             })
       }

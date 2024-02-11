@@ -12,7 +12,7 @@ import { addToast } from '../../../../Redux/toast'
 import { useMutation } from '@tanstack/react-query'
 import ProductApi, { IFormDataImages } from '../../../../apis/product.api'
 import { ui } from '../FormRegisterBook'
-import { UploadImages } from '../../../../types/product/product.type'
+import { TCheckDescriptionImage, TChekUploadImage } from '../../../../types/product/product.type'
 
 //@Props
 interface IProps {
@@ -23,7 +23,7 @@ interface IProps {
       width?: string
 
       //@toàn bộ dữ liệu từ việc upload 4 hình ảnh sẽ được trả cho form parent để xử lí
-      setUrlProductMultipleImage: React.Dispatch<SetStateAction<UploadImages[]>>
+      setUrlProductMultipleImage: React.Dispatch<SetStateAction<TCheckDescriptionImage>>
 
       //@do form t chia ra làm 3 phần, 2 phần hình 1 phần text nên product_id là cái liên kết duy nhất của cả 3
       product_id: string
@@ -67,7 +67,7 @@ const ButtonUploadMultiple = (props: IProps) => {
             mutationKey: ['upload-image-full'],
             mutationFn: (data: IFormDataImages) => ProductApi.uploadProductImagesFull(data),
             onSuccess: (data) => {
-                  setUrlProductMultipleImage((prev) => prev.concat(data.data.metadata.product.productDemo.product_desc_image))
+                  setUrlProductMultipleImage({ isUploadImage: true, numberImage: 4 })
                   setProductId(data.data.metadata.product.productDemo._id)
             },
       })
@@ -78,7 +78,7 @@ const ButtonUploadMultiple = (props: IProps) => {
             mutationFn: ({ id }: { id: string }) => ProductApi.deleteImages({ id: product_id }),
       })
 
-      console.log({ filePreview })
+      console.log({ fileProduct })
 
       //@Click vào button, kích hoạt inputRef click
       const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -94,24 +94,15 @@ const ButtonUploadMultiple = (props: IProps) => {
             console.log({ target: e.target.files?.length })
             //@nếu file vượt quá 4 thì xét 3 state chính lại mặc định và mount toast
             if (filePreview.length > 4 || fileProduct.length > 4 || e.target.files!.length > 4) {
-                  // setFilePreview([])
-                  // setFileProduct([])
-                  // setGetFileName([])
                   dispatch(addToast({ type: 'WARNNING', message: 'Chỉ upload tối đa 4 files', id: Math.random().toString() }))
-                  // inputRef!.current!.value = ''
 
                   return
             }
-
-            /* khi xét state trong loop, không được dùng setState(prev => [prev, ...index])
-            phải tạo 1 biến lưu lại kết quả của loop rồi xét 1 lượt luôn nè
-        */
 
             //@nếu file bé hơn 4, lưu ý là bé hơn chứ không = 4, bé hơn thì khả năng người dùng còn chọn thêm file mới nữa
             if (e.target.files && e.target.files!.length <= 4 && fileProduct.length < 4) {
                   //@nếu số file người dùng push vào + với số file sẵn có từ lần trước mà quá hơn 4 thì mount toast
                   if (fileProduct.length + e.target.files.length > 4) {
-                        alert('OK')
                         dispatch(
                               addToast({
                                     type: 'WARNNING',
@@ -123,7 +114,6 @@ const ButtonUploadMultiple = (props: IProps) => {
 
                         return
                   }
-                  // dispatch(addToast({ type: 'ERROR', message: 'Upload mix', id: Math.random().toString() }))
                   //@nếu không lớn hơn kích thước thì tiến hành push file mới vào mảng file đã có sẵn
                   setFileProduct((prev) => {
                         //@lấy số file mới người dùng chọn
@@ -174,7 +164,7 @@ const ButtonUploadMultiple = (props: IProps) => {
             setFilePreview([])
             setFileProduct([])
             setGetFileName([])
-            setUrlProductMultipleImage([])
+            setUrlProductMultipleImage({ numberImage: 0, isUploadImage: false })
             deleteImages.mutate({ id: product_id })
       }
 
@@ -185,6 +175,9 @@ const ButtonUploadMultiple = (props: IProps) => {
                   fileProduct.forEach((file) => data.append(`files`, file))
                   uploadImages.mutate(data)
             }
+            setUrlProductMultipleImage((prev) => {
+                  return { ...prev, numberImage: fileProduct.length }
+            })
             const arrayURL = fileProduct.map((file) => URL.createObjectURL(file))
             setFilePreview(() => arrayURL)
 
@@ -232,7 +225,7 @@ const ButtonUploadMultiple = (props: IProps) => {
                   {filePreview.length > 0 && (
                         <React.Fragment>
                               <div className={`${styleEffect.heightWrapperFilePreview}  flex-1`}>
-                                    <div className='min-w-full min-h-full flex items-center flex-wrap gap-[10px]'>
+                                    <div className='min-w-full min-h-full flex items-center flex-wrap gap-[20px]'>
                                           {filePreview.map((preview, index) => {
                                                 return (
                                                       <div
@@ -241,6 +234,8 @@ const ButtonUploadMultiple = (props: IProps) => {
                                                             onClick={() => {
                                                                   setSelectImageModal(preview! as string)
                                                                   setModalFilePreview(true)
+
+                                                                  // handleDeleteImageOne({})
                                                             }}
                                                       >
                                                             <span

@@ -73,7 +73,7 @@ const SectionProductItem = (props: Props) => {
                                           >
                                                 <div className='basis-[30%] xl:basis-[16%] min-h-full'>
                                                       <img
-                                                            src={product.product_thumb_image.secure_url}
+                                                            src={product?.product_thumb_image?.secure_url}
                                                             className='min-w-full min-h-[85%] max-h-[85%]'
                                                             alt='product'
                                                       />

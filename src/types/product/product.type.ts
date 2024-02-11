@@ -65,14 +65,27 @@ export type TFormBook = {
 }
 
 //@type upload 1 hình
-export type UploadImage = {
-      product_thumb_image: { secure_url: string; public_id: string }
+export type TProfileImage = {
+      isUploadImage: boolean
       FileName: string
       FileLength: number
-}
+} & TChekUploadImage
 
 //@type upload 1 mảng
 export type UploadImages = {
-      secure_url: string
-      public_id: string
+      // secure_url: string
+      // public_id: string
+}
+export type TChekUploadImage = {
+      isUploadImage: boolean
+}
+
+export type TCheckDescriptionImage = TChekUploadImage & {
+      numberImage: number
+}
+
+export type TProductFormCommon = {
+      product_id: string
+      product_name: string
+      product_price: number | null
 }

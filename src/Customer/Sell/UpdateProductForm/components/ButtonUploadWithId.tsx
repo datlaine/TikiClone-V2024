@@ -65,7 +65,6 @@ const ButtonUploadWithId = (props: IProps) => {
             if (inputRef.current) {
                   inputRef.current.click()
             }
-            // setFormStateSubmit(false)
       }
 
       //@input click
@@ -87,13 +86,6 @@ const ButtonUploadWithId = (props: IProps) => {
             }
       }
 
-      //@call api delete image thumb
-      /*
-        .gọi api xóa hình ở cloud và db
-        .xóa link blob
-        .set lại filePreview empty
-        .set lại toàn bộ thông tin về file
-    */
       const handleDeleteProductThumb = (public_id: string) => {
             deleteProductThumb.mutate({ public_id, id: updateProductThumb?.data?.data?.metadata?.product?.product_id as string })
             URL.revokeObjectURL(filePreview as string)
@@ -118,8 +110,6 @@ const ButtonUploadWithId = (props: IProps) => {
                   return
             }
 
-            console.log({ fileProduct })
-
             //@có file thì call gửi lên server -> phần product_id quan trọng nhất đó
             if (fileProduct) {
                   console.log({ fileProduct })
@@ -127,10 +117,7 @@ const ButtonUploadWithId = (props: IProps) => {
                   formData.append('file', fileProduct)
                   formData.append('product_id', product_id)
                   formData.append('public_id', public_id)
-                  // console.log({ formData: JSON.stringify(formData) })
-                  for (const [key, value] of formData) {
-                        console.log(key, value)
-                  }
+
                   updateProductThumb.mutate(formData)
             }
 
@@ -312,3 +299,10 @@ const ButtonUploadWithId = (props: IProps) => {
 }
 
 export default ButtonUploadWithId
+// import React from 'react'
+
+// const ButtonUploadWithId = () => {
+//       return <div>ButtonUploadWithId</div>
+// }
+
+// export default ButtonUploadWithId

@@ -10,12 +10,14 @@ import { addToast } from '../../../../Redux/toast'
 
 //@api
 import { useMutation } from '@tanstack/react-query'
-import ProductApi, { IFormDataImages } from '../../../../apis/product.api'
+import ProductApi, { IFormDataDeleteImage, IFormDataImage, IFormDataImages } from '../../../../apis/product.api'
 import { ui } from '../FormRegisterBook'
 import { TCheckDescriptionImage, TChekUploadImage } from '../../../../types/product/product.type'
 
 //@Props
 interface IProps {
+      mode?: 'UPLOAD' | 'UPDATE'
+
       //@tên nút button
       labelMessage: string
 
@@ -37,7 +39,9 @@ interface IProps {
 
 //@Component
 const ButtonUploadMultiple = (props: IProps) => {
-      const { labelMessage, width, product_id, isSubmit, setUrlProductMultipleImage, setGetFileName } = props
+      const { labelMessage, width, product_id, isSubmit, setUrlProductMultipleImage, setGetFileName, mode = 'UPLOAD' } = props
+
+      console.log({ product_id })
 
       //@Input upload chính
       const inputRef = useRef<HTMLInputElement>(null)
@@ -61,6 +65,7 @@ const ButtonUploadMultiple = (props: IProps) => {
       const [modalFilePreview, setModalFilePreview] = useState(false)
 
       const [selectImageModal, setSelectImageModal] = useState<string>('')
+      const [publicId, setPublicId] = useState<string[]>([])
 
       //@hàm kích hoạt upload, sau thành công thì set product_id từ api trả về, và setState mảng file từ dũ liệu api trả về
       const uploadImages = useMutation({
@@ -76,6 +81,23 @@ const ButtonUploadMultiple = (props: IProps) => {
       const deleteImages = useMutation({
             mutationKey: ['delete-product-image-full'],
             mutationFn: ({ id }: { id: string }) => ProductApi.deleteImages({ id: product_id }),
+      })
+
+      const uploadProductDescriptionImageOne = useMutation({
+            mutationKey: ['uploadProductDescriptionImageOne'],
+            mutationFn: ({ formData }: { formData: IFormDataImage }) => ProductApi.uploadProductDescriptionImageOne({ formData }),
+            onSuccess: (axiosResponse) => {
+                  setPublicId((prev) => {
+                        const newArray = [...prev]
+                        newArray.push(axiosResponse.data.metadata.product.public_id)
+                        return newArray
+                  })
+            },
+      })
+
+      const deleteProductDescriptionImageOne = useMutation({
+            mutationKey: ['deleteProductDescriptionImageOne'],
+            mutationFn: (formData: IFormDataDeleteImage) => ProductApi.deleteProductDescriptionImageOne(formData),
       })
 
       console.log({ fileProduct })
@@ -135,6 +157,14 @@ const ButtonUploadMultiple = (props: IProps) => {
                         return newArrayFile
                   })
 
+                  for (let index = 0; index < e.target.files.length; index++) {
+                        const formData: IFormDataImage = new FormData()
+                        formData.append('file', e.target.files[index])
+                        formData.append('product_id', product_id)
+
+                        uploadProductDescriptionImageOne.mutate({ formData })
+                  }
+
                   return
             }
 
@@ -150,8 +180,24 @@ const ButtonUploadMultiple = (props: IProps) => {
                         }
                         return newArrayFile
                   })
+                  for (let index = 0; index < e.target.files.length; index++) {
+                        const formData: IFormDataImage = new FormData()
+                        formData.append('file', e.target.files[index])
+                        formData.append('product_id', product_id)
+
+                        uploadProductDescriptionImageOne.mutate({ formData })
+                  }
             }
             inputRef!.current!.value = ''
+      }
+
+      const handleDeleteProductDescriptionImageOne = ({ public_id, preview }: { public_id: string; preview: string }) => {
+            setFilePreview((previews) => previews.filter((prev) => prev !== preview))
+            URL.revokeObjectURL(preview)
+            const formData: IFormDataDeleteImage = new FormData()
+            formData.append('product_id', product_id)
+            formData.append('public_id', public_id)
+            deleteProductDescriptionImageOne.mutate(formData)
       }
 
       const handleDeleteProductImages = () => {
@@ -160,6 +206,7 @@ const ButtonUploadMultiple = (props: IProps) => {
                   inputRef!.current!.value = ''
                   inputRef.current?.click()
             }
+
             filePreview.forEach((removeURL) => URL.revokeObjectURL(removeURL))
             setFilePreview([])
             setFileProduct([])
@@ -170,11 +217,7 @@ const ButtonUploadMultiple = (props: IProps) => {
 
       useEffect(() => {
             const data = new FormData()
-            if (fileProduct.length === 4) {
-                  data.append('id', product_id)
-                  fileProduct.forEach((file) => data.append(`files`, file))
-                  uploadImages.mutate(data)
-            }
+
             setUrlProductMultipleImage((prev) => {
                   return { ...prev, numberImage: fileProduct.length }
             })
@@ -186,6 +229,12 @@ const ButtonUploadMultiple = (props: IProps) => {
             }
             // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [fileProduct])
+
+      useEffect(() => {
+            if (publicId.length === 4) {
+                  setUrlProductMultipleImage({ numberImage: publicId.length, isUploadImage: true })
+            }
+      }, [publicId])
 
       const styleEffect = {
             withContainer: width ? width : 'w-full',
@@ -243,6 +292,19 @@ const ButtonUploadMultiple = (props: IProps) => {
                                                                   role='status'
                                                             ></span>
                                                             <img src={preview} alt='preview' className='w-full h-[72px]' />
+                                                            <div
+                                                                  className='absolute top-[-15px] right-[-15px] bg-red-700 h-[24px] w-[24px] p-[2px] flex items-center justify-center'
+                                                                  onClick={(e) => {
+                                                                        e.stopPropagation()
+                                                                        e.preventDefault()
+                                                                        handleDeleteProductDescriptionImageOne({
+                                                                              public_id: publicId[index],
+                                                                              preview,
+                                                                        })
+                                                                  }}
+                                                            >
+                                                                  <X size={20} color='white' />
+                                                            </div>
                                                       </div>
                                                 )
                                           })}

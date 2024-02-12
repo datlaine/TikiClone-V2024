@@ -1,3 +1,5 @@
+import { TCloudinaryImage } from '../../Customer/Sell/types/cloudinary.typs'
+
 export type TProductFull =
       | {
               _id: string
@@ -30,10 +32,7 @@ export type TProductDetail = {
             public_id: string
       }
 
-      product_desc_image: {
-            secure_url: string
-            public_id: string
-      }[]
+      product_desc_image: TCloudinaryImage[]
 
       product_type: string
       attribute: IProductBook

@@ -36,7 +36,7 @@ class AxiosCustom {
             this.instance.interceptors.response.use(
                   (res) => res,
                   async (error) => {
-                        console.log({ error })
+                        // console.log({ error })
                         const originalRequest = error.config
                         // if (error.response?.status !== 401 || error.response?.status !== 403) return Promise.reject(error)
 
@@ -48,21 +48,14 @@ class AxiosCustom {
                         ) {
                               originalRequest.retry = true
                               store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
-                              if (!this.refreshTokenPromise) {
-                                    // check for an existing in-progress request
-                                    // if nothing is in-progress, start a new refresh token request
-                                    this.refreshTokenPromise = Auth.refresh_token().then((token) => {
-                                          this.refreshTokenPromise = null // clear state
-                                          return token // resolve with the new token
-                                    })
-                              }
-                              console.log({ http: this.refreshTokenPromise })
-                              // const res = await Auth.refresh_token()
-                              // console.log({ res })
+                              this.refreshTokenPromise = this.refreshTokenPromise
+                                    ? this.refreshTokenPromise
+                                    : Auth.refresh_token().finally(() => (this.refreshTokenPromise = null))
                               return this.refreshTokenPromise.then(
                                     (data: any) => {
-                                          console.log({ data })
+                                          // console.log({ data })
                                           const { token } = data.data.metadata
+                                          if (!token) return Promise.reject(token)
                                           if (
                                                 error.response.config.url === 'v1/api/account/update-avatar' ||
                                                 error.response.config.url === 'v1/api/product/upload-product-thumb' ||
@@ -80,7 +73,7 @@ class AxiosCustom {
                                           error.config.headers['Authorization'] = `Bearer ${token}`
                                           localStorage.setItem('token', JSON.stringify(token))
                                           originalRequest.retry = false
-                                          return this.instance(error.config)
+                                          return this.instance(error.response.config)
                                     },
                                     // if (!this.refreshTokenPromise) {
                                     //     return Promise.reject(this.refreshTokenPromise)

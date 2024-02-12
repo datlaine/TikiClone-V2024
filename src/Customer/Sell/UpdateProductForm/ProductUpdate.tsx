@@ -14,7 +14,6 @@ import * as z from 'zod'
 
 //@components
 import InputText from '../components/InputText'
-import ButtonUpload from './components/ButtonUpload'
 import InputNumber from '../components/InputNumber'
 import Timeline from '../components/Timeline'
 import { useDispatch } from 'react-redux'
@@ -25,7 +24,8 @@ import { TCheckDescriptionImage, TChekUploadImage, TProductDetail, TProfileImage
 import { TRegisterFormBook } from '../../../types/product/product.book.type'
 import { returnPublicIdCloudinary, returnSecureUrlCloudinary } from '../../../utils/cloudinary.util'
 import { TCloudinaryImage, TCloudinaryPublicId } from '../types/cloudinary.typs'
-import ButtonUploadMultiple from './components/ButtonUploadMultiple'
+import ButtonUpload from '../RegisterProductForm/components/ButtonUpload'
+import UpdateMultipleImage from './components/UpdateMultipleImage'
 
 //@Props - Product::Book
 
@@ -67,7 +67,7 @@ const defaultValues: TRegisterFormBook = {
 }
 
 //@Component
-const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>) => {
+const ProductUpdate = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>) => {
       const { product_id, ProductAttribute, TimelineProps, mode = 'UPLOAD', product } = props
 
       //@trang thái submit
@@ -90,13 +90,13 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
 
       //@lấy thông tin tên các hình
       const [getFileName, setGetFileName] = useState<string[]>([])
-      console.log({ getFileName })
+      // console.log({ getFileName })
       //@useForm
       const methods = useForm<typeof defaultValues>({
-            defaultValues: defaultValues,
+            defaultValues: product,
             resolver: zodResolver(schema),
       })
-      console.log({ formError: methods.formState.errors })
+      // console.log({ formError: methods.formState.errors })
 
       //@hàm upload sản phẩn
       const uploadProductFull = useMutation({
@@ -107,7 +107,7 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
       //@hàm submit sản phẩm
       const onSubmit = (data: TRegisterFormBook) => {
             setFormStateSubmit(true)
-            console.log({ data })
+            // console.log({ data })
 
             if (!urlProductMultipleImage.isUploadImage) {
                   dispatch(
@@ -131,7 +131,7 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
 
             // chỉ submit khi có đủ image
             if (urlProductThumb.isUploadImage && urlProductMultipleImage.isUploadImage) {
-                  console.log({ urlProductThumb })
+                  // console.log({ urlProductThumb })
 
                   const formData: IFormDataProductFull = new FormData()
                   formData.append('_id ', product_id)
@@ -162,7 +162,7 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
             }
       }, [uploadProductFull.isSuccess, queryClient])
 
-      console.log({ defaultValues: methods.formState.defaultValues })
+      // console.log({ defaultValues: methods.formState.defaultValues })
 
       return (
             <div className='animate-mountComponent w-full h-auto flex justify-center '>
@@ -199,7 +199,10 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
                                           isSubmit={methods.formState.isSubmitted ? true : false}
                                     />
 
-                                    <ButtonUploadMultiple
+                                    <UpdateMultipleImage
+                                          ImageServer={returnSecureUrlCloudinary(product?.product_desc_image as TCloudinaryImage[])}
+                                          ImagePublicServer={returnPublicIdCloudinary(product?.product_desc_image as TCloudinaryImage[])}
+                                          CloudinaryImage={product?.product_desc_image as TCloudinaryImage[]}
                                           mode={mode}
                                           labelMessage='Chọn các hình description cho sản phẩm'
                                           width={'xl:w-[100%]'}
@@ -277,4 +280,4 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
       )
 }
 
-export default FormRegisterBook
+export default ProductUpdate

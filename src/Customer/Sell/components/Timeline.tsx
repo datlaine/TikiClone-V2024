@@ -12,7 +12,8 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
       // const methods = useFormContext()
       const error = methods?.formState.errors
       //@ui
-      console.log({ messageError, value })
+
+      // const context = useFor
 
       const width = FieldName && error![FieldName as string] ? 'w-[200px]' : 'w-[150px]'
       const widthFile =
@@ -26,7 +27,7 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
             heightContainer: type === 'Files' ? 75 : 70,
       }
 
-      console.log({ timeLine: mode })
+      // console.log(type === 'Files' && Files?.FileName)
 
       //@element
       return (
@@ -107,7 +108,7 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
                                                 {'Hình đại diện sản phẩm là bắt buộc'}
                                           </span>
                                     )}
-                                    {Files!.isUploadImages && (
+                                    {Files && (
                                           <div className='flex flex-col gap-[4px] text-blue-700'>
                                                 {Files!.FileName.map((file) => (
                                                       <span key={file} className='text-[12px] w-[200px] truncate'>

@@ -31,13 +31,13 @@ const ToastDemo = (props: TProps) => {
 
       useEffect(() => {
             timeOut.current = setTimeout(() => {
-                  console.log({ id: toast.id })
+                  // console.log({ id: toast.id })
                   dispatch(removeToast({ id: toast.id }))
             }, timerToast * 1000)
 
             timeInterval.current = setInterval(() => {
                   setTime((prev) => (prev -= 1))
-                  console.log('time interval')
+                  // console.log('time interval')
             }, 1000)
 
             return () => {
@@ -54,14 +54,14 @@ const ToastDemo = (props: TProps) => {
 
       const handleOnMouseLeave = () => {
             timeOut.current = setTimeout(() => {
-                  console.log({ id: toast.id })
+                  // console.log({ id: toast.id })
                   dispatch(removeToast({ id: toast.id }))
                   setShow(false)
             }, time * 1000)
 
             timeInterval.current = setInterval(() => {
                   setTime((prev) => (prev -= 1))
-                  console.log('time interval')
+                  // console.log('time interval')
             }, 1000)
             setShowDetail(false)
       }

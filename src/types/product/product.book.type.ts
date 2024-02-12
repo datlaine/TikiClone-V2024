@@ -7,4 +7,12 @@ export type TBookProduct = {
       description: string
 }
 
-export type TRegisterFormBook = TProductFormCommon & TBookProduct
+export type TBookProductNestedForm = {
+      ['attribute.publishing']: string
+
+      ['attribute.author']: string
+      ['attribute.page_number']: number
+      ['attribute.description']: string
+}
+
+export type TRegisterFormBook = TProductFormCommon & { attribute: TBookProduct }

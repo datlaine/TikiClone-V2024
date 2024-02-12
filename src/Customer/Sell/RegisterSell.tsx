@@ -23,10 +23,12 @@ const defaultValuesForm: TRegisterFormBook = {
       product_id: '',
       product_name: '',
       product_price: null,
-      publishing: '',
-      page_number: 0,
-      author: '',
-      description: '',
+      attribute: {
+            publishing: '',
+            page_number: 0,
+            author: '',
+            description: '',
+      },
 }
 
 // const a: keyof TTimeLineBook =

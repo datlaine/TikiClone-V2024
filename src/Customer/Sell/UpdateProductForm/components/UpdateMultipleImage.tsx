@@ -1,7 +1,7 @@
 import React, { SetStateAction, useEffect, useId, useRef, useState } from 'react'
 
 //@modal và icon
-import { View, X } from 'lucide-react'
+import { Image, View, X } from 'lucide-react'
 import BoxModal from '../../../../component/ui/BoxModal'
 
 //@dispatch toast
@@ -10,13 +10,16 @@ import { addToast } from '../../../../Redux/toast'
 
 //@api
 import { useMutation } from '@tanstack/react-query'
-import ProductApi, { IFormDataImages } from '../../../../apis/product.api'
-import { ui } from '../FormUpdateBook'
-import { TImageCLoudinary } from '../../../../types/cloudinary.type'
-import { UploadImages } from '../../../../types/product/product.type'
+import ProductApi, { IFormDataDeleteImage, IFormDataImage, IFormDataImages } from '../../../../apis/product.api'
+import { TCheckDescriptionImage, TChekUploadImage } from '../../../../types/product/product.type'
+import { ui } from '../../RegisterProductForm/FormRegisterBook'
+import { TCloudinaryImage } from '../../types/cloudinary.typs'
 
 //@Props
 interface IProps {
+      mode?: 'UPLOAD' | 'UPDATE'
+      ImageServer: string[]
+      ImagePublicServer: string[]
       //@tên nút button
       labelMessage: string
 
@@ -24,21 +27,32 @@ interface IProps {
       width?: string
 
       //@toàn bộ dữ liệu từ việc upload 4 hình ảnh sẽ được trả cho form parent để xử lí
-      setUrlProductMultipleImage: React.Dispatch<SetStateAction<UploadImages[]>>
+      setUrlProductMultipleImage: React.Dispatch<SetStateAction<TCheckDescriptionImage>>
 
       //@do form t chia ra làm 3 phần, 2 phần hình 1 phần text nên product_id là cái liên kết duy nhất của cả 3
       product_id: string
-      public_id_array: TImageCLoudinary[]
+
       //@lấy tên của 4 file cho timeline hiển thị
       setGetFileName: React.Dispatch<SetStateAction<string[]>>
-
+      CloudinaryImage: TCloudinaryImage[]
       //@trạng thái submit
       isSubmit: boolean
 }
 
 //@Component
-const ButtonUploadMultipleWithId = (props: IProps) => {
-      const { labelMessage, width, product_id, isSubmit, setUrlProductMultipleImage, setGetFileName, public_id_array } = props
+const UpdateMultipleImage = (props: IProps) => {
+      const {
+            labelMessage,
+            width,
+            product_id,
+            isSubmit,
+            setUrlProductMultipleImage,
+            setGetFileName,
+            mode = 'UPLOAD',
+            ImageServer,
+            ImagePublicServer,
+            CloudinaryImage,
+      } = props
 
       //@Input upload chính
       const inputRef = useRef<HTMLInputElement>(null)
@@ -56,12 +70,7 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
       const [fileProduct, setFileProduct] = useState<File[]>([])
 
       //@dùng để lưu link blob
-      const [filePreview, setFilePreview] = useState<string[]>(() => {
-            console.log({ array: public_id_array })
-            return public_id_array.map((image) => image.secure_url)
-      })
-
-      console.log({ preview: filePreview })
+      const [cloudinaryImage, setCloudinaryImage] = useState<TCloudinaryImage[]>(CloudinaryImage)
 
       //@model xem trước [dùng potarl]
       const [modalFilePreview, setModalFilePreview] = useState(false)
@@ -69,11 +78,11 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
       const [selectImageModal, setSelectImageModal] = useState<string>('')
 
       //@hàm kích hoạt upload, sau thành công thì set product_id từ api trả về, và setState mảng file từ dũ liệu api trả về
-      const updateImages = useMutation({
-            mutationKey: ['update-image-full'],
-            mutationFn: (data: IFormDataImages) => ProductApi.updateProductImagesFull(data),
+      const uploadImages = useMutation({
+            mutationKey: ['upload-image-full'],
+            mutationFn: (data: IFormDataImages) => ProductApi.uploadProductImagesFull(data),
             onSuccess: (data) => {
-                  setUrlProductMultipleImage((prev) => prev.concat(data.data.metadata.product.productDemo.product_desc_image))
+                  setUrlProductMultipleImage({ isUploadImage: true, numberImage: 4 })
                   setProductId(data.data.metadata.product.productDemo._id)
             },
       })
@@ -82,6 +91,28 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
       const deleteImages = useMutation({
             mutationKey: ['delete-product-image-full'],
             mutationFn: ({ id }: { id: string }) => ProductApi.deleteImages({ id: product_id }),
+      })
+
+      const uploadProductDescriptionImageOne = useMutation({
+            mutationKey: ['uploadProductDescriptionImageOne'],
+            mutationFn: ({ formData }: { formData: IFormDataImage }) => ProductApi.uploadProductDescriptionImageOne({ formData }),
+            onSuccess: (axiosResponse) => {
+                  setCloudinaryImage((cloudinaryLocal) => {
+                        console.log({ cloudinaryLocal })
+                        const newArray = [...cloudinaryLocal]
+                        newArray.push({
+                              secure_url: axiosResponse.data.metadata.product.secure_url,
+                              public_id: axiosResponse.data.metadata.product.public_id,
+                        })
+                        return newArray
+                  })
+            },
+      })
+      console.log({ cloudinaryImage })
+
+      const deleteProductDescriptionImageOne = useMutation({
+            mutationKey: ['deleteProductDescriptionImageOne'],
+            mutationFn: (formData: IFormDataDeleteImage) => ProductApi.deleteProductDescriptionImageOne(formData),
       })
 
       //@Click vào button, kích hoạt inputRef click
@@ -96,12 +127,8 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
       //@kích hoạt onChange input
       const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             //@nếu file vượt quá 4 thì xét 3 state chính lại mặc định và mount toast
-            if (filePreview.length > 4 || fileProduct.length > 4 || e.target.files!.length > 4) {
-                  setFilePreview([])
-                  setFileProduct([])
-                  setGetFileName([])
+            if (cloudinaryImage.length > 4 || e.target.files!.length > 4) {
                   dispatch(addToast({ type: 'WARNNING', message: 'Chỉ upload tối đa 4 files', id: Math.random().toString() }))
-                  // inputRef!.current!.value = ''
 
                   return
             }
@@ -109,7 +136,7 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
             //@nếu file bé hơn 4, lưu ý là bé hơn chứ không = 4, bé hơn thì khả năng người dùng còn chọn thêm file mới nữa
             if (e.target.files && e.target.files!.length <= 4 && fileProduct.length < 4) {
                   //@nếu số file người dùng push vào + với số file sẵn có từ lần trước mà quá hơn 4 thì mount toast
-                  if (fileProduct.length + e.target.files.length > 4) {
+                  if (cloudinaryImage.length + e.target.files.length > 4) {
                         dispatch(
                               addToast({
                                     type: 'WARNNING',
@@ -121,39 +148,35 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
 
                         return
                   }
-                  //@nếu không lớn hơn kích thước thì tiến hành push file mới vào mảng file đã có sẵn
-                  setFileProduct((prev) => {
-                        //@lấy số file mới người dùng chọn
-                        const countFile = e.target.files?.length as number
-                        const newArrayFile = [...prev]
-                        for (let index = 0; index < countFile; index++) {
-                              newArrayFile.push(e!.target!.files![index])
-                        }
-                        return newArrayFile
-                  })
 
-                  // @lấy tên file gửi cho timeline, quy luật giống với push file
-
+                  for (let index = 0; index < e.target.files.length; index++) {
+                        const formData: IFormDataImage = new FormData()
+                        formData.append('file', e.target.files[index])
+                        formData.append('product_id', product_id)
+                        uploadProductDescriptionImageOne.mutate({ formData })
+                  }
                   return
             }
 
             if (e.target.files && e.target.files.length <= 4) {
-                  setFileProduct(Array.from(e.target.files))
-                  const arrayURL = Array.from(e.target.files).map((file) => URL.createObjectURL(file))
-                  setFilePreview((prev) => prev.concat(arrayURL))
-                  setGetFileName((prev) => {
-                        const countFile = e.target.files?.length as number
-                        const newArrayFile = [...prev]
-                        for (let index = 0; index < countFile; index++) {
-                              newArrayFile.push(e!.target!.files![index].name)
-                        }
-                        return newArrayFile
-                  })
+                  for (let index = 0; index < e.target.files.length; index++) {
+                        const formData: IFormDataImage = new FormData()
+                        formData.append('file', e.target.files[index])
+                        formData.append('product_id', product_id)
+
+                        uploadProductDescriptionImageOne.mutate({ formData })
+                  }
             }
             inputRef!.current!.value = ''
       }
 
-      console.log({ file: fileProduct.length })
+      const handleDeleteProductDescriptionImageOne = ({ public_id, secure_url }: { public_id: string; secure_url: string }) => {
+            setCloudinaryImage((cloud) => cloud.filter((filter) => filter.public_id !== public_id && filter.secure_url !== secure_url))
+            const formData: IFormDataDeleteImage = new FormData()
+            formData.append('product_id', product_id)
+            formData.append('public_id', public_id)
+            deleteProductDescriptionImageOne.mutate(formData)
+      }
 
       const handleDeleteProductImages = () => {
             //api
@@ -161,57 +184,55 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
                   inputRef!.current!.value = ''
                   inputRef.current?.click()
             }
-            filePreview.forEach((removeURL) => URL.revokeObjectURL(removeURL))
-            setFilePreview([])
-            setFileProduct([])
+
             setGetFileName([])
-            setUrlProductMultipleImage([])
+            setUrlProductMultipleImage({ numberImage: 0, isUploadImage: false })
             deleteImages.mutate({ id: product_id })
       }
 
       useEffect(() => {
-            console.log({ fileProduct })
-            const data = new FormData()
-            if (fileProduct.length === 4) {
-                  data.append('id', product_id)
-                  fileProduct.forEach((file) => data.append(`files`, file))
-                  public_id_array.forEach((file) => data.append('remove_url_array', file.public_id))
-                  for (const [key, value] of data) {
-                        console.log(key, value)
+            setGetFileName(() => {
+                  const newArrayFile = []
+                  for (let index = 0; index < cloudinaryImage.length; index++) {
+                        newArrayFile.push(cloudinaryImage[index].secure_url)
                   }
-                  updateImages.mutate(data)
-            }
-            if (fileProduct.length > 0) {
-            }
+                  return newArrayFile
+            })
+      }, [cloudinaryImage, setGetFileName])
 
-            return () => {
-                  filePreview.forEach((file) => URL.revokeObjectURL(file))
+      useEffect(() => {
+            if (cloudinaryImage.length === 4) {
+                  setUrlProductMultipleImage({ numberImage: cloudinaryImage.length, isUploadImage: true })
+                  return
             }
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [fileProduct])
+            setUrlProductMultipleImage({ numberImage: cloudinaryImage.length, isUploadImage: false })
+      }, [cloudinaryImage, setUrlProductMultipleImage])
 
       const styleEffect = {
             withContainer: width ? width : 'w-full',
-            heightWrapperFilePreview: filePreview.length > 0 ? 'w-[350px] ' : 'w-[80px] min-h-[60px]',
+            widthContainerImage: uploadProductDescriptionImageOne.isPending
+                  ? cloudinaryImage.length > 0
+                        ? 100 * cloudinaryImage.length
+                        : 80
+                  : '100%',
+            // heightWrapperFilePreview: filePreview.length > 0 ? 'w-[350px] ' : 'w-[80px] min-h-[60px]',
             stateButton:
                   isSubmit && fileProduct.length === 0
                         ? 'border-[2px] border-red-700 text-red-700 bg-white'
                         : 'text-white bg-slate-900 border-[2px] border-slate-900',
 
-            flexContainerModal: filePreview.length === 1 ? 'flex-row' : filePreview.length > 2 ? 'flex-row' : `flex-col`,
+            flexContainerModal: cloudinaryImage.length === 1 ? 'flex-row' : cloudinaryImage.length > 2 ? 'flex-row' : `flex-col`,
             widthImageModal:
-                  filePreview.length === 1
+                  cloudinaryImage.length === 1
                         ? 'w-full h-full'
-                        : filePreview.length > 2
-                        ? `calc(90%/${filePreview.length - 1})`
-                        : `calc(90%/${filePreview.length})`,
+                        : cloudinaryImage.length > 2
+                        ? `calc(90%/${cloudinaryImage.length - 1})`
+                        : `calc(90%/${cloudinaryImage.length})`,
 
             gap: ui.gapElementChildButton || 'gap-[8px]',
             fontSizeError: ui.fontSizeError || 'text-[12px]',
             colorError: ui.colorError || 'text-red-700',
       }
-
-      console.log({ filePreview })
 
       return (
             <div className={`${styleEffect.withContainer} ${styleEffect.gap} relative min-h-[80px] h-auto flex flex-col`}>
@@ -219,56 +240,80 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
                   <input type='file' id={id} hidden ref={inputRef} multiple onChange={(e) => handleInputChange(e)} />
 
                   {/* {@số lượng file review} */}
-                  {filePreview && filePreview.length > 0 && (
+                  {cloudinaryImage && cloudinaryImage.length > 0 && (
                         <p>
-                              Tổng số lượng hình ảnh <span className='text-green-700 text-[28px] font-semibold'>{filePreview.length}</span>{' '}
-                              / 4
+                              Tổng số lượng hình ảnh{' '}
+                              <span className='text-green-700 text-[28px] font-semibold'>{cloudinaryImage.length}</span> / 4
                         </p>
                   )}
 
                   {/* {@các hình review} */}
-                  {filePreview.length > 0 && (
-                        <React.Fragment>
-                              <div className={`${styleEffect.heightWrapperFilePreview}  flex-1`}>
-                                    <div className='min-w-full min-h-full flex items-center flex-wrap gap-[10px]'>
-                                          {filePreview.map((preview, index) => {
-                                                return (
-                                                      <div
-                                                            className='relative w-[20%] flex justify-center items-center'
-                                                            key={Math.random().toString()}
-                                                            onClick={() => {
-                                                                  setSelectImageModal(preview! as string)
-                                                                  setModalFilePreview(true)
-                                                            }}
-                                                      >
-                                                            <span
-                                                                  className='absolute inline-block h-[25px] w-[25px] text-slate-500 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                                                                  role='status'
-                                                            ></span>
-                                                            <img src={preview} alt='preview' className='w-full h-[72px]' />
-                                                      </div>
-                                                )
-                                          })}
+                  <div className='w-full flex gap-[20px]'>
+                        {cloudinaryImage.length > 0 && (
+                              <React.Fragment>
+                                    <div style={{ width: styleEffect.widthContainerImage }}>
+                                          <div className='min-w-full min-h-full flex items-center flex-wrap gap-[20px]'>
+                                                {cloudinaryImage.map((preview, index) => {
+                                                      return (
+                                                            <div
+                                                                  className='relative w-[65px] flex justify-center items-center'
+                                                                  key={preview.secure_url}
+                                                                  onClick={() => {
+                                                                        setSelectImageModal(preview.secure_url! as string)
+                                                                        setModalFilePreview(true)
+
+                                                                        // handleDeleteImageOne({})
+                                                                  }}
+                                                            >
+                                                                  <span
+                                                                        className='absolute inline-block h-[25px] w-[25px] text-slate-500 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                                                        role='status'
+                                                                  ></span>
+                                                                  <img src={preview.secure_url} alt='preview' className='w-full h-[72px]' />
+
+                                                                  <div
+                                                                        className='absolute top-[-15px] right-[-15px] bg-red-700 h-[24px] w-[24px] p-[2px] flex items-center justify-center'
+                                                                        onClick={(e) => {
+                                                                              e.stopPropagation()
+                                                                              e.preventDefault()
+                                                                              handleDeleteProductDescriptionImageOne({
+                                                                                    public_id: preview.public_id,
+                                                                                    secure_url: preview.secure_url,
+                                                                              })
+                                                                        }}
+                                                                  >
+                                                                        <X size={20} color='white' />
+                                                                  </div>
+                                                            </div>
+                                                      )
+                                                })}
+                                          </div>
                                     </div>
+                              </React.Fragment>
+                        )}
+
+                        {uploadProductDescriptionImageOne.isPending && (
+                              <div className='animate-pulse  bg-gray-100 w-[20%] h-[72px] flex items-center justify-center'>
+                                    <Image color='#666666' size={50} />
                               </div>
-                        </React.Fragment>
-                  )}
+                        )}
+                  </div>
 
                   {/* {@nút upload file} */}
-                  {filePreview.length < 4 && (
+                  {cloudinaryImage.length < 4 && (
                         <button
                               className={`${styleEffect.stateButton} xl:w-[32%] rounded-md min-h-[40px]`}
                               onClick={(e) => handleButtonClick(e)}
                         >
-                              {filePreview.length > 0 ? 'Tải lên thêm' : 'Tải lên'}
+                              {cloudinaryImage.length > 0 ? 'Tải lên thêm' : 'Tải lên'}
                         </button>
                   )}
 
                   {/* {@Nút button reset, chỉ có khi khi upload ít nhất 1 file hình} */}
-                  {filePreview.length > 0 && (
+                  {cloudinaryImage.length > 0 && (
                         <div className='mt-[25px] h-[35px] w-[95px] flex gap-[16px] '>
                               <button
-                                    disabled={filePreview.length < 0}
+                                    disabled={cloudinaryImage.length < 0}
                                     onClick={(e) => {
                                           e.preventDefault()
                                           handleDeleteProductImages()
@@ -287,7 +332,7 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
                         </div>
                   )}
 
-                  {isSubmit && fileProduct.length === 0 && (
+                  {isSubmit && cloudinaryImage.length === 0 && (
                         <span className={`${styleEffect.colorError} ${styleEffect.fontSizeError}`}>
                               Các hình ảnh chi tiết về sản phẩm là bắt buộc
                         </span>
@@ -322,11 +367,11 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
                                     <div
                                           className={` relative top-[50%] translate-y-[-50%] min-w-[600px] w-auto h-[300px] flex flex-wrap mx-[50px] items-center gap-[16px] justify-center`}
                                     >
-                                          {filePreview.map((preview) => (
+                                          {cloudinaryImage.map((preview) => (
                                                 <img
                                                       style={{ width: styleEffect.widthImageModal }}
                                                       key={Math.random().toString()}
-                                                      src={preview}
+                                                      src={preview.secure_url}
                                                       alt='preview'
                                                       className=' h-full bg-yellow-700'
                                                 />
@@ -349,11 +394,4 @@ const ButtonUploadMultipleWithId = (props: IProps) => {
       )
 }
 
-export default ButtonUploadMultipleWithId
-// import React from 'react'
-
-// const ButtonUploadMultipleWithId = () => {
-//       return <div>ButtonUploadMultipleWithId</div>
-// }
-
-// export default ButtonUploadMultipleWithId
+export default UpdateMultipleImage

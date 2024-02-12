@@ -1,4 +1,4 @@
-import React, { ElementType } from 'react'
+import React, { ElementType, useEffect } from 'react'
 import ProtectProductUpdate from './ProtectProductUpdate'
 import BookUpdate from './BookUpdate'
 import { useQuery } from '@tanstack/react-query'
@@ -14,6 +14,12 @@ const UpdateWrapper = () => {
             queryFn: () => ProductApi.protectProduct({ id: product_id as string }),
       })
 
+      useEffect(() => {
+            if (protectProduct.isSuccess) {
+                  // console.log({ _id: protectProduct.data.data.metadata.product?._id })
+            }
+      }, [protectProduct.isSuccess])
+
       const Book = <BookUpdate product={protectProduct.data?.data.metadata.product as TProductDetail} />
 
       return (
@@ -23,7 +29,7 @@ const UpdateWrapper = () => {
                               isSuccess={protectProduct.isSuccess}
                               product={protectProduct.data?.data.metadata.product}
                               ElementPrivate={<BookUpdate product={protectProduct.data?.data.metadata.product as TProductDetail} />}
-                              ElementPublic={<p>Xin chao</p>}
+                              ElementPublic={<p>Sản phẩm có id {product_id} không được tìm thấy trong shop của bạn</p>}
                         />
                   )}
             </div>

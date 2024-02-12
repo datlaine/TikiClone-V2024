@@ -1,7 +1,7 @@
-import { TBookProduct } from '../product/product.book.type'
+import { TBookProduct, TBookProductNestedForm } from '../product/product.book.type'
 import { TTimeLineFieldName, TTimeLineLabelName } from './timeLine.type'
 
-export type TTimeLineBookField = TBookProduct
+export type TTimeLineBookField = TBookProductNestedForm
 
 export type TTimeLineBookLabel = {
       'Nhà xuất bản': string
@@ -10,7 +10,12 @@ export type TTimeLineBookLabel = {
       'Mô tả chi tiết': string
 }
 
-export const timelineFieldNameBook: Array<keyof TTimeLineBookField> = ['publishing', 'author', 'page_number', 'description']
+export const timelineFieldNameBook: Array<keyof TTimeLineBookField> = [
+      'attribute.publishing',
+      'attribute.author',
+      'attribute.page_number',
+      'attribute.description',
+]
 export const timelineLabelNameBook: Array<keyof TTimeLineBookLabel> = ['Nhà xuất bản', 'Tác giả', 'Số trang', 'Mô tả chi tiết']
 
 export const renderTimeLine = <FieldName extends TTimeLineFieldName, Label extends TTimeLineLabelName>({

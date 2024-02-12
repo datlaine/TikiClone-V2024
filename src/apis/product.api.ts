@@ -28,7 +28,7 @@ export type TProductReturn = {
 }
 
 export interface IFormDataImage extends FormData {
-      append(name: 'file', value: string | Blob, fileName?: string): void
+      append(name: 'file' | 'product_id', value: string | Blob, fileName?: string): void
 }
 export interface IFormDataImageUpdate extends FormData {
       append(name: 'file' | 'product_id' | 'public_id', value: string | Blob, fileName?: string): void
@@ -42,6 +42,9 @@ export interface IFormDataImagesUpdate extends FormData {
       append(name: 'files' | 'remove_url_array', value: string | Blob, fileName?: string): void
 }
 
+export interface IFormDataDeleteImage extends FormData {
+      append(name: 'product_id' | 'public_id', value: string | Blob, fileName?: string): void
+}
 export interface IFormDataProductFull extends FormData {
       append(
             name:
@@ -71,6 +74,7 @@ class ProductApi {
                         product: {
                               product_id: string
                               public_id: string
+                              secure_url: string
                         }
                   }>
             >('v1/api/product/upload-product-description-image-one', formData, {
@@ -78,7 +82,7 @@ class ProductApi {
             })
       }
 
-      static async deleteProductDescriptionImageOne({ formData }: { formData: IFormDataImage }) {
+      static async deleteProductDescriptionImageOne(formData: IFormDataDeleteImage) {
             return axiosCustom.post<
                   TResponseApi<{
                         product: {

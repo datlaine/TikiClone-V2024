@@ -32,16 +32,15 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
       //@element
       return (
             <div style={{ minHeight: styleEffect.heightContainer }} className={` h-auto flex`}>
-                  <div className='flex gap-[12px] items-start'>
-                        <div className='relative w-[16px] h-[16px] border-[2px] border-blue-700 rounded-full'>
-                              <div
-                                    style={{ height: styleEffect.heightScale }}
-                                    className={` absolute top-[100%] left-[50%] translate-x-[-50%]  bg-blue-700 w-[2px] flex items-center`}
-                              >
-                                    <p className='translate-x-[-180%] text-[12px]'>
-                                          {DateTime.now().setZone('Asia/Ho_Chi_Minh').toLocaleString(DateTime.TIME_24_SIMPLE)}
-                                    </p>
-                              </div>
+                  <div className='flex gap-[12px] items-start relative'>
+                        <div className='relative w-[16px] h-[16px] border-[2px] border-blue-700 rounded-full'></div>
+                        <div
+                              // style={{ height: styleEffect.heightScale }}
+                              className={` absolute top-[16px] left-[8px] h-full translate-x-[-50%]  bg-blue-700 w-[2px] flex items-center`}
+                        >
+                              <p className='translate-x-[-180%] text-[12px]'>
+                                    {DateTime.now().setZone('Asia/Ho_Chi_Minh').toLocaleString(DateTime.TIME_24_SIMPLE)}
+                              </p>
                         </div>
                         {type === 'Text' && (
                               <div
@@ -111,9 +110,15 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
                                     {Files && (
                                           <div className='flex flex-col gap-[4px] text-blue-700'>
                                                 {Files!.FileName.map((file) => (
-                                                      <span key={file} className='text-[12px] w-[200px] truncate'>
+                                                      <a
+                                                            rel='noreferrer'
+                                                            href={file}
+                                                            target='_blank'
+                                                            key={file}
+                                                            className='pl-[12px] text-[12px] w-[200px] break-all relative before:absolute before:top-[10px] before:left-[-10px] before:w-[8px] before:h-[8px] before:rounded-full before:bg-blue-500 before:animate-pulse'
+                                                      >
                                                             {file}
-                                                      </span>
+                                                      </a>
                                                 ))}
                                           </div>
                                     )}

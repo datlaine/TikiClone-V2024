@@ -67,10 +67,11 @@ const UpdateMultipleImage = (props: IProps) => {
       const [, setProductId] = useState<string>()
 
       //@dùng để lưu 4 file
-      const [fileProduct, setFileProduct] = useState<File[]>([])
+      // const [fileProduct, setFileProduct] = useState<File[]>([])
 
       //@dùng để lưu link blob
       const [cloudinaryImage, setCloudinaryImage] = useState<TCloudinaryImage[]>(CloudinaryImage)
+      const [countLoading, setCountLoading] = useState<number>(0)
 
       //@model xem trước [dùng potarl]
       const [modalFilePreview, setModalFilePreview] = useState(false)
@@ -134,13 +135,13 @@ const UpdateMultipleImage = (props: IProps) => {
             }
 
             //@nếu file bé hơn 4, lưu ý là bé hơn chứ không = 4, bé hơn thì khả năng người dùng còn chọn thêm file mới nữa
-            if (e.target.files && e.target.files!.length <= 4 && fileProduct.length < 4) {
+            if (e.target.files && e.target.files!.length <= 4 && cloudinaryImage.length < 4) {
                   //@nếu số file người dùng push vào + với số file sẵn có từ lần trước mà quá hơn 4 thì mount toast
                   if (cloudinaryImage.length + e.target.files.length > 4) {
                         dispatch(
                               addToast({
                                     type: 'WARNNING',
-                                    message: `Chỉ upload tối đa 4 files ${fileProduct.length}`,
+                                    message: `Chỉ upload tối đa 4 files`,
                                     id: Math.random().toString(),
                               }),
                         )
@@ -148,7 +149,7 @@ const UpdateMultipleImage = (props: IProps) => {
 
                         return
                   }
-
+                  setCountLoading(e.target.files.length)
                   for (let index = 0; index < e.target.files.length; index++) {
                         const formData: IFormDataImage = new FormData()
                         formData.append('file', e.target.files[index])
@@ -159,6 +160,8 @@ const UpdateMultipleImage = (props: IProps) => {
             }
 
             if (e.target.files && e.target.files.length <= 4) {
+                  setCountLoading(e.target.files.length)
+
                   for (let index = 0; index < e.target.files.length; index++) {
                         const formData: IFormDataImage = new FormData()
                         formData.append('file', e.target.files[index])
@@ -217,7 +220,7 @@ const UpdateMultipleImage = (props: IProps) => {
                   : '100%',
             // heightWrapperFilePreview: filePreview.length > 0 ? 'w-[350px] ' : 'w-[80px] min-h-[60px]',
             stateButton:
-                  isSubmit && fileProduct.length === 0
+                  isSubmit && cloudinaryImage.length === 0
                         ? 'border-[2px] border-red-700 text-red-700 bg-white'
                         : 'text-white bg-slate-900 border-[2px] border-slate-900',
 
@@ -248,10 +251,10 @@ const UpdateMultipleImage = (props: IProps) => {
                   )}
 
                   {/* {@các hình review} */}
-                  <div className='w-full flex gap-[20px]'>
+                  <div className='w-full flex gap-[8px]'>
                         {cloudinaryImage.length > 0 && (
                               <React.Fragment>
-                                    <div style={{ width: styleEffect.widthContainerImage }}>
+                                    <div style={{ width: styleEffect.widthContainerImage }} className='animate-mountComponent'>
                                           <div className='min-w-full min-h-full flex items-center flex-wrap gap-[20px]'>
                                                 {cloudinaryImage.map((preview, index) => {
                                                       return (
@@ -265,10 +268,6 @@ const UpdateMultipleImage = (props: IProps) => {
                                                                         // handleDeleteImageOne({})
                                                                   }}
                                                             >
-                                                                  <span
-                                                                        className='absolute inline-block h-[25px] w-[25px] text-slate-500 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                                                                        role='status'
-                                                                  ></span>
                                                                   <img src={preview.secure_url} alt='preview' className='w-full h-[72px]' />
 
                                                                   <div
@@ -292,11 +291,16 @@ const UpdateMultipleImage = (props: IProps) => {
                               </React.Fragment>
                         )}
 
-                        {uploadProductDescriptionImageOne.isPending && (
-                              <div className='animate-pulse  bg-gray-100 w-[20%] h-[72px] flex items-center justify-center'>
-                                    <Image color='#666666' size={50} />
-                              </div>
-                        )}
+                        {uploadProductDescriptionImageOne.isPending &&
+                              Array(countLoading)
+                                    .fill(0)
+                                    .map((image) => {
+                                          return (
+                                                <div className='animate-pulse  bg-gray-100 w-[20%] h-[72px] flex items-center justify-center'>
+                                                      <Image color='#666666' size={50} />
+                                                </div>
+                                          )
+                                    })}
                   </div>
 
                   {/* {@nút upload file} */}

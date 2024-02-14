@@ -8,7 +8,7 @@ export type TimeLineProps<T, HookFormType extends FieldValues> = {
       messageError?: string
       //@Tên Timeline
       TimeLineName: string
-
+      attribute: boolean
       //@field lỗi
       error?: boolean
 

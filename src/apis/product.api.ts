@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { TResponseApi } from '../types/axiosResponse'
+import { ServerMessageVerify, TResponseApi } from '../types/axiosResponse'
 import axiosCustom from './http'
 import { TProductDetail, TProductFull } from '../types/product/product.type'
 
@@ -95,10 +95,10 @@ class ProductApi {
             })
       }
 
-      static async uploadProductImage({ formData, url }: { formData: IFormDataImage; url: string }) {
+      static async uploadProductThumb({ formData }: { formData: IFormDataImage }) {
             return axiosCustom.post<
                   TResponseApi<{ product: { product_id: string; product_thumb_image: { secure_url: string; public_id: string } } }>
-            >(url, formData, {
+            >('v1/api/product/upload-product-thumb', formData, {
                   headers: { 'content-Type': 'multipart/form-data' },
             })
       }
@@ -157,6 +157,10 @@ class ProductApi {
 
       static async protectProduct({ id }: { id: string }) {
             return axiosCustom.get<{ metadata: { product: TProductDetail | null } }>(`v1/api/product/protect-product/${id}`)
+      }
+
+      static async deleteProductWithId({ product_id }: { product_id: string }) {
+            return axiosCustom.delete<{ metadata: ServerMessageVerify }>(`v1/api/product/delete-product/:${product_id}`)
       }
 }
 

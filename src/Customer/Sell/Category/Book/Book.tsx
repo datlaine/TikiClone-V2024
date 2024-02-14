@@ -22,7 +22,7 @@ const Book = (props: TProps) => {
       const { mode } = props
 
       const form = useFormContext()
-      const error = form.formState.errors
+      const errors = form.formState.errors
 
       // console.log({ mode })
       return (
@@ -35,10 +35,9 @@ const Book = (props: TProps) => {
                         control={form.control}
                         render={({ field }) => <TextArea {...field} maxLength={1000} rows={8} />}
                   />
-                  {error['description'] && (
-                        <span className='text-red-700 text-[12px] w-[200px] truncate'>
-                              {error['description'].message as React.ReactNode}
-                        </span>
+
+                  {errors?.attribute && (
+                        <span className='text-red-700 text-[12px] w-[250px] '>{(errors.attribute as any)['description']?.message}</span>
                   )}
             </div>
       )

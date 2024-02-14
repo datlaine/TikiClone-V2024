@@ -21,8 +21,15 @@ module.exports = {
 				mountComponent: "mountComponent 1s",
 				toastAnimation: "toastAnimation 1s",
 				authBox: "authBox 1s",
+				pulseCustome: " pulse 	1.5s ",
 			},
 			keyframes: {
+				pulseCustome: {
+					"50%": {
+						opacity: 0.5,
+					},
+				},
+
 				showSideBar: {
 					"0%": { transform: "translateX(-300px)" },
 					"100%": { transform: "translateX(0px)" },

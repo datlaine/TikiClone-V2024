@@ -14,7 +14,7 @@ import TErrorAxios from './types/axios.response.error'
 import ContextToastProvider from './component/Context/ToastContext'
 import { addToast } from './Redux/toast'
 import BoxContainerToast from './component/ui/BoxContainerToast'
-import { doOpenBoxLogin, userLogout } from './Redux/authenticationSlice'
+import { doOpenBoxLogin, doLogout } from './Redux/authenticationSlice'
 
 // store.dispatch(addToast({ type: 'ERROR', message: '123', id: '1' }))
 // setTimeout(() => {}, 5000)
@@ -72,7 +72,8 @@ const client = new QueryClient({
                               error?.response.statusText === 'Forbidden' &&
                               (error?.response.data?.detail === 'Token không đúng' ||
                                     error?.response.data?.detail === 'Phiên đăng nhập hết hạn' ||
-                                    error?.response.data?.detail === 'Không tìm thấy tài khoản')
+                                    error?.response.data?.detail === 'Không tìm thấy tài khoản' ||
+                                    error?.response.data?.detail === 'Token đã được sử dụng')
                         ) {
                               store.dispatch(
                                     addToast({ type: 'ERROR', message: 'Refresh Token không hợp lệ', id: Math.random().toString() }),

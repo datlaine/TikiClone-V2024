@@ -23,6 +23,8 @@ const InputText = <T extends FieldValues>(props: TProps<T>) => {
             formState: { errors },
       } = formNested
 
+      console.log({ errors: errors[FieldName as string]?.message, FieldName })
+      // console.log({ zod: (errors!.attribute! as any)!['author']! })
       // methods?.watch(FieldName as unknown as Path<T>[])
 
       const styleEffect = {
@@ -51,6 +53,12 @@ const InputText = <T extends FieldValues>(props: TProps<T>) => {
                   {errors[FieldName as string] && (
                         <span className={`${styleEffect.fontSizeError} ${styleEffect.colorError}`}>
                               {errors[FieldName]?.message as React.ReactNode}
+                        </span>
+                  )}
+
+                  {errors?.attribute && (
+                        <span className={`${styleEffect.fontSizeError} ${styleEffect.colorError}`}>
+                              {(errors.attribute as any)[FieldName.toString().split('.')[1]]?.message}
                         </span>
                   )}
             </div>

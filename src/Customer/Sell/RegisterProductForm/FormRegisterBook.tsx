@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 
 //@icon
 import { Check } from 'lucide-react'
@@ -26,6 +26,9 @@ import { TRegisterFormBook } from '../../../types/product/product.book.type'
 import { returnPublicIdCloudinary, returnSecureUrlCloudinary } from '../../../utils/cloudinary.util'
 import { TCloudinaryImage, TCloudinaryPublicId } from '../types/cloudinary.typs'
 import ButtonUploadMultiple from './components/ButtonUploadMultiple'
+import UpdateMultipleImage from '../UpdateProductForm/components/UpdateMultipleImage'
+import { Link } from 'react-router-dom'
+import { url } from 'inspector'
 
 //@Props - Product::Book
 
@@ -33,7 +36,6 @@ import ButtonUploadMultiple from './components/ButtonUploadMultiple'
 
 //@schema chính
 const schema = productSchema.merge(productBookSchema)
-
 export const ui = {
       gapElementChild: 'gap-[6px]',
       gapElementChildButton: 'gap-[12px]',
@@ -162,118 +164,140 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
             }
       }, [uploadProductFull.isSuccess, queryClient])
 
-      console.log({ defaultValues: methods.formState.defaultValues })
+      // console.log({ defaultValues: methods.formState.defaultValues })
+      console.log({ submit: methods.formState.isSubmitted, success: methods.formState.isSubmitSuccessful })
 
       return (
-            <div className='animate-mountComponent w-full h-auto flex justify-center '>
-                  <div className=' w-[full] lg:w-[65%]  h-full'>
-                        <FormProvider {...methods}>
-                              <form
-                                    className='w-full lg:w-[60%]  flex flex-col gap-[24px] p-[16px]'
-                                    onSubmit={methods.handleSubmit(onSubmit)}
-                                    spellCheck={false}
-                              >
-                                    <div className=''>Thông tin cơ bản về sản phẩm</div>
-                                    <InputText
+            <React.Fragment>
+                  {!methods.formState.isSubmitSuccessful && (
+                        <div className='animate-mountComponent w-full h-auto flex justify-center '>
+                              <div className=' w-[full] lg:w-[65%]  h-full'>
+                                    <FormProvider {...methods}>
+                                          <form
+                                                className='w-full lg:w-[60%]  flex flex-col gap-[24px] p-[16px]'
+                                                onSubmit={methods.handleSubmit(onSubmit)}
+                                                spellCheck={false}
+                                          >
+                                                <div className=''>Thông tin cơ bản về sản phẩm</div>
+                                                <InputText
+                                                      methods={methods}
+                                                      FieldName='product_name'
+                                                      LabelMessage='Tên sản phẩm'
+                                                      placehorder='Nhập tên sản phẩm'
+                                                      width={'xl:w-[100%]'}
+                                                      autofocus={true}
+                                                      require={true}
+                                                />
+
+                                                <InputNumber
+                                                      FieldName='product_price'
+                                                      LabelMessage='Giá sản phẩm'
+                                                      placehorder='Nhập giá sản phẩm'
+                                                      width={'xl:w-[100%]'}
+                                                      require={true}
+                                                />
+                                                <ButtonUpload
+                                                      mode={mode}
+                                                      product_id={product_id}
+                                                      labelMessage='Chọn hình đại diện cho sản phẩm'
+                                                      width={'xl:w-[32%]'}
+                                                      setUrlProductThumb={setUrlProductThumb}
+                                                      isSubmit={methods.formState.isSubmitted ? true : false}
+                                                />
+
+                                                <UpdateMultipleImage
+                                                      mode={mode}
+                                                      labelMessage='Chọn các hình description cho sản phẩm'
+                                                      width={'xl:w-[100%]'}
+                                                      setUrlProductMultipleImage={setUrlProductMultipleImage}
+                                                      setGetFileName={setGetFileName}
+                                                      product_id={product_id}
+                                                      isSubmit={methods.formState.isSubmitted ? true : false}
+                                                />
+                                                <>{ProductAttribute}</>
+                                                <button
+                                                      type='submit'
+                                                      className='min-w-[150px] px-[12px] py-[6px] bg-slate-700 text-white flex justify-center items-center gap-[8px]'
+                                                >
+                                                      <span>{!uploadProductFull.isSuccess ? 'Đăng bán' : 'Đăng sản phẩm thành công'}</span>
+
+                                                      {uploadProductFull.isPending && (
+                                                            <span
+                                                                  className='inline-block h-[25px] w-[25px] text-white animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                                                  role='status'
+                                                            ></span>
+                                                      )}
+                                                </button>
+                                          </form>
+                                    </FormProvider>
+                              </div>
+
+                              <div className='hidden h-max min-w-[160px] w-auto lg:flex flex-col gap-[28px]  py-[24px] pl-[8px] pr-[24px] bg-bgTimeLine border-r-4 border-blue-300 rounded-lg'>
+                                    <Timeline
+                                          attribute={false}
                                           methods={methods}
+                                          value={methods.watch('product_name')}
                                           FieldName='product_name'
-                                          LabelMessage='Tên sản phẩm'
-                                          placehorder='Nhập tên sản phẩm'
-                                          width={'xl:w-[100%]'}
-                                          autofocus={true}
-                                          require={true}
+                                          TimeLineName='Tên sản phẩm'
+                                          type='Text'
                                     />
 
-                                    <InputNumber
+                                    <Timeline
+                                          attribute={false}
+                                          methods={methods}
+                                          value={methods.watch('product_price')?.toString()}
                                           FieldName='product_price'
-                                          LabelMessage='Giá sản phẩm'
-                                          placehorder='Nhập giá sản phẩm'
-                                          width={'xl:w-[100%]'}
-                                          require={true}
+                                          TimeLineName='Giá sản phẩm'
+                                          type='Money'
                                     />
-                                    <ButtonUpload
-                                          product_id={product_id}
-                                          labelMessage='Chọn hình đại diện cho sản phẩm'
-                                          width={'xl:w-[32%]'}
-                                          setUrlProductThumb={setUrlProductThumb}
+                                    <Timeline
+                                          attribute={false}
+                                          TimeLineName='Hình đại diện sản phẩm'
+                                          type='File'
+                                          File={{
+                                                isUploadImage: urlProductThumb.isUploadImage,
+                                                FileName:
+                                                      mode === 'UPDATE'
+                                                            ? (product?.product_thumb_image.secure_url as string)
+                                                            : urlProductThumb.FileName,
+                                          }}
                                           isSubmit={methods.formState.isSubmitted ? true : false}
                                     />
-
-                                    <ButtonUploadMultiple
-                                          mode={mode}
-                                          labelMessage='Chọn các hình description cho sản phẩm'
-                                          width={'xl:w-[100%]'}
-                                          setUrlProductMultipleImage={setUrlProductMultipleImage}
-                                          setGetFileName={setGetFileName}
-                                          product_id={product_id}
+                                    <Timeline
+                                          attribute={false}
+                                          TimeLineName='Các hình mô tả sản phẩm'
+                                          type='Files'
+                                          Files={{
+                                                FileName: getFileName || '',
+                                                isUploadImages: urlProductMultipleImage.isUploadImage,
+                                          }}
                                           isSubmit={methods.formState.isSubmitted ? true : false}
                                     />
-                                    <>{ProductAttribute}</>
-                                    <button
-                                          type='submit'
-                                          className='min-w-[150px] px-[12px] py-[6px] bg-slate-700 text-white flex justify-center items-center gap-[8px]'
-                                    >
-                                          <span>{!uploadProductFull.isSuccess ? 'Đăng bán' : 'Đăng sản phẩm thành công'}</span>
+                                    {TimelineProps.map((timeline) => (
+                                          <Timeline<T, typeof defaultValues>
+                                                attribute={true}
+                                                methods={methods}
+                                                type='Text'
+                                                FieldName={timeline.FieldName}
+                                                TimeLineName={timeline.label as string}
+                                          />
+                                    ))}
 
-                                          {uploadProductFull.isPending && (
-                                                <span
-                                                      className='inline-block h-[25px] w-[25px] text-white animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                                                      role='status'
-                                                ></span>
-                                          )}
-                                    </button>
-                              </form>
-                        </FormProvider>
-                  </div>
-
-                  <div className='hidden h-max min-w-[160px] w-auto lg:flex flex-col gap-[28px]  py-[24px] pl-[8px] pr-[24px] bg-bgTimeLine border-r-4 border-blue-300 rounded-lg'>
-                        <Timeline
-                              methods={methods}
-                              value={methods.watch('product_name')}
-                              FieldName='product_name'
-                              TimeLineName='Tên sản phẩm'
-                              type='Text'
-                        />
-
-                        <Timeline
-                              methods={methods}
-                              value={methods.watch('product_price')?.toString()}
-                              FieldName='product_price'
-                              TimeLineName='Giá sản phẩm'
-                              type='Money'
-                        />
-                        <Timeline
-                              TimeLineName='Hình đại diện sản phẩm'
-                              type='File'
-                              File={{
-                                    isUploadImage: urlProductThumb.isUploadImage,
-                                    FileName: urlProductThumb.FileName,
-                              }}
-                              isSubmit={methods.formState.isSubmitted ? true : false}
-                        />
-                        <Timeline
-                              TimeLineName='Các hình mô tả sản phẩm'
-                              type='Files'
-                              Files={{
-                                    FileName: getFileName || '',
-                                    isUploadImages: urlProductMultipleImage.isUploadImage,
-                              }}
-                              isSubmit={methods.formState.isSubmitted ? true : false}
-                        />
-                        {TimelineProps.map((timeline) => (
-                              <Timeline<T, typeof defaultValues>
-                                    methods={methods}
-                                    type='Text'
-                                    FieldName={timeline.FieldName}
-                                    TimeLineName={timeline.label as string}
-                              />
-                        ))}
-
-                        <div className='flex items-center justify-center bg-blue-700 w-[20px] h-[20px] rounded-full'>
-                              <Check color='white' size={12} />
+                                    <div className='flex items-center justify-center bg-blue-700 w-[20px] h-[20px] rounded-full'>
+                                          <Check color='white' size={12} />
+                                    </div>
+                              </div>
                         </div>
-                  </div>
-            </div>
+                  )}
+
+                  {methods.formState.isSubmitSuccessful && (
+                        <>
+                              <Link to={`/product/${product_id}`} className='underline block text-blue-500'>
+                                    Đường dẫn của sản phẩm
+                              </Link>
+                        </>
+                  )}
+            </React.Fragment>
       )
 }
 

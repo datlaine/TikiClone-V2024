@@ -26,7 +26,7 @@ class Auth {
       }
 
       static async logout() {
-            return axiosCustom.post('/v1/api/auth/logout', {})
+            return axiosCustom.post('/v1/api/auth/logout')
       }
 
       static async refresh_token() {

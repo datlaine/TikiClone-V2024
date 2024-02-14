@@ -18,8 +18,6 @@ import { TCloudinaryImage } from '../../types/cloudinary.typs'
 //@Props
 interface IProps {
       mode?: 'UPLOAD' | 'UPDATE'
-      ImageServer: string[]
-      ImagePublicServer: string[]
       //@tên nút button
       labelMessage: string
 
@@ -34,7 +32,7 @@ interface IProps {
 
       //@lấy tên của 4 file cho timeline hiển thị
       setGetFileName: React.Dispatch<SetStateAction<string[]>>
-      CloudinaryImage: TCloudinaryImage[]
+      CloudinaryImage?: TCloudinaryImage[]
       //@trạng thái submit
       isSubmit: boolean
 }
@@ -49,8 +47,6 @@ const UpdateMultipleImage = (props: IProps) => {
             setUrlProductMultipleImage,
             setGetFileName,
             mode = 'UPLOAD',
-            ImageServer,
-            ImagePublicServer,
             CloudinaryImage,
       } = props
 
@@ -63,30 +59,17 @@ const UpdateMultipleImage = (props: IProps) => {
       //@dispatch toast
       const dispatch = useDispatch()
 
-      //@dùng để lưu lại product_id phòng thời trường hợp xóa sửa
-      const [, setProductId] = useState<string>()
-
-      //@dùng để lưu 4 file
-      // const [fileProduct, setFileProduct] = useState<File[]>([])
-
       //@dùng để lưu link blob
-      const [cloudinaryImage, setCloudinaryImage] = useState<TCloudinaryImage[]>(CloudinaryImage)
+      const [cloudinaryImage, setCloudinaryImage] = useState<TCloudinaryImage[]>(() => {
+            if (mode === 'UPLOAD') return []
+            return CloudinaryImage as TCloudinaryImage[]
+      })
       const [countLoading, setCountLoading] = useState<number>(0)
 
       //@model xem trước [dùng potarl]
       const [modalFilePreview, setModalFilePreview] = useState(false)
 
       const [selectImageModal, setSelectImageModal] = useState<string>('')
-
-      //@hàm kích hoạt upload, sau thành công thì set product_id từ api trả về, và setState mảng file từ dũ liệu api trả về
-      const uploadImages = useMutation({
-            mutationKey: ['upload-image-full'],
-            mutationFn: (data: IFormDataImages) => ProductApi.uploadProductImagesFull(data),
-            onSuccess: (data) => {
-                  setUrlProductMultipleImage({ isUploadImage: true, numberImage: 4 })
-                  setProductId(data.data.metadata.product.productDemo._id)
-            },
-      })
 
       //@hàm kích hoạt xóa, đây là lấy cần dùng cái product_id nè
       const deleteImages = useMutation({
@@ -109,7 +92,6 @@ const UpdateMultipleImage = (props: IProps) => {
                   })
             },
       })
-      console.log({ cloudinaryImage })
 
       const deleteProductDescriptionImageOne = useMutation({
             mutationKey: ['deleteProductDescriptionImageOne'],
@@ -189,6 +171,7 @@ const UpdateMultipleImage = (props: IProps) => {
             }
 
             setGetFileName([])
+            setCloudinaryImage([])
             setUrlProductMultipleImage({ numberImage: 0, isUploadImage: false })
             deleteImages.mutate({ id: product_id })
       }
@@ -259,7 +242,7 @@ const UpdateMultipleImage = (props: IProps) => {
                                                 {cloudinaryImage.map((preview, index) => {
                                                       return (
                                                             <div
-                                                                  className='relative w-[65px] flex justify-center items-center'
+                                                                  className='relative w-[65px] h-[72px] bg-gray-300 animate-pulseCustome flex justify-center items-center'
                                                                   key={preview.secure_url}
                                                                   onClick={() => {
                                                                         setSelectImageModal(preview.secure_url! as string)
@@ -268,7 +251,7 @@ const UpdateMultipleImage = (props: IProps) => {
                                                                         // handleDeleteImageOne({})
                                                                   }}
                                                             >
-                                                                  <img src={preview.secure_url} alt='preview' className='w-full h-[72px]' />
+                                                                  <img src={preview.secure_url} alt='preview' className='w-full h-full' />
 
                                                                   <div
                                                                         className='absolute top-[-15px] right-[-15px] bg-red-700 h-[24px] w-[24px] p-[2px] flex items-center justify-center'

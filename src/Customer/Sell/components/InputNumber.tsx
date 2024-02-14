@@ -41,9 +41,15 @@ const InputNumber = <T extends FieldValues>(props: TProps<T>) => {
                         autoFocus={autofocus}
                         className='border-[1px] border-slate-400 outline-none px-[12px] py-[4px] rounded-[3px]'
                   />
-                  {errors && (
+
+                  {errors[FieldName as string] && (
                         <span className={`${styleEffect.colorError} ${styleEffect.fontSizeError}`}>
                               {errors[FieldName]?.message as React.ReactNode}
+                        </span>
+                  )}
+                  {errors?.attribute && (
+                        <span className={`${styleEffect.fontSizeError} ${styleEffect.colorError}`}>
+                              {(errors.attribute as any)[FieldName.toString().split('.')[1]]?.message}
                         </span>
                   )}
             </div>

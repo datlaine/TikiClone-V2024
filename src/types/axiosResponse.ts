@@ -1,45 +1,45 @@
 export type TApiRegisterResponse<T extends object> = {
-    code: number
-    message: string
-    metadata: {
-        user: T
-        access_token: string
-    }
+      code: number
+      message: string
+      metadata: {
+            user: T
+            access_token: string
+      }
 }
 
 export type TResponseApi<Data> = {
-    code: number
-    message: string
-    // metadata: {
-    //     user: Data
-    //     access_token?: string
+      code: number
+      message: string
+      // metadata: {
+      //     user: Data
+      //     access_token?: string
 
-    //     avatar_used?: Data
-    //     product_thumb_image?: Data
-    //     product: Data
-    // }
-    metadata: Data
+      //     avatar_used?: Data
+      //     product_thumb_image?: Data
+      //     product: Data
+      // }
+      metadata: Data
 }
 
 export type TUser = {
-    email: string
-    verify_email: boolean
-    gender: 'Male' | 'Female' | 'Other'
-    sercel_url: string
-    _id: string
-    bob: Date
-    fullName: string
-    nickName: string
-    avatar: TAvatar
-    avartar_url_default: 'https://res.cloudinary.com/demonodejs/image/upload/v1705389477/static/o5gxkgehijtg9auirdje.jpg'
-    avatar_used: TAvatar[]
-    isOpenShop?: boolean
+      email: string
+      verify_email: boolean
+      gender: 'Male' | 'Female' | 'Other'
+      sercel_url: string
+      _id: string
+      bob: Date
+      fullName: string
+      nickName: string
+      avatar: TAvatar
+      avartar_url_default: 'https://res.cloudinary.com/demonodejs/image/upload/v1705389477/static/o5gxkgehijtg9auirdje.jpg'
+      avatar_used: TAvatar[]
+      isOpenShop?: boolean
 }
 
 export type TAvatar = {
-    secure_url: string
-    public_id: string
-    date_update: Date
+      secure_url: string
+      public_id: string
+      date_update: Date
 }
 
 // const user = {
@@ -57,10 +57,10 @@ export type TAvatar = {
 // }
 
 export type TUserAvatarUsed = {
-    public_id: string
-    secure_url: string
-    _id: string
-    date_update: Date
+      public_id: string
+      secure_url: string
+      _id: string
+      date_update: Date
 }
 
 // const avatar_used = {
@@ -69,3 +69,7 @@ export type TUserAvatarUsed = {
 //             'https://res.cloudinary.com/demonodejs/image/upload/v1705895164/users/65ade3b5bc55ac67c48dd227/avatar/njeka2zpy37hwbiyyn1u.png',
 //       _id: '65ade70fbc55ac67c48dd24e',
 // }
+
+export type ServerMessageVerify = {
+      message: string
+}

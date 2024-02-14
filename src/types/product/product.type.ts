@@ -68,7 +68,7 @@ export type TProfileImage = {
       isUploadImage: boolean
       FileName: string
       FileLength: number
-} & TChekUploadImage
+}
 
 //@type upload 1 mảng
 export type UploadImages = {

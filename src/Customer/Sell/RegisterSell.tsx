@@ -16,6 +16,7 @@ import {
       timelineLabelNameBook,
 } from '../../types/timeline/timeline.book.type'
 import { TRegisterFormBook } from '../../types/product/product.book.type'
+import ProductFormSkeleton from './RegisterProductForm/components/ProductFormSkeleton'
 
 // const version2 = t
 
@@ -49,6 +50,7 @@ const RegisterSell = () => {
             <div className='min-w-full min-h-[100px] h-auto flex '>
                   <div className=' w-full h-full'>
                         <Select
+                              className='w-[150px]'
                               placeholder='Loại sản phẩm'
                               options={[
                                     { value: 'Book', label: 'Book' },
@@ -75,6 +77,8 @@ const RegisterSell = () => {
                                     {/* {productType === 'Food' && <FormRegisterFood />} */}
                               </>
                         )}
+
+                        {createBaseProductId.isPending && <ProductFormSkeleton />}
                   </div>
             </div>
       )

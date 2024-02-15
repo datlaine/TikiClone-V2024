@@ -77,7 +77,7 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
 
                         {type === 'Money' && (
                               <div
-                                    className={`${width} flex flex-col gap-[6px] mt-[-5px] min-w-[150px]`}
+                                    className={`${width} flex flex-col gap-[6px] mt-[-5px] min-w-[250px]`}
                                     title={`Giá sản phẩm: ${methods?.watch(FieldName as unknown as Path<HookFormType>[])}`}
                               >
                                     <p>{TimeLineName}</p>
@@ -87,14 +87,14 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
                                           </span>
                                     )}
                                     {FieldName && !error![FieldName]?.message && (
-                                          <p>
-                                                <span className=' text-blue-700 w-[200px] truncate'>
+                                          <div className='w-full flex items-center gap-[6px] '>
+                                                <p className=' text-blue-700 max-w-[150px] truncate'>
                                                       {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                                                             .format(Number(methods?.watch(FieldName as unknown as Path<HookFormType>)))
                                                             .replace('₫', '')}
-                                                </span>
-                                                <span className='ml-[6px] inline-block p-[4px] bg-blue-500 rounded-md text-white'>VNĐ</span>
-                                          </p>
+                                                </p>
+                                                <span className=' inline-block p-[4px] bg-blue-500 rounded-md text-white'>VNĐ</span>
+                                          </div>
                                     )}
                               </div>
                         )}

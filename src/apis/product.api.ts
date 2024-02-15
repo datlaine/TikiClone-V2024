@@ -160,7 +160,7 @@ class ProductApi {
       }
 
       static async deleteProductWithId({ product_id }: { product_id: string }) {
-            return axiosCustom.delete<{ metadata: ServerMessageVerify }>(`v1/api/product/delete-product/:${product_id}`)
+            return axiosCustom.delete<{ metadata: ServerMessageVerify }>(`v1/api/product/delete-product/${product_id}`)
       }
 }
 

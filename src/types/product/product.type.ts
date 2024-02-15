@@ -1,4 +1,5 @@
 import { TCloudinaryImage } from '../../Customer/Sell/types/cloudinary.typs'
+import { TShop } from '../../apis/shop.api'
 
 export type TProductFull =
       | {
@@ -36,7 +37,7 @@ export type TProductDetail = {
 
       product_type: string
       attribute: IProductBook
-      shop_id: { shop_name: string; _id: string }
+      shop_id: TShop
 }
 
 export type IProductBook = {

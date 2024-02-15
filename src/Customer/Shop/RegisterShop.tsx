@@ -146,7 +146,7 @@ const RegisterShop = () => {
                   <p>Đăng kí mở Shops</p>
                   <FormProvider {...registerShop}>
                         <form
-                              className='w-[400px] min-h-[300px] h-max mx-auto py-[24px] rounded-lg flex flex-col gap-[16px]'
+                              className='w-[150px] xl:w-[400px] min-h-[300px] h-max mx-auto py-[24px] rounded-lg flex flex-col gap-[16px]'
                               onSubmit={registerShop.handleSubmit(onSubmit)}
                         >
                               <InputText<TFormRegisterShop>

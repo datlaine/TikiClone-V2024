@@ -1,7 +1,7 @@
 import React, { SetStateAction, useEffect, useId, useRef, useState } from 'react'
 
 //@modal và icon
-import { Image, View, X } from 'lucide-react'
+import { Image, ImagePlus, View, X } from 'lucide-react'
 import BoxModal from '../../../../component/ui/BoxModal'
 
 //@dispatch toast
@@ -194,6 +194,12 @@ const UpdateMultipleImage = (props: IProps) => {
             setUrlProductMultipleImage({ numberImage: cloudinaryImage.length, isUploadImage: false })
       }, [cloudinaryImage, setUrlProductMultipleImage])
 
+      useEffect(() => {
+            if (uploadProductDescriptionImageOne.isSuccess && cloudinaryImage.length === 4) {
+                  dispatch(addToast({ type: 'SUCCESS', message: 'Đã upload đủ ảnh', id: Math.random().toString() }))
+            }
+      }, [uploadProductDescriptionImageOne.isSuccess])
+
       const styleEffect = {
             withContainer: width ? width : 'w-full',
             widthContainerImage: uploadProductDescriptionImageOne.isPending
@@ -222,7 +228,10 @@ const UpdateMultipleImage = (props: IProps) => {
 
       return (
             <div className={`${styleEffect.withContainer} ${styleEffect.gap} relative min-h-[80px] h-auto flex flex-col`}>
-                  <label htmlFor={id}>{labelMessage}</label>
+                  <div className='w-full flex items-center gap-[6px]'>
+                        <label htmlFor={id}>{labelMessage}</label>
+                        <ImagePlus size={20} />
+                  </div>
                   <input type='file' id={id} hidden ref={inputRef} multiple onChange={(e) => handleInputChange(e)} />
 
                   {/* {@số lượng file review} */}

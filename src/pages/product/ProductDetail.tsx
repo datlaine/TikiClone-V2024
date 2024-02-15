@@ -68,7 +68,7 @@ const ProductDetail = (props: TProps) => {
                   <div className='basis-[20%] md:basis-[35%] rounded-lg'>
                         <img
                               src={product!.product_thumb_image.secure_url}
-                              className='cursor-pointer p-[8px] w-full h-full max-w-full min-h-[200px] max-h-[200px] sm:min-h-[350px] sm:max-h-[350px] transition-all duration-700 rounded-lg'
+                              className='cursor-pointer p-[8px] w-full h-full max-w-full min-h-[200px] max-h-[200px] sm:min-h-[380px] sm:max-h-[380px] transition-all duration-700 rounded-[12px]'
                               alt='product'
                               ref={image}
                               onClick={handleOpenModal}
@@ -80,7 +80,7 @@ const ProductDetail = (props: TProps) => {
                                     src={image.secure_url}
                                     className={`${
                                           imageActive === image.secure_url ? styleEffect.isActive : 'border-[5px] border-transparent'
-                                    } h-[100px] w-[100px] md:w-[60px] md:h-[60px] rounded-lg`}
+                                    } h-[100px] w-[40%] xl:w-[60px] md:w-[60px] md:h-[80px] rounded-lg`}
                                     alt='product_sub'
                                     key={image.secure_url}
                                     onMouseLeave={handleMouseLeave}
@@ -89,14 +89,14 @@ const ProductDetail = (props: TProps) => {
                               />
                         ))}
                   </div>
-                  <div className='flex-1 flex flex-col gap-[16px] mt-[16px] '>
+                  <div className='flex-1 flex flex-col gap-[12px] mt-[8px] text-[14px] pb-[16px]'>
                         <h3>Đặc điểm nổi bật</h3>
 
                         <div className='px-[16px] flex gap-[8px] items-center'>
                               <div className='w-[32px] h-[32px] rounded-full bg-blue-700 flex items-center justify-center'>
                                     <Store color='white' size={20} />
                               </div>
-                              <span>Shops: {product?.shop_id.shop_name}</span>
+                              <p>Shops: {product?.shop_id.shop_name}</p>
                         </div>
                         <div className='px-[16px] flex gap-[8px] items-center'>
                               <div className='w-[32px] h-[32px] rounded-full bg-blue-700 flex items-center justify-center'>

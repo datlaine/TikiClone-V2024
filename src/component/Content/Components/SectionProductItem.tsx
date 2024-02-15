@@ -62,16 +62,35 @@ const SectionProductItem = (props: Props) => {
 
       return (
             <div className='h-[75%] px-[36px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
-                  <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  '>
+                  <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  w-[370px] xl:w-full snap-mandatory	'>
                         {allProduct.isSuccess &&
                               allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
                                     return (
                                           <Link
                                                 to={`/product/${product._id}`}
-                                                className='flex flex-col max-w-[30%] lg:max-w-[15%] h-full '
+                                                className='flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[15%] h-full snap-always snap-start	 '
                                                 key={product._id}
                                           >
-                                                <div className='basis-[30%] xl:basis-[16%] min-h-full'>
+                                                <div className='w-full min-h-full'>
+                                                      <img
+                                                            src={product?.product_thumb_image?.secure_url}
+                                                            className='min-w-full min-h-[85%] max-h-[85%]'
+                                                            alt='product'
+                                                      />
+                                                      <p className='w-full text-center'>{product.product_price}</p>
+                                                </div>
+                                          </Link>
+                                    )
+                              })}
+                        {allProduct.isSuccess &&
+                              allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
+                                    return (
+                                          <Link
+                                                to={`/product/${product._id}`}
+                                                className='flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[15%] h-full snap-always snap-start	 '
+                                                key={product._id}
+                                          >
+                                                <div className='w-full min-h-full'>
                                                       <img
                                                             src={product?.product_thumb_image?.secure_url}
                                                             className='min-w-full min-h-[85%] max-h-[85%]'

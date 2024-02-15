@@ -79,8 +79,8 @@ const ProductUpdate = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>
       //@lấy thông tin hình ảnh
       const [urlProductThumb, setUrlProductThumb] = useState<TProfileImage>({
             isUploadImage: false,
-            FileName: '',
-            FileLength: 0,
+            FileName: product?.product_thumb_image.secure_url as string,
+            FileLength: 1,
       })
 
       //@lấy thông tin các hình

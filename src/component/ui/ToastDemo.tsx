@@ -69,10 +69,10 @@ const ToastDemo = (props: TProps) => {
       const styleEffect = {
             type_toast:
                   toast.type === 'SUCCESS'
-                        ? '   text-blue-900 shadow-lg shadow-blue-700 border-[2px] border-blue-500'
+                        ? '   text-blue-900 shadow-[0_10px_20px_rgba(240,_46,_170,_0.7)] shadow-blue-700 border-[2px] border-blue-500'
                         : toast.type === 'ERROR'
-                        ? ' text-red-900 shadow-lg shadow-red-700  border-[2px] border-red-500'
-                        : '  text-orange-900 shadow-lg shadow-orange-700  border-[2px] border-orange-500',
+                        ? ' text-red-900 shadow-[0_10px_20px_rgba(240,_46,_170,_0.7)] shadow-red-700  border-[2px] border-red-500'
+                        : '  text-orange-900 shadow-[0_10px_20px_rgba(240,_46,_170,_0.7)] shadow-orange-700  border-[2px] border-orange-500',
             type_toast_icon: toast.type === 'SUCCESS' ? '#2563eb' : toast.type === 'ERROR' ? ' rgb(239 68 68)' : 'rgb(249 115 22)',
             widthToastContainer: 'min-w-[280px]',
             bgBoxTime: toast.type === 'SUCCESS' ? ' bg-blue-500' : toast.type === 'ERROR' ? ' bg-red-500' : ' bg-orange-500',
@@ -85,7 +85,7 @@ const ToastDemo = (props: TProps) => {
                         <div
                               onMouseEnter={handleOnMouseEnter}
                               onMouseLeave={handleOnMouseLeave}
-                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] py-[16px] px-[12px]  relative min-w-[280px] w-full  h-[114px] hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-1000  flex items-center justify-center`}
+                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] py-[16px] px-[12px]  relative min-w-[140px] xl:min-w-[280px] w-full  min-h-[80px] xl:min-h-[114px] h-max hover:h-[650px] hover:max-h-[auto] rounded-lg transition-all duration-1000  flex items-center justify-center`}
                         >
                               <div
                                     className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[60px] h-[30px] flex items-center justify-center rounded-md  text-white `}

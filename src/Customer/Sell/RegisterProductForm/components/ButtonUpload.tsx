@@ -13,6 +13,8 @@ import { TChekUploadImage, TProfileImage } from '../../../../types/product/produ
 import { TCloudinaryImage } from '../../types/cloudinary.typs'
 import axios from 'axios'
 import { set } from 'lodash'
+import { useDispatch } from 'react-redux'
+import { addToast } from '../../../../Redux/toast'
 
 //@Props
 interface IProps {
@@ -36,6 +38,7 @@ const ButtonUpload = (props: IProps) => {
       const { width, labelMessage, setUrlProductThumb, isSubmit, product_id, mode = 'UPLOAD', CloudinaryImage } = props
       const id = useId()
       const inputRef = useRef<HTMLInputElement>(null)
+      const dispatch = useDispatch()
 
       const [modalFilePreview, setModalFilePreview] = useState(false)
       const [cloudinaryImage, setCloudinaryImage] = useState<TCloudinaryImage>(() => {
@@ -88,6 +91,8 @@ const ButtonUpload = (props: IProps) => {
 
       //@input click
       const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            e.stopPropagation()
+            e.preventDefault()
             if (e.target.files![0]) {
                   const formData: IFormDataImage = new FormData()
                   formData.append('file', e.target.files![0])
@@ -109,9 +114,15 @@ const ButtonUpload = (props: IProps) => {
             })
       }
 
+      useEffect(() => {
+            if (uploadProductThumb.isSuccess) {
+                  dispatch(addToast({ type: 'SUCCESS', message: 'Upload product thumb thành công', id: Math.random().toString() }))
+            }
+      }, [uploadProductThumb.isSuccess])
+
       const styleEffect = {
             cursorButtonUpload: uploadProductThumb.isPending ? 'cursor-not-allowed' : 'cursor-pointer',
-            widthButtonUpload: width ? 'w-[25%]' : 'w-full',
+            widthButtonUpload: width ? 'w-full xl:w-[25%]' : 'w-full',
             stateButton:
                   isSubmit && !cloudinaryImage?.secure_url
                         ? 'border-[2px] border-red-700 text-red-700 bg-white'
@@ -125,7 +136,10 @@ const ButtonUpload = (props: IProps) => {
       //@element
       return (
             <div className={`${styleEffect.gap} w-full min-h-[70px] h-auto flex flex-col`}>
-                  <label htmlFor={id}>{labelMessage}</label>
+                  <div className='w-full flex items-center gap-[6px]'>
+                        <label htmlFor={id}>{labelMessage}</label>
+                        <Image size={20} />
+                  </div>
                   <input type='file' id={id} hidden ref={inputRef} onChange={(e) => handleInputChange(e)} />
 
                   {cloudinaryImage?.secure_url && (
@@ -134,7 +148,9 @@ const ButtonUpload = (props: IProps) => {
                               <div className='absolute top-0 right-[-100px] h-[35px] w-[95px] '>
                                     <button
                                           disabled={uploadProductThumb.isPending}
-                                          onClick={() => {
+                                          onClick={(e) => {
+                                                e.stopPropagation()
+                                                e.preventDefault()
                                                 handleDeleteProductThumb(
                                                       uploadProductThumb.data?.data.metadata.product.product_thumb_image
                                                             .public_id as string,
@@ -153,7 +169,7 @@ const ButtonUpload = (props: IProps) => {
 
                               {modalFilePreview && (
                                     <BoxModal>
-                                          <div className='relative w-[450px] h-[650px]'>
+                                          <div className='relative w-[650px] h-[650px]'>
                                                 <img
                                                       src={cloudinaryImage.secure_url}
                                                       alt='preview'
@@ -172,7 +188,7 @@ const ButtonUpload = (props: IProps) => {
                   )}
                   {uploadProductThumb.isPending && (
                         <div className='animate-pulse  bg-gray-100 w-[20%] h-[72px] flex items-center justify-center'>
-                              <Image color='#666666' size={50} />
+                              <Image color='#666666' size={80} />
                         </div>
                   )}
                   <button

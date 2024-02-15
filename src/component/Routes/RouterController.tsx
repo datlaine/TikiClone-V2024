@@ -24,58 +24,60 @@ import CustomerUpdatePassword from '../../Customer/Account/Update/CustomerUpdate
 import Shop from '../../Customer/Shop/Shop'
 import ShopProductList from '../../Customer/Shop/ShopProductList'
 import RegisterSell from '../../Customer/Sell/RegisterSell'
-import Buy from '../../pages/Buy/Product'
-import Product from '../../pages/Buy/Product'
+import Buy from '../../pages/product/Product'
+import Product from '../../pages/product/Product'
 import BookUpdate from '../../Customer/Sell/Category/Book/BookUpdate'
 import UpdateWrapper from '../../Customer/Sell/Category/Book/UpdateWrapper'
+import CustomerRouter from '../../Customer/Components/CustomerRouter'
 
 const RouterController = () => {
-    const matchAdminPath = useMatch('/admin')
-    const hiddenHeader = matchAdminPath?.pathname === '/admin'
-    const pathName = useLocation().pathname
-    return (
-        <>
-            {!hiddenHeader && <Header />}
+      const matchAdminPath = useMatch('/admin')
+      const hiddenHeader = matchAdminPath?.pathname === '/admin'
+      const pathName = useLocation().pathname
+      return (
+            <>
+                  {!hiddenHeader && <Header />}
 
-            <div className='pt-[75px] xl:pt-[10px] min-h-screen flex gap-[150px] px-[50px] bg-[#efefef] '>
-                <Sidebar />
-                <Routes>
-                    <Route path='/admin' element={<Admin />} />
-                    <div
-                        id=''
-                        className={`  relative ${
-                            pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]'
-                        }  lg:flex px-0 lg:px-[50px] gap-8 `}
-                    >
-                        <Route path='/' element={<Content />} />
-                        <Route path='/product/:id' element={<Product />} />
-                        <Route path='/Cart' element={<Cart />} />
-                        {/* <Route path='/login' element={<Login />} /> */}
-                        {/* <Route path='/resister' element={<Resister />} /> */}
-                        {/* <Route path='/Contact' element={<Contact />} /> */}
+                  <div className='pt-[50px] lg:pt-[75px] xl:pt-[10px] min-h-screen min-w-full flex gap-[150px] px-[4px] lg:px-[50px] bg-[#efefef] '>
+                        <Sidebar />
                         <Routes>
-                            <Route path='/customer' element={<Customer />}>
-                                <Route path='account' element={<CustomerAccount />} />
-                                <Route path='account/update/email' element={<CustomerUpdateEmail />} />
-                                <Route path='account/update/password' element={<CustomerUpdatePassword />} />
+                              <Route path='/admin' element={<Admin />} />
+                              <div
+                                    id=''
+                                    className={`  relative ${
+                                          pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]'
+                                    }  lg:flex px-0 lg:px-[50px] gap-8 `}
+                              >
+                                    <Route path='/' element={<Content />} />
+                                    <Route path='/product/:id' element={<Product />} />
+                                    <Route path='/Cart' element={<Cart />} />
+                                    {/* <Route path='/login' element={<Login />} /> */}
+                                    {/* <Route path='/resister' element={<Resister />} /> */}
+                                    {/* <Route path='/Contact' element={<Contact />} /> */}
+                                    <Routes>
+                                          <Route path='/customer' element={<Customer />}>
+                                                <Route path='account' element={<CustomerAccount />} />
+                                                <Route path='account/update/email' element={<CustomerUpdateEmail />} />
+                                                <Route path='account/update/password' element={<CustomerUpdatePassword />} />
 
-                                <Route path='notification' element={<CustomerNotification />} />
-                                <Route path='order_history' element={<CustomerOrderHistory />} />
-                                <Route path='shop' element={<Shop />} />
-                                <Route path='shop/product-list' element={<ShopProductList />} />
+                                                <Route path='notification' element={<CustomerNotification />} />
+                                                <Route path='order_history' element={<CustomerOrderHistory />} />
+                                                <Route path='shop' element={<Shop />} />
+                                                <Route path='shop/product-list' element={<ShopProductList />} />
 
-                                <Route path='register-sell' element={<RegisterSell />} />
-                            </Route>
-                            <Route path='product/update-book/:product_id' element={<UpdateWrapper />} />
-                            <Route path='query-params' element={<QueryParams />} />
+                                                <Route path='register-sell' element={<RegisterSell />} />
+                                                <Route path='router' element={<CustomerRouter />} />
+                                          </Route>
+                                          <Route path='product/update-book/:product_id' element={<UpdateWrapper />} />
+                                          <Route path='query-params' element={<QueryParams />} />
+                                    </Routes>
+                              </div>
+
+                              <Route path='*' element={<NotFound />} />
                         </Routes>
-                    </div>
-
-                    <Route path='*' element={<NotFound />} />
-                </Routes>
-            </div>
-        </>
-    )
+                  </div>
+            </>
+      )
 }
 
 export default RouterController

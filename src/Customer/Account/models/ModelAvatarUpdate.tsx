@@ -14,176 +14,190 @@ import { addToast } from '../../../Redux/toast'
 
 //@props
 type TProps = {
-    setModelAvatarUpdate?: React.Dispatch<SetStateAction<boolean>>
-    setModelAvatar?: React.Dispatch<SetStateAction<boolean>>
-    modeDispatch: React.Dispatch<TAvatarActions>
+      setModelAvatarUpdate?: React.Dispatch<SetStateAction<boolean>>
+      setModelAvatar?: React.Dispatch<SetStateAction<boolean>>
+      modeDispatch: React.Dispatch<TAvatarActions>
 }
 
 type TForm = {
-    file: any
+      file: any
 }
 
 //@component::api
 const ModelAvatarUpdate = (props: TProps) => {
-    const dispatch = useDispatch()
-    //@props
-    const { modeDispatch } = props
-    const methods = useForm<TForm>({
-        defaultValues: { file: null },
-    })
+      const dispatch = useDispatch()
+      //@props
+      const { modeDispatch } = props
+      const methods = useForm<TForm>({
+            defaultValues: { file: null },
+      })
 
-    const form = methods.register('file')
+      const form = methods.register('file')
 
-    const user = useSelector((state: RootState) => state.authentication.user)
-    const updateAvatarResponse = useMutation({
-        mutationKey: ['update-avatar'],
-        mutationFn: (data: any) => Account.updateAvatar(data),
-        onSuccess: (res: any) => {
-            // modeDispatch({ type: 'MODE_AVATAR_UPDATE_SUCCESS', payload: { boxModeAvatar: false, modeAvatarUpdate: false } })
-        },
-        onError: async (error) => {
-            //@[shape] :: error.response.data.error
-        },
-    })
+      const user = useSelector((state: RootState) => state.authentication.user)
+      const updateAvatarResponse = useMutation({
+            mutationKey: ['update-avatar'],
+            mutationFn: (data: any) => Account.updateAvatar(data),
+            onSuccess: (res: any) => {
+                  // modeDispatch({ type: 'MODE_AVATAR_UPDATE_SUCCESS', payload: { boxModeAvatar: false, modeAvatarUpdate: false } })
+            },
+            onError: async (error) => {
+                  //@[shape] :: error.response.data.error
+            },
+      })
 
-    const [fileAvatar, setFileAvatar] = useState<File>()
-    const [filePreview, setFilePreview] = useState<string | undefined>()
-    const inputRef = useRef<HTMLInputElement | null>()
+      const [fileAvatar, setFileAvatar] = useState<File>()
+      const [filePreview, setFilePreview] = useState<string | undefined>()
+      const inputRef = useRef<HTMLInputElement | null>()
 
-    useEffect(() => {
-        if (!fileAvatar) {
-            setFilePreview(undefined)
-            return
-        }
+      useEffect(() => {
+            if (!fileAvatar) {
+                  setFilePreview(undefined)
+                  return
+            }
 
-        const objectUrl = URL.createObjectURL(fileAvatar)
-        setFilePreview(objectUrl)
-        console.log(objectUrl)
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [fileAvatar])
+            const objectUrl = URL.createObjectURL(fileAvatar)
+            setFilePreview(objectUrl)
+            console.log(objectUrl)
+            // free memory when ever this component is unmounted
+            return () => URL.revokeObjectURL(objectUrl)
+      }, [fileAvatar])
 
-    useEffect(() => {
-        if (updateAvatarResponse.isSuccess) {
-            dispatch(fetchUser({ user: updateAvatarResponse.data.data.metadata.user }))
-            modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
-            dispatch(addToast({ type: 'SUCCESS', message: 'Cập nhập avtar thành công', id: Math.random().toString() }))
-        }
-        if (updateAvatarResponse.isSuccess && updateAvatarResponse.data) {
-            console.log({ updateAvatarResponse: updateAvatarResponse.data.data.metadata.user })
-        }
-    }, [updateAvatarResponse.isSuccess, modeDispatch, updateAvatarResponse.data, dispatch])
+      useEffect(() => {
+            if (updateAvatarResponse.isSuccess) {
+                  dispatch(fetchUser({ user: updateAvatarResponse.data.data.metadata.user }))
+                  modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
+                  dispatch(addToast({ type: 'SUCCESS', message: 'Cập nhập avtar thành công', id: Math.random().toString() }))
+            }
+            if (updateAvatarResponse.isSuccess && updateAvatarResponse.data) {
+                  console.log({ updateAvatarResponse: updateAvatarResponse.data.data.metadata.user })
+            }
+      }, [updateAvatarResponse.isSuccess, modeDispatch, updateAvatarResponse.data, dispatch])
 
-    //@closeModel
-    const modelControllClose = () => {
-        setFileAvatar(undefined)
-
-        if (filePreview) URL.revokeObjectURL(filePreview)
-        setFilePreview('')
-        modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
-    }
-
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.stopPropagation()
-        e.preventDefault()
-        if (inputRef.current) {
-            inputRef.current.click()
-        }
-    }
-
-    const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (filePreview || fileAvatar) {
-            setFilePreview(undefined)
+      //@closeModel
+      const modelControllClose = () => {
             setFileAvatar(undefined)
-        }
 
-        console.log(e.target.files)
-        if (e.target.files) {
-            setFileAvatar(e.target.files[0])
-        }
-    }
+            if (filePreview) URL.revokeObjectURL(filePreview)
+            setFilePreview('')
+            modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
+      }
 
-    const onSubmit: SubmitHandler<TForm> = (file) => {
-        console.log(file, fileAvatar)
-        // console.log('link', URL.createObjectURL(file.file[0].name))
-        const formData: any = new FormData()
-        formData.append('file', fileAvatar)
-        formData.append('user', user)
+      const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.stopPropagation()
+            e.preventDefault()
+            if (inputRef.current) {
+                  inputRef.current.click()
+            }
+      }
 
-        console.log('dirty', methods)
-        updateAvatarResponse.mutate(formData)
-    }
+      const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (filePreview || fileAvatar) {
+                  setFilePreview(undefined)
+                  setFileAvatar(undefined)
+            }
 
-    //@element
-    return (
-        <div
-            className='fixed top-0 left-0 mx-[25px] lg:mx-0 bg-[rgba(0,0,0,.7)] w-full min-h-screen z-[500] flex items-center justify-center'
-            onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
-            }}
-        >
+            console.log(e.target.files)
+            if (e.target.files) {
+                  setFileAvatar(e.target.files[0])
+            }
+      }
+
+      const onSubmit: SubmitHandler<TForm> = (file) => {
+            console.log(file, fileAvatar)
+            // console.log('link', URL.createObjectURL(file.file[0].name))
+            const formData: any = new FormData()
+            formData.append('file', fileAvatar)
+            formData.append('user', user)
+
+            console.log('dirty', methods)
+            updateAvatarResponse.mutate(formData)
+      }
+
+      //@element
+      return (
             <div
-                className={`w-[650px] h-max bg-white rounded-2xl p-[40px] relative`}
-                onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
+                  className='fixed top-0 left-0 px-[25px] lg:mx-0 bg-[rgba(0,0,0,.7)] w-full min-h-screen z-[500] flex items-center justify-center'
+                  onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                        modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
+                  }}
             >
-                <div className='text-[25px] absolute top-[25px] right-[25px]' onClick={modelControllClose}>
-                    <X />
-                </div>
-                <div className='h-[10%] flex items-center mb-[15px]'>Cập nhập ảnh đại diện</div>
-                <div className='h-[1px] bg-stone-100'></div>
-                <form
-                    className='h-[85%]'
-                    onSubmit={(e) => {
-                        e.stopPropagation()
-
-                        return methods.handleSubmit(onSubmit)(e)
-                    }}
-                >
-                    <div className={`flex flex-col gap-[16px] mt-[25px] bg-stone-100 mb-[25px] p-[20px] items-center justify-center`}>
-                        {filePreview && (
-                            <img src={filePreview} width={200} height={300} alt='avatar_update' className='w-[300px] h-[300px]' />
-                        )}
-                        <button className='px-[12px] py-[8px] rounded-md text-white bg-blue-700' onClick={(e) => handleClick(e)}>
-                            {!filePreview ? 'Chọn ảnh' : 'Chọn lại ảnh khác'}
-                        </button>
-                        <input
-                            type='file'
-                            id='avatar_update'
-                            onChange={(event) => {
-                                handleUploadAvatar(event)
-                                form.onChange(event)
-                            }}
-                            ref={(e) => {
-                                form.ref(e)
-                                inputRef.current = e
-                            }}
-                            hidden
-                        />
-                    </div>
-
-                    {filePreview && (
-                        <div className='w-full min-w-[100px] flex gap-[2%]'>
-                            <button className='w-[49%] px-[12px] py-[6px] bg-stone-200 text-blue-500' onClick={modelControllClose}>
-                                Hủy bỏ
-                            </button>
-                            <button
-                                type='submit'
-                                className='w-[49%] px-[12px] py-[6px] bg-blue-500 text-white flex justify-center gap-[8px] items-center'
-                            >
-                                <span>Lưu thay đổi</span>
-                                {updateAvatarResponse.isPending && (
-                                    <span
-                                        className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                                        role='status'
-                                    ></span>
-                                )}
-                            </button>
+                  <div
+                        className={`w-[650px] h-max bg-white rounded-2xl p-[40px] relative`}
+                        onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
+                  >
+                        <div className='text-[25px] absolute top-[25px] right-[25px]' onClick={modelControllClose}>
+                              <X />
                         </div>
-                    )}
-                </form>
+                        <div className='h-[10%] flex items-center mb-[15px]'>Cập nhập ảnh đại diện</div>
+                        <div className='h-[1px] bg-stone-100'></div>
+                        <form
+                              className='h-[85%]'
+                              onSubmit={(e) => {
+                                    e.stopPropagation()
+
+                                    return methods.handleSubmit(onSubmit)(e)
+                              }}
+                        >
+                              <div
+                                    className={`flex flex-col gap-[16px] mt-[25px] bg-stone-100 mb-[25px] p-[20px] items-center justify-center`}
+                              >
+                                    {filePreview && (
+                                          <img
+                                                src={filePreview}
+                                                width={200}
+                                                height={300}
+                                                alt='avatar_update'
+                                                className='w-[300px] h-[300px]'
+                                          />
+                                    )}
+                                    <button
+                                          className='px-[12px] py-[8px] rounded-md text-white bg-blue-700'
+                                          onClick={(e) => handleClick(e)}
+                                    >
+                                          {!filePreview ? 'Chọn ảnh' : 'Chọn lại ảnh khác'}
+                                    </button>
+                                    <input
+                                          type='file'
+                                          id='avatar_update'
+                                          onChange={(event) => {
+                                                handleUploadAvatar(event)
+                                                form.onChange(event)
+                                          }}
+                                          ref={(e) => {
+                                                form.ref(e)
+                                                inputRef.current = e
+                                          }}
+                                          hidden
+                                    />
+                              </div>
+
+                              {filePreview && (
+                                    <div className='w-full min-w-[100px] flex gap-[2%]'>
+                                          <button
+                                                className='w-[49%] px-[12px] py-[6px] bg-stone-200 text-blue-500'
+                                                onClick={modelControllClose}
+                                          >
+                                                Hủy bỏ
+                                          </button>
+                                          <button
+                                                type='submit'
+                                                className='w-[49%] px-[12px] py-[6px] bg-blue-500 text-white flex justify-center gap-[8px] items-center'
+                                          >
+                                                <span>Lưu thay đổi</span>
+                                                {updateAvatarResponse.isPending && (
+                                                      <span
+                                                            className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                                            role='status'
+                                                      ></span>
+                                                )}
+                                          </button>
+                                    </div>
+                              )}
+                        </form>
+                  </div>
             </div>
-        </div>
-    )
+      )
 }
 
 export default ModelAvatarUpdate

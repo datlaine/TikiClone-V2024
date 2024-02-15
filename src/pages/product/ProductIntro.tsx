@@ -2,6 +2,10 @@ import { BoxSelect, CaravanIcon, Check } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { TProductDetail, TProductFull } from '../../types/product/product.type'
 import BoxSelectAdrees from '../../component/ui/BoxSelectAdrees'
+import { diffrenceBetweenStar, renderCountStar } from '../../utils/productVote.util'
+import Star from '../../component/ui/Star'
+import { Rate } from 'antd'
+import ProductLabel from './ProductLabel'
 
 type TProps = { product: TProductDetail }
 
@@ -22,19 +26,15 @@ const ProductIntro = (props: TProps) => {
       }, [])
 
       console.log({ length: product?.attribute.description.length })
+      const votes = 4.5
 
       return (
             <div className='flex flex-col gap-[16px]'>
                   <section className='bg-white w-full min-h-[160px] h-auto p-[12px] rounded-lg'>
                         <div className='flex flex-col gap-[8px]'>
                               <header>
-                                    <div className='flex gap-[12px] '>
-                                          <div className='flex bg-blue-100 rounded-xl text-[10px] px-[4px] items-center gap-[4px]'>
-                                                <div className='bg-blue-700 w-[12px] h-[12px] rounded-full flex items-center justify-center'>
-                                                      <Check color='white' size={12} />
-                                                </div>
-                                                <span className='uppercase text-blue-900 font-black'>Chính hãng</span>
-                                          </div>
+                                    <div className='flex gap-[12px] flex-col xl:flex-row'>
+                                          <ProductLabel content='Chính hãng' />
                                           <p>
                                                 <span>Tác giả: </span>
                                                 <span className='text-blue-700'>{product?.attribute.author}</span>
@@ -42,7 +42,10 @@ const ProductIntro = (props: TProps) => {
                                     </div>
                               </header>
                               <p className='text-[18px] text-black font-semibold'>{product?.product_name}</p>
-                              <div className=' h-[26px]'>Votes</div>
+                              <div className=' h-[16px] flex gap-[4px]'>
+                                    {/* {diffrenceBetweenStar(votes)?.map((opacity) => <Star opacity={opacity} />)} */}
+                                    <Rate disabled defaultValue={votes} />
+                              </div>
                               <p className='text-[24px] text-black font-bold'>
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
                                           product?.product_price as number,

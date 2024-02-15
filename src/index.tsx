@@ -105,7 +105,7 @@ root.render(
                                     <App />
                                     <BoxContainerToast />
                               </ContextToastProvider>
-                              <ReactQueryDevtools initialIsOpen={false} />
+                              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
                         </QueryClientProvider>
                   </BrowserRouter>
             </PersistGate>

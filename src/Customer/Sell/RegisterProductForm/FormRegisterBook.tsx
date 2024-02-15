@@ -28,7 +28,7 @@ import { TCloudinaryImage, TCloudinaryPublicId } from '../types/cloudinary.typs'
 import ButtonUploadMultiple from './components/ButtonUploadMultiple'
 import UpdateMultipleImage from '../UpdateProductForm/components/UpdateMultipleImage'
 import { Link } from 'react-router-dom'
-import { url } from 'inspector'
+import { sleep } from '../../../utils/sleep'
 
 //@Props - Product::Book
 
@@ -70,12 +70,12 @@ const defaultValues: TRegisterFormBook = {
 
 //@Component
 const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>) => {
-      const { product_id, ProductAttribute, TimelineProps, mode = 'UPLOAD', product } = props
+      const { product_id, ProductAttribute, TimelineProps, mode = 'UPLOAD' } = props
 
       //@trang thái submit
       const [, setFormStateSubmit] = useState(false)
       const dispatch = useDispatch()
-
+      const [isSuccess, setIsSuccess] = useState<boolean>(false)
       const queryClient = useQueryClient()
       //@lấy thông tin hình ảnh
       const [urlProductThumb, setUrlProductThumb] = useState<TProfileImage>({
@@ -104,6 +104,7 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
       const uploadProductFull = useMutation({
             mutationKey: ['upload-product-full'],
             mutationFn: (data: IFormDataProductFull) => ProductApi.uploadProductFull(data),
+            onSuccess: async () => {},
       })
 
       //@hàm submit sản phẩm
@@ -158,9 +159,16 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
                   })
             }
 
+            const showLink = async () => {
+                  await sleep(3000)
+                  console.log('123')
+                  setIsSuccess(true)
+            }
+
             if (uploadProductFull.isSuccess) {
                   callAgain()
                   queryClient.invalidateQueries()
+                  showLink()
             }
       }, [uploadProductFull.isSuccess, queryClient])
 
@@ -169,7 +177,7 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
 
       return (
             <React.Fragment>
-                  {!methods.formState.isSubmitSuccessful && (
+                  {!isSuccess && (
                         <div className='animate-mountComponent w-full h-auto flex justify-center '>
                               <div className=' w-[full] lg:w-[65%]  h-full'>
                                     <FormProvider {...methods}>
@@ -256,10 +264,7 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
                                           type='File'
                                           File={{
                                                 isUploadImage: urlProductThumb.isUploadImage,
-                                                FileName:
-                                                      mode === 'UPDATE'
-                                                            ? (product?.product_thumb_image.secure_url as string)
-                                                            : urlProductThumb.FileName,
+                                                FileName: urlProductThumb.FileName,
                                           }}
                                           isSubmit={methods.formState.isSubmitted ? true : false}
                                     />
@@ -290,7 +295,7 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
                         </div>
                   )}
 
-                  {methods.formState.isSubmitSuccessful && (
+                  {isSuccess && (
                         <>
                               <Link to={`/product/${product_id}`} className='underline block text-blue-500'>
                                     Đường dẫn của sản phẩm

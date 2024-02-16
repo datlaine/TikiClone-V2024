@@ -82,7 +82,7 @@ const BoxModalImage = (props: TProps) => {
                   <div className='fixed inset-0 bg-[rgba(0,0,0,.93)] flex flex-col content-between h-screen px-[24px]'>
                         <div className='relative w-full h-[30%]  lg:h-[70%] mt-[100px] xl:mt-[24px]'>
                               <div className='w-full h-full flex justify-center items-center'>
-                                    <div className='w-[200px] h-[200px] xl:h-[250px] lg:w-[540px] lg:h-[540px] overflow-x-hidden'>
+                                    <div className='w-[250px] h-[250px] xl:h-[250px] lg:w-[540px] lg:h-[540px] overflow-x-hidden'>
                                           <div className='w-full h-full flex     ' ref={wrapperRef}>
                                                 {secure_url.map((image) => (
                                                       <img
@@ -121,7 +121,7 @@ const BoxModalImage = (props: TProps) => {
                                     <span>Xem ảnh sau</span>
                               </button>
                               <div
-                                    className='absolute top-[8px] xl:top-[12px] right-[24px] xl:right-[40px] flex flex-col gap-[4px] text-white items-center'
+                                    className='absolute top-[8px] xl:top-[12px] right-[16px] xl:right-[40px] flex flex-col gap-[4px] text-white items-center'
                                     onClick={handleHideModal}
                               >
                                     <X color='white' size={30} />
@@ -140,7 +140,7 @@ const BoxModalImage = (props: TProps) => {
                                                 key={picture.secure_url}
                                                 className={`${
                                                       index + 1 === posImage ? styleEffect.isActiveImage : 'border-[3px] border-transparent'
-                                                } w-[60px] h-[60px]  xl:w-[120px] xl:h-[120px]`}
+                                                } w-[100px] h-[100px]  xl:w-[120px] xl:h-[120px]`}
                                                 alt='product-sub'
                                                 onClick={() => handleClickChangeImage(index)}
                                           />

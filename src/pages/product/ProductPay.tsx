@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TProductDetail } from '../../types/product/product.type'
 import ProductLabel from './ProductLabel'
 import { Rate } from 'antd'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import CartService from '../../apis/cart.service'
+import { CartForm, CartFormData } from '../../types/cart.type'
+import { useDispatch } from 'react-redux'
+import { addToast } from '../../Redux/toast'
 
 type TProps = {
       product: TProductDetail
@@ -11,6 +16,19 @@ const ProductPay = (props: TProps) => {
       const { product } = props
 
       const [productQuantity, setProductQuantity] = useState<number | undefined>(1)
+      const dispatch = useDispatch()
+      const queryClient = useQueryClient()
+
+      const cartMutation = useMutation({
+            mutationKey: ['add-cart'],
+            mutationFn: ({ cart }: { cart: CartFormData }) => CartService.addCart({ cart }),
+            onSuccess: () => {
+                  queryClient.invalidateQueries({ queryKey: ['cart-get-count-product'] })
+                  queryClient.invalidateQueries({
+                        queryKey: ['cart-get-count-product'],
+                  })
+            },
+      })
 
       const handleIncreaseProductQuantity = () => {
             // if(productQuantity === 1) return
@@ -22,7 +40,27 @@ const ProductPay = (props: TProps) => {
             setProductQuantity((prev) => (prev! -= 1))
       }
 
+      const handleClickBuy = () => {
+            console.log({ product: { ...product, productQuantity, price: product.product_price * (productQuantity || 1) } })
+            const formData = new FormData()
+            formData.append('product_id', product._id)
+
+            formData.append('price', (product.product_price * (productQuantity || 1)).toString())
+            formData.append('quantity', (productQuantity || 1).toString())
+            // console.log({ cart: JSON.stringify(formData) })
+            cartMutation.mutate({ cart: formData })
+            // for (var key of formData.entries()) {
+            // console.log(key[0] + ', ' + key[1])
+            // }
+      }
+
       console.log({ productQuantity })
+
+      useEffect(() => {
+            if (cartMutation.isSuccess) {
+                  dispatch(addToast({ type: 'SUCCESS', message: 'Cart', id: Math.random().toString() }))
+            }
+      }, [cartMutation.isSuccess])
 
       return (
             <section className='w-full h-full flex flex-col gap-[16px] p-[12px] text-[12px] xl:text-[14px]'>
@@ -92,7 +130,10 @@ const ProductPay = (props: TProps) => {
                         </p>
                   </div>
                   <div className='w-full h-max flex flex-col gap-[8px]'>
-                        <button className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md'>
+                        <button
+                              className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md'
+                              onClick={handleClickBuy}
+                        >
                               Mua ngay
                         </button>
                         <button className='w-full h-[45px] flex items-center justify-center bg-white text-blue-600 border-[1px] border-blue-600 rounded-md font-semibold text-[16px]'>

@@ -22,6 +22,7 @@ module.exports = {
 				toastAnimation: "toastAnimation 1s",
 				authBox: "authBox 1s",
 				pulseCustome: " pulse 	1.5s ",
+				scale: "scale .3s",
 			},
 			keyframes: {
 				pulseCustome: {
@@ -51,6 +52,11 @@ module.exports = {
 				authBox: {
 					"0%": { transform: "translateY(-100%)" },
 					"100%": { transform: "translateY(0px)" },
+				},
+
+				scale: {
+					"0%": { transform: "scale(0)" },
+					"100%": { transform: "scale(1)" },
 				},
 			},
 			boxShadow: {

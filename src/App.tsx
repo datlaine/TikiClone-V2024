@@ -24,7 +24,7 @@ function App() {
       }, [boxLogin])
 
       return (
-            <div className=' min-h-screen'>
+            <div className=' min-h-screen max-w-full'>
                   <div id='main' className='min-h-screen'>
                         <RouterController />
                         <FooterMobile className='block xl:hidden' />

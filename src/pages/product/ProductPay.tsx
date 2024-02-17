@@ -130,13 +130,13 @@ const ProductPay = (props: TProps) => {
                         </p>
                   </div>
                   <div className='w-full h-max flex flex-col gap-[8px]'>
-                        <button
-                              className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md'
-                              onClick={handleClickBuy}
-                        >
+                        <button className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md'>
                               Mua ngay
                         </button>
-                        <button className='w-full h-[45px] flex items-center justify-center bg-white text-blue-600 border-[1px] border-blue-600 rounded-md font-semibold text-[16px]'>
+                        <button
+                              className='w-full h-[45px] flex items-center justify-center bg-white text-blue-600 border-[1px] border-blue-600 rounded-md font-semibold text-[16px]'
+                              onClick={handleClickBuy}
+                        >
                               Thêm vào giỏ
                         </button>
                   </div>

@@ -2,14 +2,21 @@ import React from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { Link, Navigate, useMatch, useNavigate, useNavigation } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-export default function NotFound() {
+type TProps = {
+      ContentHeader?: string
+      ContentDescription?: string
+}
+
+const NotFound = (props: TProps) => {
+      const { ContentHeader, ContentDescription } = props
+
       const [count, setCount] = useState(5)
       const navigate = useNavigate()
 
-      let xoaInter = useRef(null)
-      let xoaTimout = useRef(null)
+      let xoaInter = useRef<NodeJS.Timeout>()
+      let xoaTimout = useRef<NodeJS.Timeout>()
       useEffect(() => {
             if (count > 0) {
                   xoaInter.current = setInterval(() => {
@@ -37,8 +44,12 @@ export default function NotFound() {
                   <main className='grid min-h-full max-w-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8'>
                         <div className='text-center'>
                               <p className='text-base font-semibold text-indigo-600'>404</p>
-                              <h1 className='mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl'>Không tìm thấy trang</h1>
-                              <p className='mt-6 text-base leading-7 text-gray-600'>Trang này chưa được xây dựng</p>
+                              <h1 className='mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl'>
+                                    {ContentHeader || 'Không tìm thấy trang'}
+                              </h1>
+                              <p className='mt-6 text-base leading-7 text-gray-600'>
+                                    {ContentDescription || 'Trang này chưa được xây dựng'}
+                              </p>
                               <div className='mt-10 flex items-center justify-center gap-x-6'>
                                     <Link
                                           to='/Contact'
@@ -55,3 +66,5 @@ export default function NotFound() {
             </div>
       )
 }
+
+export default NotFound

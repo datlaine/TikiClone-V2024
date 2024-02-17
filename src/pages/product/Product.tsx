@@ -6,6 +6,7 @@ import { ChevronsRight, Image } from 'lucide-react'
 import ProductDetail from './ProductDetail'
 import ProductIntro from './ProductIntro'
 import ProductPay from './ProductPay'
+import NotFound from '../../component/Errors/NotFound'
 
 export type TImage = {
       secure_url: string
@@ -28,6 +29,13 @@ const Product = () => {
                   behavior: 'smooth',
             })
       }, [])
+
+      useEffect(() => {}, [getProductWithId.isSuccess])
+      if (getProductWithId.isSuccess) {
+            if (!getProductWithId?.data?.data?.metadata?.product?.product_thumb_image?.secure_url) {
+                  return <NotFound ContentHeader='Không tìm thấy sản phẩm' ContentDescription='Sản phẩm có thể đã bị Shop sở hũu xóa đi' />
+            }
+      }
 
       return (
             <div className='flex flex-col w-full'>

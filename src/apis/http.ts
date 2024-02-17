@@ -55,7 +55,15 @@ class AxiosCustom {
                                     (data: any) => {
                                           // console.log({ data })
                                           const { token } = data.data.metadata
+
                                           if (!token) return Promise.reject(token)
+                                          store.dispatch(
+                                                addToast({
+                                                      type: 'WARNNING',
+                                                      message: 'Lấy thành công đang tiến hàng call lại api',
+                                                      id: Math.random().toString(),
+                                                }),
+                                          )
                                           if (
                                                 error.response.config.url === 'v1/api/account/update-avatar' ||
                                                 error.response.config.url === 'v1/api/product/upload-product-thumb' ||

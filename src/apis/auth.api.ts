@@ -1,3 +1,5 @@
+import { addToast } from '../Redux/toast'
+import { store } from '../store'
 import { TResponseApi, TUser } from '../types/axiosResponse'
 import axiosCustom from './http'
 
@@ -30,6 +32,7 @@ class Auth {
       }
 
       static async refresh_token() {
+            store.dispatch(addToast({ type: 'WARNNING', message: 'Đang gọi để lấy lại access_token', id: Math.random().toString() }))
             return axiosCustom.post<{ metadata: { token: string } }>(
                   '/v1/api/auth/rf',
                   {},

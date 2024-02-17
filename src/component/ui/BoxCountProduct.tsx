@@ -1,33 +1,44 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import { UseMutationResult, useMutation, useQueryClient } from '@tanstack/react-query'
+import React, { SetStateAction, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { CartFormData } from '../../types/cart.type'
-import CartService from '../../apis/cart.service'
+import CartService, { TModeChangeQuantityProductCart } from '../../apis/cart.service'
+import { AxiosResponse } from 'axios'
 
-const BoxCountProduct = () => {
-      const [productQuantity, setProductQuantity] = useState<number | undefined>(1)
-      const dispatch = useDispatch()
-      const queryClient = useQueryClient()
+type TProps = {
+      productQuantity: number
+      // setProductQuantity: React.Dispatch<SetStateAction<number>>
+      getValueChangeQuanity: (mode: TModeChangeQuantityProductCart) => void
+}
 
-      const cartMutation = useMutation({
-            mutationKey: ['add-cart'],
-            mutationFn: ({ cart }: { cart: CartFormData }) => CartService.addCart({ cart }),
-            onSuccess: () => {
-                  queryClient.invalidateQueries({ queryKey: ['cart-get-count-product'] })
-                  queryClient.invalidateQueries({
-                        queryKey: ['cart-get-count-product'],
-                  })
-            },
-      })
+const BoxCountProduct = (props: TProps) => {
+      const { productQuantity, getValueChangeQuanity } = props
 
       const handleIncreaseProductQuantity = () => {
-            // if(productQuantity === 1) return
-            setProductQuantity((prev) => (prev! += 1))
+            getValueChangeQuanity({ mode: 'INCREASE', quantity: 1 })
       }
 
       const handleDecreaseProductQuantity = () => {
-            if (productQuantity === 1) return
-            setProductQuantity((prev) => (prev! -= 1))
+            getValueChangeQuanity({ mode: 'DECREASE', quantity: -1 })
+      }
+
+      const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (!e.target.value) {
+                  getValueChangeQuanity({ mode: 'INPUT', quantity: 1 })
+                  return
+            }
+            if (Number(e.target.value) > 999) return
+            if (Number(e.target.value) === 0) {
+                  getValueChangeQuanity({ mode: 'INPUT', quantity: 1 })
+                  return
+            }
+            getValueChangeQuanity({ mode: 'INPUT', quantity: Number(e.target.value) })
+      }
+
+      const handleBlurInput = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+            if (!e.target.value) {
+                  getValueChangeQuanity({ mode: 'INPUT', quantity: 1 })
+            }
       }
 
       //min-w, w, rounded, gap, h
@@ -41,20 +52,8 @@ const BoxCountProduct = () => {
                         -
                   </button>
                   <input
-                        onChange={(e) => {
-                              if (!e.target.value) setProductQuantity(undefined)
-                              if (Number(e.target.value) > 999) return
-                              if (Number(e.target.value) === 0) {
-                                    // setProductQuantity(1)
-                                    return
-                              }
-                              setProductQuantity(Number(e.target.value))
-                        }}
-                        onBlur={(e) => {
-                              if (!e.target.value) {
-                                    setProductQuantity(1)
-                              }
-                        }}
+                        onChange={handleChangeInput}
+                        onBlur={handleBlurInput}
                         value={productQuantity}
                         defaultValue={productQuantity}
                         type='number'

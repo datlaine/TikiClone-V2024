@@ -139,4 +139,9 @@ body::-webkit-scrollbar-thumb:hover {
       background: #555;
 }
 
+body {
+      width: 100vw;
+      overflow-x: hidden;
+}
+
 /* overide antd  */

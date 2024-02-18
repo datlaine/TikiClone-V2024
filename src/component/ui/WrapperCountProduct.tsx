@@ -10,7 +10,7 @@ type TProps = {
 
 const WrapperCountProduct = (props: TProps) => {
       const { cart_id, cart_quantity } = props
-      const [productQuantity, setProductQuantity] = useState<number>(cart_quantity)
+      const [productQuantity, setProductQuantity] = useState<number | undefined>(cart_quantity)
       const queryClient = useQueryClient()
 
       // console.log({ wrapper: productQuantity })
@@ -18,9 +18,13 @@ const WrapperCountProduct = (props: TProps) => {
       const updateCartQuantityBtn = useMutation({
             mutationKey: ['v1/api/cart/cart-change-quantity'],
             mutationFn: (data: TModeChangeQuantityProductCart) => CartService.changeQuantityProductCart(data),
+            onSuccess: (data) => {
+                  setProductQuantity(data.data.metadata.quantity)
+            },
       })
 
       const getValueChangeQuanity = (mode: TModeChangeQuantityProductCart) => {
+            console.log({ mode })
             updateCartQuantityBtn.mutate({ ...mode, cart_id })
       }
 
@@ -33,7 +37,13 @@ const WrapperCountProduct = (props: TProps) => {
             }
       }, [updateCartQuantityBtn.isSuccess, updateCartQuantityBtn?.data?.data.metadata.quantity])
 
-      return <BoxCountProduct getValueChangeQuanity={getValueChangeQuanity} productQuantity={productQuantity} />
+      return (
+            <BoxCountProduct
+                  getValueChangeQuanity={getValueChangeQuanity}
+                  productQuantity={productQuantity}
+                  setProductQuantity={setProductQuantity}
+            />
+      )
 }
 
 export default WrapperCountProduct

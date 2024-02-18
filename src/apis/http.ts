@@ -5,6 +5,7 @@ import { store } from '../store'
 import { addToast } from '../Redux/toast'
 
 let retry = false
+let i = 0
 class AxiosCustom {
       instance: AxiosInstance
       refreshTokenPromise: any // this holds any in-progress token refresh requests
@@ -55,11 +56,13 @@ class AxiosCustom {
                                     (data: any) => {
                                           // console.log({ data })
                                           const { token } = data.data.metadata
+                                          i += 1
+                                          console.log({ i, data })
 
                                           if (!token) return Promise.reject(token)
                                           store.dispatch(
                                                 addToast({
-                                                      type: 'WARNNING',
+                                                      type: 'SUCCESS',
                                                       message: 'Lấy thành công đang tiến hàng call lại api',
                                                       id: Math.random().toString(),
                                                 }),

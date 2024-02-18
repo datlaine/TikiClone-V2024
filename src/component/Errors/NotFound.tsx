@@ -25,7 +25,7 @@ const NotFound = (props: TProps) => {
                   }, 1000)
                   xoaTimout.current = setTimeout(() => {
                         console.log('inter')
-                        navigate('/')
+                        navigate(-1)
                   }, 5000)
             }
             return () => {

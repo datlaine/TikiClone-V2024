@@ -25,7 +25,7 @@ const ProductPay = (props: TProps) => {
             onSuccess: () => {
                   queryClient.invalidateQueries({ queryKey: ['cart-get-count-product'] })
                   queryClient.invalidateQueries({
-                        queryKey: ['cart-get-count-product'],
+                        queryKey: ['v1/api/cart/cart-get-my-cart'],
                   })
             },
       })
@@ -45,7 +45,7 @@ const ProductPay = (props: TProps) => {
             const formData = new FormData()
             formData.append('product_id', product._id)
 
-            formData.append('price', (product.product_price * (productQuantity || 1)).toString())
+            formData.append('cart_product_price_origin', product.product_price.toString())
             formData.append('quantity', (productQuantity || 1).toString())
             // console.log({ cart: JSON.stringify(formData) })
             cartMutation.mutate({ cart: formData })

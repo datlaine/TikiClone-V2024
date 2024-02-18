@@ -5,7 +5,9 @@ export interface Cart {
       cart_user_id: string
       cart_date: Date
       cart_quantity: number
-      cart_price: number
+      cart_product_price: number
+      cart_product_price_origin: number
+
       cart_product_id: Pick<TProductDetail, '_id' | 'product_thumb_image' | 'product_price' | 'product_name'>
 }
 

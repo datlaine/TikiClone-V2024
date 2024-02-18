@@ -10,6 +10,7 @@ import WrapperCountProduct from '../ui/WrapperCountProduct'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { TUser } from '../../types/axiosResponse'
+import AuthPermission from '../Auth/AuthPermission'
 
 const Cart = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as TUser
@@ -23,6 +24,14 @@ const Cart = () => {
             if (getMyCart.isSuccess) {
             }
       }, [getMyCart.isSuccess])
+
+      if (!user) {
+            return (
+                  <div className='h-[calc(100vh-100px)] w-full'>
+                        <AuthPermission />
+                  </div>
+            )
+      }
 
       return (
             <div className='w-full h-max min-h-[2000px] flex gap-[12px] text-[13px]'>
@@ -101,9 +110,7 @@ const Cart = () => {
                                                                         {/* <span>{cartItem.cart_price}</span> */}
                                                                         {/* <span>{cartItem.cart_quantity}</span> */}
                                                                   </div>
-                                                                  <div className='w-[120px]'>
-                                                                        {cartItem.cart_price * cartItem.cart_quantity}
-                                                                  </div>
+                                                                  <div className='w-[120px]'>{cartItem.cart_product_price}</div>
                                                                   <div className='w-[20px]'>
                                                                         <Trash2 />
                                                                   </div>

@@ -6,13 +6,13 @@ import CartService, { TModeChangeQuantityProductCart } from '../../apis/cart.ser
 import { AxiosResponse } from 'axios'
 
 type TProps = {
-      productQuantity: number
-      // setProductQuantity: React.Dispatch<SetStateAction<number>>
+      productQuantity: number | undefined
+      setProductQuantity: React.Dispatch<SetStateAction<number | undefined>>
       getValueChangeQuanity: (mode: TModeChangeQuantityProductCart) => void
 }
 
 const BoxCountProduct = (props: TProps) => {
-      const { productQuantity, getValueChangeQuanity } = props
+      const { productQuantity, setProductQuantity, getValueChangeQuanity } = props
 
       const handleIncreaseProductQuantity = () => {
             getValueChangeQuanity({ mode: 'INCREASE', quantity: 1 })
@@ -24,19 +24,21 @@ const BoxCountProduct = (props: TProps) => {
 
       const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
             if (!e.target.value) {
-                  getValueChangeQuanity({ mode: 'INPUT', quantity: 1 })
+                  setProductQuantity(undefined)
+                  // getValueChangeQuanity({ mode: 'INPUT', quantity: 0 })
                   return
             }
             if (Number(e.target.value) > 999) return
             if (Number(e.target.value) === 0) {
-                  getValueChangeQuanity({ mode: 'INPUT', quantity: 1 })
+                  //       getValueChangeQuanity({ mode: 'INPUT', quantity: 1 })
                   return
             }
+            // if(Number(e.target.value) !== 0)
             getValueChangeQuanity({ mode: 'INPUT', quantity: Number(e.target.value) })
       }
 
       const handleBlurInput = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-            if (!e.target.value) {
+            if (!e.target.value || Number(e.target.value) === 0) {
                   getValueChangeQuanity({ mode: 'INPUT', quantity: 1 })
             }
       }

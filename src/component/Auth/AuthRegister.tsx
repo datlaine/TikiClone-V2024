@@ -56,6 +56,7 @@ const AuthRegister = (props: TProps) => {
             onSuccess: (res) => {
                   dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
                   dispatch(addToast({ type: 'SUCCESS', message: 'Welcome các bạn đến với project của mình', id: Math.random().toString() }))
+                  dispatch(doCloseBoxLogin())
             },
 
             onError: (data: unknown) => console.log('error data check', data),

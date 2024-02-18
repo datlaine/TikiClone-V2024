@@ -16,175 +16,183 @@ import { doIsLoading } from '../../Redux/uiSlice'
 import { addToast } from '../../Redux/toast'
 
 type TProps = {
-    setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
+      setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
 }
 
 type TFormLogin = {
-    email: string
-    password: string
+      email: string
+      password: string
 }
 
 const defaultValues: TFormLogin = {
-    email: '',
-    password: '',
+      email: '',
+      password: '',
 }
 
 const loginSchema = z.object({
-    email: z
-        .string()
-        .min(1, { message: 'Email là bắt buộc' })
-        .email({ message: 'Email không hợp lệ' })
-        .max(50, { message: 'Giới hạn 50 kí tự' }),
-    password: z.string().min(1, { message: 'Mật khẩu là bắt buộc' }).max(50, { message: 'Tối đa 50 kí tự' }),
+      email: z
+            .string()
+            .min(1, { message: 'Email là bắt buộc' })
+            .email({ message: 'Email không hợp lệ' })
+            .max(50, { message: 'Giới hạn 50 kí tự' }),
+      password: z.string().min(1, { message: 'Mật khẩu là bắt buộc' }).max(50, { message: 'Tối đa 50 kí tự' }),
 })
 
 type TloginZodSchema = z.infer<typeof loginSchema>
 
 const AuthLogin = (props: TProps) => {
-    //Mode Login | register
-    const { setModeAuth } = props
-    const [toast, setShowToast] = useState(false)
-    const countRef = useRef(0)
-    //state type password
-    const [typePassword, setTypePassword] = useState<'password' | 'text'>('password')
-    const queryClient = useQueryClient()
-    //react-hook-form
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<TloginZodSchema>({
-        defaultValues,
-        resolver: zodResolver(loginSchema),
-    })
+      //Mode Login | register
+      const { setModeAuth } = props
+      const [toast, setShowToast] = useState(false)
+      const countRef = useRef(0)
+      //state type password
+      const [typePassword, setTypePassword] = useState<'password' | 'text'>('password')
+      const queryClient = useQueryClient()
+      //react-hook-form
+      const {
+            register,
+            handleSubmit,
+            formState: { errors },
+      } = useForm<TloginZodSchema>({
+            defaultValues,
+            resolver: zodResolver(loginSchema),
+      })
 
-    useEffect(() => {}, [])
-    countRef.current += 1
+      useEffect(() => {}, [])
+      countRef.current += 1
 
-    console.log({ count: countRef.current })
-    const dispatch = useDispatch()
+      console.log({ count: countRef.current })
+      const dispatch = useDispatch()
 
-    const authLogin = useMutation({
-        mutationKey: ['login'],
-        mutationFn: (data: TloginZodSchema) => Auth.login(data),
-        onSuccess: (res) => {
-            dispatch(doCloseBoxLogin())
-            dispatch(doIsLoading(false))
-            dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
-            queryClient.invalidateQueries()
-        },
-        onError: async (error: unknown) => {
-            //@[shape] :: error.response.data.error
-            if (checkAxiosError<TErrorAxios>(error)) {
-                if (
-                    error?.response?.status === 404 &&
-                    error?.response?.statusText === 'Not Found' &&
-                    error?.response?.data?.detail === 'Not found Email'
-                ) {
-                    setShowToast(true)
-                }
-            }
-        },
-        retry: 1,
-    })
-
-    console.log({ toast })
-
-    //change type passsword
-    const handleShowHidePassword = () => {
-        if (typePassword === 'password') {
-            setTypePassword('text')
-            return
-        } else {
-            setTypePassword('password')
-        }
-    }
-
-    const onSubmit = (form: TFormLogin) => {
-        authLogin.mutate(form)
-    }
-
-    return (
-        <div className=' flex flex-col items-center gap-[15px] py-[35px]'>
-            {/* {toast && <BoxToast setShowToast={setShowToast} message={'Thông tin không hợp lệ'} children={<p>OK</p>} />} */}
-
-            <h3 className={`${Object.keys(errors).length > 0 ? 'text-red-700' : 'text-slate-900'} font-black tracking-[5px] text-[24px]`}>
-                Login
-            </h3>
-            <h4 className={`${Object.keys(errors).length > 0 ? 'text-red-700' : 'text-stone-600'} italic text-[16px] opacity-80 px-[12px]`}>
-                Đăng nhập để trải nghiệm mua sắm thỏa thích
-            </h4>
-            <form className='flex flex-1 flex-col gap-[20px] mt-[12px] w-[70%]' noValidate onSubmit={handleSubmit(onSubmit)}>
-                <div className='w-full flex flex-col gap-[16px]'>
-                    <input
-                        {...register('email')}
-                        type='text'
-                        className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
-                            errors.email
-                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                : 'border-slate-900 placeholder:text-stone-500  '
+      const authLogin = useMutation({
+            mutationKey: ['login'],
+            mutationFn: (data: TloginZodSchema) => Auth.login(data),
+            onSuccess: (res) => {
+                  dispatch(doCloseBoxLogin())
+                  dispatch(doIsLoading(false))
+                  dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
+                  queryClient.invalidateQueries()
+            },
+            onError: async (error: unknown) => {
+                  //@[shape] :: error.response.data.error
+                  if (checkAxiosError<TErrorAxios>(error)) {
+                        if (
+                              error?.response?.status === 404 &&
+                              error?.response?.statusText === 'Not Found' &&
+                              error?.response?.data?.detail === 'Not found Email'
+                        ) {
+                              setShowToast(true)
                         }
+                  }
+            },
+            retry: 1,
+      })
+
+      console.log({ toast })
+
+      //change type passsword
+      const handleShowHidePassword = () => {
+            if (typePassword === 'password') {
+                  setTypePassword('text')
+                  return
+            } else {
+                  setTypePassword('password')
+            }
+      }
+
+      const onSubmit = (form: TFormLogin) => {
+            authLogin.mutate(form)
+      }
+
+      return (
+            <div className=' flex flex-col items-center gap-[15px] py-[35px]'>
+                  {/* {toast && <BoxToast setShowToast={setShowToast} message={'Thông tin không hợp lệ'} children={<p>OK</p>} />} */}
+
+                  <h3
+                        className={`${
+                              Object.keys(errors).length > 0 ? 'text-red-700' : 'text-slate-900'
+                        } font-black tracking-[5px] text-[24px]`}
+                  >
+                        Login
+                  </h3>
+                  <h4
+                        className={`${
+                              Object.keys(errors).length > 0 ? 'text-red-700' : 'text-stone-600'
+                        } italic text-[16px] opacity-80 px-[12px]`}
+                  >
+                        Đăng nhập để trải nghiệm mua sắm thỏa thích
+                  </h4>
+                  <form className='flex flex-1 flex-col gap-[20px] mt-[12px] w-[70%]' noValidate onSubmit={handleSubmit(onSubmit)}>
+                        <div className='w-full flex flex-col gap-[16px]'>
+                              <input
+                                    {...register('email')}
+                                    type='text'
+                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
+                                          errors.email
+                                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
+                                                : 'border-slate-900 placeholder:text-stone-500  '
+                                    }
 }`}
-                        placeholder='Email'
-                    />
-                    {errors.email && (
-                        <div className='flex gap-[6px] items-center mt-[-10px]'>
-                            <ShieldX size={'18px'} color={'red'} />
-                            <span className='text-red-700 italic  text-[13px]'>{errors.email.message}</span>
+                                    placeholder='Email'
+                              />
+                              {errors.email && (
+                                    <div className='flex gap-[6px] items-center mt-[-10px]'>
+                                          <ShieldX size={'18px'} color={'red'} />
+                                          <span className='text-red-700 italic  text-[13px]'>{errors.email.message}</span>
+                                    </div>
+                              )}
                         </div>
-                    )}
-                </div>
-                <div className='w-full relative flex items-center'>
-                    <input
-                        {...register('password')}
-                        type={typePassword}
-                        className={`
+                        <div className='w-full relative flex items-center'>
+                              <input
+                                    {...register('password')}
+                                    type={typePassword}
+                                    className={`
 h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
-                            errors.password
-                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                : 'border-slate-900 placeholder:text-stone-500  '
-                        }`}
-                        placeholder='Mật khẩu'
-                    />
-                    <span className='absolute right-[5px]' onClick={handleShowHidePassword}>
-                        {typePassword === 'text' ? (
-                            <EyeOff size={'20px'} color={errors.password ? 'red' : 'black'} />
-                        ) : (
-                            <Eye size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                          errors.password
+                                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
+                                                : 'border-slate-900 placeholder:text-stone-500  '
+                                    }`}
+                                    placeholder='Mật khẩu'
+                              />
+                              <span className='absolute right-[5px]' onClick={handleShowHidePassword}>
+                                    {typePassword === 'text' ? (
+                                          <EyeOff size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                    ) : (
+                                          <Eye size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                    )}
+                              </span>
+                        </div>
+                        {errors.password && (
+                              <div className='flex gap-[6px] items-center mt-[-10px]'>
+                                    <ShieldX size={'18px'} color={'red'} />
+                                    <span className='text-red-700 italic  text-[13px]'>{errors.password.message}</span>
+                              </div>
                         )}
-                    </span>
-                </div>
-                {errors.password && (
-                    <div className='flex gap-[6px] items-center mt-[-10px]'>
-                        <ShieldX size={'18px'} color={'red'} />
-                        <span className='text-red-700 italic  text-[13px]'>{errors.password.message}</span>
-                    </div>
-                )}
-                <div className=''>
-                    <p>
-                        Bạn chưa có tài khoản,{' '}
-                        <span className='underline text-slate-900' onClick={() => setModeAuth('Register')}>
-                            đăng kí nhé
-                        </span>
-                    </p>
-                </div>
-                <button
-                    type='submit'
-                    className='flex justify-center items-center gap-[8px] w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
-                    disabled={authLogin.isPending && Object.keys(errors).length > 0}
-                    title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
-                >
-                    <span>Login</span>
-                    {authLogin.isPending && (
-                        <span
-                            className=' inline-block h-[25px] w-[25px] text-[#ffffff] animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                            role='status'
-                        ></span>
-                    )}
-                </button>
-            </form>
-        </div>
-    )
+                        <div className=''>
+                              <p>
+                                    Bạn chưa có tài khoản,{' '}
+                                    <span className='underline text-slate-900' onClick={() => setModeAuth('Register')}>
+                                          đăng kí nhé
+                                    </span>
+                              </p>
+                        </div>
+                        <button
+                              type='submit'
+                              className='flex justify-center items-center gap-[8px] w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
+                              disabled={authLogin.isPending && Object.keys(errors).length > 0}
+                              title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
+                        >
+                              <span>Login</span>
+                              {authLogin.isPending && (
+                                    <span
+                                          className=' inline-block h-[25px] w-[25px] text-[#ffffff] animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
+                                          role='status'
+                                    ></span>
+                              )}
+                        </button>
+                  </form>
+            </div>
+      )
 }
 
 export default AuthLogin

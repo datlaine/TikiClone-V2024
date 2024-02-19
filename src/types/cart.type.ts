@@ -7,7 +7,7 @@ export interface Cart {
       cart_quantity: number
       cart_product_price: number
       cart_product_price_origin: number
-
+      cart_is_select: boolean
       cart_product_id: Pick<TProductDetail, '_id' | 'product_thumb_image' | 'product_price' | 'product_name'>
 }
 

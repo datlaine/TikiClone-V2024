@@ -85,10 +85,12 @@ const ToastDemo = (props: TProps) => {
                         <div
                               onMouseEnter={handleOnMouseEnter}
                               onMouseLeave={handleOnMouseLeave}
-                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] py-[16px] px-[12px] w-[220px]  relative min-w-[140px] xl:min-w-[280px]   min-h-[80px] xl:min-h-[114px] h-max   rounded-lg transition-all duration-1000  flex items-center justify-center`}
+                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] py-[8px] px-[6px] xl:py-[16px] xl:px-[12px] w-[220px]  relative min-w-[140px] xl:min-w-[280px]   min-h-[80px] xl:min-h-[114px] h-max   rounded-lg transition-all duration-1000  flex items-center justify-center`}
                         >
                               <div
-                                    className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[60px] h-[30px] flex items-center justify-center rounded-md  text-white `}
+                                    className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[50px] h-[20
+
+px] xl:w-[60px] xl:h-[30px] flex items-center justify-center rounded-md  text-white `}
                               >
                                     <span>{DateTime.now().setZone(localDateTime).toLocaleString(DateTime.TIME_24_SIMPLE)}</span>
                               </div>
@@ -112,36 +114,9 @@ const ToastDemo = (props: TProps) => {
                                                 <ShieldAlert size={32} />
                                           )}
                                     </span>
-                                    <div className='flex flex-col gap-[8px] h-max'>
+                                    <div className='flex flex-col gap-[8px] h-max text-[13px]'>
                                           <span className='uppercase'>{toast.type}</span>
                                           <span className='mb-[12px]'>{toast.message}</span>
-                                          {/* {showDetail && (
-                                                <span>
-                                                      <pre>{'['}</pre>
-                                                      <pre>{' {'}</pre>
-                                                      <pre>{'     Sản phẩm: Sách'}</pre>
-                                                      <pre>{'     Giá: 10000vnđ'}</pre>
-                                                      <pre>{'     Nhà xuất bản: Nhi Đồng'}</pre>
-                                                      <pre>{' }'}</pre>
-                                                      <pre>{']'}</pre>
-
-                                                      <pre>{'['}</pre>
-                                                      <pre>{' {'}</pre>
-                                                      <pre>{'     Sản phẩm: Sách'}</pre>
-                                                      <pre>{'     Giá: 10000vnđ'}</pre>
-                                                      <pre>{'     Nhà xuất bản: Nhi Đồng'}</pre>
-                                                      <pre>{' }'}</pre>
-                                                      <pre>{']'}</pre>
-
-                                                      <pre>{'['}</pre>
-                                                      <pre>{' {'}</pre>
-                                                      <pre>{'     Sản phẩm: Sách'}</pre>
-                                                      <pre>{'     Giá: 10000vnđ'}</pre>
-                                                      <pre>{'     Nhà xuất bản: Nhi Đồng'}</pre>
-                                                      <pre>{' }'}</pre>
-                                                      <pre>{']'}</pre>
-                                                </span>
-                                          )} */}
                                     </div>
                               </div>
                               <span

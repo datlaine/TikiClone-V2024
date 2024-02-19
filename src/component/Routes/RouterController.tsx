@@ -38,7 +38,7 @@ const RouterController = () => {
             <>
                   {!hiddenHeader && <Header />}
 
-                  <div className='pt-[50px] lg:pt-[100px] xl:pt-[10px] min-h-screen min-w-full flex gap-[150px] px-[4px] lg:px-[50px] bg-[#efefef] '>
+                  <div className='pt-[50px] lg:pt-[100px] xl:pt-[10px] min-h-screen max-w-full flex gap-[150px] px-[4px] lg:px-[50px] bg-[#efefef] '>
                         <Sidebar />
                         <Routes>
                               <Route path='/admin' element={<Admin />} />

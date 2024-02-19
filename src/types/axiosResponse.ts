@@ -34,6 +34,7 @@ export type TUser = {
       avartar_url_default: 'https://res.cloudinary.com/demonodejs/image/upload/v1705389477/static/o5gxkgehijtg9auirdje.jpg'
       avatar_used: TAvatar[]
       isOpenShop?: boolean
+      isCartSelectAll: boolean
 }
 
 export type TAvatar = {

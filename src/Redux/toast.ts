@@ -12,7 +12,6 @@ const toastSlice = createSlice({
                   state.toast.push(payload.payload)
             },
             removeToast: (state, payload: PayloadAction<{ id: string }>) => {
-                  console.log({ toast: state.toast, payload })
                   state.toast = state.toast.filter((t) => t.id !== payload.payload.id)
             },
       },

@@ -1,3 +1,4 @@
+import { TUser } from '../types/axiosResponse'
 import { Cart, CartForm, CartFormData } from '../types/cart.type'
 import axiosCustom from './http'
 
@@ -20,16 +21,26 @@ class CartService {
             return axiosCustom.get<{ metadata: { cart: Cart[] } }>('v1/api/cart/cart-get-my-cart')
       }
 
-      static async changeQuantityProductWithButton(data: { isIncrease: boolean }) {
-            return axiosCustom.post<{ metadata: { quantity: number } }>('v1/api/cart/cart-update-quantity-btn', data)
-      }
-
-      static async changeQuantityProductWithInput() {
-            return axiosCustom.post<{ metadata: { quantity: number } }>('v1/api/cart/cart-update-quantity-input')
-      }
-
       static async changeQuantityProductCart(data: TModeChangeQuantityProductCart) {
             return axiosCustom.post<{ metadata: { quantity: number } }>('v1/api/cart/cart-change-quantity', data)
+      }
+
+      static async selectAllCart(value: boolean) {
+            return axiosCustom.post<{ metadata: { cart: Cart[]; user: TUser; current_select: boolean } }>(
+                  '/v1/api/cart/cart-change-select-all',
+                  { select: value },
+            )
+      }
+
+      static async selectCartOne({ value, cart_id }: { value: boolean; cart_id: string }) {
+            return axiosCustom.post<{ metadata: { cartUpdateItem: { cart_id: string; cart_is_select: boolean } } }>(
+                  '/v1/api/cart/cart-change-select-one',
+                  { value, cart_id },
+            )
+      }
+
+      static async calculatorPrice() {
+            return axiosCustom.get<{ metadata: { cart: Cart[] } }>('/v1/api/cart/cart-pay')
       }
 }
 

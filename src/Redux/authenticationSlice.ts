@@ -46,8 +46,8 @@ const authSlice = createSlice({
                   state.isOpenBoxLogin = true
                   state.user = null
                   state.token = null
-                  localStorage.removeItem('user')
-                  localStorage.removeItem('token')
+                  // localStorage.removeItem('user')
+                  // localStorage.removeItem('token')
             },
             doCloseBoxLogin: (state) => {
                   state.isOpenBoxLogin = false

@@ -13,27 +13,37 @@ const WrapperCountProduct = (props: TProps) => {
       const [productQuantity, setProductQuantity] = useState<number | undefined>(cart_quantity)
       const queryClient = useQueryClient()
 
-      // console.log({ wrapper: productQuantity })
+      console.log({ cart_id })
 
       const updateCartQuantityBtn = useMutation({
             mutationKey: ['v1/api/cart/cart-change-quantity'],
             mutationFn: (data: TModeChangeQuantityProductCart) => CartService.changeQuantityProductCart(data),
             onSuccess: (data) => {
                   setProductQuantity(data.data.metadata.quantity)
+                  queryClient.invalidateQueries({
+                        queryKey: ['v1/api/cart/cart-get-my-cart'],
+                  })
+
+                  queryClient.invalidateQueries({
+                        queryKey: ['v1/api/cart/cart-pay'],
+                  })
             },
       })
 
       const getValueChangeQuanity = (mode: TModeChangeQuantityProductCart) => {
             console.log({ mode })
+            if (mode.mode === 'INPUT') {
+                  setProductQuantity(mode.quantity)
+            }
             updateCartQuantityBtn.mutate({ ...mode, cart_id })
       }
 
       useEffect(() => {
             if (updateCartQuantityBtn.isSuccess) {
                   setProductQuantity(updateCartQuantityBtn.data.data.metadata.quantity)
-                  queryClient.invalidateQueries({
-                        queryKey: ['v1/api/cart/cart-get-my-cart'],
-                  })
+                  // queryClient.invalidateQueries({
+                  //       queryKey: ['v1/api/cart/cart-get-my-cart'],
+                  // })
             }
       }, [updateCartQuantityBtn.isSuccess, updateCartQuantityBtn?.data?.data.metadata.quantity])
 
@@ -42,6 +52,7 @@ const WrapperCountProduct = (props: TProps) => {
                   getValueChangeQuanity={getValueChangeQuanity}
                   productQuantity={productQuantity}
                   setProductQuantity={setProductQuantity}
+                  disable={updateCartQuantityBtn.isPending}
             />
       )
 }

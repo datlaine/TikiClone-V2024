@@ -4,7 +4,7 @@ import ProductLabel from './ProductLabel'
 import { Rate } from 'antd'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService from '../../apis/cart.service'
-import { CartForm, CartFormData } from '../../types/cart.type'
+import { CartFormData } from '../../types/cart.type'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../Redux/toast'
 

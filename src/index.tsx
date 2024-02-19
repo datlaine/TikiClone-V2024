@@ -36,6 +36,7 @@ const client = new QueryClient({
                   if (checkAxiosError<TErrorAxios>(error)) {
                         // console.log({ mute: error })
                         if (
+                              window.location.origin !== 'http://localhost:3000' &&
                               error?.response?.status === 403 &&
                               error?.response.statusText === 'Forbidden' &&
                               (error?.response.data?.detail === 'Token không đúng' ||

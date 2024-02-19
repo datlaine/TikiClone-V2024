@@ -38,7 +38,7 @@ const Product = () => {
       }
 
       return (
-            <div className='flex flex-col w-full'>
+            <div className='flex flex-col w-full text-[12px]'>
                   <div className=' w-full flex flex-col gap-[4px] '>
                         {getProductWithId.data?.data && (
                               <div className='flex gap-[4px] '>
@@ -52,10 +52,10 @@ const Product = () => {
                               <div className='px-[10px] xl:px-[20px] flex gap-[16px] xl:gap-[24px] mt-[30px] xl:mt-0'>
                                     <div className='basis-[70%] xl:basis-[74%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
-                                                <div className='basis-[35%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-sm  h-max flex flex-col gap-[16px] '>
+                                                <div className='basis-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-sm  h-max flex flex-col gap-[16px] '>
                                                       <ProductDetail product={product} isSuccess={getProductWithId.isSuccess} />
                                                 </div>
-                                                <div className='basis-[65%]  h-[5000px] mt-[20px] xl:mt-0 rounded-lg '>
+                                                <div className='basis-[60%]  h-[5000px] mt-[20px] xl:mt-0 rounded-lg '>
                                                       <ProductIntro product={product} />
                                                 </div>
                                           </div>

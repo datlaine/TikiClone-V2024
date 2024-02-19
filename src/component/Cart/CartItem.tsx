@@ -1,7 +1,7 @@
 import React, { SetStateAction, useEffect, useState } from 'react'
 import { Cart } from '../../types/cart.type'
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox'
-import { ChevronRight, Home, Trash2 } from 'lucide-react'
+import { ChevronRight, Home, TimerIcon, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { DateTimeFromString } from '../../utils/datetime.util'
 import WrapperCountProduct from '../ui/WrapperCountProduct'
@@ -52,11 +52,11 @@ const CartItem = (props: TProps) => {
                         <span>{cart.cart_product_id.product_name}</span>
                         <ChevronRight />
                   </div>
-                  <div className='max-h-[70%] h-[70%] xl:max-h-[50%] xl:h-[50%] w-full flex flex-col xl:flex-row'>
-                        <div className='flex-1 flex  flex-col xl:flex-row gap-[16px]'>
+                  <div className='max-h-[70%] h-[70%] xl:max-h-[50%] xl:h-[40%] w-full flex flex-col xl:flex-row'>
+                        <div className='flex-1 flex  flex-col xl:flex-row gap-[16px] h-[150px] xl:h-[80px]'>
                               <Checkbox className='z-[5]' checked={select} onChange={changeSelect} />
                               <Link
-                                    className='inline-block w-[150px] xl:w-[120px] h-[150px] xl:h-full'
+                                    className='inline-block w-[90px] xl:w-[90px] h-[150px] xl:h-[80px]'
                                     to={`/product/${cart.cart_product_id._id}`}
                               >
                                     <img
@@ -65,8 +65,10 @@ const CartItem = (props: TProps) => {
                                           alt='product'
                                     />{' '}
                               </Link>
-                              <div className='flex-1 flex flex-col content-between'>
+                              <div className='flex-1 flex flex-col content-between justify-between font-semibold text-slate-700'>
                                     <span>{cart.cart_product_id.product_name}</span>
+                                    <span>Thể loại: Sách</span>
+                                    <span>Giao vào ngày mai</span>
                               </div>
                         </div>
 
@@ -79,7 +81,11 @@ const CartItem = (props: TProps) => {
                               <Trash2 />
                         </div>
                   </div>
-                  <div className='max-h-[20%]'>Thêm vào lúc: {DateTimeFromString(cart.cart_date)}</div>
+                  <div className='w-[calc(100%+24px)] ml-[-12px] bg-slate-100 h-[1px]'></div>
+                  <div className='max-h-[20%] flex ml-[16px] items-center gap-[8px]'>
+                        <TimerIcon />
+                        {DateTimeFromString(cart.cart_date)}
+                  </div>
             </div>
       )
 }

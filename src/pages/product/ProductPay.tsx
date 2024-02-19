@@ -80,8 +80,9 @@ const ProductPay = (props: TProps) => {
                               </p>
                         </div>
                   </div>
-                  <div className='flex flex-col gap-[8px]'>
+                  <div className='flex flex-col gap-[12px]'>
                         <span className='font-bold'>Số lượng</span>
+                        <img src={product.product_thumb_image.secure_url} className='w-[40px] h-[40px]' alt='' />
                         <div className='flex gap-[8px] max-w-max h-[30px]'>
                               <button
                                     className='flex items-center justify-center p-[6px] border-[1px] border-slate-400 min-w-[36px] h-full text-[20px] rounded-md'
@@ -118,9 +119,9 @@ const ProductPay = (props: TProps) => {
                               </button>
                         </div>
                   </div>
-                  <div className='font-bold flex flex-col gap-[8px] text-[15px]'>
+                  <div className='font-bold flex flex-col gap-[8px] text-[18px]'>
                         <span className=''>Tạm tính</span>
-                        <p className='w-full flex gap-[4px] items-center'>
+                        <p className='w-full flex gap-[4px] items-center  text-[24px]'>
                               <p className='w-[130px] xl:w-max  max-w-[180px] truncate'>
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                                           .format(product.product_price * (productQuantity ? productQuantity : 0))

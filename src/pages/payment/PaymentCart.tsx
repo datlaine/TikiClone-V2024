@@ -1,34 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
-import { TUser } from '../../types/axiosResponse'
-import { Cart } from '../../types/cart.type'
-import { useQuery } from '@tanstack/react-query'
-import CartService from '../../apis/cart.service'
+import React from 'react'
 import { Link } from 'react-router-dom'
+import { Cart } from '../../types/cart.type'
 
-const CartPayMini = () => {
-      const [price, setPrice] = useState<number>(0)
+type TProps = {
+      carts: Cart[]
+      price: number
+}
 
-      const payQuery = useQuery({
-            queryKey: ['v1/api/cart/cart-pay'],
-            queryFn: () => CartService.calculatorPrice(),
-      })
-
-      useEffect(() => {
-            console.log({ data: payQuery.data?.data.metadata.cart })
-
-            if (payQuery.isSuccess) {
-                  console.log('Ok')
-                  setPrice(() => {
-                        let result: number = 0
-                        payQuery.data.data.metadata.cart.forEach((cartItem) => {
-                              result += cartItem.cart_product_price
-                        })
-                        return result
-                  })
-            }
-      }, [payQuery.isSuccess, payQuery.data?.data])
+const PaymentCart = (props: TProps) => {
+      const { carts, price } = props
 
       return (
             <React.Fragment>
@@ -74,11 +54,11 @@ const CartPayMini = () => {
                         className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md text-[16px]'
                   >
                         Mua hàng {'('}
-                        {payQuery.data?.data.metadata.cart.length}
+                        {carts?.length}
                         {')'}
                   </Link>
             </React.Fragment>
       )
 }
 
-export default CartPayMini
+export default PaymentCart

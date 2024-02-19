@@ -12,6 +12,7 @@ import CartItem from './CartItem'
 import { Cart as TCart } from '../../types/cart.type'
 import { fetchUser } from '../../Redux/authenticationSlice'
 import CartPayMini from './CartPayMini'
+import CartUserInfo from './CartUserInfo'
 
 const Cart = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as TUser
@@ -70,7 +71,7 @@ const Cart = () => {
             <div className='w-full max-w-full h-max min-h-[2000px] flex gap-[12px] text-[13px]'>
                   <div className='px-[15px] w-full pb-[10px]  h-max flex flex-col gap-x-[24px] min-h-[2000px]'>
                         <h3 className='font-extrabold uppercase text-[20px]'>Giỏ hàng</h3>
-                        <div className='sticky top-[70px] xl:top-[-2px] bg-[#efefef] w-full  xl:w-[75.75%] py-[16px] h-[70px] items-center z-[10]'>
+                        <div className='sticky top-[70px] xl:top-[-2px] bg-[#f5f4f6]  w-full  xl:w-[75.75%] py-[16px] h-[70px] items-center z-[10]'>
                               <div className='bg-[#ffffff] rounded h-[36px] px-[12px] flex items-center'>
                                     <div className='flex gap-[8px] flex-1 items-center'>
                                           <Checkbox
@@ -112,22 +113,9 @@ const Cart = () => {
                                           })}
                               </div>
                               <div className='w-[40%] xl:w-[23%] min-h-screen flex flex-col gap-[16px] '>
-                                    <div className='w-full h-[200px] xl:h-[150px] bg-[#ffffff] flex flex-col p-[8px]  xl:p-[16px] rounded text-[12px] xl:text-[14px]'>
-                                          <div className='flex justify-between h-[30%] items-center text-[14px] xl:text-[20px]'>
-                                                <h4>Giao tới</h4>
-                                                <span>Thay đổi</span>
-                                          </div>
-                                          <div className='flex flex-col xl:flex-row w-max gap-[8px] h-[30%] items-start xl:items-center'>
-                                                <span>{user?.fullName || user?.nickName || 'Tên'} </span>
-                                                <span>{user?.email}</span>
-                                          </div>
-                                          <div className='flex  flex-col xl:flex-row gap-[8px] h-[30%]'>
-                                                <span>Nhà</span>
-                                                <span>93 Hồ Văn Huê, Phường 09, Quận Phú Nhuận, Hồ Chí Minh</span>
-                                          </div>
-                                    </div>
+                                    <CartUserInfo />
 
-                                    <div className='sticky top-[120px] xl:top-0 flex flex-col gap-[16px] bg-[#efefef] w-full h-max pt-[12px]'>
+                                    <div className='sticky top-[120px] xl:top-0 flex flex-col gap-[16px] bg-[#f5f4f6]  w-full h-max pt-[12px]'>
                                           <CartPayMini />
                                     </div>
                               </div>

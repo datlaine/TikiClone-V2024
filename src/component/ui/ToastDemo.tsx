@@ -85,7 +85,7 @@ const ToastDemo = (props: TProps) => {
                         <div
                               onMouseEnter={handleOnMouseEnter}
                               onMouseLeave={handleOnMouseLeave}
-                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] py-[8px] px-[6px] xl:py-[16px] xl:px-[12px] w-[220px]  relative min-w-[140px] xl:min-w-[280px]   min-h-[80px] xl:min-h-[114px] h-max   rounded-lg transition-all duration-1000  flex items-center justify-center`}
+                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] py-[8px] px-[6px] xl:py-[16px] xl:px-[12px] w-[220px] xl:w-[300px]  relative min-w-[140px] xl:min-w-[150px]   min-h-[80px] xl:min-h-[114px] h-max   rounded-lg transition-all duration-1000  flex items-center justify-center`}
                         >
                               <div
                                     className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[50px] h-[20

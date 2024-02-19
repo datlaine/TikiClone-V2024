@@ -29,16 +29,24 @@ import Product from '../../pages/product/Product'
 import BookUpdate from '../../Customer/Sell/Category/Book/BookUpdate'
 import UpdateWrapper from '../../Customer/Sell/Category/Book/UpdateWrapper'
 import CustomerRouter from '../../Customer/Components/CustomerRouter'
+import Payment from '../../pages/payment/Payment'
 
 const RouterController = () => {
-      const matchAdminPath = useMatch('/admin')
-      const hiddenHeader = matchAdminPath?.pathname === '/admin'
+      // const matchPath = useMatch('/admin' || '/payment')
+      // const hiddenHeader = matchPath?.pathname === '/admin' || matchPath?.pathname === '/payment'
+      const pathHiddenHeader = ['/admin', '/payment']
+      // console.log({ hiddenHeader, match: window.location })
+      const hiddenHeader = pathHiddenHeader.includes(window.location.pathname)
       const pathName = useLocation().pathname
       return (
             <>
                   {!hiddenHeader && <Header />}
 
-                  <div className='pt-[50px] lg:pt-[100px] xl:pt-[10px] min-h-screen max-w-full flex gap-[150px] px-[4px] lg:px-[50px] bg-[#efefef] '>
+                  <div
+                        className={`min-h-screen max-w-full flex gap-[150px] px-[4px] ${
+                              window.location.pathname !== '/payment' ? 'lg:px-[50px] pt-[50px] lg:pt-[100px] xl:pt-0 ' : 'lg:px-0 pt-0'
+                        } bg-[#f5f4f6] `}
+                  >
                         <Sidebar />
                         <Routes>
                               <Route path='/admin' element={<Admin />} />
@@ -51,6 +59,8 @@ const RouterController = () => {
                                     <Route path='/' element={<Content />} />
                                     <Route path='/product/:id' element={<Product />} />
                                     <Route path='/cart' element={<Cart />} />
+                                    <Route path='/payment' element={<Payment />} />
+
                                     {/* <Route path='/login' element={<Login />} /> */}
                                     {/* <Route path='/resister' element={<Resister />} /> */}
                                     {/* <Route path='/Contact' element={<Contact />} /> */}

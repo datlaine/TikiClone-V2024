@@ -16,7 +16,6 @@ const OwnerShopFilterName = () => {
             setModalDeleteProduct(true)
       }
 
-      const inputRef = useRef<HTMLInputElement>(null)
       return (
             <div className='flex gap-[16px] flex-wrap'>
                   {getProductMyShop.data?.data.metadata.myProductOfShop.map((product) => {

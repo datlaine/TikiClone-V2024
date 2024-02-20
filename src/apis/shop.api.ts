@@ -30,7 +30,7 @@ export type TShop = {
       owner: string
       __v: number
       createdAt: string
-      shop_avartar_default: string
+      shop_avatar_default: string
       shop_avatar_used: ImageCloudinary[]
       shop_name: string
       updatedAt: string

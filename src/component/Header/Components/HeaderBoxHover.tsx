@@ -7,7 +7,7 @@ import { useState } from 'react'
 import Portal from '../../Portal'
 import AuthWrapper from '../../Auth/AuthWrapper'
 import { doLogout, doOpenBoxLogin } from '../../../Redux/authenticationSlice'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Auth from '../../../apis/auth.api'
 import { addToast } from '../../../Redux/toast'
 
@@ -16,6 +16,7 @@ function HeaderBoxHover() {
       const navigate = useNavigate()
       const user = useSelector((state: RootState) => state.authentication.user)
       const dispatch = useDispatch()
+      const queryClient = useQueryClient()
 
       const logoutMutation = useMutation({
             mutationKey: ['logout account'],
@@ -23,6 +24,10 @@ function HeaderBoxHover() {
             onSuccess: () => {
                   dispatch(doLogout())
                   dispatch(addToast({ type: 'SUCCESS', message: 'Đăng xuất thành công', id: Math.random().toString() }))
+                  queryClient.removeQueries({ queryKey: ['v1/api/cart/cart-get-my-cart'] })
+                  queryClient.removeQueries({
+                        queryKey: ['cart-get-count-product'],
+                  })
             },
             onError: (error) => {
                   console.log({ error })

@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query'
 import CartService from '../../../apis/cart.service'
 
 const HeaderCart = () => {
-      let navigate = useNavigate()
       const user = useSelector((state: RootState) => state.authentication.user)
 
       const cartQuery = useQuery({
@@ -25,9 +24,11 @@ const HeaderCart = () => {
                         />
 
                         {cartQuery.isSuccess && (
-                              <span className='absolute top-[-15px] right-[-5px] text-[red] font-bold text-[19px]'>
-                                    {cartQuery.data.data.metadata.count}
-                              </span>
+                              <div className='absolute top-[-12px] right-[-5px] w-[18px] h-[18px] rounded-full bg-red-400 flex items-center justify-center'>
+                                    <span className=' text-[#ffffff] font-bold text-[12px] xl:text-[14px]'>
+                                          {cartQuery.data.data.metadata.count}
+                                    </span>
+                              </div>
                         )}
                   </span>
             </Link>

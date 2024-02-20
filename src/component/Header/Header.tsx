@@ -68,7 +68,7 @@ function Header() {
                                                 <span>Giao đến {address}</span>
                                           </div>
                                     </div>
-                                    <div className='basis-[14%] xl:basis-[10%] '>
+                                    <div className='basis-[14%] xl:basis-[10%] xl:self-start '>
                                           <HeaderCart />
                                     </div>
                               </div>

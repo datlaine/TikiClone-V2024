@@ -88,7 +88,7 @@ const Footer = ({ ...props }: IProps) => {
                                     <h3 className='footer-title'>{mock[0].title}</h3>
                                     <div className='basis-4/5 flex flex-col gap-2 relative'>
                                           {mock[0].data.map((item) => (
-                                                <div className='flex flex-col relative '>
+                                                <div className='flex flex-col relative ' key={item}>
                                                       <span className='footer-span'>{item}</span>
                                                 </div>
                                           ))}

@@ -11,13 +11,6 @@ const Owner = () => {
       })
       const shop = getMyShopApi.data?.data.metadata.shop as TShop
 
-      useEffect(() => {
-            if (getMyShopApi.isSuccess) {
-                  const { shop } = getMyShopApi.data.data.metadata
-                  console.log({ shop })
-            }
-      }, [getMyShopApi.isSuccess])
-
       return (
             <div className='w-full h-auto'>
                   {getMyShopApi.isSuccess && <OwnerLayout shop={shop} />}

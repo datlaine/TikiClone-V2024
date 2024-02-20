@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import BoxCountProduct from './BoxCountProduct'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService, { TModeChangeQuantityProductCart } from '../../apis/cart.service'
@@ -6,14 +6,20 @@ import CartService, { TModeChangeQuantityProductCart } from '../../apis/cart.ser
 type TProps = {
       cart_id: string
       cart_quantity: number
+      readOnly: boolean
 }
 
 const WrapperCountProduct = (props: TProps) => {
-      const { cart_id, cart_quantity } = props
+      const { cart_id, cart_quantity, readOnly } = props
       const [productQuantity, setProductQuantity] = useState<number | undefined>(cart_quantity)
       const queryClient = useQueryClient()
 
       console.log({ cart_id })
+      console.log({ quantity: cart_quantity })
+
+      useEffect(() => {
+            setProductQuantity(cart_quantity)
+      }, [cart_quantity])
 
       const updateCartQuantityBtn = useMutation({
             mutationKey: ['v1/api/cart/cart-change-quantity'],
@@ -49,12 +55,13 @@ const WrapperCountProduct = (props: TProps) => {
 
       return (
             <BoxCountProduct
+                  readOnly={readOnly}
                   getValueChangeQuanity={getValueChangeQuanity}
-                  productQuantity={productQuantity}
+                  productQuantity={productQuantity || cart_quantity}
                   setProductQuantity={setProductQuantity}
-                  disable={updateCartQuantityBtn.isPending}
+                  disable={updateCartQuantityBtn.isPending || readOnly}
             />
       )
 }
 
-export default WrapperCountProduct
+export default memo(WrapperCountProduct)

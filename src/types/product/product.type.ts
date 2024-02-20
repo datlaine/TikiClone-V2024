@@ -16,7 +16,7 @@ export type TProductFull =
                     secure_url: string
                     public_id: string
               }[]
-
+              product_state: boolean
               isProductFull?: boolean
               expireAt?: Date
               product_type: string
@@ -34,6 +34,7 @@ export type TProductDetail = {
       }
 
       product_desc_image: TCloudinaryImage[]
+      product_state: boolean
 
       product_type: string
       attribute: IProductBook

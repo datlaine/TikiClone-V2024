@@ -7,6 +7,9 @@ import ProductDetail from './ProductDetail'
 import ProductIntro from './ProductIntro'
 import ProductPay from './ProductPay'
 import NotFound from '../../component/Errors/NotFound'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import { TUser } from '../../types/axiosResponse'
 
 export type TImage = {
       secure_url: string
@@ -15,6 +18,7 @@ export type TImage = {
 const Product = () => {
       const param = useParams()
       const { id } = param
+      const user = useSelector((state: RootState) => state.authentication.user) as TUser
 
       const getProductWithId = useQuery({
             queryKey: ['get-product-with-id', id],
@@ -32,8 +36,14 @@ const Product = () => {
 
       useEffect(() => {}, [getProductWithId.isSuccess])
       if (getProductWithId.isSuccess) {
+            const message = ['Sản phẩm có thể đã bị Shop sở hũu xóa đi', 'Sản phẩm có thể đã bị chính bạn xóa đi']
             if (!getProductWithId?.data?.data?.metadata?.product?.product_thumb_image?.secure_url) {
-                  return <NotFound ContentHeader='Không tìm thấy sản phẩm' ContentDescription='Sản phẩm có thể đã bị Shop sở hũu xóa đi' />
+                  return (
+                        <NotFound
+                              ContentHeader='Không tìm thấy sản phẩm'
+                              ContentDescription={user._id === product?.shop_id.owner ? message[1] : message[0]}
+                        />
+                  )
             }
       }
 
@@ -50,7 +60,7 @@ const Product = () => {
 
                         {getProductWithId.isSuccess && product && (
                               <div className='px-[10px] xl:px-[20px] flex gap-[16px] xl:gap-[24px] mt-[30px] xl:mt-0'>
-                                    <div className='basis-[70%] xl:basis-[74%] flex flex-col gap-[24px]'>
+                                    <div className='w-[60%] xl:w-[74%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
                                                 <div className='basis-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-sm  h-max flex flex-col gap-[16px] '>
                                                       <ProductDetail product={product} isSuccess={getProductWithId.isSuccess} />
@@ -61,7 +71,7 @@ const Product = () => {
                                           </div>
                                           <div className='comment w-full h-[1000px] bg-yellow-500'></div>
                                     </div>
-                                    <div className='basis-[20%] xl:basis-[26%] sticky top-[100px] xl:top-[16px] h-max pb-[15px] bg-white  rounded-md'>
+                                    <div className='w-[40%] xl:w-[26%] sticky top-[100px] xl:top-[16px] h-max pb-[15px] bg-white  rounded-md'>
                                           <ProductPay product={product} />
                                     </div>
                               </div>
@@ -76,8 +86,11 @@ const Product = () => {
                                                       <div className='flex bg-gray-400 h-[50px] gap-[16px]'>
                                                             {Array(5)
                                                                   .fill(0)
-                                                                  .map((skeleton) => (
-                                                                        <div className='bg-gray-500 w-[20%] flex items-center justify-center'>
+                                                                  .map((skeleton, index) => (
+                                                                        <div
+                                                                              className='bg-gray-500 w-[20%] flex items-center justify-center'
+                                                                              key={index}
+                                                                        >
                                                                               <Image size='30' />
                                                                         </div>
                                                                   ))}

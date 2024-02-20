@@ -37,7 +37,8 @@ const NotFound = (props: TProps) => {
       return (
             <div
                   style={{
-                        height: '100vh',
+                        marginTop: 20,
+                        height: 'calc(100vh-50px)',
                         width: '100%',
                   }}
             >

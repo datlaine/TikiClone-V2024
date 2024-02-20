@@ -12,7 +12,7 @@ const PaymentCart = (props: TProps) => {
 
       return (
             <React.Fragment>
-                  <div className='h-[210px] xl:h-[180px] bg-[#ffffff] rounded p-[16px]'>
+                  <div className='h-[230px] xl:h-[180px] bg-[#ffffff] rounded p-[16px]'>
                         <div className='h-[49%]  flex flex-col gap-[8px] xl:gap-0 justify-center'>
                               <p className='w-full flex  flex-col xl:flex-row justify-between'>
                                     <span>Tạm tính</span>
@@ -38,11 +38,11 @@ const PaymentCart = (props: TProps) => {
                               <div className='flex   flex-col xl:flex-row justify-between '>
                                     <span>Tổng tiền</span>
                                     <p className='w-max flex gap-[4px] items-center '>
-                                          <p className='w-[130px] xl:w-max  max-w-[180px] truncate'>
+                                          <span className='min-w-[86px] xl:min-w-max  max-w-[180px] truncate'>
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                                                       .format(price)
                                                       .replace('₫', '')}
-                                          </p>
+                                          </span>
                                           <span className='ml-[-2px]'>VNĐ</span>
                                     </p>
                               </div>

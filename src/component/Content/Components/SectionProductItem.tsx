@@ -13,6 +13,7 @@ type Props = {}
 const SectionProductItem = (props: Props) => {
       const wrapperListProductsRef = useRef<HTMLDivElement>(null)
       const PositionScrollCurrent = useRef<number>(0)
+      const [limitShowProduct, setLimitShowProduct] = useState<number>(0)
       const [count, setCount] = useState(1)
 
       const allProduct = useQuery({
@@ -25,7 +26,7 @@ const SectionProductItem = (props: Props) => {
             if (wrapperListProductsRef.current) {
                   setCount((prev) => prev + 1)
                   const width = wrapperListProductsRef.current.getBoundingClientRect().width
-                  PositionScrollCurrent.current = PositionScrollCurrent.current - width - 50
+                  PositionScrollCurrent.current = PositionScrollCurrent.current - width
                   wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
                   wrapperListProductsRef.current.style.transition = `all 2s`
             }
@@ -36,7 +37,7 @@ const SectionProductItem = (props: Props) => {
                   setCount((prev) => prev - 1)
 
                   const width = wrapperListProductsRef.current.getBoundingClientRect().width
-                  PositionScrollCurrent.current = PositionScrollCurrent.current + width + 50
+                  PositionScrollCurrent.current = PositionScrollCurrent.current + width
 
                   // console.log(Math.trunc(width))
                   wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
@@ -44,31 +45,28 @@ const SectionProductItem = (props: Props) => {
             }
       }
 
-      if (allProduct.isSuccess) {
-            console.log({ allProduct: allProduct.data.data.metadata.products })
-      }
-
-      const ProductArrayLength =
-            allProduct.data?.data && allProduct!.data!.data!.metadata!.products!.length / allProduct!.data!.data!.metadata!.products!.length
-
-      console.log({ ProductArrayLength })
+      useEffect(() => {
+            if (allProduct.isSuccess) {
+                  setLimitShowProduct(Math.ceil((allProduct.data.data.metadata.products.length * 2) / 5))
+            }
+      }, [allProduct.isSuccess, allProduct?.data?.data.metadata.products.length])
 
       const styleEffect = {
             buttonPrev: count === 1 ? 'cursor-not-allowed' : 'cursor-pointer',
-            buttonNext: ProductArrayLength === count ? 'cursor-not-allowed' : 'cursor-pointer',
+            buttonNext: limitShowProduct === count ? 'cursor-not-allowed' : 'cursor-pointer',
             disButtonPrev: count === 1 ? true : false,
-            disButtonNext: ProductArrayLength === count ? true : false,
+            disButtonNext: limitShowProduct === count ? true : false,
       }
 
       return (
-            <div className='h-[75%] px-[36px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
-                  <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  w-[370px] xl:w-full snap-mandatory	'>
+            <div className='h-[75%] mx-[4px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
+                  <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  w-[370px] mx-[50px] xl:w-full snap-mandatory	'>
                         {allProduct.isSuccess &&
                               allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
                                     return (
                                           <Link
                                                 to={`/product/${product._id}`}
-                                                className='flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[15%] h-full snap-always snap-start	 '
+                                                className='flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[17%] h-full snap-always snap-start	 '
                                                 key={product._id}
                                           >
                                                 <div className='w-full min-h-full'>
@@ -82,6 +80,7 @@ const SectionProductItem = (props: Props) => {
                                           </Link>
                                     )
                               })}
+
                         {allProduct.isSuccess &&
                               allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
                                     return (
@@ -102,7 +101,7 @@ const SectionProductItem = (props: Props) => {
                                     )
                               })}
                   </div>
-                  <div className='hidden xl:flex absolute top-0 left-0 h-full bg-[#ffffff]  items-center px-[8px]'>
+                  <div className='hidden xl:flex absolute top-0 left-[-4px] h-[100%] bg-[#ffffff]  items-center px-[8px]'>
                         <button
                               className={`${styleEffect.buttonPrev} border-[1px] border-blue-400 rounded-full`}
                               onClick={handleClickPrev}
@@ -112,7 +111,7 @@ const SectionProductItem = (props: Props) => {
                         </button>
                   </div>
 
-                  <div className='hidden xl:flex absolute top-0 right-0 h-full bg-[#ffffff]  items-center px-[8px]'>
+                  <div className='hidden xl:flex absolute top-0 right-[-4px] h-[100%] bg-[#ffffff]  items-center px-[8px]'>
                         <button
                               className={`${styleEffect.buttonNext} border-[1px] border-blue-400 rounded-full `}
                               onClick={handleClickNext}

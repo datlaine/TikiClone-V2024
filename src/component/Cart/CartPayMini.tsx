@@ -32,12 +32,12 @@ const CartPayMini = () => {
 
       return (
             <React.Fragment>
-                  <div className='h-[210px] xl:h-[180px] bg-[#ffffff] rounded p-[16px]'>
+                  <div className='min-h-[240px] h-max xl:h-[180px] bg-[#ffffff] rounded p-[12px]'>
                         <div className='h-[49%]  flex flex-col gap-[8px] xl:gap-0 justify-center'>
                               <p className='w-full flex  flex-col xl:flex-row justify-between'>
                                     <span>Tạm tính</span>
                                     <p className='w-max flex gap-[4px] items-center '>
-                                          <p className='w-[130px] xl:w-max  max-w-[180px] truncate'>
+                                          <p className='w-[70px] xl:w-max  max-w-[180px] truncate'>
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                                                       .format(price)
                                                       .replace('₫', '')}
@@ -58,7 +58,7 @@ const CartPayMini = () => {
                               <div className='flex   flex-col xl:flex-row justify-between '>
                                     <span>Tổng tiền</span>
                                     <p className='w-max flex gap-[4px] items-center '>
-                                          <p className='w-[130px] xl:w-max  max-w-[180px] truncate'>
+                                          <p className='w-[70px] xl:w-max  max-w-[180px] truncate'>
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                                                       .format(price)
                                                       .replace('₫', '')}

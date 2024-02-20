@@ -10,10 +10,11 @@ type TProps = {
       setProductQuantity: React.Dispatch<SetStateAction<number | undefined>>
       getValueChangeQuanity: (mode: TModeChangeQuantityProductCart) => void
       disable: boolean
+      readOnly: boolean
 }
 
 const BoxCountProduct = (props: TProps) => {
-      const { productQuantity, setProductQuantity, getValueChangeQuanity, disable } = props
+      const { productQuantity, setProductQuantity, getValueChangeQuanity, disable, readOnly } = props
 
       const handleIncreaseProductQuantity = () => {
             setProductQuantity((prev) => ((prev as number) += 1))
@@ -48,27 +49,32 @@ const BoxCountProduct = (props: TProps) => {
             }
       }
 
+      const styleEffect = {
+            readOnly: readOnly ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer',
+      }
+
       //min-w, w, rounded, gap, h
       return (
-            <div className='flex  max-w-max h-[28px]'>
+            <div className={`flex  max-w-max h-[28px]`}>
                   <button
-                        className='flex items-center justify-center p-[6px] border-[1px] border-slate-400 min-w-[28px] h-full text-[20px] '
+                        className={` ${styleEffect.readOnly}  flex items-center justify-center p-[6px] border-[1px] border-slate-400 min-w-[28px] h-full text-[20px] `}
                         onClick={handleDecreaseProductQuantity}
                         disabled={productQuantity === 1 || disable ? true : false}
                   >
                         -
                   </button>
                   <input
+                        disabled={readOnly}
                         onChange={handleChangeInput}
                         onBlur={handleBlurInput}
                         value={productQuantity}
                         defaultValue={productQuantity}
                         type='number'
-                        className='flex items-center justify-center border-[1px] border-slate-400 w-[32px]  h-full text-[16px] text-center '
+                        className={`${styleEffect.readOnly} flex items-center justify-center border-[1px] border-slate-400 w-[32px]  h-full text-[16px] text-center `}
                   />
                   <button
                         disabled={disable}
-                        className='flex items-center justify-center p-[6px] border-[1px] border-slate-400 min-w-[28px] h-full text-[20px] '
+                        className={`${styleEffect.readOnly} flex items-center justify-center p-[6px] border-[1px] border-slate-400 min-w-[28px] h-full text-[20px] `}
                         onClick={handleIncreaseProductQuantity}
                   >
                         +

@@ -1,4 +1,5 @@
 import { TProductDetail } from './product/product.type'
+import { TShop } from './shop.type'
 
 export interface Cart {
       _id: string
@@ -8,7 +9,9 @@ export interface Cart {
       cart_product_price: number
       cart_product_price_origin: number
       cart_is_select: boolean
-      cart_product_id: Pick<TProductDetail, '_id' | 'product_thumb_image' | 'product_price' | 'product_name'>
+      cart_product_id: Pick<TProductDetail, '_id' | 'product_thumb_image' | 'product_price' | 'product_name' | 'product_state'> & {
+            shop_id: Pick<TShop, '_id' | 'shop_name' | 'shop_avatar' | 'shop_avatar_default'>
+      }
 }
 
 export interface CartForm {

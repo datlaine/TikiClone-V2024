@@ -5,8 +5,10 @@ import { Rate } from 'antd'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService from '../../apis/cart.service'
 import { CartFormData } from '../../types/cart.type'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addToast } from '../../Redux/toast'
+import { RootState } from '../../store'
+import { TUser } from '../../types/axiosResponse'
 
 type TProps = {
       product: TProductDetail
@@ -14,20 +16,16 @@ type TProps = {
 
 const ProductPay = (props: TProps) => {
       const { product } = props
+      const user = useSelector((state: RootState) => state.authentication.user) as TUser
 
-      const [productQuantity, setProductQuantity] = useState<number | undefined>(1)
+      const [productQuantity, setProductQuantity] = useState<number>(1)
       const dispatch = useDispatch()
       const queryClient = useQueryClient()
 
       const cartMutation = useMutation({
             mutationKey: ['add-cart'],
             mutationFn: ({ cart }: { cart: CartFormData }) => CartService.addCart({ cart }),
-            onSuccess: () => {
-                  queryClient.invalidateQueries({ queryKey: ['cart-get-count-product'] })
-                  queryClient.invalidateQueries({
-                        queryKey: ['v1/api/cart/cart-get-my-cart'],
-                  })
-            },
+            onSuccess: () => {},
       })
 
       const handleIncreaseProductQuantity = () => {
@@ -41,6 +39,11 @@ const ProductPay = (props: TProps) => {
       }
 
       const handleClickBuy = () => {
+            if (user._id === product.shop_id.owner) {
+                  dispatch(addToast({ type: 'WARNNING', message: 'Không thể thêm sản phẩm của chính mình', id: Math.random().toString() }))
+                  return
+            }
+
             console.log({ product: { ...product, productQuantity, price: product.product_price * (productQuantity || 1) } })
             const formData = new FormData()
             formData.append('product_id', product._id)
@@ -59,25 +62,30 @@ const ProductPay = (props: TProps) => {
       useEffect(() => {
             if (cartMutation.isSuccess) {
                   dispatch(addToast({ type: 'SUCCESS', message: 'Cart', id: Math.random().toString() }))
+                  queryClient.invalidateQueries({
+                        queryKey: ['v1/api/cart/cart-get-my-cart'],
+                  })
+
+                  queryClient.invalidateQueries({ queryKey: ['cart-get-count-product'] })
             }
-      }, [cartMutation.isSuccess])
+      }, [cartMutation.isSuccess, cartMutation.data?.data, dispatch, queryClient])
 
       return (
             <section className='w-full h-full flex flex-col gap-[16px] p-[12px] text-[12px] xl:text-[14px]'>
                   <div className='flex flex-col xl:flex-row items-center gap-[8px] pb-[15px] border-b-[1px] border-slate-200'>
-                        <img src={product.shop_id.shop_avartar_default} className='w-[40px] h-[40px] rounded-full' alt='' />
+                        <img src={product.shop_id.shop_avatar_default} className='w-[40px] h-[40px] rounded-full' alt='' />
                         <div className='flex-1 flex flex-col content-center py-[2px] gap-[8px] '>
                               <div className='flex flex-col lg:flex-row gap-[8px] items-center transition-all duration-500'>
                                     <span className='font-bold'>{product.shop_id.shop_name}</span>
                                     <ProductLabel content='Official' />
                               </div>
-                              <p className='flex flex-col lg:flex-row items-center gap-[6px] transition-all duration-500'>
+                              <div className='flex flex-col lg:flex-row items-center gap-[6px] transition-all duration-500'>
                                     <div className='flex gap-[8px] items-center'>
                                           <span>4.5</span>
                                           <Rate defaultValue={1} count={1} className='w-max text-[13px]' disabled style={{ width: 2 }} />
                                     </div>
                                     <span className='flex-1'>(5.4tr+ đánh giá)</span>
-                              </p>
+                              </div>
                         </div>
                   </div>
                   <div className='flex flex-col gap-[12px]'>
@@ -92,11 +100,13 @@ const ProductPay = (props: TProps) => {
                                     -
                               </button>
                               <input
+                                    onWheel={(e) => (e.target as HTMLElement).blur()}
                                     onChange={(e) => {
-                                          if (!e.target.value) setProductQuantity(undefined)
+                                          if (!e.target.value) setProductQuantity(0)
                                           if (Number(e.target.value) > 999) return
                                           if (Number(e.target.value) === 0) {
                                                 // setProductQuantity(1)
+                                                setProductQuantity(0)
                                                 return
                                           }
                                           setProductQuantity(Number(e.target.value))
@@ -106,8 +116,7 @@ const ProductPay = (props: TProps) => {
                                                 setProductQuantity(1)
                                           }
                                     }}
-                                    value={productQuantity}
-                                    defaultValue={productQuantity}
+                                    value={productQuantity || 0}
                                     type='number'
                                     className='flex items-center justify-center border-[1px] border-slate-400 w-[40px]  h-full text-[16px] text-center rounded-md'
                               />
@@ -119,15 +128,15 @@ const ProductPay = (props: TProps) => {
                               </button>
                         </div>
                   </div>
-                  <div className='font-bold flex flex-col gap-[8px] text-[18px]'>
+                  <div className='font-bold flex flex-col gap-[8px] text-[14px] xl:text-[18px]'>
                         <span className=''>Tạm tính</span>
-                        <p className='w-full flex gap-[4px] items-center  text-[24px]'>
-                              <p className='w-[130px] xl:w-max  max-w-[180px] truncate'>
+                        <p className='w-full flex gap-[4px] items-center  text-[16px] xl:text-[24px]'>
+                              <span className='min-w-[70px] xl:min-w-max  max-w-[180px] truncate'>
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                                           .format(product.product_price * (productQuantity ? productQuantity : 0))
                                           .replace('₫', '')}
-                              </p>
-                              <span className='ml-[-2px]'>VNĐ</span>
+                              </span>
+                              <span className='hidden xl:inline ml-[-2px]'>VNĐ</span>
                         </p>
                   </div>
                   <div className='w-full h-max flex flex-col gap-[8px]'>

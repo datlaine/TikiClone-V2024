@@ -215,7 +215,7 @@ const CustomerAccount = () => {
                                                 <CustomerAccountGender />
                                           </div>
                                           {/* @ form::action -> submit */}
-                                          <div className='w-full mt-[50px] sm:mt-0 pl:[35px] sm:pl-[130px]'>
+                                          <div className='w-full mt-0 mb-[24px] xl:mb-0 xl:mt-[50px] flex justify-center xl:block sm:mt-0 pl:[35px] sm:pl-[130px]'>
                                                 <button
                                                       disabled={updateInfo.isPending}
                                                       className='flex items-center justify-center gap-[6px] ml-0  w-[180px] h-[20px] p-[20px] bg-blue-700 text-white rounded-md'

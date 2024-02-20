@@ -23,7 +23,7 @@ const Cart = () => {
       const getMyCart = useQuery({
             queryKey: ['v1/api/cart/cart-get-my-cart'],
             queryFn: () => CartService.getMyCart(),
-            placeholderData: keepPreviousData,
+            // placeholderData: keepPreviousData,
       })
 
       const changeSelectAll = useMutation({
@@ -45,10 +45,11 @@ const Cart = () => {
             changeSelectAll.mutate(e.target.checked)
       }
 
-      console.log()
+      console.log({ getMyCart: getMyCart.data?.data.metadata.cart })
 
       useEffect(() => {
-            if (user.isCartSelectAll) {
+            console.log({ user })
+            if (user && user?.isCartSelectAll) {
                   setCartSelectPay(() => {
                         let array
                         array = getMyCart.data?.data.metadata.cart.map((cartItem) => {
@@ -57,7 +58,7 @@ const Cart = () => {
                         return array as unknown as Pick<TCart, '_id' | 'cart_product_price'>[]
                   })
             }
-      }, [getMyCart.isSuccess, getMyCart.data?.data.metadata.cart, user.isCartSelectAll])
+      }, [getMyCart.isSuccess, getMyCart.data?.data.metadata.cart, user?.isCartSelectAll, user])
 
       if (!user) {
             return (
@@ -105,6 +106,7 @@ const Cart = () => {
                                           getMyCart.data.data.metadata.cart.map((cartItem, index) => {
                                                 return (
                                                       <CartItem
+                                                            key={cartItem._id}
                                                             cart={cartItem}
                                                             cart_check_all={changeSelectAll.data?.data.metadata.cart[index] as TCart}
                                                             setCartSelectPay={setCartSelectPay}

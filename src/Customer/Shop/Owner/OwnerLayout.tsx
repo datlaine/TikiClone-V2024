@@ -19,7 +19,7 @@ const OwnerLayout = (props: TProps) => {
                   </div>
                   <div className='relative w-full min-h-[120px] py-[30px] xl:py-0 h-max bg-[#FFA500] flex items-center'>
                         <div className='absolute top-[-50%] translate-y-[137%] xl:translate-y-0 left-[20px]  xl:left-[60px] bg-green-800 w-[70px] h-[70px] xl:h-[140px] xl:w-[140px] rounded-full'>
-                              <img src={shop.shop_avartar_default} className='h-full w-full rounded-full' alt='shop_image' />
+                              <img src={shop.shop_avatar_default} className='h-full w-full rounded-full' alt='shop_image' />
                         </div>
 
                         <ul className='ml-[20px] mt-[30px] xl:mt-0 xl:ml-[240px] flex flex-col xl:flex-row min-h-[40px] xl:items-center gap-[16px]'>

@@ -21,13 +21,15 @@ const CartItem = (props: TProps) => {
 
       const queryClient = useQueryClient()
 
-      console.log({ cart, select })
+      // console.log({ cart, select })
 
       useEffect(() => {
             // if (select !== cart.cart_is_select) {
             setSelect(cart.cart_is_select)
             // }
       }, [cart.cart_is_select])
+
+      // useEffect(() => {}, [cart.cart_quantity])
 
       const updateSelectOneMutation = useMutation({
             mutationKey: ['/v1/api/cart/cart-change-select-one'],
@@ -44,17 +46,32 @@ const CartItem = (props: TProps) => {
             updateSelectOneMutation.mutate({ value: e.target.checked, cart_id: cart._id })
       }
 
+      const styleEffect = {
+            product_not_avaiable: !cart?.cart_product_id.product_state ? 'text-[12px]' : 'text-[14px]',
+            readOnly: !cart?.cart_product_id.product_state ? true : false,
+      }
+
+      if (!cart?.cart_product_id?.product_name) return null
       return (
             <div className='min-h-[250px] h-[500px] xl:h-[250px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={cart._id}>
-                  <div className='flex gap-[8px] h-[14%] xl:h-[20%] items-center'>
-                        <Checkbox></Checkbox>
+                  <div className='flex gap-[12px] h-[14%] xl:h-[20%] items-center'>
+                        <Checkbox disabled={styleEffect.readOnly} />
                         <Home />
-                        <span>{cart.cart_product_id.product_name}</span>
+                        <span>{cart.cart_product_id.shop_id.shop_name}</span>
+                        <img
+                              src={
+                                    cart?.cart_product_id.shop_id.shop_avatar?.secure_url ||
+                                    cart?.cart_product_id.shop_id.shop_avatar_default ||
+                                    ''
+                              }
+                              className='h-[18px] w-[18px] '
+                              alt='shop_avatar'
+                        />
                         <ChevronRight />
                   </div>
                   <div className='max-h-[70%] h-[70%] xl:max-h-[50%] xl:h-[40%] w-full flex flex-col xl:flex-row'>
                         <div className='flex-1 flex  flex-col xl:flex-row gap-[16px] h-[150px] xl:h-[80px]'>
-                              <Checkbox className='z-[5]' checked={select} onChange={changeSelect} />
+                              <Checkbox disabled={styleEffect.readOnly} className='z-[5]' checked={select} onChange={changeSelect} />
                               <Link
                                     className='inline-block w-[90px] xl:w-[90px] h-[150px] xl:h-[80px]'
                                     to={`/product/${cart.cart_product_id._id}`}
@@ -65,16 +82,26 @@ const CartItem = (props: TProps) => {
                                           alt='product'
                                     />{' '}
                               </Link>
-                              <div className='flex-1 flex flex-col content-between justify-between font-semibold text-slate-700'>
+                              <div
+                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-col content-between justify-between font-semibold text-slate-700`}
+                              >
                                     <span>{cart.cart_product_id.product_name}</span>
+
                                     <span>Thể loại: Sách</span>
                                     <span>Giao vào ngày mai</span>
+                                    {!cart.cart_product_id.product_state && (
+                                          <span className='text-red-700 font-semibold text-[16px]'>Sản phẩm ngừng kinh doanh</span>
+                                    )}
                               </div>
                         </div>
 
                         <div className='w-[180px] my-[4px] xl:my-0'>{cart.cart_product_id.product_price}</div>
                         <div className='w-[120px] h-max xl:h-full  my-[4px] xl:my-0'>
-                              <WrapperCountProduct cart_id={cart._id} cart_quantity={cart.cart_quantity} />
+                              <WrapperCountProduct
+                                    readOnly={!cart.cart_product_id.product_state}
+                                    cart_id={cart._id}
+                                    cart_quantity={cart.cart_quantity}
+                              />
                         </div>
                         <div className='w-[120px]  my-[4px] xl:my-0'>{cart.cart_product_price}</div>
                         <div className='w-[20px]  my-[8px] xl:my-0'>

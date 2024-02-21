@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { TUser } from '../../types/axiosResponse'
-import { Cart } from '../../types/cart.type'
 import { useQuery } from '@tanstack/react-query'
 import CartService from '../../apis/cart.service'
 import { Link } from 'react-router-dom'
@@ -16,19 +15,23 @@ const CartPayMini = () => {
       })
 
       useEffect(() => {
-            console.log({ data: payQuery.data?.data.metadata.cart })
+            // console.log({ data: payQuery.data?.data.metadata.carts.cart_products })
 
             if (payQuery.isSuccess) {
                   console.log('Ok')
-                  setPrice(() => {
-                        let result: number = 0
-                        payQuery.data.data.metadata.cart.forEach((cartItem) => {
-                              result += cartItem.cart_product_price
+                  if (payQuery?.data.data.metadata.carts) {
+                        setPrice(() => {
+                              let result: number = 0
+                              payQuery?.data?.data?.metadata?.carts?.cart_products.forEach((cartItem) => {
+                                    result += cartItem.product_id.product_price * cartItem.quantity
+                              })
+                              return result
                         })
-                        return result
-                  })
+                  } else {
+                        setPrice(0)
+                  }
             }
-      }, [payQuery.isSuccess, payQuery.data?.data])
+      }, [payQuery.isSuccess, payQuery.isPending, payQuery.data?.data.metadata.carts])
 
       return (
             <React.Fragment>
@@ -74,7 +77,7 @@ const CartPayMini = () => {
                         className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md text-[16px]'
                   >
                         Mua hàng {'('}
-                        {payQuery.data?.data.metadata.cart.length}
+                        {payQuery.data?.data?.metadata?.carts?.cart_products?.length}
                         {')'}
                   </Link>
             </React.Fragment>

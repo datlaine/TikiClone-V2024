@@ -1,14 +1,11 @@
 import { TFormRegisterShop } from '../Customer/Shop/RegisterShop'
 import { TUser } from '../types/axiosResponse'
 import { TProductFull } from '../types/product/product.type'
+import { ShopResponse } from '../types/shop.type'
 import axiosCustom from './http'
 
 type ImageCloudinary = {
       secure_url: string
-      public_id: string
-}
-
-type ImageCloudinaryPublicId = {
       public_id: string
 }
 
@@ -25,20 +22,11 @@ export interface IPublicIdImage extends FormData {
       append(name: 'public_id', value: string | Blob, fileName?: string): void
 }
 
-export type TShop = {
-      _id: string
-      owner: string
-      __v: number
-      createdAt: string
-      shop_avatar_default: string
-      shop_avatar_used: ImageCloudinary[]
-      shop_name: string
-      updatedAt: string
-}
-
 class ShopApi {
       static async registerShop(data: TFormRegisterShop) {
-            return axiosCustom.post<{ metadata: { shop: TShop; user: TUser } }>('v1/api/shop/register-shop', { shop_name: data.shop_name })
+            return axiosCustom.post<{ metadata: { shop: ShopResponse; user: TUser } }>('v1/api/shop/register-shop', {
+                  shop_name: data.shop_name,
+            })
       }
 
       static async uploadAvatar(formData: IUploadImageAvatar) {
@@ -56,7 +44,7 @@ class ShopApi {
       }
 
       static async getMyShop() {
-            return axiosCustom.get<{ metadata: { shop: TShop } }>('v1/api/shop/get-my-shop')
+            return axiosCustom.get<{ metadata: { shop: ShopResponse } }>('v1/api/shop/get-my-shop')
       }
 
       static async getProductMyShop() {

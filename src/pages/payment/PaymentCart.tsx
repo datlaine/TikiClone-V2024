@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Cart } from '../../types/cart.type'
+import { CartResponse } from '../../types/cart.type'
 
 type TProps = {
-      carts: Cart[]
+      carts: CartResponse[]
       price: number
 }
 

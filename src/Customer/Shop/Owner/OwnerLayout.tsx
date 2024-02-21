@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { TShop } from '../../../apis/shop.api'
 import OwnerShopFilterName from './Filter/OwnerShopFilterName'
+import { ShopResponse } from '../../../types/shop.type'
 
 type TProps = {
-      shop: TShop
+      shop: ShopResponse
 }
 
 type FilterMode = 'NAME' | 'TYPE' | 'BEST_SELLER'

@@ -1,11 +1,13 @@
-import { TImageCLoudinary } from './cloudinary.type'
+import { TCloudinaryImage } from '../Customer/Sell/types/cloudinary.typs'
 
-export type TShop = {
+export type ShopResponse = {
       _id: string
       owner: string
-      shop_name: string
-      shop_avatar: TImageCLoudinary
-      shop_avatar_used: TImageCLoudinary[]
+      __v: number
+      createdAt: string
+      shop_avatar: TCloudinaryImage
       shop_avatar_default: string
-      create_at: Date
+      shop_avatar_used: TCloudinaryImage[]
+      shop_name: string
+      updatedAt: string
 }

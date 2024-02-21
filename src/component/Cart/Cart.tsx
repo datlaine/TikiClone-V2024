@@ -1,5 +1,5 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CartService from '../../apis/cart.service'
 import { Checkbox } from 'antd'
 import { Trash2 } from 'lucide-react'
@@ -9,16 +9,17 @@ import { TUser } from '../../types/axiosResponse'
 import AuthPermission from '../Auth/AuthPermission'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import CartItem from './CartItem'
-import { Cart as TCart } from '../../types/cart.type'
 import { fetchUser } from '../../Redux/authenticationSlice'
 import CartPayMini from './CartPayMini'
 import CartUserInfo from './CartUserInfo'
+import { CartResponse } from '../../types/cart.type'
 
 const Cart = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as TUser
-      const [, setCartSelectPay] = useState<Pick<TCart, '_id' | 'cart_product_price'>[]>([])
+      // const [, setCartSelectPay] = useState<Pick<CartResponse, '_id' | 'product_price'>[]>([])
       const queryClient = useQueryClient()
       const dispatch = useDispatch()
+      const [selectAll, setSelectAll] = useState<boolean>(false)
 
       const getMyCart = useQuery({
             queryKey: ['v1/api/cart/cart-get-my-cart'],
@@ -30,10 +31,12 @@ const Cart = () => {
             mutationKey: ['v1/api/cart/cart-change-select-all'],
             mutationFn: (value: boolean) => CartService.selectAllCart(value),
             onSuccess: (axiosResponse) => {
+                  setSelectAll(axiosResponse.data.metadata.cart.cart_select_all)
+                  console.log({ state: axiosResponse.data.metadata.cart.cart_select_all })
                   queryClient.invalidateQueries({
                         queryKey: ['v1/api/cart/cart-get-my-cart'],
                   })
-                  dispatch(fetchUser({ user: axiosResponse.data.metadata.user }))
+                  // dispatch(fetchUser({ user: axiosResponse.data.metadata.user }))
 
                   queryClient.invalidateQueries({
                         queryKey: ['v1/api/cart/cart-pay'],
@@ -49,15 +52,18 @@ const Cart = () => {
 
       useEffect(() => {
             console.log({ user })
-            if (user && user?.isCartSelectAll) {
-                  setCartSelectPay(() => {
-                        let array
-                        array = getMyCart.data?.data.metadata.cart.map((cartItem) => {
-                              return { _id: cartItem._id, cart_product_price: cartItem.cart_product_price }
-                        })
-                        return array as unknown as Pick<TCart, '_id' | 'cart_product_price'>[]
-                  })
+            if (getMyCart.isSuccess) {
+                  setSelectAll(getMyCart.data.data.metadata.cart.cart_select_all)
             }
+            // if (user && user?.isCartSelectAll) {
+            //       setCartSelectPay(() => {
+            //             let array
+            //             array = getMyCart.data?.data.metadata.cart.map((cartItem) => {
+            //                   return { _id: cartItem., cart_product_price: cartItem.cart_product_price }
+            //             })
+            //             return array as unknown as Pick<TCart, '_id' | 'cart_product_price'>[]
+            //       })
+            // }
       }, [getMyCart.isSuccess, getMyCart.data?.data.metadata.cart, user?.isCartSelectAll, user])
 
       if (!user) {
@@ -68,6 +74,8 @@ const Cart = () => {
             )
       }
 
+      console.log({ selectAll })
+
       return (
             <div className='w-full max-w-full h-max min-h-[2000px] flex gap-[12px] text-[13px]'>
                   <div className='px-[15px] w-full pb-[10px]  h-max flex flex-col gap-x-[24px] min-h-[2000px]'>
@@ -76,13 +84,14 @@ const Cart = () => {
                               <div className='bg-[#ffffff] rounded h-[36px] px-[12px] flex items-center'>
                                     <div className='flex gap-[8px] flex-1 items-center'>
                                           <Checkbox
+                                                disabled={changeSelectAll.isPending}
                                                 onChange={onChangeSelectAll}
-                                                defaultChecked={user.isCartSelectAll}
-                                                checked={user.isCartSelectAll}
+                                                defaultChecked={selectAll}
+                                                checked={selectAll}
                                           ></Checkbox>
                                           <span>
-                                                Tất cả {'('} {getMyCart.isSuccess && getMyCart.data.data.metadata.cart.length} sản phẩm{' '}
-                                                {')'}
+                                                Tất cả {'('} {getMyCart.isSuccess && getMyCart.data.data.metadata.cart.cart_products.length}{' '}
+                                                sản phẩm {')'}
                                           </span>
                                     </div>
                                     <div className='hidden xl:block xl:basis-[180px]'>
@@ -102,16 +111,9 @@ const Cart = () => {
                         <div className='w-full flex gap-[24px]'>
                               <div className='flex flex-col w-[55%] xl:w-[77%] gap-[24px]'>
                                     {getMyCart.isSuccess &&
-                                          getMyCart.data.data.metadata.cart.length > 0 &&
-                                          getMyCart.data.data.metadata.cart.map((cartItem, index) => {
-                                                return (
-                                                      <CartItem
-                                                            key={cartItem._id}
-                                                            cart={cartItem}
-                                                            cart_check_all={changeSelectAll.data?.data.metadata.cart[index] as TCart}
-                                                            setCartSelectPay={setCartSelectPay}
-                                                      />
-                                                )
+                                          getMyCart.data.data.metadata.cart.cart_products.length > 0 &&
+                                          getMyCart.data.data.metadata.cart.cart_products.map((cartItem, index) => {
+                                                return <CartItem key={cartItem._id} product={cartItem} shop={cartItem.shop_id} />
                                           })}
                               </div>
                               <div className='w-[40%] xl:w-[23%] min-h-screen flex flex-col gap-[16px] '>
@@ -123,7 +125,9 @@ const Cart = () => {
                               </div>
                         </div>
 
-                        {getMyCart.isSuccess && getMyCart.data.data.metadata.cart.length === 0 && <p>Giỏ hàng hiện tại đang trống</p>}
+                        {getMyCart.isSuccess && getMyCart.data.data.metadata.cart.cart_products.length === 0 && (
+                              <p>Giỏ hàng hiện tại đang trống</p>
+                        )}
                   </div>
             </div>
       )

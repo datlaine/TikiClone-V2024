@@ -1,5 +1,4 @@
 import React, { SetStateAction, useEffect, useState } from 'react'
-import { Cart } from '../../types/cart.type'
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox'
 import { ChevronRight, Home, TimerIcon, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -7,63 +6,61 @@ import { DateTimeFromString } from '../../utils/datetime.util'
 import WrapperCountProduct from '../ui/WrapperCountProduct'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService from '../../apis/cart.service'
+import { CartProduct, CartResponse, CartShopRef } from '../../types/cart.type'
+import { convertDateToString } from '../../utils/date.utils'
 
 type TProps = {
-      cart: Cart
-      cart_check_all: Cart
-      setCartSelectPay: React.Dispatch<SetStateAction<Pick<Cart, '_id' | 'cart_product_price'>[]>>
+      shop: CartShopRef
+      product: CartProduct
 }
 
 const CartItem = (props: TProps) => {
-      const { cart } = props
+      const { product, shop } = props
 
-      const [select, setSelect] = useState<boolean>(cart.cart_is_select)
+      const [select, setSelect] = useState<boolean>(product.isSelect)
 
       const queryClient = useQueryClient()
 
-      // console.log({ cart, select })
+      console.log({ time: convertDateToString(product.cart_date) })
 
       useEffect(() => {
-            // if (select !== cart.cart_is_select) {
-            setSelect(cart.cart_is_select)
+            // if (select !== product.product_is_select) {
+            setSelect(product.isSelect)
             // }
-      }, [cart.cart_is_select])
+      }, [product.isSelect])
 
-      // useEffect(() => {}, [cart.cart_quantity])
+      // useEffect(() => {}, [product.product_quantity])
 
       const updateSelectOneMutation = useMutation({
             mutationKey: ['/v1/api/cart/cart-change-select-one'],
-            mutationFn: ({ value, cart_id }: { value: boolean; cart_id: string }) => CartService.selectCartOne({ value, cart_id }),
+            mutationFn: ({ value, product_id }: { value: boolean; product_id: string }) => CartService.selectCartOne({ value, product_id }),
             onSuccess: (axiosResponse) => {
+                  console.log({ axiosResponse })
                   queryClient.invalidateQueries({
                         queryKey: ['v1/api/cart/cart-pay'],
                   })
-                  setSelect(axiosResponse.data.metadata.cartUpdateItem.cart_is_select)
+                  setSelect(axiosResponse.data.metadata.cartUpdateItem.isSelect)
             },
       })
 
       const changeSelect = (e: CheckboxChangeEvent) => {
-            updateSelectOneMutation.mutate({ value: e.target.checked, cart_id: cart._id })
+            updateSelectOneMutation.mutate({ value: e.target.checked, product_id: product.product_id._id })
       }
 
       const styleEffect = {
-            product_not_avaiable: !cart?.cart_product_id.product_state ? 'text-[12px]' : 'text-[14px]',
-            readOnly: !cart?.cart_product_id.product_state ? true : false,
+            product_not_avaiable: !product._id ? 'text-[12px]' : 'text-[14px]',
+            readOnly: !product.product_id.product_state ? true : false,
       }
 
-      if (!cart?.cart_product_id?.product_name) return null
+      // if (!product.product_id.s) return null
       return (
-            <div className='min-h-[250px] h-[500px] xl:h-[250px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={cart._id}>
+            <div className='min-h-[250px] h-[500px] xl:h-[250px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
                   <div className='flex gap-[12px] h-[14%] xl:h-[20%] items-center'>
                         <Checkbox disabled={styleEffect.readOnly} />
                         <Home />
-                        <span>{cart.cart_product_id.shop_id.shop_name}</span>
+                        <span>{}</span>
                         <img
-                              src={
-                                    cart?.cart_product_id.shop_id.shop_avatar?.secure_url ||
-                                    cart?.cart_product_id.shop_id.shop_avatar_default ||
-                                    ''
-                              }
+                              src={shop.shop_avatar?.secure_url || product.shop_id.shop_avatar_default || ''}
                               className='h-[18px] w-[18px] '
                               alt='shop_avatar'
                         />
@@ -74,10 +71,10 @@ const CartItem = (props: TProps) => {
                               <Checkbox disabled={styleEffect.readOnly} className='z-[5]' checked={select} onChange={changeSelect} />
                               <Link
                                     className='inline-block w-[90px] xl:w-[90px] h-[150px] xl:h-[80px]'
-                                    to={`/product/${cart.cart_product_id._id}`}
+                                    to={`/product/${product.product_id._id}`}
                               >
                                     <img
-                                          src={cart.cart_product_id.product_thumb_image.secure_url}
+                                          src={product.product_id.product_thumb_image.secure_url}
                                           className='max-w-full max-h-full h-full'
                                           alt='product'
                                     />{' '}
@@ -85,25 +82,25 @@ const CartItem = (props: TProps) => {
                               <div
                                     className={`${styleEffect.product_not_avaiable} flex-1 flex flex-col content-between justify-between font-semibold text-slate-700`}
                               >
-                                    <span>{cart.cart_product_id.product_name}</span>
+                                    <span>{product.product_id.product_name}</span>
 
                                     <span>Thể loại: Sách</span>
                                     <span>Giao vào ngày mai</span>
-                                    {!cart.cart_product_id.product_state && (
+                                    {!product.product_id.product_state && (
                                           <span className='text-red-700 font-semibold text-[16px]'>Sản phẩm ngừng kinh doanh</span>
                                     )}
                               </div>
                         </div>
 
-                        <div className='w-[180px] my-[4px] xl:my-0'>{cart.cart_product_id.product_price}</div>
+                        <div className='w-[180px] my-[4px] xl:my-0'>{product.product_id.product_price}</div>
                         <div className='w-[120px] h-max xl:h-full  my-[4px] xl:my-0'>
                               <WrapperCountProduct
-                                    readOnly={!cart.cart_product_id.product_state}
-                                    cart_id={cart._id}
-                                    cart_quantity={cart.cart_quantity}
+                                    readOnly={!product.product_id.product_state}
+                                    product_id={product.product_id._id}
+                                    cart_quantity={product.quantity}
                               />
                         </div>
-                        <div className='w-[120px]  my-[4px] xl:my-0'>{cart.cart_product_price}</div>
+                        <div className='w-[120px]  my-[4px] xl:my-0'>{product.product_id.product_price}</div>
                         <div className='w-[20px]  my-[8px] xl:my-0'>
                               <Trash2 />
                         </div>
@@ -111,7 +108,7 @@ const CartItem = (props: TProps) => {
                   <div className='w-[calc(100%+24px)] ml-[-12px] bg-slate-100 h-[1px]'></div>
                   <div className='max-h-[20%] flex ml-[16px] items-center gap-[8px]'>
                         <TimerIcon />
-                        {DateTimeFromString(cart.cart_date)}
+                        {DateTimeFromString(product.cart_date)}
                   </div>
             </div>
       )

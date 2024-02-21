@@ -14,6 +14,14 @@ type TProps = {
       product: TProductDetail
 }
 
+export type ProductCart = {
+      shop_id: string
+      product_id: string
+      product_name: string
+      product_price: number
+      quantity: number
+}
+
 const ProductPay = (props: TProps) => {
       const { product } = props
       const user = useSelector((state: RootState) => state.authentication.user) as TUser
@@ -24,7 +32,7 @@ const ProductPay = (props: TProps) => {
 
       const cartMutation = useMutation({
             mutationKey: ['add-cart'],
-            mutationFn: ({ cart }: { cart: CartFormData }) => CartService.addCart({ cart }),
+            mutationFn: ({ cart }: { cart: ProductCart }) => CartService.addCart({ cart }),
             onSuccess: () => {},
       })
 
@@ -45,13 +53,19 @@ const ProductPay = (props: TProps) => {
             }
 
             console.log({ product: { ...product, productQuantity, price: product.product_price * (productQuantity || 1) } })
-            const formData = new FormData()
-            formData.append('product_id', product._id)
-
-            formData.append('cart_product_price_origin', product.product_price.toString())
-            formData.append('quantity', (productQuantity || 1).toString())
+            // const formData = new FormData()
+            // formData.append('product_id', product._id)
+            const payload: ProductCart = {
+                  shop_id: product.shop_id._id,
+                  product_id: product._id,
+                  product_name: product.product_name,
+                  product_price: product.product_price,
+                  quantity: productQuantity,
+            }
+            // formData.append('cart_product_price_origin', product.product_price.toString())
+            // formData.append('quantity', (productQuantity || 1).toString())
             // console.log({ cart: JSON.stringify(formData) })
-            cartMutation.mutate({ cart: formData })
+            cartMutation.mutate({ cart: payload })
             // for (var key of formData.entries()) {
             // console.log(key[0] + ', ' + key[1])
             // }

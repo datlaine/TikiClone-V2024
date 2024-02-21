@@ -4,17 +4,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService, { TModeChangeQuantityProductCart } from '../../apis/cart.service'
 
 type TProps = {
-      cart_id: string
+      product_id: string
       cart_quantity: number
       readOnly: boolean
 }
 
 const WrapperCountProduct = (props: TProps) => {
-      const { cart_id, cart_quantity, readOnly } = props
+      const { product_id, cart_quantity, readOnly } = props
       const [productQuantity, setProductQuantity] = useState<number | undefined>(cart_quantity)
       const queryClient = useQueryClient()
 
-      console.log({ cart_id })
+      console.log({ product_id })
       console.log({ quantity: cart_quantity })
 
       useEffect(() => {
@@ -41,7 +41,7 @@ const WrapperCountProduct = (props: TProps) => {
             if (mode.mode === 'INPUT') {
                   setProductQuantity(mode.quantity)
             }
-            updateCartQuantityBtn.mutate({ ...mode, cart_id })
+            updateCartQuantityBtn.mutate({ ...mode, product_id })
       }
 
       useEffect(() => {

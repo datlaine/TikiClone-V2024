@@ -53,6 +53,8 @@ const BoxCountProduct = (props: TProps) => {
             readOnly: readOnly ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer',
       }
 
+      const lengthCharQuantity = Number(productQuantity?.toLocaleString().length)
+
       //min-w, w, rounded, gap, h
       return (
             <div className={`flex  max-w-max h-[28px]`}>
@@ -64,13 +66,14 @@ const BoxCountProduct = (props: TProps) => {
                         -
                   </button>
                   <input
+                        style={{ width: lengthCharQuantity * 3 + 32 }}
                         disabled={readOnly}
                         onChange={handleChangeInput}
                         onBlur={handleBlurInput}
                         value={productQuantity}
                         defaultValue={productQuantity}
                         type='number'
-                        className={`${styleEffect.readOnly} flex items-center justify-center border-[1px] border-slate-400 w-[32px]  h-full text-[16px] text-center `}
+                        className={`${styleEffect.readOnly} flex items-center justify-center border-[1px] border-slate-400 min-w-[32px] max-w-max    h-full text-[16px] text-center `}
                   />
                   <button
                         disabled={disable}

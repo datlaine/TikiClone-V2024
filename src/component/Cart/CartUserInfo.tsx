@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { TUser } from '../../types/axiosResponse'
+import { UserResponse } from '../../types/user.type'
 
 const CartUserInfo = () => {
-      const user = useSelector((state: RootState) => state.authentication.user) as TUser
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
 
       return (
             <div className='w-full h-[200px] xl:h-[150px] bg-[#ffffff] flex flex-col p-[8px]  xl:p-[16px] rounded text-[12px] xl:text-[14px]'>

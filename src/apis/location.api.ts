@@ -1,37 +1,37 @@
 import axiosCustom from './http'
 
-export type TProvinceReturn = {
-    _id: string
-    name: string
-    slug: string
-    type: string
-    name_with_type: string
-    code: string
-    isDeleted: boolean
+export type ProviceResponse = {
+      _id: string
+      name: string
+      slug: string
+      type: string
+      name_with_type: string
+      code: string
+      isDeleted: boolean
 }
-export type TDistrictReturn = {
-    _id: string
-    name: string
-    type: string
-    slug: string
-    name_with_type: string
-    path: string
-    path_with_type: string
-    code: string
-    parent_code: string
-    isDeleted: boolean
+export type DistrictResponse = {
+      _id: string
+      name: string
+      type: string
+      slug: string
+      name_with_type: string
+      path: string
+      path_with_type: string
+      code: string
+      parent_code: string
+      isDeleted: boolean
 }
-export type TWardReturn = {
-    _id: string
-    name: string
-    type: string
-    slug: string
-    name_with_type: string
-    path: string
-    path_with_type: string
-    code: string
-    parent_code: string
-    isDeleted: boolean
+export type WardResponse = {
+      _id: string
+      name: string
+      type: string
+      slug: string
+      name_with_type: string
+      path: string
+      path_with_type: string
+      code: string
+      parent_code: string
+      isDeleted: boolean
 }
 
 //province
@@ -71,18 +71,18 @@ export type TWardReturn = {
 // parent_code: '892',
 // isDeleted: false,
 
-class LocationApi {
-    static async getProvinces() {
-        return axiosCustom.get<{ metadata: TProvinceReturn[] }>('v1/api/location/get-all-province')
-    }
+class LocationService {
+      static async getProvinces() {
+            return axiosCustom.get<{ metadata: ProviceResponse[] }>('v1/api/location/get-all-province')
+      }
 
-    static async getDistrict(provinceCode: string) {
-        return axiosCustom.get<{ metadata: TDistrictReturn[] }>(`v1/api/location/get-district?province=${provinceCode}`)
-    }
+      static async getDistrict(provinceCode: string) {
+            return axiosCustom.get<{ metadata: DistrictResponse[] }>(`v1/api/location/get-district?province=${provinceCode}`)
+      }
 
-    static async getWard(districtCode: string) {
-        return axiosCustom.get<{ metadata: TWardReturn[] }>(`v1/api/location/get-ward?district=${districtCode}`)
-    }
+      static async getWard(districtCode: string) {
+            return axiosCustom.get<{ metadata: WardResponse[] }>(`v1/api/location/get-ward?district=${districtCode}`)
+      }
 }
 
-export default LocationApi
+export default LocationService

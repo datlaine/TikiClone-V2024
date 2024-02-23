@@ -7,7 +7,7 @@ const HeaderActions = () => {
       const user = useSelector((state: RootState) => state.authentication.user)
 
       return (
-            <div className='h-full flex gap-5 basis-[50%]'>
+            <div className='h-full flex gap-5 basis-[50%] justify-center'>
                   <Link className='h-full flex items-center px-2 bg-blue-200 gap-2 rounded-lg text-blue-800' to='/'>
                         <img
                               src='https://salt.tikicdn.com/ts/upload/32/56/db/d919a4fea46f498b5f4708986d82009d.png'

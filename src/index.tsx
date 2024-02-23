@@ -13,7 +13,7 @@ import { checkAxiosError } from './utils/handleAxiosError'
 import TErrorAxios from './types/axios.response.error'
 import ContextToastProvider from './component/Context/ToastContext'
 import { addToast } from './Redux/toast'
-import BoxContainerToast from './component/ui/BoxContainerToast'
+import BoxContainerToast from './component/BoxUi/BoxContainerToast'
 import { doOpenBoxLogin, doLogout } from './Redux/authenticationSlice'
 
 // store.dispatch(addToast({ type: 'ERROR', message: '123', id: '1' }))

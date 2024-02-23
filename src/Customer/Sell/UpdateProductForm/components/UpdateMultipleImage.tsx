@@ -2,7 +2,7 @@ import React, { SetStateAction, useEffect, useId, useRef, useState } from 'react
 
 //@modal và icon
 import { Image, ImagePlus, View, X } from 'lucide-react'
-import BoxModal from '../../../../component/ui/BoxModal'
+import BoxModal from '../../../../component/BoxUi/BoxModal'
 
 //@dispatch toast
 import { useDispatch } from 'react-redux'

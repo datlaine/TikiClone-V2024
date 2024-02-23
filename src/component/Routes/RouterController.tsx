@@ -30,6 +30,7 @@ import BookUpdate from '../../Customer/Sell/Category/Book/BookUpdate'
 import UpdateWrapper from '../../Customer/Sell/Category/Book/UpdateWrapper'
 import CustomerRouter from '../../Customer/Components/CustomerRouter'
 import Payment from '../../pages/payment/Payment'
+import CustomerUserAddress from '../../Customer/UserAddress/CustomerUserAddress'
 
 const RouterController = () => {
       // const matchPath = useMatch('/admin' || '/payment')
@@ -74,6 +75,7 @@ const RouterController = () => {
                                                 <Route path='order_history' element={<CustomerOrderHistory />} />
                                                 <Route path='shop' element={<Shop />} />
                                                 <Route path='shop/product-list' element={<ShopProductList />} />
+                                                <Route path='account/address' element={<CustomerUserAddress />} />
 
                                                 <Route path='register-sell' element={<RegisterSell />} />
                                                 <Route path='router' element={<CustomerRouter />} />

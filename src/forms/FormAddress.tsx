@@ -1,0 +1,312 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Controller, FieldErrors, FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { addressSchemaForm } from '../schema/addressForm.schema'
+import { UserAddress, UserResponse } from '../types/user.type'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import LocationService from '../apis/location.api'
+import { Select } from 'antd'
+import InputText from '../Customer/Sell/components/InputText'
+import BoxButton from '../component/BoxUi/BoxButton'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToast } from '../Redux/toast'
+import AccountService from '../apis/account.service'
+import { doOpenBoxLogin, fetchUser } from '../Redux/authenticationSlice'
+import { RootState } from '../store'
+
+export type AddressForm = Omit<UserAddress, 'address_creation_time' | '_id' | 'address_default'>
+
+const defaultValues: AddressForm = {
+      address_type: 'Nhà',
+      address_street: '',
+      address_ward: '',
+      address_district: '',
+      address_province: '',
+}
+
+const address_type = [
+      {
+            label: 'Nhà',
+            value: 'Nhà',
+      },
+      { label: 'Công ty / cơ quan', value: 'Công ty / cơ quan' },
+      { labe: 'Nơi ở riêng', value: 'Nơi ở riêng' },
+]
+
+type TProps = {
+      onSuccessAddAddress?: (id: string) => void
+}
+
+const FormAddress = (props: TProps) => {
+      const { onSuccessAddAddress } = props
+
+      const dispatch = useDispatch()
+
+      const [province, setProvince] = useState<string>()
+      const [district, setDistrict] = useState<string>()
+      const [, setWard] = useState<string>()
+
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+
+      const addressForm = useForm<AddressForm>({
+            defaultValues,
+            resolver: zodResolver(addressSchemaForm),
+      })
+
+      const addressMutation = useMutation({
+            mutationKey: ['/v1/api/account/add-address'],
+            mutationFn: ({ form }: { form: AddressForm }) => AccountService.addAddress({ form }),
+            onSuccess: (axiosResponse) => {
+                  const { user } = axiosResponse.data.metadata
+                  dispatch(fetchUser({ user }))
+                  onSuccessAddAddress && onSuccessAddAddress(user.user_address[user.user_address.length - 1]._id)
+            },
+      })
+
+      const onSubmit: SubmitHandler<AddressForm> = (form) => {
+            console.log({ form })
+            if (!user) {
+                  dispatch(doOpenBoxLogin())
+                  return
+            }
+            let addressPayload = {
+                  address_type: form.address_type,
+                  address_street: form.address_street,
+                  address_ward: form.address_ward,
+                  address_district: form.address_district,
+                  address_province: form.address_province,
+            }
+            addressMutation.mutate({ form: addressPayload })
+      }
+
+      const provinceApi = useQuery({
+            queryKey: ['provinces'],
+            queryFn: () => LocationService.getProvinces(),
+      })
+
+      const districtApi = useMutation({
+            mutationKey: ['district'],
+            mutationFn: (provinceCode: string) => LocationService.getDistrict(provinceCode),
+      })
+
+      const wardApi = useMutation({
+            mutationKey: ['ward'],
+            mutationFn: (districtCode: string) => LocationService.getWard(districtCode),
+      })
+
+      const renderProvinces = useMemo(() => {
+            let newArray: { value: string; label: string }[] = []
+            if (provinceApi.isSuccess) {
+                  newArray = provinceApi.data.data.metadata.map((provinceIteam) => {
+                        return {
+                              value: provinceIteam.code,
+                              label: provinceIteam.name,
+                        }
+                  })
+            }
+            return newArray
+      }, [provinceApi.isSuccess, provinceApi.data?.data])
+
+      const renderDistrict = useMemo(() => {
+            let newArray: { value: string; label: string }[] = []
+            if (districtApi.isSuccess) {
+                  newArray = districtApi.data.data?.metadata.map((districtItem) => {
+                        return {
+                              value: districtItem.code,
+                              label: districtItem.name,
+                        }
+                  })
+            }
+            return newArray
+      }, [districtApi.isSuccess, districtApi.data?.data])
+
+      const renderWard = useMemo(() => {
+            let newArray: { value: string; label: string }[] = []
+            if (wardApi.isSuccess) {
+                  newArray = wardApi.data.data?.metadata.map((wardItem) => {
+                        return {
+                              value: wardItem.code,
+                              label: wardItem.name,
+                        }
+                  })
+            }
+            return newArray
+      }, [wardApi.isSuccess, wardApi.data?.data])
+
+      const handleChangeProvince = (code: string) => {
+            setProvince(code)
+      }
+
+      const handleChangeDistrict = (code: string) => {
+            setDistrict(code)
+      }
+
+      const handleChangeWard = (code: string) => {
+            setWard(code)
+      }
+
+      console.log({ province })
+
+      useEffect(() => {
+            if (province) {
+                  districtApi.mutate(province)
+            }
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [province])
+
+      useEffect(() => {
+            if (district) {
+                  wardApi.mutate(district)
+            }
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [district])
+
+      useEffect(() => {
+            console.log({ data: provinceApi.data?.data })
+      }, [provinceApi.isSuccess, provinceApi.data?.data])
+
+      useEffect(() => {
+            if (districtApi.isSuccess) {
+                  console.log({ district: districtApi.data.data.metadata })
+            }
+      }, [districtApi.isSuccess, districtApi.data?.data.metadata])
+
+      useEffect(() => {
+            if (Object.keys(addressForm.formState.errors).length > 0 && addressForm.formState.isSubmitted) {
+                  const renderError = (errors: FieldErrors<AddressForm>) => {
+                        let text = []
+                        for (let error in errors) {
+                              text.push(errors[error as keyof FieldErrors<AddressForm>]?.message as string)
+                        }
+                        return text
+                  }
+                  dispatch(
+                        addToast({
+                              type: 'WARNNING',
+                              message: 'Vui lòng điền đầy đủ thông tin',
+                              subMessage: renderError(addressForm.formState.errors),
+                              id: Math.random().toString(),
+                        }),
+                  )
+                  // for (let error in addressForm.formState.errors) {
+                  //       console.log(addressForm.formState.errors[error as keyof FieldErrors<AddressForm>]?.message)
+                  // }
+            }
+      }, [addressForm.formState.errors])
+
+      console.log({ watch: addressForm.watch(), errors: addressForm.formState.errors })
+      return (
+            <FormProvider {...addressForm}>
+                  <form
+                        className='animate-mountComponent w-full xl:w-[600px] p-[16px_10px]  xl:px-[36px] xl:py-[20px] flex flex-col gap-[30px]'
+                        onSubmit={addressForm.handleSubmit(onSubmit)}
+                  >
+                        <div className='] flex flex-col  xl:flex-row gap-[16px]'>
+                              <Controller
+                                    control={addressForm.control}
+                                    name='address_province'
+                                    render={({ field }) => {
+                                          return (
+                                                <Select
+                                                      options={renderProvinces}
+                                                      onChange={(e: string) => {
+                                                            handleChangeProvince(e)
+                                                            const foundNameProvince = provinceApi.data?.data.metadata.find(
+                                                                  (province) => province.code === e,
+                                                            )
+                                                            field.onChange(foundNameProvince?.name)
+                                                      }}
+                                                      placeholder='Chọn tỉnh thành phố'
+                                                      className='w-full xl:w-[80%]'
+                                                />
+                                          )
+                                    }}
+                              />
+                              <Controller
+                                    control={addressForm.control}
+                                    name='address_district'
+                                    render={({ field }) => {
+                                          return (
+                                                <Select
+                                                      options={renderDistrict}
+                                                      onChange={(e) => {
+                                                            handleChangeDistrict(e)
+                                                            const foundNameDistrict = districtApi.data?.data.metadata.find(
+                                                                  (district) => district.code === e,
+                                                            )
+                                                            field.onChange(foundNameDistrict?.name)
+                                                      }}
+                                                      placeholder='Chọn quận huyện'
+                                                      className='w-full xl:w-[80%]'
+                                                      disabled={province ? false : true}
+                                                />
+                                          )
+                                    }}
+                              />
+
+                              <Controller
+                                    control={addressForm.control}
+                                    name='address_ward'
+                                    render={({ field }) => {
+                                          return (
+                                                <Select
+                                                      options={renderWard}
+                                                      onChange={(e) => {
+                                                            handleChangeWard(e)
+                                                            const foundNameWard = wardApi.data?.data.metadata.find(
+                                                                  (ward) => ward.code === e,
+                                                            )
+                                                            field.onChange(foundNameWard?.name)
+                                                      }}
+                                                      placeholder='Chọn phường xã'
+                                                      className='w-full xl:w-[80%]'
+
+                                                      // disabled={province && district ? false : true}
+                                                />
+                                          )
+                                    }}
+                              />
+                        </div>
+
+                        <div className=''>
+                              {/* <Controller */}
+                              {/* control={addressForm.control} */}
+                              {/* name='address_street' */}
+                              {/* render={({ field }) => { */}
+                              {/* return ( */}
+                              <InputText
+                                    showError={false}
+                                    methods={addressForm}
+                                    FieldName='address_street'
+                                    LabelMessage='Địa chỉ cụ thể'
+                                    placehorder='Thêm thông tin về địa chỉ'
+                                    autofocus={true}
+                                    // onChange={(e) => field.onChange(e.target.value)}
+                              />
+                              {/* ) */}
+                              {/* }} */}
+                              {/* /> */}
+                        </div>
+                        <div className=''>
+                              <Controller
+                                    control={addressForm.control}
+                                    name='address_type'
+                                    render={({ field }) => {
+                                          return (
+                                                <Select
+                                                      className='min-w-[200px]'
+                                                      options={address_type}
+                                                      onChange={field.onChange}
+                                                      placeholder='Nơi giao hàng'
+                                                />
+                                          )
+                                    }}
+                              />
+                        </div>
+                        <BoxButton content='Cập nhập địa chỉ' type='submit' />
+                  </form>
+            </FormProvider>
+      )
+}
+
+export default FormAddress

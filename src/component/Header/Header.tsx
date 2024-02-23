@@ -9,6 +9,10 @@ import HeaderLogoToggle from './Components/HeaderLogoToggle'
 import HeaderSeacrhInput from './Components/HeaderSearch'
 import { useLocation } from 'react-router-dom'
 import { throttle } from 'lodash'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import { UserResponse } from '../../types/user.type'
+import { renderStringAddress, renderStringAddressDetail } from '../../utils/address.util'
 
 function HeaderSlogan() {
       return (
@@ -27,22 +31,14 @@ function HeaderSlogan() {
 }
 
 function Header() {
-      const address = '123'
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+
       useEffect(() => {
             window.scrollTo(0, 0)
       }, [])
 
-      const [withWindow, setWithWindow] = useState(window.innerWidth)
-      const pathName = useLocation().pathname
-      console.log()
+      const address_default = (user?.user_address && user?.user_address.filter((address) => address.address_default === true)) || ''
 
-      // useEffect(() => {
-      //       const onResize = throttle(() => setWithWindow(window.innerWidth), 1000)
-      //       window.addEventListener('resize', onResize)
-      //       return () => {
-      //             window.removeEventListener('resize', onResize)
-      //       }
-      // }, [setWithWindow])
       return (
             <>
                   <div className={`fixed lg:static top-0 left-0 w-full z-[100] bg-white shadow-xl`}>
@@ -55,9 +51,13 @@ function Header() {
                                           <HeaderSeacrhInput />
                                           <HeaderTagsLocation />
                                     </div>
-                                    <div className='hidden lg:flex lg:flex-col lg:justify-between lg:basis-[30%] lg:items-center h-full'>
+                                    <div className='hidden lg:flex lg:flex-col lg:justify-between lg:basis-[36%] ml-[50px] h-full'>
                                           <HeaderActions />
-                                          <div id='' className=' flex  text-[14px] text-[#000] '>
+                                          <div
+                                                id=''
+                                                className=' flex items-center  text-[14px] text-[#000] w-[500px] truncate  '
+                                                title={`${address_default ? renderStringAddressDetail(address_default[0]) : ' ...'}`}
+                                          >
                                                 <img
                                                       src='https://salt.tikicdn.com/ts/upload/88/5c/9d/f5ee506836792eb7775e527ef8350a44.png'
                                                       alt='Location'
@@ -65,7 +65,9 @@ function Header() {
                                                       height={25}
                                                       className='mr-[4px]'
                                                 />
-                                                <span>Giao đến {address}</span>
+                                                <span className='text-[12px] text-slate-500'>
+                                                      Giao đến: {address_default ? renderStringAddressDetail(address_default[0]) : ' ...'}
+                                                </span>
                                           </div>
                                     </div>
                                     <div className='basis-[14%] xl:basis-[10%] xl:self-start '>

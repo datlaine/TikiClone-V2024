@@ -1,16 +1,22 @@
-import { BoxSelect, CaravanIcon, Check } from 'lucide-react'
-import React, { useEffect, useRef, useState } from 'react'
-import { TProductDetail, TProductFull } from '../../types/product/product.type'
-import BoxSelectAdrees from '../../component/ui/BoxSelectAdrees'
-import { diffrenceBetweenStar, renderCountStar } from '../../utils/productVote.util'
-import Star from '../../component/ui/Star'
+import { CaravanIcon } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { TProductDetail } from '../../types/product/product.type'
 import { Rate } from 'antd'
 import ProductLabel from './ProductLabel'
+import BoxConfirmAddress from '../../component/BoxUi/confirm/BoxConfirmAddress'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import { UserResponse } from '../../types/user.type'
+import { renderStringAddressDetail } from '../../utils/address.util'
 
 type TProps = { product: TProductDetail }
 
 const ProductIntro = (props: TProps) => {
       const { product } = props
+
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+      const address_default = user?.user_address && user?.user_address.filter((address) => address.address_default === true)
+
       const [openModal, setOpenModal] = useState<boolean>(false)
       const [readMore, setReadMore] = useState<boolean>(false)
       const descriptionRef = useRef<HTMLParagraphElement>(null)
@@ -23,7 +29,7 @@ const ProductIntro = (props: TProps) => {
             if (product!.attribute.description.length > 10) {
                   setReadMore(true)
             }
-      }, [])
+      }, [product])
 
       console.log({ length: product?.attribute.description.length })
       const votes = 4.5
@@ -57,8 +63,8 @@ const ProductIntro = (props: TProps) => {
                   <section className='bg-white w-full min-h-[160px] h-auto p-[12px] rounded-lg'>
                         <div className='flex flex-col gap-[8px]'>
                               <p className='[word-spacing:1px] text-[16px] text-black font-semibold word'>Thông tin vận chuyển</p>
-                              <div className=' h-[26px] w-full flex justify-between'>
-                                    <span>Giao đến ...</span>
+                              <div className=' min-h-[26px] h-max w-full flex justify-between'>
+                                    <span>Giao đến: {address_default ? renderStringAddressDetail(address_default[0]) : '...'}</span>
                                     <button className='text-blue-600' onClick={handleOpenModal}>
                                           Đổi
                                     </button>
@@ -91,7 +97,7 @@ const ProductIntro = (props: TProps) => {
                         )}
                   </section>
 
-                  {openModal && <BoxSelectAdrees setOpenModal={setOpenModal} />}
+                  {openModal && <BoxConfirmAddress setOpenModal={setOpenModal} />}
             </div>
       )
 }

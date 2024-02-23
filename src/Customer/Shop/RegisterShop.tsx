@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import InputText from '../Sell/components/InputText'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as z from 'zod'
-import BoxModalPreview from '../../component/ui/BoxModalPreview'
+import BoxModalPreview from '../../component/BoxUi/BoxModalPreview'
 import { useMutation } from '@tanstack/react-query'
 import ShopApi, { IUploadImageAvatar, TShopAvatarReturn } from '../../apis/shop.api'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,7 +10,7 @@ import { addToast } from '../../Redux/toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { fetchUser } from '../../Redux/authenticationSlice'
 import { RootState } from '../../store'
-import { TUser } from '../../types/axiosResponse'
+import { UserResponse } from '../../types/user.type'
 
 /**
  *  form [shop_name, shop_image?:]
@@ -40,7 +40,7 @@ const RegisterShop = () => {
       const [first, setFirst] = useState<boolean>(false)
       const inputRef = useRef<HTMLInputElement>(null)
       const dispatch = useDispatch()
-      const user: TUser = useSelector((state: RootState) => state.authentication.user)
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
 
       const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.preventDefault()

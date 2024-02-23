@@ -1,7 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { store } from '../store'
-import { TUser } from '../types/axiosResponse'
-
+import { UserResponse } from '../types/user.type'
 // const userDefault: TRegisterResponse = {
 //       email: '',
 //       verify_email: false,
@@ -26,7 +24,7 @@ const authSlice = createSlice({
             user: JSON.parse(localStorage.getItem('user') as string) || null,
       },
       reducers: {
-            fetchUser: (state, payload: PayloadAction<{ user: TUser; access_token?: string }>) => {
+            fetchUser: (state, payload: PayloadAction<{ user: UserResponse; access_token?: string }>) => {
                   console.log('payload action', payload.payload)
                   localStorage.setItem('user', JSON.stringify(payload.payload.user))
                   if (payload.payload.access_token) {

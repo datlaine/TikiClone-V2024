@@ -1,6 +1,5 @@
 import { ProductCart } from '../pages/product/ProductPay'
-import { TUser } from '../types/axiosResponse'
-import { CartForm, CartFormData, CartResponse } from '../types/cart.type'
+import { CartResponse } from '../types/cart.type'
 import axiosCustom from './http'
 
 export type TModeChangeQuantityProductCart = {
@@ -39,6 +38,10 @@ class CartService {
 
       static async calculatorPrice() {
             return axiosCustom.get<{ metadata: { carts: CartResponse } }>('/v1/api/cart/cart-pay')
+      }
+
+      static async deleteCart({ product_id }: { product_id: string }) {
+            return axiosCustom.delete<{ metadata: { message: string } }>(`/v1/api/cart/cart-delete/${product_id}`)
       }
 }
 

@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import PositionIcon from '../../ui/BoxAbsolute'
-import BoxAbsolute from '../../ui/BoxAbsolute'
+import PositionIcon from '../../BoxUi/BoxAbsolute'
+import BoxAbsolute from '../../BoxUi/BoxAbsolute'
 import { debounce } from 'lodash'
 
 type Props = {

@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
-import PositionIcon from '../../ui/BoxAbsolute'
+import PositionIcon from '../../BoxUi/BoxAbsolute'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import BoxCenter from '../../ui/BoxCenter'
-import BoxIsBought from '../../ui/BoxIsBought'
-import BoxAbsolute from '../../ui/BoxAbsolute'
+import BoxCenter from '../../BoxUi/BoxCenter'
+import BoxIsBought from '../../BoxUi/BoxIsBought'
+import BoxAbsolute from '../../BoxUi/BoxAbsolute'
 import { useQuery } from '@tanstack/react-query'
 import ProductApi, { TProduct, TProductReturn } from '../../../apis/product.api'
 import { Link } from 'react-router-dom'
@@ -66,7 +66,7 @@ const SectionProductItem = (props: Props) => {
                                     return (
                                           <Link
                                                 to={`/product/${product._id}`}
-                                                className='flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[17%] h-full snap-always snap-start	 '
+                                                className='flex flex-col min-w-[40%] md:min-w-[45%] lg:min-w-[17%] h-full snap-always snap-start	 '
                                                 key={product._id}
                                           >
                                                 <div className='w-full min-h-full'>

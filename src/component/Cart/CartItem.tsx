@@ -1,13 +1,16 @@
-import React, { SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox'
 import { ChevronRight, Home, TimerIcon, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { DateTimeFromString } from '../../utils/datetime.util'
-import WrapperCountProduct from '../ui/WrapperCountProduct'
+import WrapperCountProduct from '../BoxUi/WrapperCountProduct'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService from '../../apis/cart.service'
-import { CartProduct, CartResponse, CartShopRef } from '../../types/cart.type'
+import { CartProduct, CartShopRef } from '../../types/cart.type'
 import { convertDateToString } from '../../utils/date.utils'
+import { formatMoneyVND } from '../../utils'
+import BoxMoney from '../BoxUi/BoxMoney'
+import BoxConfirmDelete from '../BoxUi/confirm/BoxConfirmDelete'
 
 type TProps = {
       shop: CartShopRef
@@ -18,10 +21,12 @@ const CartItem = (props: TProps) => {
       const { product, shop } = props
 
       const [select, setSelect] = useState<boolean>(product.isSelect)
+      const [openBoxConfirm, setOpenBoxConfirm] = useState<boolean>(false)
 
       const queryClient = useQueryClient()
 
       console.log({ time: convertDateToString(product.cart_date) })
+      console.log({ quantity: product.quantity })
 
       useEffect(() => {
             // if (select !== product.product_is_select) {
@@ -29,7 +34,7 @@ const CartItem = (props: TProps) => {
             // }
       }, [product.isSelect])
 
-      // useEffect(() => {}, [product.product_quantity])
+      useEffect(() => {}, [product.quantity])
 
       const updateSelectOneMutation = useMutation({
             mutationKey: ['/v1/api/cart/cart-change-select-one'],
@@ -43,6 +48,28 @@ const CartItem = (props: TProps) => {
             },
       })
 
+      const deleteCartWithProductId = useMutation({
+            mutationKey: ['/v1/api/cart/cart-delete/:product_id'],
+            mutationFn: ({ product_id }: { product_id: string }) => CartService.deleteCart({ product_id }),
+            onSuccess: () => {
+                  queryClient.invalidateQueries({
+                        queryKey: ['v1/api/cart/cart-get-my-cart'],
+                  })
+
+                  queryClient.invalidateQueries({
+                        queryKey: ['v1/api/cart/cart-pay'],
+                  })
+
+                  queryClient.invalidateQueries({
+                        queryKey: ['cart-get-count-product'],
+                  })
+            },
+      })
+
+      const onDeleteCart = ({ product_id }: { product_id: string }) => {
+            deleteCartWithProductId.mutate({ product_id })
+      }
+
       const changeSelect = (e: CheckboxChangeEvent) => {
             updateSelectOneMutation.mutate({ value: e.target.checked, product_id: product.product_id._id })
       }
@@ -54,7 +81,7 @@ const CartItem = (props: TProps) => {
 
       // if (!product.product_id.s) return null
       return (
-            <div className='min-h-[250px] h-[500px] xl:h-[250px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
+            <div className='min-h-[250px] h-[650px] xl:h-[250px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
                   <div className='flex gap-[12px] h-[14%] xl:h-[20%] items-center'>
                         <Checkbox disabled={styleEffect.readOnly} />
                         <Home />
@@ -70,7 +97,7 @@ const CartItem = (props: TProps) => {
                         <div className='flex-1 flex  flex-col xl:flex-row gap-[16px] h-[150px] xl:h-[80px]'>
                               <Checkbox disabled={styleEffect.readOnly} className='z-[5]' checked={select} onChange={changeSelect} />
                               <Link
-                                    className='inline-block w-[90px] xl:w-[90px] h-[150px] xl:h-[80px]'
+                                    className='inline-block w-[150px] xl:w-[90px] h-[150px] xl:h-[80px]'
                                     to={`/product/${product.product_id._id}`}
                               >
                                     <img
@@ -80,7 +107,7 @@ const CartItem = (props: TProps) => {
                                     />{' '}
                               </Link>
                               <div
-                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-col content-between justify-between font-semibold text-slate-700`}
+                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-col gap-[16px] xl:gap-0 content-between justify-between font-semibold text-slate-700`}
                               >
                                     <span>{product.product_id.product_name}</span>
 
@@ -92,22 +119,45 @@ const CartItem = (props: TProps) => {
                               </div>
                         </div>
 
-                        <div className='w-[180px] my-[4px] xl:my-0'>{product.product_id.product_price}</div>
-                        <div className='w-[120px] h-max xl:h-full  my-[4px] xl:my-0'>
+                        <div className='w-[120px] flex items-center my-[4px] xl:my-0'>
+                              <BoxMoney name='VND' money={product.product_id.product_price} colorBackground='bg-blue-600' />
+                        </div>
+                        <div className='w-[120px] flex items-center h-max xl:h-full  my-[8px] xl:my-0'>
                               <WrapperCountProduct
                                     readOnly={!product.product_id.product_state}
                                     product_id={product.product_id._id}
                                     cart_quantity={product.quantity}
                               />
                         </div>
-                        <div className='w-[120px]  my-[4px] xl:my-0'>{product.product_id.product_price}</div>
-                        <div className='w-[20px]  my-[8px] xl:my-0'>
-                              <Trash2 />
+                        <div className='w-[180px]  my-[8px] xl:my-0 flex items-center text-[14px] gap-[2px]'>
+                              <BoxMoney name='VNĐ' money={product.quantity * product.product_id.product_price} />
+                        </div>
+                        <div className='w-[20px] flex items-center  my-[8px] xl:my-0'>
+                              <Trash2 onClick={() => setOpenBoxConfirm(true)} />
+                              {openBoxConfirm && (
+                                    <BoxConfirmDelete
+                                          content='Bạn sẽ xóa sản phẩm này chứ'
+                                          subContent={
+                                                product.product_id.product_name +
+                                                ' ' +
+                                                `SL:${product.quantity}` +
+                                                ' ' +
+                                                `Giá: ${formatMoneyVND(product.quantity * product.product_id.product_price)}` +
+                                                ' ' +
+                                                'VNĐ'
+                                          }
+                                          ButtonCancellContent='Hủy'
+                                          ButtonConfrimContent='Xác nhận xóa'
+                                          onClose={setOpenBoxConfirm}
+                                          onActive={onDeleteCart}
+                                          paramsActive={{ product_id: product.product_id._id }}
+                                    />
+                              )}
                         </div>
                   </div>
                   <div className='w-[calc(100%+24px)] ml-[-12px] bg-slate-100 h-[1px]'></div>
                   <div className='max-h-[20%] flex ml-[16px] items-center gap-[8px]'>
-                        <TimerIcon />
+                        <TimerIcon className='hidden xl:block' />
                         {DateTimeFromString(product.cart_date)}
                   </div>
             </div>

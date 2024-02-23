@@ -19,7 +19,7 @@ import CustomerAccountBirth from '../Account/form/CustomerAccountBirth'
 import CustomerAccountGender from '../Account/form/CustomerAccountGender'
 
 //@auth - api
-import Account from '../../apis/account.api'
+import Account from '../../apis/account.service'
 
 //@utils
 import { checkAxiosError } from '../../utils/handleAxiosError'
@@ -30,6 +30,7 @@ import BoxAvatarMode from '../Account/Box/BoxAvatarMode'
 import TErrorAxios from '../../types/axios.response.error'
 import { addToast } from '../../Redux/toast'
 import InputText from '../Sell/components/InputText'
+import AccountService from '../../apis/account.service'
 
 //@type form
 type TFormCustomer = {
@@ -72,7 +73,7 @@ const CustomerAccount = () => {
       const getMe = useMutation({
             mutationKey: ['getMe'],
             mutationFn: async () => {
-                  await Account.getMe()
+                  await AccountService.getMe()
             },
             onError: async (error: unknown) => {
                   if (checkAxiosError<TErrorAxios>(error)) {

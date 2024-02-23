@@ -4,7 +4,6 @@ import { RootState } from '../../store'
 import { Select } from 'antd'
 import FormRegisterBook from './RegisterProductForm/FormRegisterBook'
 // import FormRegisterFood from './RegisterProductForm/FormRegisterFood'
-import { TUser } from '../../types/axiosResponse'
 import { useMutation } from '@tanstack/react-query'
 import ProductApi from '../../apis/product.api'
 import Book from './Category/Book/Book'
@@ -17,6 +16,7 @@ import {
 } from '../../types/timeline/timeline.book.type'
 import { TRegisterFormBook } from '../../types/product/product.book.type'
 import ProductFormSkeleton from './RegisterProductForm/components/ProductFormSkeleton'
+import { UserResponse } from '../../types/user.type'
 
 // const version2 = t
 
@@ -35,7 +35,7 @@ const defaultValuesForm: TRegisterFormBook = {
 // const a: keyof TTimeLineBook =
 
 const RegisterSell = () => {
-      const user = useSelector((state: RootState) => state.authentication.user) as TUser
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const [productType, setProductType] = useState<'Book' | 'Food'>()
 
       const createBaseProductId = useMutation({

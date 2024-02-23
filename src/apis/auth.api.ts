@@ -1,6 +1,7 @@
 import { addToast } from '../Redux/toast'
 import { store } from '../store'
-import { TResponseApi, TUser } from '../types/axiosResponse'
+import { TResponseApi } from '../types/axiosResponse'
+import { UserResponse } from '../types/user.type'
 import axiosCustom from './http'
 
 type TAuthParams = {
@@ -10,7 +11,7 @@ type TAuthParams = {
 
 class Auth {
       static async login({ email, password }: TAuthParams) {
-            return axiosCustom.post<TResponseApi<{ user: TUser; access_token: string }>>(
+            return axiosCustom.post<TResponseApi<{ user: UserResponse; access_token: string }>>(
                   '/v1/api/auth/login',
                   { email, password },
                   { withCredentials: true },
@@ -20,7 +21,7 @@ class Auth {
       static async register({ email, password }: TAuthParams) {
             console.log(process.env.REACT_APP_BASE_URL)
 
-            return axiosCustom.post<TResponseApi<{ user: TUser; access_token: string }>>(
+            return axiosCustom.post<TResponseApi<{ user: UserResponse; access_token: string }>>(
                   '/v1/api/auth/register',
                   { email, password },
                   { withCredentials: true },

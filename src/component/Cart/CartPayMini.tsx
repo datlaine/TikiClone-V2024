@@ -1,10 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
-import { TUser } from '../../types/axiosResponse'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import CartService from '../../apis/cart.service'
 import { Link } from 'react-router-dom'
+import BoxMoney from '../BoxUi/BoxMoney'
 
 const CartPayMini = () => {
       const [price, setPrice] = useState<number>(0)
@@ -37,17 +35,10 @@ const CartPayMini = () => {
             <React.Fragment>
                   <div className='min-h-[240px] h-max xl:h-[180px] bg-[#ffffff] rounded p-[12px]'>
                         <div className='h-[49%]  flex flex-col gap-[8px] xl:gap-0 justify-center'>
-                              <p className='w-full flex  flex-col xl:flex-row justify-between'>
+                              <div className='w-full flex  flex-col xl:flex-row justify-between'>
                                     <span>Tạm tính</span>
-                                    <p className='w-max flex gap-[4px] items-center '>
-                                          <p className='w-[70px] xl:w-max  max-w-[180px] truncate'>
-                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-                                                      .format(price)
-                                                      .replace('₫', '')}
-                                          </p>
-                                          <span className='ml-[-2px]'>VNĐ</span>
-                                    </p>
-                              </p>
+                                    <BoxMoney money={price} name='VNĐ' />
+                              </div>
                               <p className='w-full flex justify-between'>
                                     <span>Giảm giá </span>
                                     <span>-15000</span>
@@ -61,11 +52,11 @@ const CartPayMini = () => {
                               <div className='flex   flex-col xl:flex-row justify-between '>
                                     <span>Tổng tiền</span>
                                     <p className='w-max flex gap-[4px] items-center '>
-                                          <p className='w-[70px] xl:w-max  max-w-[180px] truncate'>
+                                          <span className='w-[70px] xl:w-max  max-w-[180px] truncate'>
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                                                       .format(price)
                                                       .replace('₫', '')}
-                                          </p>
+                                          </span>
                                           <span className='ml-[-2px]'>VNĐ</span>
                                     </p>
                               </div>

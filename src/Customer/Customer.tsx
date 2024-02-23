@@ -13,7 +13,7 @@ import AuthPermission from '../component/Auth/AuthPermission'
 import NotFound from '../component/Errors/NotFound'
 
 //@icon
-import { BellDot, Lock, NotebookPen, ShoppingBag, ShoppingCart, Store } from 'lucide-react'
+import { BellDot, Lock, MapPinned, NotebookPen, ShoppingBag, ShoppingCart, Store } from 'lucide-react'
 import { UserRound } from 'lucide-react'
 
 //@const
@@ -26,6 +26,8 @@ const link = [
       { path: '/customer/shop', text: 'Shops' },
       { path: '/customer/shop/product-list', text: 'Danh sách sản phẩm' },
       { path: '/customer/register-sell', text: 'Đăng kí bán hàng' },
+      { path: '/customer/account/address', text: 'Số địa chỉ' },
+
       { path: '/customer/router', text: '' },
 ]
 
@@ -160,6 +162,16 @@ const Customer = () => {
                                                 </Link>
                                           </div>
                                     )}
+                                    <div
+                                          className={`customer-item-bg ${textLink?.path === '/customer/account/address' ? 'isActive' : ''}`}
+                                          onClick={(e) => handleActive('/customer/account/address')}
+                                    >
+                                          <MapPinned />
+
+                                          <Link to={'/customer/account/address'} className='px-[15px] py-[8px] w-full'>
+                                                Số địa chỉ
+                                          </Link>
+                                    </div>
                               </div>
 
                               {/*@ Outlet */}

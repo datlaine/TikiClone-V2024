@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query'
 //@icon
 import { Image, View, X } from 'lucide-react'
 //@modal
-import BoxModal from '../../../../component/ui/BoxModal'
+import BoxModal from '../../../../component/BoxUi/BoxModal'
 import { ui } from '../FormRegisterBook'
 import { TChekUploadImage, TProfileImage } from '../../../../types/product/product.type'
 import { TCloudinaryImage } from '../../types/cloudinary.typs'

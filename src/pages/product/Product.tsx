@@ -9,7 +9,7 @@ import ProductPay from './ProductPay'
 import NotFound from '../../component/Errors/NotFound'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { TUser } from '../../types/axiosResponse'
+import { UserResponse } from '../../types/user.type'
 
 export type TImage = {
       secure_url: string
@@ -18,7 +18,7 @@ export type TImage = {
 const Product = () => {
       const param = useParams()
       const { id } = param
-      const user = useSelector((state: RootState) => state.authentication.user) as TUser
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
 
       const getProductWithId = useQuery({
             queryKey: ['get-product-with-id', id],
@@ -36,7 +36,10 @@ const Product = () => {
 
       useEffect(() => {}, [getProductWithId.isSuccess])
       if (getProductWithId.isSuccess) {
-            const message = ['Sản phẩm có thể đã bị Shop sở hũu xóa đi', 'Sản phẩm có thể đã bị chính bạn xóa đi']
+            const message = [
+                  'Sản phẩm có thể đã bị Shop sở hũu xóa đi',
+                  'Đây là sản phẩm từ Shop của bạn, nó có thể đã bị chính bạn xóa đi',
+            ]
             if (!getProductWithId?.data?.data?.metadata?.product?.product_thumb_image?.secure_url) {
                   return (
                         <NotFound

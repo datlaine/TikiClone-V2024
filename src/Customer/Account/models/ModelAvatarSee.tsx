@@ -4,9 +4,10 @@ import { useSelector } from 'react-redux'
 import { Image, X } from 'lucide-react'
 import { TAvatarActions } from '../../../reducer/customer.reducer'
 import { useQuery } from '@tanstack/react-query'
-import Account from '../../../apis/account.api'
-import { TUserAvatarUsed } from '../../../types/axiosResponse'
+import Account from '../../../apis/account.service'
 import AvatarUsed from './AvatarUsed'
+import { UserAvatarUsed } from '../../../types/user.type'
+import AccountService from '../../../apis/account.service'
 
 type TProps = {
       modeDispatch: React.Dispatch<TAvatarActions>
@@ -17,7 +18,7 @@ const ModelAvatarSee = (props: TProps) => {
       const user = useSelector((state: RootState) => state.authentication.user)
       const userAvatarUsed = useQuery({
             queryKey: ['avatar-used'],
-            queryFn: () => Account.getAllAvatar(),
+            queryFn: () => AccountService.getAllAvatar(),
       })
 
       const modelControllClose = () => {
@@ -55,7 +56,7 @@ const ModelAvatarSee = (props: TProps) => {
                                                 <div className='flex gap-[45px] mb-[70px] min-h-[360px] h-auto flex-wrap '>
                                                       {userAvatarUsed?.data?.data.metadata?.avatar_used
                                                             ?.reverse()
-                                                            .map((avatar: TUserAvatarUsed) => <AvatarUsed avatar={avatar} />)}
+                                                            .map((avatar: UserAvatarUsed) => <AvatarUsed avatar={avatar} />)}
                                                 </div>
                                           )}
 

@@ -121,7 +121,7 @@ const BoxModalImage = (props: TProps) => {
                                     <span>Xem ảnh sau</span>
                               </button>
                               <div
-                                    className='absolute top-[8px] xl:top-[12px] right-[16px] xl:right-[40px] flex flex-col gap-[4px] text-white items-center'
+                                    className='absolute top-[-12px] xl:top-[12px] right-[-16px] xl:right-[40px] flex flex-row xl:flex-col gap-[4px] text-white items-center'
                                     onClick={handleHideModal}
                               >
                                     <X color='white' size={30} />

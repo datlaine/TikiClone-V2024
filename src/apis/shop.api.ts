@@ -1,7 +1,7 @@
 import { TFormRegisterShop } from '../Customer/Shop/RegisterShop'
-import { TUser } from '../types/axiosResponse'
 import { TProductFull } from '../types/product/product.type'
 import { ShopResponse } from '../types/shop.type'
+import { UserResponse } from '../types/user.type'
 import axiosCustom from './http'
 
 type ImageCloudinary = {
@@ -24,7 +24,7 @@ export interface IPublicIdImage extends FormData {
 
 class ShopApi {
       static async registerShop(data: TFormRegisterShop) {
-            return axiosCustom.post<{ metadata: { shop: ShopResponse; user: TUser } }>('v1/api/shop/register-shop', {
+            return axiosCustom.post<{ metadata: { shop: ShopResponse; user: UserResponse } }>('v1/api/shop/register-shop', {
                   shop_name: data.shop_name,
             })
       }

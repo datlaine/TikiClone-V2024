@@ -2,7 +2,7 @@ import { QueryClient, useMutation } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import Account from '../../../apis/account.api'
+import Account from '../../../apis/account.service'
 import { TAvatarActions } from '../../../reducer/customer.reducer'
 import { checkAxiosError } from '../../../utils/handleAxiosError'
 import { sleep } from '../../../utils/sleep'
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { fetchUser } from '../../../Redux/authenticationSlice'
 import { addToast } from '../../../Redux/toast'
+import AccountService from '../../../apis/account.service'
 
 //@props
 type TProps = {
@@ -37,7 +38,7 @@ const ModelAvatarUpdate = (props: TProps) => {
       const user = useSelector((state: RootState) => state.authentication.user)
       const updateAvatarResponse = useMutation({
             mutationKey: ['update-avatar'],
-            mutationFn: (data: any) => Account.updateAvatar(data),
+            mutationFn: (data: any) => AccountService.updateAvatar(data),
             onSuccess: (res: any) => {
                   // modeDispatch({ type: 'MODE_AVATAR_UPDATE_SUCCESS', payload: { boxModeAvatar: false, modeAvatarUpdate: false } })
             },

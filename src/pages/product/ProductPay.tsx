@@ -8,7 +8,7 @@ import { CartFormData } from '../../types/cart.type'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToast } from '../../Redux/toast'
 import { RootState } from '../../store'
-import { TUser } from '../../types/axiosResponse'
+import { UserResponse } from '../../types/user.type'
 
 type TProps = {
       product: TProductDetail
@@ -24,7 +24,7 @@ export type ProductCart = {
 
 const ProductPay = (props: TProps) => {
       const { product } = props
-      const user = useSelector((state: RootState) => state.authentication.user) as TUser
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
 
       const [productQuantity, setProductQuantity] = useState<number>(1)
       const dispatch = useDispatch()

@@ -12,10 +12,11 @@ type TProps<T extends FieldValues> = {
       require?: boolean
       defaultValue?: boolean
       flexDirectionRow?: boolean
+      showError?: boolean
 }
 
 const InputText = <T extends FieldValues>(props: TProps<T>) => {
-      const { placehorder, LabelMessage, width, autofocus = false, FieldName, defaultValue, flexDirectionRow } = props
+      const { placehorder, LabelMessage, width, autofocus = false, FieldName, defaultValue, flexDirectionRow, showError = true } = props
       const id = useId()
 
       const formNested = useFormContext()
@@ -50,13 +51,12 @@ const InputText = <T extends FieldValues>(props: TProps<T>) => {
                         defaultValue={defaultValue && formNested.watch(FieldName as string)}
                         className='flex-1 border-[1px] border-slate-400 outline-none px-[12px] py-[10px] rounded-[6px]'
                   />
-                  {errors[FieldName as string] && (
+                  {showError && errors[FieldName as string] && (
                         <span className={`${styleEffect.fontSizeError} ${styleEffect.colorError}`}>
                               {errors[FieldName]?.message as React.ReactNode}
                         </span>
                   )}
-
-                  {errors?.attribute && (
+                  {showError && errors?.attribute && (
                         <span className={`${styleEffect.fontSizeError} ${styleEffect.colorError}`}>
                               {(errors.attribute as any)[FieldName.toString().split('.')[1]]?.message}
                         </span>

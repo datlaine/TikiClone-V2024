@@ -23,7 +23,7 @@ const Payment = () => {
                   setPrice(() => {
                         let result: number = 0
                         payQuery.data.data.metadata.carts.cart_products.forEach((cartItem) => {
-                              result += 1
+                              result += cartItem.quantity * cartItem.product_id.product_price
                         })
                         return result
                   })
@@ -54,16 +54,16 @@ const Payment = () => {
                         <section className='mt-[30px] w-full xl:w-[1250px] mx-auto min-h-screen h-max  flex flex-col xl:flex-row gap-[16px]'>
                               <div className='w-full xl:w-[70%] bg-[#ffffff] p-[20px] h-max'>
                                     <h4>Chọn hình thức giao hàng</h4>
-                                    {/* <div className='mt-[40px] flex flex-col gap-[70px]'>
+                                    <div className='mt-[40px] flex flex-col gap-[70px]'>
                                           {payQuery.isSuccess &&
-                                                payQuery.data.data.metadata.cart.map((payment, index) => (
-                                                      <PaymentItem key={payment._id} product={payment.} index={index + 1} />
+                                                payQuery.data.data.metadata.carts.cart_products.map((product, index) => (
+                                                      <PaymentItem key={product._id} product={product} index={index + 1} />
                                                 ))}
-                                    </div> */}
+                                    </div>
                               </div>
                               <div className='w-full xl:w-[30%] h-max flex flex-col gap-[16px]'>
                                     <CartUserInfo />
-                                    <PaymentCart carts={[] as CartResponse[]} price={price} />
+                                    <PaymentCart carts={payQuery.data?.data.metadata.carts as CartResponse} price={price} />
                               </div>
                         </section>
                   </div>

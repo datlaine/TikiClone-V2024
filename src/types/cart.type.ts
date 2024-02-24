@@ -1,3 +1,4 @@
+import { AddressType, CartCurrent } from '../Redux/cartSlice'
 import { TProductDetail } from './product/product.type'
 import { ShopResponse } from './shop.type'
 
@@ -37,6 +38,11 @@ export interface CartProduct {
       new_quantity: number
       isSelect: boolean
       cart_date: Date
+      cart_address: {
+            _id: string
+            address: string
+            type: AddressType
+      }
 }
 
 export type CartResponse = {

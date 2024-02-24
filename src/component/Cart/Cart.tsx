@@ -1,5 +1,5 @@
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useRef, useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
 import CartService from '../../apis/cart.service'
 import { Checkbox } from 'antd'
 import { Trash2 } from 'lucide-react'
@@ -8,7 +8,6 @@ import { RootState } from '../../store'
 import AuthPermission from '../Auth/AuthPermission'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import CartItem from './CartItem'
-import { fetchUser } from '../../Redux/authenticationSlice'
 import CartPayMini from './CartPayMini'
 import CartUserInfo from './CartUserInfo'
 import CartEmpty from './CartEmpty'
@@ -36,7 +35,6 @@ const Cart = () => {
                   queryClient.invalidateQueries({
                         queryKey: ['v1/api/cart/cart-get-my-cart'],
                   })
-                  // dispatch(fetchUser({ user: axiosResponse.data.metadata.user }))
 
                   queryClient.invalidateQueries({
                         queryKey: ['v1/api/cart/cart-pay'],

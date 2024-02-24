@@ -98,7 +98,9 @@ const Footer = ({ ...props }: IProps) => {
                                     <h3 className='footer-title'>{mock[1].title}</h3>
                                     <div className='basis-4/5 flex flex-col gap-2 relative'>
                                           {mock[1].data.map((item) => (
-                                                <span className='footer-span'>{item}</span>
+                                                <span className='footer-span' key={item}>
+                                                      {item}
+                                                </span>
                                           ))}
                                     </div>
                               </div>
@@ -106,7 +108,9 @@ const Footer = ({ ...props }: IProps) => {
                                     <h3 className='footer-title'>{mock[2].title}</h3>
                                     <div className='basis-4/5 flex flex-col gap-2 relative'>
                                           {mock[2].data.map((item) => (
-                                                <span className='footer-span'>{item}</span>
+                                                <span className='footer-span' key={item}>
+                                                      {item}
+                                                </span>
                                           ))}
                                     </div>
                                     <h3 className='footer-title'>{mock[2].subTitle}</h3>
@@ -120,7 +124,7 @@ const Footer = ({ ...props }: IProps) => {
                                     <h3 className='footer-title'>{mock[3].title}</h3>
                                     <div className='basis-2/6 grid grid-cols-4 grid-row-[30px_30px_30px] gap-y-[1px] relative'>
                                           {mock[3].data.map((item) => (
-                                                <div className='flex items-center justify-center'>
+                                                <div className='flex items-center justify-center' key={item}>
                                                       <img src={item} alt='' />
                                                 </div>
                                           ))}
@@ -136,7 +140,7 @@ const Footer = ({ ...props }: IProps) => {
                                     <h3 className='footer-title'>{mock[4].title}</h3>
                                     <div className='basis-1/6 flex  gap-y-[15px] justify-between'>
                                           {mock[4].data.map((item) => (
-                                                <div className='basis-1/4 flex items-center justify-center rounded-[999px]'>
+                                                <div className='basis-1/4 flex items-center justify-center rounded-[999px]' key={item}>
                                                       <img src={item} alt='' />
                                                 </div>
                                           ))}

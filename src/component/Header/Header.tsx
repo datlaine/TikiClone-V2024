@@ -7,12 +7,12 @@ import HeaderCart from './Components/HeaderCart'
 import HeaderTagsLocation from './Components/HeaderTagsLocation'
 import HeaderLogoToggle from './Components/HeaderLogoToggle'
 import HeaderSeacrhInput from './Components/HeaderSearch'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { throttle } from 'lodash'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
-import { renderStringAddress, renderStringAddressDetail } from '../../utils/address.util'
+import { getAddressDefault, renderStringAddress, renderStringAddressDetail, renderStringAddressDetailV2 } from '../../utils/address.util'
 
 function HeaderSlogan() {
       return (
@@ -56,7 +56,7 @@ function Header() {
                                           <div
                                                 id=''
                                                 className=' flex items-center  text-[14px] text-[#000] w-[500px] truncate  '
-                                                title={`${address_default ? renderStringAddressDetail(address_default[0]) : ' ...'}`}
+                                                title={`${address_default ? renderStringAddressDetailV2(address_default[0]) : ' ...'}`}
                                           >
                                                 <img
                                                       src='https://salt.tikicdn.com/ts/upload/88/5c/9d/f5ee506836792eb7775e527ef8350a44.png'
@@ -65,9 +65,20 @@ function Header() {
                                                       height={25}
                                                       className='mr-[4px]'
                                                 />
-                                                <span className='text-[12px] text-slate-500'>
-                                                      Giao đến: {address_default ? renderStringAddressDetail(address_default[0]) : ' ...'}
-                                                </span>
+                                                <div className='text-[12px] text-slate-500'>
+                                                      {getAddressDefault(user?.user_address) ? (
+                                                            `Giao đến ${
+                                                                  address_default ? renderStringAddressDetailV2(address_default[0]) : ''
+                                                            }`
+                                                      ) : (
+                                                            <p className='flex gap-[4px]'>
+                                                                  <span>[BẠN CHƯA THIẾT LẬP ĐỊA CHỈ GIAO HÀNG MẶC ĐỊNH]</span>
+                                                                  <Link className='underline' to={'/customer/account/address'}>
+                                                                        Thiết lập
+                                                                  </Link>
+                                                            </p>
+                                                      )}
+                                                </div>
                                           </div>
                                     </div>
                                     <div className='basis-[14%] xl:basis-[10%] xl:self-start '>

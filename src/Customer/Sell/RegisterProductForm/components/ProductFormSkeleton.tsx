@@ -24,9 +24,12 @@ const ProductFormSkeleton = () => {
                         <div className='flex gap-[8px]'>
                               {Array(4)
                                     .fill(0)
-                                    .map((image) => {
+                                    .map((image, index) => {
                                           return (
-                                                <div className='  bg-gray-100 w-[20%] h-[72px] flex items-center justify-center'>
+                                                <div
+                                                      className='  bg-gray-100 w-[20%] h-[72px] flex items-center justify-center'
+                                                      key={index}
+                                                >
                                                       <Image color='#666666' size={50} />
                                                 </div>
                                           )

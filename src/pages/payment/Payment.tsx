@@ -7,7 +7,7 @@ import CartService from '../../apis/cart.service'
 import PaymentCart from './PaymentCart'
 import PaymentItem from './PaymentItem'
 import { Link } from 'react-router-dom'
-import { CartResponse } from '../../types/cart.type'
+import { CartProduct, CartResponse } from '../../types/cart.type'
 
 const Payment = () => {
       const [price, setPrice] = useState<number>(0)
@@ -16,6 +16,14 @@ const Payment = () => {
             queryKey: ['v1/api/cart/cart-pay'],
             queryFn: () => CartService.calculatorPrice(),
       })
+
+      useEffect(() => {
+            window.scrollTo({
+                  top: 0,
+                  left: 0,
+                  behavior: 'smooth',
+            })
+      }, [])
 
       useEffect(() => {
             if (payQuery.isSuccess) {
@@ -62,7 +70,7 @@ const Payment = () => {
                                     </div>
                               </div>
                               <div className='w-full xl:w-[30%] h-max flex flex-col gap-[16px]'>
-                                    <CartUserInfo />
+                                    <CartUserInfo products={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]} />
                                     <PaymentCart carts={payQuery.data?.data.metadata.carts as CartResponse} price={price} />
                               </div>
                         </section>

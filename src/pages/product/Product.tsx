@@ -7,9 +7,11 @@ import ProductDetail from './ProductDetail'
 import ProductIntro from './ProductIntro'
 import ProductPay from './ProductPay'
 import NotFound from '../../component/Errors/NotFound'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { UserResponse } from '../../types/user.type'
+import { UserAddress, UserResponse } from '../../types/user.type'
+import { AddressType, CartCurrent, resetAddressProduct, setAddressProduct } from '../../Redux/cartSlice'
+import { renderStringAddressDetail, renderStringAddressDetailV2 } from '../../utils/address.util'
 
 export type TImage = {
       secure_url: string
@@ -19,6 +21,8 @@ const Product = () => {
       const param = useParams()
       const { id } = param
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+      const cart = useSelector((state: RootState) => state.cartSlice.cart_current) as CartCurrent
+      const dispatch = useDispatch()
 
       const getProductWithId = useQuery({
             queryKey: ['get-product-with-id', id],
@@ -33,6 +37,29 @@ const Product = () => {
                   behavior: 'smooth',
             })
       }, [])
+
+      useEffect(() => {
+            if (getProductWithId.isSuccess) {
+                  if (user && id !== cart.cart_current_product_id) {
+                        dispatch(resetAddressProduct())
+                        const address_default =
+                              user.user_address.length > 0 ? user?.user_address.find((address) => address.address_default === true) : false
+                        if (address_default) {
+                              dispatch(
+                                    setAddressProduct({
+                                          cart_current_product_id: id as string,
+                                          cart_current_address: renderStringAddressDetailV2(address_default as UserAddress) || '',
+                                          cart_current_address_type: address_default?.type as AddressType,
+                                          cart_current_address_id: address_default._id,
+                                          cart_current_address_ward: address_default.address_ward,
+                                          cart_current_address_district: address_default.address_district,
+                                          cart_current_address_province: address_default.address_province,
+                                    }),
+                              )
+                        }
+                  }
+            }
+      }, [getProductWithId.isSuccess])
 
       useEffect(() => {}, [getProductWithId.isSuccess])
       if (getProductWithId.isSuccess) {

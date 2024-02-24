@@ -7,7 +7,8 @@ import BoxConfirmAddress from '../../component/BoxUi/confirm/BoxConfirmAddress'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
-import { renderStringAddressDetail } from '../../utils/address.util'
+import { getAddressDefault, renderStringAddressDetail, renderStringAddressDetailV2 } from '../../utils/address.util'
+import { CartCurrent } from '../../Redux/cartSlice'
 
 type TProps = { product: TProductDetail }
 
@@ -15,6 +16,7 @@ const ProductIntro = (props: TProps) => {
       const { product } = props
 
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+      const cartCurrent = useSelector((state: RootState) => state.cartSlice.cart_current) as CartCurrent
       const address_default = user?.user_address && user?.user_address.filter((address) => address.address_default === true)
 
       const [openModal, setOpenModal] = useState<boolean>(false)
@@ -31,11 +33,12 @@ const ProductIntro = (props: TProps) => {
             }
       }, [product])
 
-      console.log({ length: product?.attribute.description.length })
-      const votes = 4.5
+      // console.log({ cartCurrent: renderStringAddressDetailV2(address_default[0]) })
+
+      const votes = 5
 
       return (
-            <div className='flex flex-col gap-[16px]'>
+            <div className='flex flex-col gap-[16px] text-[13px]'>
                   <section className='bg-white w-full min-h-[160px] h-auto p-[12px] rounded-lg'>
                         <div className='flex flex-col gap-[8px]'>
                               <header>
@@ -64,9 +67,15 @@ const ProductIntro = (props: TProps) => {
                         <div className='flex flex-col gap-[8px]'>
                               <p className='[word-spacing:1px] text-[16px] text-black font-semibold word'>Thông tin vận chuyển</p>
                               <div className=' min-h-[26px] h-max w-full flex justify-between'>
-                                    <span>Giao đến: {address_default ? renderStringAddressDetail(address_default[0]) : '...'}</span>
+                                    <span>
+                                          {cartCurrent.cart_current_address
+                                                ? cartCurrent.cart_current_address
+                                                : getAddressDefault(user?.user_address)
+                                                ? `Giao đến: ${address_default ? renderStringAddressDetailV2(address_default[0]) : ''}`
+                                                : 'Bạn chưa chọn ví trí giao hàng'}
+                                    </span>
                                     <button className='text-blue-600' onClick={handleOpenModal}>
-                                          Đổi
+                                          {getAddressDefault(user?.user_address) ? 'Đổi' : 'Chọn vị trí'}
                                     </button>
                               </div>
                               <div className='flex gap-[4px] text-[14px] items-center mt-[16px]'>
@@ -97,7 +106,7 @@ const ProductIntro = (props: TProps) => {
                         )}
                   </section>
 
-                  {openModal && <BoxConfirmAddress setOpenModal={setOpenModal} />}
+                  {openModal && <BoxConfirmAddress setOpenModal={setOpenModal} product_id={product._id} />}
             </div>
       )
 }

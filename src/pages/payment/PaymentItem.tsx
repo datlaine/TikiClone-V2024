@@ -1,4 +1,4 @@
-import { Badge, Bike, ShoppingBag } from 'lucide-react'
+import { Badge, Bike, Building2, Home, ShoppingBag, TentTree } from 'lucide-react'
 import React from 'react'
 import { CartProduct, CartProductRef, CartResponse } from '../../types/cart.type'
 import BoxMoney from '../../component/BoxUi/BoxMoney'
@@ -13,8 +13,14 @@ const PaymentItem = (props: TProps) => {
 
       console.log({ product })
 
+      const AddressTypeIcon =
+            product.cart_address.type === 'Home' ? <Home /> : product.cart_address.type === 'Company' ? <Building2 /> : <TentTree />
+
+      const AddressTypeText =
+            product.cart_address.type === 'Home' ? 'Nhà' : product.cart_address.type === 'Company' ? 'Công ty / cơ quan' : 'Nơi ở riêng tư'
+
       return (
-            <div className='w-full min-h-[200px] xl:min-h-[135px] h-max relative z-[2] border-[1px] border-slate-300 rounded-lg text-[11px] xl:text-[13px]'>
+            <div className='w-full min-h-[200px] xl:min-h-[220px] h-max relative z-[2] border-[1px] border-slate-300 rounded-lg text-[11px] xl:text-[13px]'>
                   <div className='absolute top-[-25px] left-[12px] h-[50px] bg-[#ffffff] z-[3] px-[8px] text-green-600 flex items-center gap-[8px]'>
                         <ShoppingBag />
                         <span>Gói {index}:</span>
@@ -32,11 +38,11 @@ const PaymentItem = (props: TProps) => {
                               </div>
                         </div>
 
-                        <div className='mt-[30px] xl:mt-0 h-[80px] flex mb-[16px]'>
+                        <div className='mt-[30px] xl:mt-0 h-[60px] flex mb-[16px]'>
                               <div className='min-w-[160px] xl:min-w-[260px] h-[50px] flex gap-[16px] '>
                                     <img
                                           src={product.product_id.product_thumb_image?.secure_url}
-                                          className='h-full w-[40px]'
+                                          className='h-full w-[70px]'
                                           alt='product'
                                     />
                                     <div className='flex flex-col justify-between text-[13px]'>
@@ -47,6 +53,17 @@ const PaymentItem = (props: TProps) => {
                               <div className='flex-1 flex h-[50px] items-end'>
                                     <BoxMoney name='VNĐ' money={product.quantity * product.product_id.product_price} />
                               </div>
+                        </div>
+                  </div>
+
+                  <div className='mt-[30px] px-[25px] text-[14px] text-slate-800'>
+                        <div className='flex items-center gap-[8px]'>
+                              <p className='flex gap-[8px] items-center'>
+                                    <span className='mt-[-4px]'>{AddressTypeIcon}</span>
+                                    <span>{AddressTypeText}</span>
+                              </p>
+                              <span>-</span>
+                              <span>Địa chỉ {product.cart_address.address}</span>
                         </div>
                   </div>
             </div>

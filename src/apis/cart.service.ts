@@ -1,5 +1,5 @@
 import { ProductCart } from '../pages/product/ProductPay'
-import { CartResponse } from '../types/cart.type'
+import { CartProduct, CartResponse } from '../types/cart.type'
 import axiosCustom from './http'
 
 export type TModeChangeQuantityProductCart = {
@@ -42,6 +42,12 @@ class CartService {
 
       static async deleteCart({ product_id }: { product_id: string }) {
             return axiosCustom.delete<{ metadata: { message: string } }>(`/v1/api/cart/cart-delete/${product_id}`)
+      }
+
+      static async updateAddresCart({ product_id, address_text }: { product_id: string; address_text: string }) {
+            return axiosCustom.post<{ metadata: { message: string } }>('/v1/api/cartCa/cart-update-address-cart', {
+                  payload: { product_id, address_text },
+            })
       }
 }
 

@@ -13,11 +13,18 @@ import { addToast } from '../Redux/toast'
 import AccountService from '../apis/account.service'
 import { doOpenBoxLogin, fetchUser } from '../Redux/authenticationSlice'
 import { RootState } from '../store'
+import { Address } from '../types/address.type'
 
-export type AddressForm = Omit<UserAddress, 'address_creation_time' | '_id' | 'address_default'>
+export type AddressForm = {
+      address_type: 'Home' | 'Company' | 'Private'
+      address_street: string
+      address_ward: string
+      address_district: string
+      address_province: string
+}
 
 const defaultValues: AddressForm = {
-      address_type: 'Nhà',
+      address_type: 'Home',
       address_street: '',
       address_ward: '',
       address_district: '',
@@ -27,10 +34,10 @@ const defaultValues: AddressForm = {
 const address_type = [
       {
             label: 'Nhà',
-            value: 'Nhà',
+            value: 'Home',
       },
-      { label: 'Công ty / cơ quan', value: 'Công ty / cơ quan' },
-      { labe: 'Nơi ở riêng', value: 'Nơi ở riêng' },
+      { label: 'Công ty / cơ quan', value: 'Company' },
+      { labe: 'Nơi ở riêng', value: 'Private' },
 ]
 
 type TProps = {
@@ -42,9 +49,9 @@ const FormAddress = (props: TProps) => {
 
       const dispatch = useDispatch()
 
-      const [province, setProvince] = useState<string>()
-      const [district, setDistrict] = useState<string>()
-      const [, setWard] = useState<string>()
+      const [province, setProvince] = useState<string>('')
+      const [district, setDistrict] = useState<string>('')
+      const [ward, setWard] = useState<string>('')
 
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
 
@@ -55,7 +62,7 @@ const FormAddress = (props: TProps) => {
 
       const addressMutation = useMutation({
             mutationKey: ['/v1/api/account/add-address'],
-            mutationFn: ({ form }: { form: AddressForm }) => AccountService.addAddress({ form }),
+            mutationFn: ({ payload }: { payload: Address }) => AccountService.addAddress({ payload }),
             onSuccess: (axiosResponse) => {
                   const { user } = axiosResponse.data.metadata
                   dispatch(fetchUser({ user }))
@@ -69,14 +76,24 @@ const FormAddress = (props: TProps) => {
                   dispatch(doOpenBoxLogin())
                   return
             }
-            let addressPayload = {
-                  address_type: form.address_type,
+            let addressPayload: Address = {
+                  type: form.address_type,
                   address_street: form.address_street,
-                  address_ward: form.address_ward,
-                  address_district: form.address_district,
-                  address_province: form.address_province,
+                  address_ward: {
+                        code: ward,
+                        text: form.address_ward,
+                  },
+                  address_district: {
+                        code: district,
+                        text: form.address_district,
+                  },
+                  address_province: {
+                        code: province,
+                        text: form.address_province,
+                  },
+                  address_text: `${form.address_street} ${form.address_ward} ${form.address_district} ${form.address_province}`,
             }
-            addressMutation.mutate({ form: addressPayload })
+            addressMutation.mutate({ payload: addressPayload })
       }
 
       const provinceApi = useQuery({

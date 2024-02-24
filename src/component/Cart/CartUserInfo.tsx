@@ -2,23 +2,55 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
+import { CartProduct } from '../../types/cart.type'
 
-const CartUserInfo = () => {
+type TProps = {
+      products?: CartProduct[]
+}
+
+const CartUserInfo = (props: TProps) => {
+      const { products } = props
+
+      const handleAddressUnique = () => {
+            let newSet: string[] = []
+            if (products) {
+                  products.map((product) => newSet.push(product.cart_address.address))
+            }
+
+            const addressUnique = new Set(newSet)
+            const arrayResult = Array.from(addressUnique)
+
+            // return addressUnique
+
+            return arrayResult
+      }
+
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
 
       return (
-            <div className='w-full h-[200px] xl:h-[150px] bg-[#ffffff] flex flex-col p-[8px]  xl:p-[16px] rounded text-[12px] xl:text-[14px]'>
-                  <div className='flex justify-between h-[30%] items-center text-[14px] xl:text-[16px]'>
+            <div className='w-full min-h-[200px] xl:min-h-[150px] h-max bg-[#ffffff] flex flex-col p-[8px]  xl:p-[16px] rounded text-[12px] xl:text-[14px]'>
+                  {/* <div className='flex justify-between h-[30%] items-center text-[14px] xl:text-[16px]'>
                         <h4>Giao tới</h4>
                         <span>Thay đổi</span>
-                  </div>
+                  </div> */}
                   <div className='flex flex-col xl:flex-row w-max gap-[8px] h-[30%] items-start xl:items-center'>
                         <span>{user?.fullName || user?.nickName || 'Tên'} </span>
                         <span>{user?.email}</span>
                   </div>
-                  <div className='flex  flex-col xl:flex-row gap-[8px] h-[30%]'>
-                        <span>Nhà</span>
-                        <span>93 Hồ Văn Huê, Phường 09, Quận Phú Nhuận, Hồ Chí Minh</span>
+
+                  <div className='h-[1px]  w-[calc(100%+32px)] ml-[-16px] bg-slate-200 my-[15px]'></div>
+
+                  <div className='flex flex-wrap  flex-col xl:flex-row gap-[8px] h-[30%]'>
+                        <span className='w-full'>Địa chỉ nhận hàng ({handleAddressUnique().length})</span>
+                        <div className='pl-[10px]'>
+                              {products &&
+                                    handleAddressUnique().map((address) => (
+                                          <div className='relative flex gap-[16px] items-start' key={address}>
+                                                <div className='absolute  top-[4px] bg-slate-900 w-[10px] h-[10px] rounded-full'></div>
+                                                <span className='ml-[16px]'>{address}</span>
+                                          </div>
+                                    ))}
+                        </div>
                   </div>
             </div>
       )

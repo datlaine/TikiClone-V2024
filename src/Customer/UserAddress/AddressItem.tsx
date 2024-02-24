@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { UserAddress } from '../../types/user.type'
-import { renderStringAddress, renderStringAddressDetail } from '../../utils/address.util'
 import BoxButton from '../../component/BoxUi/BoxButton'
-import { Anchor, Building2, Home, MoveHorizontal, TentTree, Trash, Trash2 } from 'lucide-react'
-import { useMutation } from '@tanstack/react-query'
+import { Anchor, Building2, Home, Image, TentTree, Trash2 } from 'lucide-react'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import AccountService from '../../apis/account.service'
 import { useDispatch } from 'react-redux'
 import { fetchUser } from '../../Redux/authenticationSlice'
+import axiosCustom from '../../apis/http'
 import axios from 'axios'
 
 type TProps = {
@@ -18,6 +18,7 @@ const AddressItem = (props: TProps) => {
       const { address, index } = props
 
       const [detailAddress, setDetailAdress] = useState<boolean>(false)
+      const [loadingIframe, setLoadingIframe] = useState<boolean>(true)
       const iframeRef = useRef<HTMLIFrameElement>(null)
       const dispatch = useDispatch()
 
@@ -40,6 +41,20 @@ const AddressItem = (props: TProps) => {
             },
       })
 
+      const weatherAPI = useQuery({
+            queryKey: ['weather'],
+            queryFn: () =>
+                  axios.get(
+                        `http://api.openweathermap.org/geo/1.0/direct?q=${address.address_district.text}&limit=5&appid=${process.env.REACT_APP_API_KEY_WEATHER}`,
+                  ),
+      })
+
+      useEffect(() => {
+            if (weatherAPI.isSuccess) {
+                  console.log({ api: weatherAPI.data.data })
+            }
+      }, [weatherAPI.isSuccess])
+
       const handleSetDefaultAddress = (_id: string) => {
             if (address.address_default) return
             setAddressDefaultMutation.mutate({ _id })
@@ -59,15 +74,15 @@ const AddressItem = (props: TProps) => {
 
       useEffect(() => {
             if (iframeRef.current) {
-                  const addressApi = `Phường ${address.address_ward} ${address.address_district} ${address._id}`
+                  const addressApi = `Phường ${address.address_ward.text} ${address.address_district.text} ${address.address_province.text}`
                   const src = `https://maps.google.com/maps?&q="+${addressApi}"&output=embed`
 
                   iframeRef.current.src = src
+                  // console.log({state: iframeRef.current.})
             }
       }, [detailAddress])
 
-      const AddressType =
-            address.address_type === 'Nhà' ? <Home /> : address.address_type === 'Công ty / cơ quan' ? <Building2 /> : <TentTree />
+      const AddressType = address.type === 'Home' ? <Home /> : address.type === 'Company' ? <Building2 /> : <TentTree />
 
       const styleEffect = {
             btnAddressDefault: address.address_default
@@ -75,104 +90,133 @@ const AddressItem = (props: TProps) => {
                   : ' border-[1px] border-blue-300 rounded  text-blue-300',
       }
       return (
-            <div className='relative flex flex-col gap-[20px]' key={address._id}>
-                  <div className='h-[30px] w-full flex items-center gap-[8px]'>
-                        <span>Số địa chỉ: </span>
-                        <span className='  bg-slate-900 text-white  w-[20px] h-[20px] rounded-full flex items-center justify-center'>
-                              {index + 1}
-                        </span>
-                  </div>
-                  <div className='flex flex-col gap-[24px] w-full '>
-                        <div className='w-max flex flex-col xl:flex-row gap-[20px] xl:gap-[4px]'>
-                              <span>Địa chỉ:</span>
-                              <button
-                                    className='  bg-blue-300 text-white p-[12px_6px] min-w-[50px] w-[auto] max-w-[400px] h-[20px] rounded flex items-center justify-center gap-[8px]'
-                                    onClick={() =>
-                                          openSearchGoogle(
-                                                address.address_street +
-                                                      ' Phường ' +
-                                                      address.address_ward +
-                                                      ' ' +
-                                                      address.address_district +
-                                                      ' ' +
-                                                      address.address_province,
-                                          )
-                                    }
-                              >
-                                    <span>{address.address_street}</span>
-                                    <p className='w-max flex gap-[2px] items-center'>
-                                          <span>Phường/Xã:</span>
+            <div
+                  style={{ height: detailAddress ? 'max-content' : 200 }}
+                  className='transition-all duration-300 flex flex-col gap-[20px]'
+                  key={address._id}
+            >
+                  <div className='flex'>
+                        <div className='w-[50%]'>
+                              <div className='h-[30px] w-full flex items-center gap-[8px]'>
+                                    <span>Số địa chỉ: </span>
+                                    <span className='  bg-slate-900 text-white  w-[20px] h-[20px] rounded-full flex items-center justify-center'>
+                                          {index + 1}
+                                    </span>
+                              </div>
+                              <div className='flex flex-col gap-[24px] w-full '>
+                                    <div className='w-max flex flex-col xl:flex-row gap-[20px] xl:gap-[4px]'>
+                                          <span>Địa chỉ:</span>
                                           <button
-                                                className='  bg-blue-300 text-white p-[12px_6px] min-w-[20px] w-[auto] max-w-[250px] h-[20px] rounded flex items-center justify-center'
-                                                onClick={() => openSearchGoogle(address.address_ward)}
+                                                className='  bg-blue-300 text-white p-[12px_6px] min-w-[50px] w-[auto] max-w-[400px] h-[20px] rounded flex items-center justify-center gap-[8px]'
+                                                onClick={() =>
+                                                      openSearchGoogle(
+                                                            address.address_street +
+                                                                  ' Phường ' +
+                                                                  address.address_ward.text +
+                                                                  ' ' +
+                                                                  address.address_district.text +
+                                                                  ' ' +
+                                                                  address.address_province.text,
+                                                      )
+                                                }
                                           >
-                                                {address.address_ward}
+                                                <span>{address.address_street}</span>
+                                                <p className='w-max flex gap-[2px] items-center'>
+                                                      <span>Phường/Xã:</span>
+                                                      <button
+                                                            className='  bg-blue-300 text-white p-[12px_6px] min-w-[20px] w-[auto] max-w-[250px] h-[20px] rounded flex items-center justify-center'
+                                                            onClick={() => openSearchGoogle(address.address_ward.text)}
+                                                      >
+                                                            {address.address_ward.text}
+                                                      </button>
+                                                </p>
                                           </button>
-                                    </p>
-                              </button>
-                              <div className='ml-[6px] flex gap-[6px] items-center'>
-                                    {AddressType}
-                                    <span>({address.address_type})</span>
+                                          <div className='ml-[6px] flex gap-[6px] items-center'>
+                                                {AddressType}
+                                                <span>
+                                                      (
+                                                      {address.type === 'Home'
+                                                            ? 'Nhà'
+                                                            : address.type === 'Company'
+                                                            ? 'Công ty / cơ quan'
+                                                            : 'Nơi ở riêng tư'}
+                                                      )
+                                                </span>
+                                          </div>
+                                    </div>
+
+                                    <div className='flex flex-col xl:flex-row gap-[16px]  xl:gap-[4px]'>
+                                          <p className='w-max flex gap-[4px]'>
+                                                <span>Quận/Huyện:</span>
+                                                <button
+                                                      className='  bg-blue-300 text-white p-[12px_6px] min-w-[50px] w-[auto] max-w-[250px] h-[20px] rounded flex items-center justify-center'
+                                                      onClick={() => openSearchGoogle(address.address_district.text)}
+                                                >
+                                                      {address.address_district.text}
+                                                </button>
+                                          </p>
+
+                                          <p className='w-max flex gap-[4px]'>
+                                                <span>Tỉnh/Thành phố:</span>
+                                                <button
+                                                      className='  bg-blue-300 text-white p-[12px_6px] min-w-[50px] w-[auto] max-w-[250px] h-[20px] rounded flex items-center justify-center'
+                                                      onClick={() => openSearchGoogle(address.address_province.text)}
+                                                >
+                                                      {address.address_province.text}
+                                                </button>
+                                          </p>
+                                    </div>
+                                    {/* <p>{renderStringAddressDetail(address)}</p> */}
+                                    <div className='w-[120px] h-[36px]'>
+                                          <BoxButton
+                                                content={`${detailAddress ? 'Đóng bản đồ' : 'Xem bản đồ'}`}
+                                                onClick={() => {
+                                                      setDetailAdress((prev) => !prev)
+                                                      setLoadingIframe(true)
+                                                }}
+                                          />
+                                    </div>
                               </div>
                         </div>
-
-                        <div className='flex flex-col xl:flex-row gap-[16px]  xl:gap-[4px]'>
-                              <p className='w-max flex gap-[4px]'>
-                                    <span>Quận/Huyện:</span>
+                        <div className='relative flex-1'>
+                              {detailAddress && (
+                                    <div className='mt-[80px]'>
+                                          {loadingIframe && <div className='animate-pulse w-full xl:w-[100%] h-[350px] bg-slate-300'></div>}
+                                          <iframe
+                                                ref={iframeRef}
+                                                onLoad={() => {
+                                                      setLoadingIframe(false)
+                                                      if (iframeRef.current) {
+                                                            iframeRef.current.style.height = '350px'
+                                                      }
+                                                }}
+                                                style={{ height: 0 }}
+                                                title='address'
+                                                className='mt-[30px] w-full xl:w-[100%]  animate-mountComponent'
+                                                loading='lazy'
+                                                referrerPolicy='no-referrer-when-downgrade'
+                                          ></iframe>
+                                    </div>
+                              )}
+                              <div className='absolute top-0 xl:top-[20px] right-0 xl:right-[20px] flex items-center gap-[12px]'>
                                     <button
-                                          className='  bg-blue-300 text-white p-[12px_6px] min-w-[50px] w-[auto] max-w-[250px] h-[20px] rounded flex items-center justify-center'
-                                          onClick={() => openSearchGoogle(address.address_district)}
+                                          className={`${styleEffect.btnAddressDefault} w-[145px] xl:w-[180px] h-[32px] xl:px-[12px] xl:py-[6px]  flex items-center justify-center gap-[6px]`}
+                                          onClick={() => handleSetDefaultAddress(address._id)}
                                     >
-                                          {address.address_district}
+                                          <span>{address.address_default ? 'Địa chỉ mặc định' : 'Đặt làm mặc định'}</span>
+                                          {address.address_default && <Anchor size={15} />}
                                     </button>
-                              </p>
-
-                              <p className='w-max flex gap-[4px]'>
-                                    <span>Tỉnh/Thành phố:</span>
-                                    <button
-                                          className='  bg-blue-300 text-white p-[12px_6px] min-w-[50px] w-[auto] max-w-[250px] h-[20px] rounded flex items-center justify-center'
-                                          onClick={() => openSearchGoogle(address.address_province)}
-                                    >
-                                          {address.address_province}
-                                    </button>
-                              </p>
-                        </div>
-                        {/* <p>{renderStringAddressDetail(address)}</p> */}
-                        <div className='w-[120px] h-[36px]'>
-                              <BoxButton
-                                    content={`${detailAddress ? 'Đóng bản đồ' : 'Xem bản đồ'}`}
-                                    onClick={() => setDetailAdress((prev) => !prev)}
-                              />
+                                    <Trash2
+                                          className=''
+                                          onClick={() => {
+                                                handleDeleteAddress(address._id)
+                                          }}
+                                    />
+                              </div>
                         </div>
                   </div>
 
-                  {detailAddress && (
-                        <div>
-                              <iframe
-                                    ref={iframeRef}
-                                    title='address'
-                                    className='mt-[30px] w-full xl:w-[70%] h-[350px] animate-mountComponent'
-                                    loading='lazy'
-                                    referrerPolicy='no-referrer-when-downgrade'
-                              ></iframe>
-                        </div>
-                  )}
                   <div className='mt-[16px] w-[calc(100%+36px)] ml-[-18px] bg-slate-200 h-[1px]'></div>
-                  <div className='absolute top-0 xl:top-[20px] right-0 xl:right-[20px] flex items-center gap-[12px]'>
-                        <button
-                              className={`${styleEffect.btnAddressDefault} w-[145px] xl:w-[180px] h-[32px] xl:px-[12px] xl:py-[6px]  flex items-center justify-center gap-[6px]`}
-                              onClick={() => handleSetDefaultAddress(address._id)}
-                        >
-                              <span>{address.address_default ? 'Địa chỉ mặc định' : 'Đặt làm mặc định'}</span>
-                              {address.address_default && <Anchor size={15} />}
-                        </button>
-                        <Trash2
-                              className=''
-                              onClick={() => {
-                                    handleDeleteAddress(address._id)
-                              }}
-                        />
-                  </div>
             </div>
       )
 }

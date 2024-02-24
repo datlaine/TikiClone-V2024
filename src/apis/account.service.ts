@@ -1,4 +1,5 @@
 import { AddressForm } from '../forms/FormAddress'
+import { Address } from '../types/address.type'
 import { TResponseApi } from '../types/axiosResponse'
 import { UserAddress, UserAvatarUsed, UserResponse } from '../types/user.type'
 import axiosCustom from './http'
@@ -28,8 +29,8 @@ class AccountService {
             return axiosCustom.post<TResponseApi<{ user: UserResponse }>>('v1/api/account/deleteAvatar')
       }
 
-      static async addAddress({ form }: { form: AddressForm }) {
-            return axiosCustom.post<TResponseApi<{ user: UserResponse }>>('v1/api/account/add-address', { addressPayload: form })
+      static async addAddress({ payload }: { payload: Address }) {
+            return axiosCustom.post<TResponseApi<{ user: UserResponse }>>('v1/api/account/add-address', { addressPayload: payload })
       }
 
       static async setAddressDefault(form: Pick<UserAddress, '_id'>) {

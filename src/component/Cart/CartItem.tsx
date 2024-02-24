@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox'
-import { ChevronRight, Home, TimerIcon, Trash2 } from 'lucide-react'
+import { Building2, ChevronRight, Home, TentTree, TimerIcon, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { DateTimeFromString } from '../../utils/datetime.util'
 import WrapperCountProduct from '../BoxUi/WrapperCountProduct'
@@ -11,6 +11,9 @@ import { convertDateToString } from '../../utils/date.utils'
 import { formatMoneyVND } from '../../utils'
 import BoxMoney from '../BoxUi/BoxMoney'
 import BoxConfirmDelete from '../BoxUi/confirm/BoxConfirmDelete'
+import BoxButton from '../BoxUi/BoxButton'
+import FormAddress from '../../forms/FormAddress'
+import BoxConfirmAddress from '../BoxUi/confirm/BoxConfirmAddress'
 
 type TProps = {
       shop: CartShopRef
@@ -21,7 +24,8 @@ const CartItem = (props: TProps) => {
       const { product, shop } = props
 
       const [select, setSelect] = useState<boolean>(product.isSelect)
-      const [openBoxConfirm, setOpenBoxConfirm] = useState<boolean>(false)
+      const [openBoxConfirmDelete, setOpenBoxConfirmDelete] = useState<boolean>(false)
+      const [openBoxCofirmUpdateAddress, setOpenBoxConfirmUpdateAddress] = useState<boolean>(false)
 
       const queryClient = useQueryClient()
 
@@ -79,19 +83,29 @@ const CartItem = (props: TProps) => {
             readOnly: !product.product_id.product_state ? true : false,
       }
 
+      // const cart_address_type = product.cart_address.type === 'Home' ? <Home /> : product.cart_address.type === 'Company' ? ''
+
+      const AddressTypeIcon =
+            product.cart_address.type === 'Home' ? <Home /> : product.cart_address.type === 'Company' ? <Building2 /> : <TentTree />
+
+      const AddressTypeText =
+            product.cart_address.type === 'Home' ? 'Nhà' : product.cart_address.type === 'Company' ? 'Công ty / cơ quan' : 'Nơi ở riêng tư'
       // if (!product.product_id.s) return null
       return (
-            <div className='min-h-[250px] h-[650px] xl:h-[250px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
-                  <div className='flex gap-[12px] h-[14%] xl:h-[20%] items-center'>
+            <div className='min-h-[250px] h-[650px] xl:h-[350px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
+                  <div className='flex gap-[12px] h-[14%] xl:h-[30%] items-center'>
                         <Checkbox disabled={styleEffect.readOnly} />
                         <Home />
-                        <span>{}</span>
+                        <ChevronRight />
                         <img
                               src={shop.shop_avatar?.secure_url || product.shop_id.shop_avatar_default || ''}
-                              className='h-[18px] w-[18px] '
+                              className='h-[30px] w-[30px] '
                               alt='shop_avatar'
                         />
-                        <ChevronRight />
+                        <p className='flex gap-[4px]'>
+                              <span>Cửa hàng:</span>
+                              <span className='underline'>{shop.shop_name}</span>
+                        </p>
                   </div>
                   <div className='max-h-[70%] h-[70%] xl:max-h-[50%] xl:h-[40%] w-full flex flex-col xl:flex-row'>
                         <div className='flex-1 flex  flex-col xl:flex-row gap-[16px] h-[150px] xl:h-[80px]'>
@@ -113,6 +127,7 @@ const CartItem = (props: TProps) => {
 
                                     <span>Thể loại: Sách</span>
                                     <span>Giao vào ngày mai</span>
+
                                     {!product.product_id.product_state && (
                                           <span className='text-red-700 font-semibold text-[16px]'>Sản phẩm ngừng kinh doanh</span>
                                     )}
@@ -133,8 +148,8 @@ const CartItem = (props: TProps) => {
                               <BoxMoney name='VNĐ' money={product.quantity * product.product_id.product_price} />
                         </div>
                         <div className='w-[20px] flex items-center  my-[8px] xl:my-0'>
-                              <Trash2 onClick={() => setOpenBoxConfirm(true)} />
-                              {openBoxConfirm && (
+                              <Trash2 onClick={() => setOpenBoxConfirmDelete(true)} />
+                              {openBoxConfirmDelete && (
                                     <BoxConfirmDelete
                                           content='Bạn sẽ xóa sản phẩm này chứ'
                                           subContent={
@@ -148,7 +163,7 @@ const CartItem = (props: TProps) => {
                                           }
                                           ButtonCancellContent='Hủy'
                                           ButtonConfrimContent='Xác nhận xóa'
-                                          onClose={setOpenBoxConfirm}
+                                          onClose={setOpenBoxConfirmDelete}
                                           onActive={onDeleteCart}
                                           paramsActive={{ product_id: product.product_id._id }}
                                     />
@@ -156,10 +171,34 @@ const CartItem = (props: TProps) => {
                         </div>
                   </div>
                   <div className='w-[calc(100%+24px)] ml-[-12px] bg-slate-100 h-[1px]'></div>
-                  <div className='max-h-[20%] flex ml-[16px] items-center gap-[8px]'>
-                        <TimerIcon className='hidden xl:block' />
-                        {DateTimeFromString(product.cart_date)}
+                  <div className='max-h-[20%] flex justify-between ml-[16px] items-center gap-[8px]'>
+                        <div className='flex items-center gap-[8px]'>
+                              <p className='flex gap-[8px] items-center'>
+                                    <span className='mt-[-4px]'>{AddressTypeIcon}</span>
+                                    <span>{AddressTypeText}</span>
+                              </p>
+                              <span>-</span>
+                              <span>Địa chỉ {product.cart_address.address}</span>
+                              <div className='w-max'>
+                                    <BoxButton content='Cập nhập địa chỉ khác' onClick={() => setOpenBoxConfirmUpdateAddress(true)} />
+                                    {openBoxCofirmUpdateAddress && (
+                                          <BoxConfirmAddress
+                                                setOpenModal={setOpenBoxConfirmUpdateAddress}
+                                                product_id={product.product_id._id}
+                                                mode='Update'
+                                                cart_item={product}
+                                          />
+                                    )}
+                              </div>
+                        </div>
+
+                        <div className='flex items-center gap-[8px]'>
+                              {/* <TimerIcon className='hidden xl:block' /> */}
+                              <span>Đặt hàng vào lúc:</span>
+                              <span>{DateTimeFromString(product.cart_date)}</span>
+                        </div>
                   </div>
+                  <div className='max-h-[20%] flex ml-[16px] items-center gap-[8px]'></div>
             </div>
       )
 }

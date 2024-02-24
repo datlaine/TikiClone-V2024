@@ -1,10 +1,21 @@
 export interface UserAddress {
       _id: string
       address_street: string
-      address_ward: string
-      address_district: string
-      address_province: string
-      address_type: 'Nhà' | 'Công ty / cơ quan' | 'Nơi ở riêng'
+      address_ward: {
+            code: string
+            text: string
+      }
+      address_district: {
+            code: string
+            text: string
+      }
+      address_province: {
+            code: string
+            text: string
+      }
+      address_text: string
+
+      type: 'Home' | 'Company' | 'Private'
       address_default: boolean
       address_creation_time: Date
 }

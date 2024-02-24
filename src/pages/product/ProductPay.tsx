@@ -9,12 +9,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToast } from '../../Redux/toast'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
+import { CartCurrent } from '../../Redux/cartSlice'
+import { doOpenBoxLogin } from '../../Redux/authenticationSlice'
 
 type TProps = {
       product: TProductDetail
 }
 
 export type ProductCart = {
+      cart_address: {
+            address: Pick<CartCurrent, 'cart_current_address'>
+            type: Pick<CartCurrent, 'cart_current_address_type'>
+      }
       shop_id: string
       product_id: string
       product_name: string
@@ -25,7 +31,7 @@ export type ProductCart = {
 const ProductPay = (props: TProps) => {
       const { product } = props
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
-
+      const cartCurrent = useSelector((state: RootState) => state.cartSlice.cart_current) as CartCurrent
       const [productQuantity, setProductQuantity] = useState<number>(1)
       const dispatch = useDispatch()
       const queryClient = useQueryClient()
@@ -47,20 +53,34 @@ const ProductPay = (props: TProps) => {
       }
 
       const handleClickBuy = () => {
+            if (!user) {
+                  dispatch(doOpenBoxLogin())
+                  return
+            }
+
             if (user._id === product.shop_id.owner) {
                   dispatch(addToast({ type: 'WARNNING', message: 'Không thể thêm sản phẩm của chính mình', id: Math.random().toString() }))
                   return
             }
 
+            // if (cartCurrent) {
+            //       console.log({ cartCurrent })
+            //       return
+            // }
+
             console.log({ product: { ...product, productQuantity, price: product.product_price * (productQuantity || 1) } })
-            // const formData = new FormData()
-            // formData.append('product_id', product._id)
+            const formData = new FormData()
+            formData.append('product_id', product._id)
             const payload: ProductCart = {
                   shop_id: product.shop_id._id,
                   product_id: product._id,
                   product_name: product.product_name,
                   product_price: product.product_price,
                   quantity: productQuantity,
+                  cart_address: {
+                        address: cartCurrent.cart_current_address as unknown as Pick<CartCurrent, 'cart_current_address'>,
+                        type: cartCurrent.cart_current_address_type as unknown as Pick<CartCurrent, 'cart_current_address_type'>,
+                  },
             }
             // formData.append('cart_product_price_origin', product.product_price.toString())
             // formData.append('quantity', (productQuantity || 1).toString())

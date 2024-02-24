@@ -1,17 +1,17 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import authSlice from './Redux/authSlice'
-import cartSlice from './Redux/reducer'
 
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import uiSlice from './Redux/uiSlice'
 import authenticationSlice from './Redux/authenticationSlice'
 import toast from './Redux/toast'
+import cartSlice from './Redux/cartSlice'
 
 const persistConfig = {
-    key: 'anhYeuEm',
-    storage,
-    blacklist: ['uiSlice', 'authentication', 'toast'],
+      key: 'anhYeuEm',
+      storage,
+      blacklist: ['uiSlice', 'authentication', 'toast', 'cartSlice'],
 }
 
 // const authPersistConfig = {
@@ -27,21 +27,21 @@ const persistConfig = {
 // }
 
 const rootReducer = combineReducers({
-    cartList: cartSlice,
-    auth: authSlice,
-    uiSlice: uiSlice,
-    authentication: authenticationSlice,
-    toast: toast,
+      cartSlice: cartSlice,
+      auth: authSlice,
+      uiSlice: uiSlice,
+      authentication: authenticationSlice,
+      toast: toast,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: false,
-        }),
+      reducer: persistedReducer,
+      middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({
+                  serializableCheck: false,
+            }),
 })
 
 export type RootState = ReturnType<typeof store.getState>

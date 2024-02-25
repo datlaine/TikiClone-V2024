@@ -24,11 +24,13 @@ const defaultValuesForm: TRegisterFormBook = {
       product_id: '',
       product_name: '',
       product_price: null,
+      product_available: 0,
       attribute: {
             publishing: '',
             page_number: 0,
             author: '',
             description: '',
+            book_type: 'Novel',
       },
 }
 

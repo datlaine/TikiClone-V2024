@@ -1,19 +1,7 @@
 import { AddressType, CartCurrent } from '../Redux/cartSlice'
+import { Address } from './address.type'
 import { TProductDetail } from './product/product.type'
 import { ShopResponse } from './shop.type'
-
-// export interface Cart {
-//       _id: string
-//       cart_user_id: string
-//       cart_date: Date
-//       cart_quantity: number
-//       cart_product_price: number
-//       cart_product_price_origin: number
-//       cart_is_select: boolean
-//       cart_product_id: Pick<TProductDetail, '_id' | 'product_thumb_image' | 'product_price' | 'product_name' | 'product_state'> & {
-//             shop_id: Pick<TShop, '_id' | 'shop_name' | 'shop_avatar' | 'shop_avatar_default'>
-//       }
-// }
 
 export interface CartForm {
       product_id: string
@@ -38,11 +26,7 @@ export interface CartProduct {
       new_quantity: number
       isSelect: boolean
       cart_date: Date
-      cart_address: {
-            _id: string
-            address: string
-            type: AddressType
-      }
+      cart_address: Address
 }
 
 export type CartResponse = {

@@ -16,6 +16,7 @@ import { CartProduct } from '../../../types/cart.type'
 import CartItem from '../../Cart/CartItem'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService from '../../../apis/cart.service'
+import { Address } from '../../../types/address.type'
 
 type TProps = {
       setOpenModal: React.Dispatch<SetStateAction<boolean>>
@@ -34,8 +35,8 @@ const BoxConfirmAddress = (props: TProps) => {
 
       const updateAddressCart = useMutation({
             mutationKey: ['/v1/api/cart/update-cart'],
-            mutationFn: ({ product_id, address_text }: { product_id: string; address_text: string }) =>
-                  CartService.updateAddresCart({ address_text, product_id }),
+            mutationFn: ({ product_id, address_full }: { product_id: string; address_full: Address }) =>
+                  CartService.updateAddresCart({ address_full, product_id }),
             onSuccess: () => {
                   queryClient.invalidateQueries({
                         queryKey: ['v1/api/cart/cart-get-my-cart'],
@@ -49,9 +50,9 @@ const BoxConfirmAddress = (props: TProps) => {
       const [valueAddress, setValueAddress] = useState<string>(() => {
             if (mode === 'Update') {
                   let foundId = user.user_address.find((address) =>
-                        address.address_text.includes(cart_item?.cart_address.address as string),
+                        address.address_text.includes(cart_item?.cart_address.address_text as string),
                   )
-                  console.log({ cart: cart_item?.cart_address._id, foundId, user: user?.user_address, item: cart_item })
+                  // console.log({ cart: cart_item?.cart_address._id, foundId, user: user?.user_address, item: cart_item })
                   return foundId?._id as string
             }
 
@@ -82,10 +83,29 @@ const BoxConfirmAddress = (props: TProps) => {
             }
 
             if (mode === 'Update') {
-                  const addressSelector = user?.user_address.find((address) => address._id === valueAddress)
+                  const addressSelector = user?.user_address.find((address) => address._id === valueAddress) as UserAddress
                   updateAddressCart.mutate({
                         product_id,
-                        address_text: renderStringAddressDetail(addressSelector as UserAddress) as string,
+                        address_full: {
+                              // cart_current_product_id: product_id as string,
+                              address_street: renderStringAddressDetailV2(addressSelector as UserAddress) || '',
+
+                              address_text: renderStringAddressDetailV2(addressSelector as UserAddress) || '',
+                              type: addressSelector?.type as AddressType,
+                              // cart_current_address_id: address_default._id,
+                              address_ward: {
+                                    code: addressSelector.address_ward.code,
+                                    text: addressSelector.address_ward.text,
+                              },
+                              address_district: {
+                                    code: addressSelector.address_district.code,
+                                    text: addressSelector.address_district.text,
+                              },
+                              address_province: {
+                                    code: addressSelector.address_province.code,
+                                    text: addressSelector.address_province.text,
+                              },
+                        },
                   })
                   return
             }
@@ -98,9 +118,18 @@ const BoxConfirmAddress = (props: TProps) => {
                               cart_current_address: renderStringAddressDetailV2(address_default as UserAddress) || '',
                               cart_current_address_type: address_default?.type as AddressType,
                               cart_current_address_id: address_default._id,
-                              cart_current_address_ward: address_default.address_ward,
-                              cart_current_address_district: address_default.address_district,
-                              cart_current_address_province: address_default.address_province,
+                              cart_current_address_ward: {
+                                    code: address_default.address_ward.code,
+                                    text: address_default.address_ward.text,
+                              },
+                              cart_current_address_district: {
+                                    code: address_default.address_district.code,
+                                    text: address_default.address_district.text,
+                              },
+                              cart_current_address_province: {
+                                    code: address_default.address_province.code,
+                                    text: address_default.address_province.text,
+                              },
                               // address: renderStringAddressDetail(foundAddress as UserAddress) || '',
                               // product_id: product_id,
                               // address_type: foundAddress?.type as AddressType,

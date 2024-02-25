@@ -92,23 +92,23 @@ const CartItem = (props: TProps) => {
             product.cart_address.type === 'Home' ? 'Nhà' : product.cart_address.type === 'Company' ? 'Công ty / cơ quan' : 'Nơi ở riêng tư'
       // if (!product.product_id.s) return null
       return (
-            <div className='min-h-[250px] h-[650px] xl:h-[350px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
+            <div className='min-h-[350px] h-[650px] xl:h-[300px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
                   <div className='flex gap-[12px] h-[14%] xl:h-[30%] items-center'>
                         <Checkbox disabled={styleEffect.readOnly} />
                         <Home />
-                        <ChevronRight />
+                        <ChevronRight className='hidden xl:block' />
                         <img
                               src={shop.shop_avatar?.secure_url || product.shop_id.shop_avatar_default || ''}
-                              className='h-[30px] w-[30px] '
+                              className='h-[30px] w-[30px] xl:w-[40px] '
                               alt='shop_avatar'
                         />
-                        <p className='flex gap-[4px]'>
+                        <p className='flex gap-[4px] w-full'>
                               <span>Cửa hàng:</span>
                               <span className='underline'>{shop.shop_name}</span>
                         </p>
                   </div>
                   <div className='max-h-[70%] h-[70%] xl:max-h-[50%] xl:h-[40%] w-full flex flex-col xl:flex-row'>
-                        <div className='flex-1 flex  flex-col xl:flex-row gap-[16px] h-[150px] xl:h-[80px]'>
+                        <div className='w-[50%] flex  flex-col xl:flex-row gap-[16px] h-[230px] xl:h-[80px]'>
                               <Checkbox disabled={styleEffect.readOnly} className='z-[5]' checked={select} onChange={changeSelect} />
                               <Link
                                     className='inline-block w-[150px] xl:w-[90px] h-[150px] xl:h-[80px]'
@@ -134,7 +134,7 @@ const CartItem = (props: TProps) => {
                               </div>
                         </div>
 
-                        <div className='w-[120px] flex items-center my-[4px] xl:my-0'>
+                        <div className='w-[180px] flex items-center my-[4px] xl:my-0'>
                               <BoxMoney name='VND' money={product.product_id.product_price} colorBackground='bg-blue-600' />
                         </div>
                         <div className='w-[120px] flex items-center h-max xl:h-full  my-[8px] xl:my-0'>
@@ -170,15 +170,19 @@ const CartItem = (props: TProps) => {
                               )}
                         </div>
                   </div>
-                  <div className='w-[calc(100%+24px)] ml-[-12px] bg-slate-100 h-[1px]'></div>
-                  <div className='max-h-[20%] flex justify-between ml-[16px] items-center gap-[8px]'>
-                        <div className='flex items-center gap-[8px]'>
-                              <p className='flex gap-[8px] items-center'>
+                  <div className='max-h-[32%] flex flex-wrap flex-col xl:flex-row justify-between ml-0 xl:ml-[16px] items-center gap-[24px] xl:gap-[16px]'>
+                        <div className='flex items-center gap-[8px] text-slate-800 text-[12px] xl:text-[16px] font-extrabold'>
+                              {/* <TimerIcon className='hidden xl:block' /> */}
+                              <span>Đặt hàng vào lúc:</span>
+                              <span>{DateTimeFromString(product.cart_date)}</span>
+                        </div>
+                        <div className='flex flex-col xl:flex-row items-center gap-[8px] xl:w-[80%]'>
+                              <p className='flex gap-[16px] xl:gap-[8px] items-center'>
                                     <span className='mt-[-4px]'>{AddressTypeIcon}</span>
                                     <span>{AddressTypeText}</span>
                               </p>
-                              <span>-</span>
-                              <span>Địa chỉ {product.cart_address.address}</span>
+                              <span className='hidden xl:inline'>-</span>
+                              <span>Địa chỉ {product.cart_address.address_text}</span>
                               <div className='w-max'>
                                     <BoxButton content='Cập nhập địa chỉ khác' onClick={() => setOpenBoxConfirmUpdateAddress(true)} />
                                     {openBoxCofirmUpdateAddress && (
@@ -191,13 +195,10 @@ const CartItem = (props: TProps) => {
                                     )}
                               </div>
                         </div>
-
-                        <div className='flex items-center gap-[8px]'>
-                              {/* <TimerIcon className='hidden xl:block' /> */}
-                              <span>Đặt hàng vào lúc:</span>
-                              <span>{DateTimeFromString(product.cart_date)}</span>
-                        </div>
                   </div>
+
+                  <div className='w-[calc(100%+24px)] ml-[-12px] bg-slate-100 h-[2px] my-[8px]'></div>
+
                   <div className='max-h-[20%] flex ml-[16px] items-center gap-[8px]'></div>
             </div>
       )

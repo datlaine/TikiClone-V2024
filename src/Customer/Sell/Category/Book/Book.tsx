@@ -2,7 +2,8 @@ import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import InputText from '../../components/InputText'
 import InputNumber from '../../components/InputNumber'
-import { Input } from 'antd'
+import { Input, Select } from 'antd'
+import { BookType } from '../../types/product.schema'
 
 // const schema = z.object({
 //     producpublishing: z.string().min(1, { message: 'Tên nhà xuất bản là bắt buộc' }),
@@ -13,6 +14,21 @@ import { Input } from 'antd'
 // })
 
 const { TextArea } = Input
+
+const optionSelect: { label: BookType; value: BookType }[] = [
+      {
+            label: 'Novel',
+            value: 'Novel',
+      },
+      {
+            label: 'Manga',
+            value: 'Manga',
+      },
+      {
+            label: 'Detective',
+            value: 'Detective',
+      },
+]
 
 export type TProps = {
       mode: 'UPLOAD' | 'UPDATE'
@@ -28,8 +44,15 @@ const Book = (props: TProps) => {
       return (
             <div className='flex flex-col gap-[16px]'>
                   <InputText FieldName={'attribute.publishing'} LabelMessage='Tên nhà sản xuất' placehorder='Nhập tên sản xuất' />
-                  <InputNumber FieldName={'attribute.page_number'} LabelMessage='Số trang của sách' placehorder='Số trang của sách' />
                   <InputText FieldName={'attribute.author'} LabelMessage='Tác giả' placehorder='Tên tác giả' />
+                  <InputNumber FieldName={'attribute.page_number'} LabelMessage='Số trang của sách' placehorder='Số trang của sách' />
+                  <Controller
+                        name={'attribute.book_type'}
+                        control={form.control}
+                        render={({ field }) => {
+                              return <Select options={optionSelect} onChange={field.onChange} />
+                        }}
+                  />
                   <Controller
                         name={'attribute.description'}
                         control={form.control}

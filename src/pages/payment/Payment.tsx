@@ -71,7 +71,11 @@ const Payment = () => {
                               </div>
                               <div className='w-full xl:w-[30%] h-max flex flex-col gap-[16px]'>
                                     <CartUserInfo products={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]} />
-                                    <PaymentCart carts={payQuery.data?.data.metadata.carts as CartResponse} price={price} />
+                                    <PaymentCart
+                                          carts={payQuery.data?.data.metadata.carts as CartResponse}
+                                          price={price}
+                                          product_payment={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]}
+                                    />
                               </div>
                         </section>
                   </div>

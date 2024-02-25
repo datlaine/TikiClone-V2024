@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux'
 import { fetchUser } from '../../Redux/authenticationSlice'
 import axiosCustom from '../../apis/http'
 import axios from 'axios'
+import { getGeoLocation } from '../../utils/weatherApi.util'
+import BoxWeatherApi from '../../component/BoxUi/BoxWeatherApi'
 
 type TProps = {
       address: UserAddress
@@ -20,6 +22,7 @@ const AddressItem = (props: TProps) => {
       const [detailAddress, setDetailAdress] = useState<boolean>(false)
       const [loadingIframe, setLoadingIframe] = useState<boolean>(true)
       const iframeRef = useRef<HTMLIFrameElement>(null)
+      const [geolocation, setGeolocation] = useState<{ lat: string; lon: string }>({ lat: '', lon: '' })
       const dispatch = useDispatch()
 
       const setAddressDefaultMutation = useMutation({
@@ -40,20 +43,6 @@ const AddressItem = (props: TProps) => {
                   dispatch(fetchUser({ user }))
             },
       })
-
-      const weatherAPI = useQuery({
-            queryKey: ['weather'],
-            queryFn: () =>
-                  axios.get(
-                        `http://api.openweathermap.org/geo/1.0/direct?q=${address.address_district.text}&limit=5&appid=${process.env.REACT_APP_API_KEY_WEATHER}`,
-                  ),
-      })
-
-      useEffect(() => {
-            if (weatherAPI.isSuccess) {
-                  console.log({ api: weatherAPI.data.data })
-            }
-      }, [weatherAPI.isSuccess])
 
       const handleSetDefaultAddress = (_id: string) => {
             if (address.address_default) return
@@ -91,13 +80,15 @@ const AddressItem = (props: TProps) => {
       }
       return (
             <div
-                  style={{ height: detailAddress ? 'max-content' : 200 }}
-                  className='transition-all duration-300 flex flex-col gap-[20px]'
+                  style={{ height: detailAddress ? 'max-content !important' : 200 }}
+                  className={`${
+                        detailAddress ? 'h-max' : 'h-[375px] xl:h-[240px]'
+                  } relative transition-all  duration-300 flex flex-col gap-[20px]`}
                   key={address._id}
             >
-                  <div className='flex'>
-                        <div className='w-[50%]'>
-                              <div className='h-[30px] w-full flex items-center gap-[8px]'>
+                  <div className='flex flex-col xl:flex-row xl:gap-[20px]'>
+                        <div className='w-full xl:w-[60%]'>
+                              <div className='h-[55px] w-full flex items-center gap-[8px]'>
                                     <span>Số địa chỉ: </span>
                                     <span className='  bg-slate-900 text-white  w-[20px] h-[20px] rounded-full flex items-center justify-center'>
                                           {index + 1}
@@ -106,8 +97,8 @@ const AddressItem = (props: TProps) => {
                               <div className='flex flex-col gap-[24px] w-full '>
                                     <div className='w-max flex flex-col xl:flex-row gap-[20px] xl:gap-[4px]'>
                                           <span>Địa chỉ:</span>
-                                          <button
-                                                className='  bg-blue-300 text-white p-[12px_6px] min-w-[50px] w-[auto] max-w-[400px] h-[20px] rounded flex items-center justify-center gap-[8px]'
+                                          <div
+                                                className='hover:cursor-pointer  bg-blue-300 text-white p-[12px_6px] min-w-[50px] w-[auto] max-w-[400px] h-[20px] rounded flex items-center justify-center gap-[8px]'
                                                 onClick={() =>
                                                       openSearchGoogle(
                                                             address.address_street +
@@ -130,7 +121,7 @@ const AddressItem = (props: TProps) => {
                                                             {address.address_ward.text}
                                                       </button>
                                                 </p>
-                                          </button>
+                                          </div>
                                           <div className='ml-[6px] flex gap-[6px] items-center'>
                                                 {AddressType}
                                                 <span>
@@ -177,17 +168,22 @@ const AddressItem = (props: TProps) => {
                                           />
                                     </div>
                               </div>
-                        </div>
-                        <div className='relative flex-1'>
                               {detailAddress && (
-                                    <div className='mt-[80px]'>
-                                          {loadingIframe && <div className='animate-pulse w-full xl:w-[100%] h-[350px] bg-slate-300'></div>}
+                                    <div className='mt-[20px] w-full h-[250px] xl:h-[300px]'>
+                                          <BoxWeatherApi locationName={address.address_district.text} />
+                                    </div>
+                              )}
+                        </div>
+                        <div className=' flex-1'>
+                              {detailAddress && (
+                                    <div className='pt-[20px] xl:pt-[80px] h-full'>
+                                          {loadingIframe && <div className='animate-pulse w-full xl:w-[100%] h-full bg-slate-300'></div>}
                                           <iframe
                                                 ref={iframeRef}
                                                 onLoad={() => {
                                                       setLoadingIframe(false)
                                                       if (iframeRef.current) {
-                                                            iframeRef.current.style.height = '350px'
+                                                            iframeRef.current.style.height = '92%'
                                                       }
                                                 }}
                                                 style={{ height: 0 }}
@@ -198,25 +194,25 @@ const AddressItem = (props: TProps) => {
                                           ></iframe>
                                     </div>
                               )}
-                              <div className='absolute top-0 xl:top-[20px] right-0 xl:right-[20px] flex items-center gap-[12px]'>
-                                    <button
-                                          className={`${styleEffect.btnAddressDefault} w-[145px] xl:w-[180px] h-[32px] xl:px-[12px] xl:py-[6px]  flex items-center justify-center gap-[6px]`}
-                                          onClick={() => handleSetDefaultAddress(address._id)}
-                                    >
-                                          <span>{address.address_default ? 'Địa chỉ mặc định' : 'Đặt làm mặc định'}</span>
-                                          {address.address_default && <Anchor size={15} />}
-                                    </button>
-                                    <Trash2
-                                          className=''
-                                          onClick={() => {
-                                                handleDeleteAddress(address._id)
-                                          }}
-                                    />
-                              </div>
                         </div>
                   </div>
 
                   <div className='mt-[16px] w-[calc(100%+36px)] ml-[-18px] bg-slate-200 h-[1px]'></div>
+                  <div className='absolute top-0 xl:top-[20px] right-0 xl:right-[20px] flex items-center gap-[12px]'>
+                        <button
+                              className={`${styleEffect.btnAddressDefault} w-[145px] xl:w-[180px] h-[32px] xl:px-[12px] xl:py-[6px]  flex items-center justify-center gap-[6px]`}
+                              onClick={() => handleSetDefaultAddress(address._id)}
+                        >
+                              <span>{address.address_default ? 'Địa chỉ mặc định' : 'Đặt làm mặc định'}</span>
+                              {address.address_default && <Anchor size={15} />}
+                        </button>
+                        <Trash2
+                              className=''
+                              onClick={() => {
+                                    handleDeleteAddress(address._id)
+                              }}
+                        />
+                  </div>
             </div>
       )
 }

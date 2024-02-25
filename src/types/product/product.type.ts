@@ -32,10 +32,12 @@ export type TProductDetail = {
             secure_url: string
             public_id: string
       }
-
+      product_available: string
+      product_votes: number
       product_desc_image: TCloudinaryImage[]
       product_state: boolean
       product_is_select: boolean
+      product_is_bought: number
       product_type: string
       attribute: IProductBook
       shop_id: ShopResponse
@@ -89,4 +91,5 @@ export type TProductFormCommon = {
       product_id: string
       product_name: string
       product_price: number | null
+      product_available: number
 }

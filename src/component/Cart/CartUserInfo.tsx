@@ -14,7 +14,7 @@ const CartUserInfo = (props: TProps) => {
       const handleAddressUnique = () => {
             let newSet: string[] = []
             if (products) {
-                  products.map((product) => newSet.push(product.cart_address.address))
+                  products.map((product) => newSet.push(product.cart_address.address_text))
             }
 
             const addressUnique = new Set(newSet)

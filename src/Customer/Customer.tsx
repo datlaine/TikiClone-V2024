@@ -69,9 +69,9 @@ const Customer = () => {
                               </Link>
                         </div>
 
-                        <div className='w-full flex gap-[1%] min-h-[450px]  h-[auto] '>
+                        <div className=' w-full flex gap-[1%] min-h-[450px]  h-[auto] '>
                               {/* @navigate pathname */}
-                              <div className='hidden  xl:block lg:w-[20%]'>
+                              <div className='sticky top-0 hidden h-screen  xl:block lg:w-[20%]'>
                                     <div
                                           className='h-[75px] flex items-center gap-[8px] overflow-x-hidden'
                                           title={`Account ${user?.email}` || ''}

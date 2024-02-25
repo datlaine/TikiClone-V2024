@@ -57,7 +57,10 @@ export interface IFormDataProductFull extends FormData {
                   | 'page_number'
                   | 'author'
                   | 'description'
-                  | 'product_image_description',
+                  | 'product_image_description'
+                  | 'product_is_bought'
+                  | 'product_available'
+                  | 'book_type',
             value: string | Blob | number,
             fileName?: string,
       ): void

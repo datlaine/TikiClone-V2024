@@ -8,6 +8,7 @@ export type TTimeLineBookLabel = {
       'Tác giả': string
       'Số trang': string
       'Mô tả chi tiết': string
+      'Thể loại của sách': string
 }
 
 export const timelineFieldNameBook: Array<keyof TTimeLineBookField> = [
@@ -15,8 +16,15 @@ export const timelineFieldNameBook: Array<keyof TTimeLineBookField> = [
       'attribute.author',
       'attribute.page_number',
       'attribute.description',
+      'attribute.book_type',
 ]
-export const timelineLabelNameBook: Array<keyof TTimeLineBookLabel> = ['Nhà xuất bản', 'Tác giả', 'Số trang', 'Mô tả chi tiết']
+export const timelineLabelNameBook: Array<keyof TTimeLineBookLabel> = [
+      'Nhà xuất bản',
+      'Tác giả',
+      'Số trang',
+      'Mô tả chi tiết',
+      'Thể loại của sách',
+]
 
 export const renderTimeLine = <FieldName extends TTimeLineFieldName, Label extends TTimeLineLabelName>({
       defaultFieldName,

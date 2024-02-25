@@ -62,9 +62,6 @@ const RouterController = () => {
                                     <Route path='/cart' element={<Cart />} />
                                     <Route path='/payment' element={<Payment />} />
 
-                                    {/* <Route path='/login' element={<Login />} /> */}
-                                    {/* <Route path='/resister' element={<Resister />} /> */}
-                                    {/* <Route path='/Contact' element={<Contact />} /> */}
                                     <Routes>
                                           <Route path='/customer' element={<Customer />}>
                                                 <Route path='account' element={<CustomerAccount />} />

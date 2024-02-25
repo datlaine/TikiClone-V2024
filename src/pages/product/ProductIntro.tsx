@@ -7,7 +7,7 @@ import BoxConfirmAddress from '../../component/BoxUi/confirm/BoxConfirmAddress'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
-import { getAddressDefault, renderStringAddressDetail, renderStringAddressDetailV2 } from '../../utils/address.util'
+import { getAddressDefault, renderStringAddressDetailV2 } from '../../utils/address.util'
 import { CartCurrent } from '../../Redux/cartSlice'
 
 type TProps = { product: TProductDetail }
@@ -40,7 +40,7 @@ const ProductIntro = (props: TProps) => {
       return (
             <div className='flex flex-col gap-[16px] text-[13px]'>
                   <section className='bg-white w-full min-h-[160px] h-auto p-[12px] rounded-lg'>
-                        <div className='flex flex-col gap-[8px]'>
+                        <div className='flex flex-col gap-[16px]'>
                               <header>
                                     <div className='flex gap-[12px] flex-col xl:flex-row'>
                                           <ProductLabel content='Chính hãng' />
@@ -53,8 +53,17 @@ const ProductIntro = (props: TProps) => {
                               <p className='text-[18px] text-black font-semibold'>{product?.product_name}</p>
                               <div className=' h-[16px] flex gap-[4px]'>
                                     {/* {diffrenceBetweenStar(votes)?.map((opacity) => <Star opacity={opacity} />)} */}
-                                    <Rate disabled defaultValue={votes} />
+                                    <Rate disabled allowHalf defaultValue={product.product_votes || 0} />
                               </div>
+                              <p className='h-[16px] flex items-center gap-[8px]'>
+                                    <span>Số sản phẩm có sẵn</span>
+                                    <span>{product.product_available || 'NOT DATA'}</span>
+                              </p>
+
+                              <p className='h-[16px] flex items-center gap-[8px]'>
+                                    <span>Số sản phẩm đã bán</span>
+                                    <span>{product.product_is_bought || 'NOT DATA'}</span>
+                              </p>
                               <p className='text-[24px] text-black font-bold'>
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
                                           product?.product_price as number,

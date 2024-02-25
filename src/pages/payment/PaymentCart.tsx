@@ -1,25 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CartResponse } from '../../types/cart.type'
+import { CartProduct, CartResponse } from '../../types/cart.type'
 import BoxMoney from '../../component/BoxUi/BoxMoney'
 import { ChevronUp } from 'lucide-react'
+import { Address } from '../../types/address.type'
+import { useMutation } from '@tanstack/react-query'
+import OrderService from '../../apis/Order.service'
 
 type TProps = {
       carts: CartResponse
       price: number
+      product_payment: CartProduct[]
 }
 
-const PaymentCart = (props: TProps) => {
-      const { carts, price } = props
+export type ParamOrderAdd = Omit<CartProduct, '_id'>[]
 
+const PaymentCart = (props: TProps) => {
+      const { carts, price, product_payment } = props
+      console.log({ payment: product_payment })
       const productWrapperRef = useRef<HTMLDivElement>(null)
       const heightElement = useRef<number>(30)
       const [height, setHeight] = useState<number>(0)
 
       const [openSeeProduct, setOpenSeeProduct] = useState<boolean>(false)
 
+      const orderPaymentMutation = useMutation({
+            mutationKey: ['/v1/api/order/order-payment-product'],
+            mutationFn: (products: ParamOrderAdd) => OrderService.orderAddProduct(products),
+      })
+
       const controllOpenSeeProduct = () => {
             setOpenSeeProduct((prev) => !prev)
+      }
+
+      console.log({ product_payment })
+      const handleVerifyBuy = () => {
+            // let newArray: ParamOrderAdd= []
+            // for (let index = 0; index < product_payment.length; index++) {
+            //       newArray.push(product_payment[index])
+            // }
+            orderPaymentMutation.mutate(product_payment)
+            // console.log({ newArray })
       }
 
       useEffect(() => {
@@ -31,9 +52,6 @@ const PaymentCart = (props: TProps) => {
                   }
             }
       }, [openSeeProduct, carts?.cart_products.length, height])
-
-      // if (productWrapperRef.current) {
-      // }
 
       return (
             <React.Fragment>
@@ -110,14 +128,14 @@ const PaymentCart = (props: TProps) => {
                                     </div>
                                     <span className='block w-full text-right'>(Đã bao gồm VAT nếu có)</span>
                               </div>
-                              <Link
-                                    to={'/payment'}
+                              <button
+                                    onClick={handleVerifyBuy}
                                     className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md text-[16px] mt-[16px]'
                               >
                                     Mua hàng {'('}
                                     {carts?.cart_products.length}
                                     {')'}
-                              </Link>
+                              </button>
                         </div>
                   </div>
             </React.Fragment>

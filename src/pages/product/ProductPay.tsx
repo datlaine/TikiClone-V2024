@@ -11,16 +11,14 @@ import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
 import { CartCurrent } from '../../Redux/cartSlice'
 import { doOpenBoxLogin } from '../../Redux/authenticationSlice'
+import { Address } from '../../types/address.type'
 
 type TProps = {
       product: TProductDetail
 }
 
 export type ProductCart = {
-      cart_address: {
-            address: Pick<CartCurrent, 'cart_current_address'>
-            type: Pick<CartCurrent, 'cart_current_address_type'>
-      }
+      cart_address: Address
       shop_id: string
       product_id: string
       product_name: string
@@ -78,17 +76,24 @@ const ProductPay = (props: TProps) => {
                   product_price: product.product_price,
                   quantity: productQuantity,
                   cart_address: {
-                        address: cartCurrent.cart_current_address as unknown as Pick<CartCurrent, 'cart_current_address'>,
-                        type: cartCurrent.cart_current_address_type as unknown as Pick<CartCurrent, 'cart_current_address_type'>,
+                        address_text: cartCurrent.cart_current_address,
+                        address_street: cartCurrent.cart_current_address,
+                        address_ward: {
+                              code: cartCurrent.cart_current_address_ward.code,
+                              text: cartCurrent.cart_current_address_ward.text,
+                        },
+                        address_district: {
+                              code: cartCurrent.cart_current_address_district.code,
+                              text: cartCurrent.cart_current_address_district.text,
+                        },
+                        address_province: {
+                              code: cartCurrent.cart_current_address_province.code,
+                              text: cartCurrent.cart_current_address_province.text,
+                        },
+                        type: cartCurrent.cart_current_address_type,
                   },
             }
-            // formData.append('cart_product_price_origin', product.product_price.toString())
-            // formData.append('quantity', (productQuantity || 1).toString())
-            // console.log({ cart: JSON.stringify(formData) })
             cartMutation.mutate({ cart: payload })
-            // for (var key of formData.entries()) {
-            // console.log(key[0] + ', ' + key[1])
-            // }
       }
 
       console.log({ productQuantity })

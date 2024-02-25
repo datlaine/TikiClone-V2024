@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 //@icon
 import { Check } from 'lucide-react'
@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 //@form
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FieldValue, FieldValues, FormProvider, useForm } from 'react-hook-form'
+import { FieldValues, FormProvider, useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 //@components
@@ -20,12 +20,8 @@ import Timeline from '../components/Timeline'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
 import { productBookSchema, productSchema } from '../types/product.schema'
-import Book from '../Category/Book/Book'
-import { TCheckDescriptionImage, TChekUploadImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
+import { TCheckDescriptionImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
 import { TRegisterFormBook } from '../../../types/product/product.book.type'
-import { returnPublicIdCloudinary, returnSecureUrlCloudinary } from '../../../utils/cloudinary.util'
-import { TCloudinaryImage, TCloudinaryPublicId } from '../types/cloudinary.typs'
-import ButtonUploadMultiple from './components/ButtonUploadMultiple'
 import UpdateMultipleImage from '../UpdateProductForm/components/UpdateMultipleImage'
 import { Link } from 'react-router-dom'
 import { sleep } from '../../../utils/sleep'
@@ -60,11 +56,13 @@ const defaultValues: TRegisterFormBook = {
       product_id: '',
       product_name: '',
       product_price: null,
+      product_available: 0,
       attribute: {
             publishing: '',
             page_number: 0,
             author: '',
             description: '',
+            book_type: 'Novel',
       },
 }
 
@@ -92,13 +90,11 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
 
       //@lấy thông tin tên các hình
       const [getFileName, setGetFileName] = useState<string[]>([])
-      console.log({ getFileName })
       //@useForm
       const methods = useForm<typeof defaultValues>({
             defaultValues: defaultValues,
             resolver: zodResolver(schema),
       })
-      console.log({ formError: methods.formState.errors })
 
       //@hàm upload sản phẩn
       const uploadProductFull = useMutation({
@@ -110,8 +106,9 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
       //@hàm submit sản phẩm
       const onSubmit = (data: TRegisterFormBook) => {
             setFormStateSubmit(true)
-            console.log({ data })
 
+            // console.log({ demo: data })
+            // return
             if (!urlProductMultipleImage.isUploadImage) {
                   dispatch(
                         addToast({
@@ -141,7 +138,8 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
 
                   formData.append('product_name', data.product_name)
                   formData.append('product_price', data.product_price as number)
-
+                  formData.append('book_type', data.attribute.book_type)
+                  formData.append('product_available', data.product_available)
                   formData.append('publishing', data.attribute.publishing)
                   formData.append('author', data.attribute.author)
                   formData.append('page_number', data.attribute.page_number)
@@ -222,6 +220,13 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
                                                       product_id={product_id}
                                                       isSubmit={methods.formState.isSubmitted ? true : false}
                                                 />
+                                                <InputNumber
+                                                      FieldName='product_available'
+                                                      LabelMessage='Số lượng sản phẩm'
+                                                      placehorder='Nhập số lượng sản phẩm'
+                                                      width={'xl:w-[100%]'}
+                                                      require={true}
+                                                />
                                                 <>{ProductAttribute}</>
                                                 <button
                                                       type='submit'
@@ -277,6 +282,15 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
                                                 isUploadImages: urlProductMultipleImage.isUploadImage,
                                           }}
                                           isSubmit={methods.formState.isSubmitted ? true : false}
+                                    />
+
+                                    <Timeline
+                                          attribute={false}
+                                          methods={methods}
+                                          value={methods.watch('product_available').toString()}
+                                          FieldName='product_available'
+                                          TimeLineName='Số lượng sản phẩm'
+                                          type='Text'
                                     />
                                     {TimelineProps.map((timeline) => (
                                           <Timeline<T, typeof defaultValues>

@@ -20,8 +20,6 @@ const UpdateWrapper = () => {
             }
       }, [protectProduct.isSuccess])
 
-      const Book = <BookUpdate product={protectProduct.data?.data.metadata.product as TProductDetail} />
-
       return (
             <div className='w-full'>
                   {protectProduct.isSuccess && (

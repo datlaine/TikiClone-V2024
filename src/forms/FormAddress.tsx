@@ -37,7 +37,7 @@ const address_type = [
             value: 'Home',
       },
       { label: 'Công ty / cơ quan', value: 'Company' },
-      { labe: 'Nơi ở riêng', value: 'Private' },
+      { label: 'Nơi ở riêng', value: 'Private' },
 ]
 
 type TProps = {

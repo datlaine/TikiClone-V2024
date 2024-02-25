@@ -14,23 +14,21 @@ export const productSchema = z.object({
             .min(1, { message: 'Giá là bắt buộc' })
             .positive({ message: 'Giá phải lớn hơn 0' })
             .lte(10000000000, { message: 'Sản phẩm có giá tối đa là 10 tỷ VNĐ' }),
+      product_available: z
+            .number()
+            .min(1, { message: 'Số lượng sản phẩm là bắt buộc' })
+            .positive({ message: 'Giá phải lớn hơn 0' })
+            .lte(10000000000, { message: 'Sản phẩm có giá tối đa là 10 tỷ VNĐ' }),
 })
 
-// //@schema product -> book
-// export const productBookSchema = z.object({
-//       publishing: z.string().min(1, 'Tên nhà xuất bản là bắt buộc'),
-//       page_number: z.number().min(1, 'Số trang là bắt buộc').max(3004, 'Sách nhiều nhất 3004'),
-//       author: z.string().min(1, 'Tên tác giả là bắt buộc'),
-//       // book_type: z.enum(['Comic', 'Novel', 'Memoir']),
-//       description: z.string().min(1, 'Vui lòng nhập thêm thông tin mô tả về sản phẩm').max(1000, 'Tối đa 1000 từ'),
-// })
+export type BookType = 'Novel' | 'Manga' | 'Detective'
 
 export const productBookSchema = z.object({
       attribute: z.object({
             publishing: z.string().min(1, 'Tên nhà xuất bản là bắt buộc'),
             page_number: z.number().min(1, 'Số trang là bắt buộc').max(3004, 'Sách nhiều nhất 3004'),
             author: z.string().min(1, 'Tên tác giả là bắt buộc'),
-            // book_type: z.enum(['Comic', 'Novel', 'Memoir']),
+            book_type: z.enum(['Novel', 'Manga', 'Detective']),
             description: z.string().min(1, 'Vui lòng nhập thêm thông tin mô tả về sản phẩm').max(1000, 'Tối đa 1000 từ'),
       }),
 })

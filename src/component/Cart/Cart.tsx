@@ -86,7 +86,7 @@ const Cart = () => {
                                           <React.Fragment>
                                                 <div className='sticky top-[70px] xl:top-[-2px] bg-[#f5f4f6]  w-full  xl:w-[75.75%] py-[16px] h-[70px] items-center z-[10]'>
                                                       <div className='bg-[#ffffff] rounded h-[36px] px-[12px] flex items-center'>
-                                                            <div className='flex gap-[8px] flex-1 items-center'>
+                                                            <div className='flex gap-[8px] w-[50%] items-center'>
                                                                   <Checkbox
                                                                         disabled={changeSelectAll.isPending}
                                                                         onChange={onChangeSelectAll}
@@ -100,7 +100,7 @@ const Cart = () => {
                                                                         sản phẩm {')'}
                                                                   </span>
                                                             </div>
-                                                            <div className='hidden xl:block xl:basis-[120px]'>
+                                                            <div className='hidden xl:block xl:basis-[180px]'>
                                                                   <span>Đơn giá</span>
                                                             </div>
                                                             <div className='hidden xl:block xl:basis-[120px]'>

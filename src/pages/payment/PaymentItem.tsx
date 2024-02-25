@@ -63,7 +63,7 @@ const PaymentItem = (props: TProps) => {
                                     <span>{AddressTypeText}</span>
                               </p>
                               <span>-</span>
-                              <span>Địa chỉ {product.cart_address.address}</span>
+                              <span>Địa chỉ {product.cart_address.address_text}</span>
                         </div>
                   </div>
             </div>

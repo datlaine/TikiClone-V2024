@@ -19,14 +19,14 @@ const HeaderCart = () => {
                   <span className='flex relative'>
                         <img
                               src='https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png'
-                              className='w-[30px] h-[30px] '
+                              className='w-[28px] h-[28px] '
                               alt=''
                         />
 
                         {cartQuery.isSuccess && (
                               <div className='absolute top-[-12px] right-[-5px] w-[18px] h-[18px] rounded-full bg-red-400 flex items-center justify-center'>
                                     <span className=' text-[#ffffff] font-bold text-[12px] xl:text-[14px]'>
-                                          {cartQuery.data.data.metadata.count}
+                                          {cartQuery.data.data.metadata.count || 0}
                                     </span>
                               </div>
                         )}

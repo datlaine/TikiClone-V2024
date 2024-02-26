@@ -42,20 +42,20 @@ function Header() {
       return (
             <>
                   <div className={`fixed lg:static top-0 left-0 w-full z-[100] bg-white shadow-xl`}>
-                        <div className='h-[75px] lg:h-[100px] py-2 px-8 bg-white flex items-center gap-3 lg:gap-0'>
-                              <div className='basis-[7%] flex items-center'>
+                        <div className='h-[75px] lg:h-[100px] py-2 px-[60px] bg-white flex items-center gap-3 lg:gap-0'>
+                              <div className='basis-[14%] flex items-center'>
                                     <HeaderLogoToggle />
                               </div>
-                              <div className=' grow flex h-full'>
-                                    <div className='grow flex flex-col'>
+                              <div className=' grow flex h-full gap-[24px]'>
+                                    <div className='grow flex flex-col basis-[65%]'>
                                           <HeaderSeacrhInput />
                                           <HeaderTagsLocation />
                                     </div>
-                                    <div className='hidden lg:flex lg:flex-col lg:justify-between lg:basis-[36%] ml-[50px] h-full'>
+                                    <div className='basis-[30%] hidden lg:flex lg:flex-col lg:justify-between lg:basis-[32%] ml-[50px] h-full'>
                                           <HeaderActions />
                                           <div
                                                 id=''
-                                                className=' flex items-center  text-[14px] text-[#000] w-[500px] truncate  '
+                                                className=' flex items-center  text-[14px] text-[#000] max-w-[380px] truncate  '
                                                 title={`${address_default ? renderStringAddressDetailV2(address_default[0]) : ' ...'}`}
                                           >
                                                 <img
@@ -65,13 +65,13 @@ function Header() {
                                                       height={25}
                                                       className='mr-[4px]'
                                                 />
-                                                <div className='text-[12px] text-slate-500'>
+                                                <div className='text-[11px] text-slate-500'>
                                                       {getAddressDefault(user?.user_address) ? (
                                                             `Giao đến ${
                                                                   address_default ? renderStringAddressDetailV2(address_default[0]) : ''
                                                             }`
                                                       ) : (
-                                                            <p className='flex gap-[4px]'>
+                                                            <p className='flex gap-[4px] text-[11px]'>
                                                                   <span>[BẠN CHƯA THIẾT LẬP ĐỊA CHỈ GIAO HÀNG MẶC ĐỊNH]</span>
                                                                   <Link className='underline' to={'/customer/account/address'}>
                                                                         Thiết lập
@@ -80,9 +80,6 @@ function Header() {
                                                       )}
                                                 </div>
                                           </div>
-                                    </div>
-                                    <div className='basis-[14%] xl:basis-[10%] xl:self-start '>
-                                          <HeaderCart />
                                     </div>
                               </div>
                         </div>

@@ -83,7 +83,7 @@ const AddressItem = (props: TProps) => {
                   style={{ height: detailAddress ? 'max-content !important' : 200 }}
                   className={`${
                         detailAddress ? 'h-max' : 'h-[375px] xl:h-[240px]'
-                  } relative transition-all  duration-300 flex flex-col gap-[20px]`}
+                  } relative transition-all  duration-300 flex flex-col gap-[20px] bg-[#ffffff] p-[16px]`}
                   key={address._id}
             >
                   <div className='flex flex-col xl:flex-row xl:gap-[20px]'>
@@ -197,7 +197,6 @@ const AddressItem = (props: TProps) => {
                         </div>
                   </div>
 
-                  <div className='mt-[16px] w-[calc(100%+36px)] ml-[-18px] bg-slate-200 h-[1px]'></div>
                   <div className='absolute top-0 xl:top-[20px] right-0 xl:right-[20px] flex items-center gap-[12px]'>
                         <button
                               className={`${styleEffect.btnAddressDefault} w-[145px] xl:w-[180px] h-[32px] xl:px-[12px] xl:py-[6px]  flex items-center justify-center gap-[6px]`}

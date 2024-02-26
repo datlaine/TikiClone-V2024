@@ -49,7 +49,7 @@ const RegisterSell = () => {
             return <h1>Chức năng chỉ dành cho email đã được xác thực</h1>
       }
       return (
-            <div className='min-w-full min-h-[100px] h-auto flex '>
+            <div className='min-w-full min-h-[100px] h-auto flex bg-[#ffffff] p-[20px] '>
                   <div className=' w-full h-full'>
                         <Select
                               className='w-[150px]'

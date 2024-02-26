@@ -134,7 +134,7 @@ const CartItem = (props: TProps) => {
                               </div>
                         </div>
 
-                        <div className='w-[180px] flex items-center my-[4px] xl:my-0'>
+                        <div className='w-[180px] flex items-center my-[10px] xl:my-[4px] '>
                               <BoxMoney name='VND' money={product.product_id.product_price} colorBackground='bg-blue-600' />
                         </div>
                         <div className='w-[120px] flex items-center h-max xl:h-full  my-[8px] xl:my-0'>

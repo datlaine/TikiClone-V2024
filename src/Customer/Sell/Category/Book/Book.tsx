@@ -50,7 +50,7 @@ const Book = (props: TProps) => {
                         name={'attribute.book_type'}
                         control={form.control}
                         render={({ field }) => {
-                              return <Select options={optionSelect} onChange={field.onChange} />
+                              return <Select placeholder={'Chọn thể loại sách'} options={optionSelect} onChange={field.onChange} />
                         }}
                   />
                   <Controller

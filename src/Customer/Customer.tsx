@@ -176,7 +176,9 @@ const Customer = () => {
 
                               {/*@ Outlet */}
                               <div className='w-full 2xl:w-[80%]'>
-                                    <div className='hidden xl:flex h-[36px]  items-center'>{textLink?.text}</div>
+                                    <div className='hidden xl:flex h-[36px] m-[20px_0px_6px_0px] text-[20px]  items-center'>
+                                          {textLink?.text}
+                                    </div>
                                     {auth ? (
                                           <CustomerWrapperItem>
                                                 <Outlet />

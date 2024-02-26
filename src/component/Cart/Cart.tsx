@@ -12,6 +12,10 @@ import CartPayMini from './CartPayMini'
 import CartUserInfo from './CartUserInfo'
 import CartEmpty from './CartEmpty'
 import { UserResponse } from '../../types/user.type'
+import SectionProduct from '../Content/Components/SectionProduct'
+import TitleProductSection from '../Content/Components/TitleProductSection'
+import CountDown from '../Content/Components/CountDown'
+import SectionProductItem from '../Content/Components/SectionProductItem'
 
 const Cart = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
@@ -145,7 +149,16 @@ const Cart = () => {
 
                               {getMyCart.isSuccess &&
                                     (!getMyCart.data.data.metadata.cart ||
-                                          getMyCart.data.data.metadata.cart.cart_products.length === 0) && <CartEmpty />}
+                                          getMyCart.data.data.metadata.cart.cart_products.length === 0) && (
+                                          <div className='w-[90%]'>
+                                                <CartEmpty />
+                                                <SectionProduct
+                                                      title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
+                                                      other={<CountDown />}
+                                                      ListProducts={<SectionProductItem />}
+                                                />
+                                          </div>
+                                    )}
 
                               {getMyCart.isPending && <span>Loading</span>}
                         </div>

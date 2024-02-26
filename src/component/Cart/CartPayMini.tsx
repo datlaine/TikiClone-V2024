@@ -1,16 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import CartService from '../../apis/cart.service'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import BoxMoney from '../BoxUi/BoxMoney'
+import { useDispatch } from 'react-redux'
+import { addToast } from '../../Redux/toast'
 
 const CartPayMini = () => {
       const [price, setPrice] = useState<number>(0)
+      const dispatch = useDispatch()
+      const navigate = useNavigate()
 
       const payQuery = useQuery({
             queryKey: ['v1/api/cart/cart-pay'],
             queryFn: () => CartService.calculatorPrice(),
       })
+
+      const handleNavigate = () => {
+            if (payQuery.isPending) return
+            if (payQuery.isSuccess) {
+                  if (payQuery.data.data.metadata.carts.cart_products.length === 0) {
+                        dispatch(
+                              addToast({ type: 'WARNNING', message: 'Vui lòng chọn sản phẩm để thanh toát', id: Math.random.toString() }),
+                        )
+                        return
+                  }
+                  navigate('/payment')
+                  return
+            }
+      }
 
       useEffect(() => {
             // console.log({ data: payQuery.data?.data.metadata.carts.cart_products })
@@ -20,9 +38,10 @@ const CartPayMini = () => {
                   if (payQuery?.data.data.metadata.carts) {
                         setPrice(() => {
                               let result: number = 0
-                              payQuery?.data?.data?.metadata?.carts?.cart_products.forEach((cartItem) => {
-                                    result += cartItem.product_id.product_price * cartItem.quantity
-                              })
+                              payQuery?.data?.data?.metadata?.carts.cart_products &&
+                                    payQuery?.data?.data?.metadata?.carts.cart_products.forEach((cartItem) => {
+                                          result += cartItem.product_id.product_price * cartItem.quantity
+                                    })
                               return result
                         })
                   } else {
@@ -63,14 +82,14 @@ const CartPayMini = () => {
                               <span className='block w-full text-right'>(Đã bao gồm VAT nếu có)</span>
                         </div>
                   </div>
-                  <Link
-                        to={'/payment'}
+                  <button
+                        onClick={handleNavigate}
                         className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md text-[16px]'
                   >
                         Mua hàng {'('}
                         {payQuery.data?.data?.metadata?.carts?.cart_products?.length}
                         {')'}
-                  </Link>
+                  </button>
             </React.Fragment>
       )
 }

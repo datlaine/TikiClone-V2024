@@ -215,7 +215,7 @@ const FormAddress = (props: TProps) => {
       return (
             <FormProvider {...addressForm}>
                   <form
-                        className='animate-mountComponent w-full xl:w-[600px] p-[16px_10px]  xl:px-[36px] xl:py-[20px] flex flex-col gap-[30px]'
+                        className='animate-mountComponent w-full  p-[16px_10px]  xl:px-[36px] xl:py-[30px] flex flex-col gap-[30px] bg-[#ffffff]'
                         onSubmit={addressForm.handleSubmit(onSubmit)}
                   >
                         <div className='] flex flex-col  xl:flex-row gap-[16px]'>
@@ -320,7 +320,9 @@ const FormAddress = (props: TProps) => {
                                     }}
                               />
                         </div>
-                        <BoxButton content='Cập nhập địa chỉ' type='submit' />
+                        <div className='w-full h-[50px]'>
+                              <BoxButton content='Cập nhập địa chỉ' type='submit' />
+                        </div>
                   </form>
             </FormProvider>
       )

@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToast } from '../../Redux/toast'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
-import { CartCurrent } from '../../Redux/cartSlice'
+import { CartCurrent, resetAddressProduct } from '../../Redux/cartSlice'
 import { doOpenBoxLogin } from '../../Redux/authenticationSlice'
 import { Address } from '../../types/address.type'
+import { d } from '@tanstack/react-query-devtools/build/legacy/devtools-dKCOqp9Q'
 
 type TProps = {
       product: TProductDetail
@@ -31,6 +32,8 @@ const ProductPay = (props: TProps) => {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const cartCurrent = useSelector((state: RootState) => state.cartSlice.cart_current) as CartCurrent
       const [productQuantity, setProductQuantity] = useState<number>(1)
+      const [disabledBtn, setDisableBtn] = useState<boolean>(false)
+
       const dispatch = useDispatch()
       const queryClient = useQueryClient()
 
@@ -51,6 +54,7 @@ const ProductPay = (props: TProps) => {
       }
 
       const handleClickBuy = () => {
+            console.log('OK')
             if (!user) {
                   dispatch(doOpenBoxLogin())
                   return
@@ -58,6 +62,12 @@ const ProductPay = (props: TProps) => {
 
             if (user._id === product.shop_id.owner) {
                   dispatch(addToast({ type: 'WARNNING', message: 'Không thể thêm sản phẩm của chính mình', id: Math.random().toString() }))
+                  return
+            }
+
+            if (!Boolean(cartCurrent.cart_current_address)) {
+                  dispatch(addToast({ id: Math.random().toString(), type: 'WARNNING', message: 'Vui lòng chọn địa chỉ trước khi thêm' }))
+                  setDisableBtn(true)
                   return
             }
 
@@ -95,6 +105,11 @@ const ProductPay = (props: TProps) => {
             }
             cartMutation.mutate({ cart: payload })
       }
+
+      useEffect(() => {
+            console.log('ol')
+            setDisableBtn(false)
+      }, [cartCurrent.cart_current_address])
 
       console.log({ productQuantity })
 
@@ -183,6 +198,7 @@ const ProductPay = (props: TProps) => {
                               Mua ngay
                         </button>
                         <button
+                              disabled={disabledBtn}
                               className='w-full h-[45px] flex items-center justify-center bg-white text-blue-600 border-[1px] border-blue-600 rounded-md font-semibold text-[16px]'
                               onClick={handleClickBuy}
                         >

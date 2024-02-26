@@ -156,7 +156,7 @@ const CustomerAccount = () => {
       console.log({ watch: methods.watch('fullName') })
 
       return (
-            <div className='flex flex-col xl:flex-row min-h-full xl:min-h-[650px] w-full h-max gap-[20px] xl:gap-[2%] p-[4px]'>
+            <div className='bg-[#ffffff] p-[16px] shadow-xl flex flex-col xl:flex-row min-h-full xl:min-h-[650px] w-full h-max gap-[20px] xl:gap-[2%] ]'>
                   {/* {toast && <BoxToast message={'Phien dang nhap het han, vui long xac thuc lai sau 3s'} children={<p>OK</p>} />} */}
 
                   <FormProvider {...methods}>

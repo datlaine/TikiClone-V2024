@@ -92,14 +92,14 @@ class AxiosCustom {
                               )
                         }
 
-                        if (
-                              error.response?.status === 403 &&
-                              error.response?.statusText === 'Forbidden' &&
-                              error.response?.data.detail === 'Token không đúng' &&
-                              error.response.config.url === '/v1/api/auth/rf'
-                        ) {
-                              return Promise.reject(error)
-                        }
+                        // if (
+                        //       error.response?.status === 403 &&
+                        //       error.response?.statusText === 'Forbidden' &&
+                        //       error.response?.data.detail === 'Token không đúng' &&
+                        //       error.response.config.url === '/v1/api/auth/rf'
+                        // ) {
+                        //       return Promise.reject(error)
+                        // }
                         return Promise.reject(error)
                   },
             )

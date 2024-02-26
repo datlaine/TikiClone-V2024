@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import { TProductDetail } from '../../../../types/product/product.type'
-import FormUpdateBook from '../../UpdateProductForm/ProductUpdate'
-import FormRegisterBook from '../../RegisterProductForm/FormRegisterBook'
 import {
       TTimeLineBookField,
       TTimeLineBookLabel,

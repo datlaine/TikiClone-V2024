@@ -21,7 +21,7 @@ const HeaderLogoToggle = (props: Props) => {
       return (
             <div className='w-full h-full'>
                   <Link className='hidden lg:flex flex-col w-full gap-[6px] h-full content-between ' to='/'>
-                        <img src={logo} className='w-[60%] h-[36px] ' alt='' />
+                        <img src={logo} className='w-[40%] h-[36px] ' alt='' />
                         <p className='text-[14px] h-[40%] w-full text-blue-700 font-extrabold'>Bảo vệ khách hàng 111%</p>
                   </Link>
                   <div className='block lg:hidden' onClick={changeStateSideBar}>

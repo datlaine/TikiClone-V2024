@@ -14,6 +14,9 @@ module.exports = {
 				// Complex site-specific row configuration
 				layout: "200px minmax(900px, 1fr) 100px",
 			},
+			borderRadius: {
+				orderQuantity: "136px 20px 20px 20px;",
+			},
 			animation: {
 				showSideBarAni: "showSideBar .8s linear ",
 				hideSideBarAni: "hideSideBar 1s linear ",

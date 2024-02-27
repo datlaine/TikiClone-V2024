@@ -9,6 +9,7 @@ const OrderCart = () => {
       const getMyCart = useQuery({
             queryKey: ['v1/api/cart/cart-get-my-cart'],
             queryFn: () => CartService.getMyCart(),
+            staleTime: 60 * 1000 * 10,
       })
       return (
             <div className='min-w-full bg-yellow-700'>

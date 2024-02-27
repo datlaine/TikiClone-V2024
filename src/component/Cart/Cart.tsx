@@ -53,20 +53,19 @@ const Cart = () => {
       console.log({ getMyCart: getMyCart.data?.data.metadata.cart })
 
       useEffect(() => {
-            console.log({ user })
-            if (getMyCart.isSuccess && getMyCart.data.data.metadata.cart) {
-                  setSelectAll(getMyCart.data.data.metadata.cart.cart_select_all)
-            }
-            // if (user && user?.isCartSelectAll) {
-            //       setCartSelectPay(() => {
-            //             let array
-            //             array = getMyCart.data?.data.metadata.cart.map((cartItem) => {
-            //                   return { _id: cartItem., cart_product_price: cartItem.cart_product_price }
-            //             })
-            //             return array as unknown as Pick<TCart, '_id' | 'cart_product_price'>[]
-            //       })
-            // }
-      }, [getMyCart.isSuccess, user])
+            queryClient.invalidateQueries({
+                  queryKey: ['cart-get-count-product'],
+            })
+      }, [])
+
+      useEffect(() => {
+            window.scrollTo({
+                  top: 0,
+                  left: 0,
+            })
+      }, [])
+
+      useEffect(() => {}, [getMyCart.isPending])
 
       if (!user) {
             return (

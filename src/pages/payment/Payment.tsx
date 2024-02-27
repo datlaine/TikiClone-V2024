@@ -8,6 +8,7 @@ import PaymentCart from './PaymentCart'
 import PaymentItem from './PaymentItem'
 import { Link } from 'react-router-dom'
 import { CartProduct, CartResponse } from '../../types/cart.type'
+import CartEmpty from '../../component/Cart/CartEmpty'
 
 const Payment = () => {
       const [price, setPrice] = useState<number>(0)
@@ -26,8 +27,8 @@ const Payment = () => {
       }, [])
 
       useEffect(() => {
-            if (payQuery.isSuccess) {
-                  console.log('Ok')
+            if (payQuery.isSuccess && payQuery.data.data.metadata.carts) {
+                  console.log({ cart_id: payQuery.data.data.metadata.carts._id })
                   setPrice(() => {
                         let result: number = 0
                         payQuery.data.data.metadata.carts.cart_products.forEach((cartItem) => {
@@ -59,25 +60,33 @@ const Payment = () => {
                                     </div>
                               </div>
                         </header>
-                        <section className='mt-[30px] w-full xl:w-[1250px] mx-auto min-h-screen h-max  flex flex-col xl:flex-row gap-[16px]'>
-                              <div className='w-full xl:w-[70%] bg-[#ffffff] p-[20px] h-max'>
-                                    <h4>Chọn hình thức giao hàng</h4>
-                                    <div className='mt-[40px] flex flex-col gap-[70px]'>
-                                          {payQuery.isSuccess &&
-                                                payQuery.data.data.metadata.carts.cart_products.map((product, index) => (
-                                                      <PaymentItem key={product._id} product={product} index={index + 1} />
-                                                ))}
+                        {payQuery.isSuccess && payQuery.data.data.metadata.carts && (
+                              <section className='mt-[30px] w-full xl:w-[1250px] mx-auto min-h-screen h-max  flex flex-col xl:flex-row gap-[16px]'>
+                                    <div className='w-full xl:w-[70%] bg-[#ffffff] p-[20px] h-max'>
+                                          <h4>Chọn hình thức giao hàng</h4>
+                                          <div className='mt-[40px] flex flex-col gap-[70px]'>
+                                                {payQuery.isSuccess &&
+                                                      payQuery.data.data.metadata.carts.cart_products.map((product, index) => (
+                                                            <PaymentItem key={product._id} product={product} index={index + 1} />
+                                                      ))}
+                                          </div>
                                     </div>
+                                    <div className='w-full xl:w-[30%] h-max flex flex-col gap-[16px]'>
+                                          <CartUserInfo products={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]} />
+                                          <PaymentCart
+                                                carts={payQuery.data?.data.metadata.carts as CartResponse}
+                                                price={price}
+                                                product_payment={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]}
+                                          />
+                                    </div>
+                              </section>
+                        )}
+
+                        {payQuery.isSuccess && !payQuery.data.data.metadata.carts && (
+                              <div className='mt-[100px]'>
+                                    <CartEmpty />
                               </div>
-                              <div className='w-full xl:w-[30%] h-max flex flex-col gap-[16px]'>
-                                    <CartUserInfo products={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]} />
-                                    <PaymentCart
-                                          carts={payQuery.data?.data.metadata.carts as CartResponse}
-                                          price={price}
-                                          product_payment={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]}
-                                    />
-                              </div>
-                        </section>
+                        )}
                   </div>
             </div>
       )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { doCloseBoxLogin, doOpenBoxLogin } from '../../../Redux/authSlice'
 import { Link, useNavigate } from 'react-router-dom'
@@ -13,6 +13,8 @@ const HeaderCart = () => {
             queryKey: ['cart-get-count-product'],
             queryFn: () => CartService.getCountProductCart(),
       })
+
+      useEffect(() => {}, [cartQuery.data?.data.metadata.count])
 
       return (
             <Link className='2xl:w-[45px] flex items-center justify-centen p-2 hover:bg-sky-200 rounded' to={'/cart'}>

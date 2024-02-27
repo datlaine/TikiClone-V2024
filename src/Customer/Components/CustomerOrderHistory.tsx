@@ -49,8 +49,8 @@ const CustomerOrderHistory = () => {
       }
 
       return (
-            <div className='relative flex flex-col  min-h-full h-max w-full'>
-                  <div className='sticky top-[0px] h-[60px] bg-[#ffffff] flex flex-col gap-[8px]   z-[10] '>
+            <div className='relative flex flex-col  min-h-full h-max w-full text-[12px] xl:text-[14px]'>
+                  <div className='sticky top-[75px] xl:top-[-1px] pt-[16px] xl:pt-0 h-[60px] bg-[#ffffff] flex flex-col gap-[8px]   z-[10] border-b-[1px] border-[rgb(235_235_240)] '>
                         <div className='flex w-full h-full'>
                               {sectionName.map((section, index) => (
                                     <button
@@ -76,16 +76,10 @@ const CustomerOrderHistory = () => {
                         <div className='w-full overflow-x-hidden'>
                               <div style={{ width: '100%' }} ref={wrapperOrderRef} className='flex'>
                                     {/* {active === 'CART' &&  */}
-                                    <div className='min-w-full max-w-full w-full'>
-                                          <OrderCart />
-                                    </div>
-                                    <div className='min-w-full max-w-full w-full'>
-                                          <OrderHistory />
-                                    </div>
+                                    <div className='min-w-full max-w-full w-full'>{active === 'CART' && <OrderCart />}</div>
+                                    <div className='min-w-full max-w-full w-full'>{active === 'ORDER' && <OrderHistory />}</div>
 
-                                    <div className='min-w-full'>
-                                          <OrderComment />
-                                    </div>
+                                    <div className='min-w-full'>{active === 'Comment' && <OrderComment />}</div>
                                     {/* } */}
 
                                     {/* {active === 'ORDER' */}

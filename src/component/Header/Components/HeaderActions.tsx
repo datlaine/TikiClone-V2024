@@ -3,13 +3,16 @@ import HeaderBoxHover from './HeaderBoxHover'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import HeaderCart from './HeaderCart'
+import { Bell } from 'lucide-react'
+import { useState } from 'react'
+import HeaderNotification from '../HeaderNotification'
 
 const HeaderActions = () => {
       const user = useSelector((state: RootState) => state.authentication.user)
 
       return (
             <div className='h-full] flex gap-[16px] items-center text-[13px]  '>
-                  <Link className='h-[95%] flex items-center px-[8px] bg-blue-200 gap-[4px] rounded-lg text-blue-800' to='/'>
+                  <Link className='h-[95%] hidden xl:flex items-center px-[8px] bg-blue-200 gap-[4px] rounded-lg text-blue-800' to='/'>
                         <img
                               src='https://salt.tikicdn.com/ts/upload/32/56/db/d919a4fea46f498b5f4708986d82009d.png'
                               alt=''
@@ -18,7 +21,7 @@ const HeaderActions = () => {
                         <button className='text-sm font-semibold'>Trang Chủ</button>
                   </Link>
 
-                  <div className='group relative flex items-center px-2 gap-2 '>
+                  <div className='group relative hidden xl:flex items-center px-2 gap-2 '>
                         {user ? (
                               <img
                                     src={user?.avatar?.secure_url || user.avartar_url_default}
@@ -38,6 +41,7 @@ const HeaderActions = () => {
                         </div>
                   </div>
                   <HeaderCart />
+                  <HeaderNotification />
             </div>
       )
 }

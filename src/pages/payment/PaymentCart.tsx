@@ -13,7 +13,10 @@ type TProps = {
       product_payment: CartProduct[]
 }
 
-export type ParamOrderAdd = Omit<CartProduct, '_id'>[]
+export type ParamOrderAdd = {
+      products: Omit<CartProduct, '_id'>[]
+      order_total: number
+}
 
 const PaymentCart = (props: TProps) => {
       const { carts, price, product_payment } = props
@@ -26,7 +29,7 @@ const PaymentCart = (props: TProps) => {
 
       const orderPaymentMutation = useMutation({
             mutationKey: ['/v1/api/order/order-payment-product'],
-            mutationFn: (products: ParamOrderAdd) => OrderService.orderAddProduct(products),
+            mutationFn: (orders: ParamOrderAdd) => OrderService.orderAddProduct(orders),
       })
 
       const controllOpenSeeProduct = () => {
@@ -39,7 +42,7 @@ const PaymentCart = (props: TProps) => {
             // for (let index = 0; index < product_payment.length; index++) {
             //       newArray.push(product_payment[index])
             // }
-            orderPaymentMutation.mutate(product_payment)
+            orderPaymentMutation.mutate({ products: product_payment, order_total: price })
             // console.log({ newArray })
       }
 

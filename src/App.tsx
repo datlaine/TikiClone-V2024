@@ -23,6 +23,14 @@ function App() {
             console.log({ boxLogin })
       }, [boxLogin])
 
+      useEffect(() => {
+            const text = () => {
+                  console.log('re-size')
+            }
+
+            window.addEventListener('resize', text)
+      }, [])
+
       return (
             <div className=' min-h-screen max-w-full'>
                   <div id='main' className='min-h-screen'>

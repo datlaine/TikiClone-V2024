@@ -165,7 +165,7 @@ const CartItem = (props: TProps) => {
                                           ButtonConfrimContent='Xác nhận xóa'
                                           onClose={setOpenBoxConfirmDelete}
                                           onActive={onDeleteCart}
-                                          paramsActive={{ product_id: product.product_id._id }}
+                                          paramsActive={{ product_id: product._id }}
                                     />
                               )}
                         </div>

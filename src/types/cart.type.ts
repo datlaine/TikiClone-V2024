@@ -1,4 +1,3 @@
-import { AddressType, CartCurrent } from '../Redux/cartSlice'
 import { Address } from './address.type'
 import { TProductDetail } from './product/product.type'
 import { ShopResponse } from './shop.type'

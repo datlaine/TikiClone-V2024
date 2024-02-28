@@ -1,22 +1,23 @@
 import { Link } from 'react-router-dom'
 import { RootState, store } from '../../../store'
-import { toDoHideSideBar, toDoShowSideBar } from '../../../Redux/uiSlice'
-import { connect } from 'react-redux'
+import { onShowSideBar, toDoHideSideBar, toDoShowSideBar } from '../../../Redux/uiSlice'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import logo from './logo.png'
+import { useEffect, useState } from 'react'
 
-type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
+type TProps = {}
 
-const HeaderLogoToggle = (props: Props) => {
-      const { stateSideBar, toDoShowSideBar, toDoHideSideBar } = props
-      // console.log(toDoShowSideBar)
-      const changeStateSideBar = () => {
-            if (stateSideBar) {
-                  toDoHideSideBar()
-            } else {
-                  toDoShowSideBar()
-            }
-            // console.log(props)
+const HeaderLogoToggle = (props: TProps) => {
+      const uiSlice = useSelector((state: RootState) => state.uiSlice.showSideBar)
+      const [showSideBar, setShowSideBar] = useState<boolean>(false)
+      const dispatch = useDispatch()
+      const onShowSideBarAction = () => {
+            setShowSideBar((prev) => !prev)
       }
+
+      useEffect(() => {
+            dispatch(onShowSideBar({ showSideBar: showSideBar }))
+      }, [showSideBar])
 
       return (
             <div className='w-full h-full'>
@@ -24,7 +25,7 @@ const HeaderLogoToggle = (props: Props) => {
                         <img src={logo} className='w-[40%] h-[36px] ' alt='' />
                         <p className='text-[14px] h-[40%] w-full text-blue-700 font-extrabold'>Bảo vệ khách hàng 111%</p>
                   </Link>
-                  <div className='block lg:hidden' onClick={changeStateSideBar}>
+                  <div className='block lg:hidden' onClick={onShowSideBarAction}>
                         <svg
                               xmlns='http://www.w3.org/2000/svg'
                               fill='none'
@@ -40,13 +41,4 @@ const HeaderLogoToggle = (props: Props) => {
       )
 }
 
-const mapStateToProps = (state: RootState) => ({
-      stateSideBar: state.uiSlice.showSideBar,
-})
-
-const mapDispatchToProps = (dispatch: any) => ({
-      toDoShowSideBar: () => store.dispatch(toDoShowSideBar()),
-      toDoHideSideBar: () => store.dispatch(toDoHideSideBar()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderLogoToggle)
+export default HeaderLogoToggle

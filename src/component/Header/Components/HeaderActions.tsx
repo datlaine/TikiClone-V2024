@@ -21,7 +21,7 @@ const HeaderActions = () => {
                         <button className='text-sm font-semibold'>Trang Chủ</button>
                   </Link>
 
-                  <div className='group relative hidden xl:flex items-center px-2 gap-2 '>
+                  <div className='group relative z-[501] hidden xl:flex items-center px-2 gap-2 '>
                         {user ? (
                               <img
                                     src={user?.avatar?.secure_url || user.avartar_url_default}
@@ -36,12 +36,12 @@ const HeaderActions = () => {
                               />
                         )}
                         <button className='text-blue-500 font-semibold'>Tài Khoản</button>
-                        <div className='absolute top-[20px] z-[23] left-0 hidden group-hover:block'>
+                        <div className='absolute  top-[20px] z-[23] left-0 hidden group-hover:block'>
                               <HeaderBoxHover />
                         </div>
                   </div>
-                  <HeaderCart />
                   <HeaderNotification />
+                  <HeaderCart />
             </div>
       )
 }

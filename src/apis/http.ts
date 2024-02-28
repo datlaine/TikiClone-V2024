@@ -11,7 +11,6 @@ class AxiosCustom {
       refreshTokenPromise: any // this holds any in-progress token refresh requests
 
       constructor() {
-            console.log(process.env.REACT_APP_BASE_UR_LOCALL)
             this.instance = axios.create({
                   baseURL: process.env.REACT_APP_BASE_URL_LOCAL,
                   timeout: 10000,

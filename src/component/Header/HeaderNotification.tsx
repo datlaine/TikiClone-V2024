@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import NotificationService from '../../apis/notification.service'
 import { convertDateToStringFull } from '../../utils/date.utils'
 import { useMatch } from 'react-router-dom'
+import NotificationProduct from './Components/NotificationProduct'
+import NotificationShop from './NotificationShop'
 
 const HeaderNotification = () => {
       const [showNotification, setShowNotification] = useState<boolean>(false)
@@ -49,12 +51,10 @@ const HeaderNotification = () => {
             }
       }, [showNotification])
 
-      console.log('re-render')
-
       return (
             <div ref={boxNotificationRef} style={{ direction: 'rtl' }} className='relative'>
                   <div className='relative w-max h-max '>
-                        <Bell color='blue' onClick={onControllShowNotification} />
+                        <Bell color='blue' size={28} onClick={onControllShowNotification} />
                         <div className='absolute top-[-12px] right-[-12px] w-[18px] h-[18px] bg-red-400 text-white rounded-full flex items-center justify-center'>
                               {getMyNotification.data?.data.metadata.notifications
                                     ? getMyNotification.data?.data.metadata.notifications.notification_count
@@ -64,25 +64,57 @@ const HeaderNotification = () => {
                   <div
                         style={{ display: showNotification ? 'flex' : 'none' }}
                         ref={boxNotificationRef}
-                        className='animate-mountComponent absolute top-[30px] right-0 w-[350px] h-[400px] bg-green-500 z-[500] overflow-y-scroll'
+                        className='xl:animate-mountComponent absolute top-[30px] right-[-20px] xl:right-0 w-[240px] xl:w-[380px] h-[400px] bg-[#ffffff] shadow-2xl z-[500] overflow-y-scroll'
                   >
-                        <div className='w-full px-[12px] py-[10px] h-[1000px]'>
+                        <div className='relative w-full  pb-[10px] h-[1000px] flex flex-col '>
+                              <p className='sticky top-[-1px] left-[0px]  w-full h-[30px] py-[4px] bg-[#f5f4f6] flex items-center justify-center text-[16px] font-extrabold'>
+                                    Thông báo của tôi
+                              </p>
                               {getMyNotification.isSuccess &&
+                                    showNotification &&
                                     getMyNotification.data?.data.metadata.notifications &&
-                                    getMyNotification.data.data.metadata.notifications &&
-                                    getMyNotification.data.data.metadata.notifications.notifications_message.map((notification) => {
-                                          return (
-                                                <div className='flex flex-col'>
-                                                      <div style={{ direction: 'ltr' }} className='flex justify-between'>
-                                                            <span>{notification.notification_type}</span>
-                                                            <span>{convertDateToStringFull(notification.notification_creation_time)}</span>
-                                                      </div>
-                                                      <div className=''>
+                                    getMyNotification.data.data.metadata.notifications.notifications_message
+                                          .reverse()
+                                          .map((notification) => {
+                                                return (
+                                                      <div
+                                                            className='flex flex-col min-h-[360px] xl:min-h-[120px] h-max w-full px-[12px] my-[18px]'
+                                                            key={notification._id}
+                                                      >
+                                                            <div
+                                                                  style={{ direction: 'ltr' }}
+                                                                  className='flex justify-between w-full h-full flex-col gap-[24px]'
+                                                            >
+                                                                  {notification.notification_attribute.notification_type === 'PRODUCT' && (
+                                                                        <NotificationProduct
+                                                                              key={notification.notification_attribute.product_id}
+                                                                              notificationProduct={notification.notification_attribute}
+                                                                              notification={notification}
+                                                                        />
+                                                                  )}
+
+                                                                  {notification.notification_attribute.notification_type === 'SHOP' && (
+                                                                        <NotificationShop
+                                                                              orderProductId={
+                                                                                    notification.notification_attribute.order_product_id
+                                                                              }
+                                                                              notification={notification}
+
+                                                                              // key={notification.notification_attribute.product_id}
+                                                                              // notificationProduct={notification.notification_attribute}
+                                                                              // notification={notification}
+                                                                        />
+                                                                  )}
+                                                                  {/* {notification.notification_attribute.notification_type === 'SHOP' && (
+                                                                        <span>Shop nè</span>
+                                                                  )} */}
+                                                            </div>
+                                                            {/* <div className=''>
                                                             <p>{notification.notification_attribute.notification_content}</p>
+                                                      </div> */}
                                                       </div>
-                                                </div>
-                                          )
-                                    })}
+                                                )
+                                          })}
                         </div>
                   </div>
             </div>

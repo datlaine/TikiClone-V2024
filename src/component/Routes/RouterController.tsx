@@ -39,24 +39,21 @@ const RouterController = () => {
       // console.log({ hiddenHeader, match: window.location })
       const hiddenHeader = pathHiddenHeader.includes(window.location.pathname)
       const pathName = useLocation().pathname
+
+      const styleEffect = {
+            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[40px_50px] pt-[50px]' : '',
+            matchPathNameCustomer: pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]',
+      }
+
       return (
             <>
                   {!hiddenHeader && <Header />}
 
-                  <div
-                        className={`min-h-screen max-w-full flex gap-[150px] px-[4px] ${
-                              window.location.pathname !== '/payment' ? 'lg:px-[50px] pt-[50px] lg:pt-[100px] xl:pt-0 ' : 'lg:px-0 pt-0'
-                        } bg-[#f5f4f6] `}
-                  >
+                  <div className={`${styleEffect.matchPathName} min-h-screen max-w-full flex gap-[32px] px-[4px]   bg-[#f5f4f6] `}>
                         <Sidebar />
                         <Routes>
                               <Route path='/admin' element={<Admin />} />
-                              <div
-                                    id=''
-                                    className={`  relative ${
-                                          pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]'
-                                    }  lg:flex px-0 lg:px-[50px] gap-8 `}
-                              >
+                              <div id='' className={`${styleEffect.matchPathNameCustomer}  relative  lg:flex px-0 lg:px-[50px] gap-8 `}>
                                     <Route path='/' element={<Content />} />
                                     <Route path='/product/:id' element={<Product />} />
                                     <Route path='/cart' element={<Cart />} />

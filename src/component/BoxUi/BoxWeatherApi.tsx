@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { GeolocationApi, WeatherData, convertUnixTimestampToString, getDataWeather, getGeoLocation } from '../../utils/weatherApi.util'
-import { Sunrise, Sunset } from 'lucide-react'
+import { Cloud, CloudHail, Cloudy, Sunrise, Sunset } from 'lucide-react'
 import backgroundImage from '../../Customer/UserAddress/assets/img/bg-image.jpg'
 
 type TProps = {
@@ -81,17 +81,17 @@ const BoxWeatherApi = (props: TProps) => {
                         <div
                               className={`${
                                     height > 0 ? 'h-full ' : 'h-0'
-                              } bg-[#ffffff] xl:bg-gradient-to-r from-emerald-500 to-emerald-900 w-full  transition-all duration-800 text-slate-800 xl:text-white`}
+                              } bg-[#ffffff] relative overflow-x-hidden  w-full  transition-all duration-800 text-slate-800 `}
                         >
                               {!notData && geolocationApi.isSuccess && weatherAPI.isSuccess && (
                                     <div className='h-full border-[1px] border-blue-400 flex flex-col p-[20px_10px] xl:p-[12px_8px]'>
                                           <h4 className='w-full text-center'>Thời tiết tại {locationName}</h4>
 
-                                          <div className='h-[28%] w-full flex justify-center gap-[8px] items-center'>
+                                          <div className='absolute z-[10] top-[20%] h-[6%] bg-[#ffffff] w-max left-[50%] translate-x-[-50%] mx-auto flex justify-center gap-[8px] items-center'>
                                                 <span className='text-[20px] font-extrabold'>{weatherData.main.temp} &#8451;</span>
                                                 <span>{weatherData.weather[0].description}</span>
                                           </div>
-                                          <div className='  h-[24%] px-[16%] hidden xl:flex items-center justify-between'>
+                                          <div className='mt-[70px]   h-[24%] px-[16%] hidden xl:flex items-center justify-between'>
                                                 <div className='flex gap-[8px] items-center'>
                                                       <Sunrise />
                                                       <p className='flex flex-col'>
@@ -123,6 +123,10 @@ const BoxWeatherApi = (props: TProps) => {
                                           </div>
                                     </div>
                               )}
+                              {/* h-[20px] overflow-y-hidden */}
+                              <div className='animate-cloudFly absolute  w-max  '>
+                                    <CloudHail size={28} />
+                              </div>
                         </div>
                   )}
 
@@ -136,5 +140,8 @@ const BoxWeatherApi = (props: TProps) => {
             </>
       )
 }
+
+//mây đen u ám
+//mây cụm
 
 export default BoxWeatherApi

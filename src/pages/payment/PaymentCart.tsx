@@ -38,12 +38,7 @@ const PaymentCart = (props: TProps) => {
 
       console.log({ product_payment })
       const handleVerifyBuy = () => {
-            // let newArray: ParamOrderAdd= []
-            // for (let index = 0; index < product_payment.length; index++) {
-            //       newArray.push(product_payment[index])
-            // }
             orderPaymentMutation.mutate({ products: product_payment, order_total: price })
-            // console.log({ newArray })
       }
 
       useEffect(() => {

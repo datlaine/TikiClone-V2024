@@ -21,17 +21,38 @@ module.exports = {
 				showSideBarAni: "showSideBar .8s linear ",
 				hideSideBarAni: "hideSideBar 1s linear ",
 				showToast: "toastAnimation 1s linear forwards",
-				mountComponent: "mountComponent 1s",
+				mountComponent: "mountComponent .5s",
 				toastAnimation: "toastAnimation 1s",
 				authBox: "authBox 1s",
 				pulseCustome: " pulse 	1.5s ",
 				scale: "scale .3s",
+				cloudFly: "cloudFly  1s forwards ",
+				rainDown: "rainDown  5s infinite",
 			},
 			keyframes: {
 				pulseCustome: {
 					"50%": {
 						opacity: 0.5,
 					},
+				},
+
+				cloudFly: {
+					"0%": { top: "200%", left: "25px" },
+					"100%": { top: "20%", scale: "3", left: "55px" },
+				},
+
+				rainDown: {
+					"0%": { top: "-20%" },
+					"10%": { top: "10%" },
+					"20%": { top: "20%" },
+					"30%": { top: "30%" },
+					"40%": { top: "40%" },
+					"50%": { top: "50%" },
+
+					"60%": { top: "60%" },
+					"80%": { top: "80%" },
+					"90%": { top: "90%" },
+					"150%": { top: "150%" },
 				},
 
 				showSideBar: {

@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { RootState, store } from '../../../store'
 import { useQuery } from '@tanstack/react-query'
 import CartService from '../../../apis/cart.service'
+import { ShoppingCart } from 'lucide-react'
 
 const HeaderCart = () => {
       const user = useSelector((state: RootState) => state.authentication.user)
@@ -19,11 +20,7 @@ const HeaderCart = () => {
       return (
             <Link className='2xl:w-[45px] flex items-center justify-centen p-2 hover:bg-sky-200 rounded' to={'/cart'}>
                   <span className='flex relative'>
-                        <img
-                              src='https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png'
-                              className='w-[28px] h-[28px] '
-                              alt=''
-                        />
+                        <ShoppingCart size={28} color='blue' />
 
                         {cartQuery.isSuccess && (
                               <div className='absolute top-[-12px] right-[-5px] w-[18px] h-[18px] rounded-full bg-red-400 flex items-center justify-center'>

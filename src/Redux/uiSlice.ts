@@ -1,58 +1,63 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 const initialUi = {
-    showSideBar: false,
-    positionBottomSticky: 0,
-    showBoxSticky: true,
-    flag: false,
-    topButton: 0,
-    isLoading: false,
+      showSideBar: false,
+      positionBottomSticky: 0,
+      showBoxSticky: true,
+      flag: false,
+      topButton: 0,
+      isLoading: false,
 }
 
 const uiSlice = createSlice({
-    name: 'ui',
-    initialState: initialUi,
+      name: 'ui',
+      initialState: initialUi,
 
-    reducers: {
-        toDoShowSideBar: (state) => {
-            console.log('call active')
-            state.showSideBar = true
-        },
-        toDoHideSideBar: (state) => {
-            console.log('call active')
+      reducers: {
+            toDoShowSideBar: (state) => {
+                  console.log('call active')
+                  state.showSideBar = true
+            },
+            toDoHideSideBar: (state) => {
+                  console.log('call active')
 
-            state.showSideBar = false
-        },
+                  state.showSideBar = false
+            },
 
-        setPositionBottomBoxSticky: (state, action: PayloadAction<number>) => {
-            state.positionBottomSticky = action.payload
-        },
+            onShowSideBar: (state, payload: PayloadAction<{ showSideBar: boolean }>) => {
+                  state.showSideBar = payload.payload.showSideBar
+            },
 
-        toDoShowBoxSticky: (state) => {
-            state.showBoxSticky = true
-        },
-        toDoHideBoxSticky: (state) => {
-            state.showBoxSticky = false
-        },
+            setPositionBottomBoxSticky: (state, action: PayloadAction<number>) => {
+                  state.positionBottomSticky = action.payload
+            },
 
-        setTopButton: (state, action: PayloadAction<number>) => {
-            state.topButton = action.payload
-        },
+            toDoShowBoxSticky: (state) => {
+                  state.showBoxSticky = true
+            },
+            toDoHideBoxSticky: (state) => {
+                  state.showBoxSticky = false
+            },
 
-        doIsLoading: (state, payload: PayloadAction<boolean>) => {
-            state.isLoading = payload.payload
-        },
-    },
+            setTopButton: (state, action: PayloadAction<number>) => {
+                  state.topButton = action.payload
+            },
+
+            doIsLoading: (state, payload: PayloadAction<boolean>) => {
+                  state.isLoading = payload.payload
+            },
+      },
 })
 
 export const {
-    toDoHideSideBar,
-    toDoShowSideBar,
-    setPositionBottomBoxSticky,
-    toDoHideBoxSticky,
-    toDoShowBoxSticky,
-    setTopButton,
-    doIsLoading,
+      toDoHideSideBar,
+      toDoShowSideBar,
+      setPositionBottomBoxSticky,
+      toDoHideBoxSticky,
+      toDoShowBoxSticky,
+      setTopButton,
+      doIsLoading,
+      onShowSideBar,
 } = uiSlice.actions
 
 export default uiSlice.reducer

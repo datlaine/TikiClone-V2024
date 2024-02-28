@@ -25,7 +25,6 @@ export const renderStringAddressV2 = (address: Address | UserAddress) => {
       const district = address.address_district.text
       const province = address.address_province.text
 
-      console.log({ ward, district, province })
       return `${ward} ${district} ${province}`
 }
 

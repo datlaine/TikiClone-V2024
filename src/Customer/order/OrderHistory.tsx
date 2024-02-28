@@ -16,8 +16,8 @@ const OrderHistory = () => {
                   {getMyOrder.isSuccess &&
                         getMyOrder.data.data.metadata.order &&
                         getMyOrder.data.data.metadata.order?.order_products &&
-                        getMyOrder.data.data.metadata.order?.order_products?.map((order) => (
-                              <div className='flex flex-col  '>
+                        getMyOrder.data.data.metadata.order?.order_products?.reverse().map((order) => (
+                              <div className='flex flex-col ' key={order._id}>
                                     <OrderHistoryItem orderItem={order} />
                               </div>
                         ))}

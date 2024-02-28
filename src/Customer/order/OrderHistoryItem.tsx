@@ -49,7 +49,7 @@ const OrderHistoryItem = (props: TProps) => {
 
                         <div className='flex-1 flex flex-col gap-[16px]'>
                               {orderItem.products.map((product) => (
-                                    <div className='h-full flex flex-col gap-[16px]'>
+                                    <div className='h-full flex flex-col gap-[16px]' key={product._id}>
                                           <div className='w-full h-[1px] bg-[rgb(235_235_240)]'></div>
                                           <div className='w-full flex'>
                                                 <div className='flex-1 flex  gap-[16px]'>

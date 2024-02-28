@@ -1,7 +1,7 @@
 import { ParamOrderAdd } from '../pages/payment/PaymentCart'
 import { TResponseApi } from '../types/axiosResponse'
 import { CartProduct } from '../types/cart.type'
-import { Order } from '../types/order.type'
+import { Order, OrderItem } from '../types/order.type'
 import axiosCustom from './http'
 
 class OrderService {
@@ -15,6 +15,12 @@ class OrderService {
 
       static async buyAgain(products: CartProduct[]) {
             return axiosCustom.post<TResponseApi<{ message: string }>>('/v1/api/order/buy-again', { products })
+      }
+
+      static async getOrderInfo({ order_id }: { order_id: string }) {
+            return axiosCustom.get<TResponseApi<{ getOrderInfo: { order_products: OrderItem[] } }>>(
+                  `/v1/api/order/get-order-info/${order_id}`,
+            )
       }
 }
 

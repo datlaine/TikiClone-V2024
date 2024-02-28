@@ -4,21 +4,34 @@ export type Notification = {
 }
 
 export type NotificationMessage = {
-      notification_type: NotificationType
       notification_attribute: NotificationAttribute
       notification_creation_time: Date
+      _id: string
 }
 
-type NotificationType = 'System' | 'Admin' | 'Product'
-
 interface NotificationSystem {
+      notification_type: 'SYSTEM'
       notification_content: string
 }
 
-interface NotificationCommon extends NotificationSystem {
+export type NotificationProduct = {
+      notification_type: 'PRODUCT'
+      product_id: string
+      notification_content: string
+}
+
+export type NotificationShop = {
+      notification_type: 'SHOP'
+      notification_content: string
+      order_id: string
+      order_product_id: string
+      user_buy_id: string
+}
+
+export type NotificationAdmin = {
+      notification_type: 'ADMIN'
+      notification_content: string
       notification_sender: string
 }
 
-type NotificationProduct = NotificationCommon
-type NotificationAdmin = NotificationCommon
-type NotificationAttribute = NotificationSystem | NotificationProduct | NotificationAdmin
+export type NotificationAttribute = NotificationSystem | NotificationProduct | NotificationAdmin | NotificationShop

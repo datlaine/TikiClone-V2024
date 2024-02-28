@@ -40,10 +40,6 @@ const CustomerOrderHistory = () => {
             }
       }
 
-      console.log({ indexActive })
-
-      // useEffect(() => {}, [indexActive])
-
       const styleEffect = {
             left: indexActive === 0 ? 0 : `calc(100%/${sectionName.length}*${indexActive})`,
       }

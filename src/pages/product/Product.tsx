@@ -112,7 +112,7 @@ const Product = () => {
                                     <div className='  basis-[80%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
                                                 <div className='basis-[40%] bg-gray-400 static min-h-[800px] h-[900px] xl:sticky top-[16px]  p-[8px] rounded-sm   flex flex-col gap-[16px]'>
-                                                      <div className='bg-gray-500  basis-[35%] w-[350px]'></div>
+                                                      <div className='bg-gray-500  basis-[35%] w-[450px]'></div>
                                                       <div className='flex bg-gray-400 h-[50px] gap-[16px]'>
                                                             {Array(5)
                                                                   .fill(0)

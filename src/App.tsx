@@ -19,17 +19,7 @@ function App() {
             })
       }, [])
 
-      useEffect(() => {
-            console.log({ boxLogin })
-      }, [boxLogin])
-
-      useEffect(() => {
-            const text = () => {
-                  console.log('re-size')
-            }
-
-            window.addEventListener('resize', text)
-      }, [])
+      useEffect(() => {}, [boxLogin])
 
       return (
             <div className=' min-h-screen max-w-full'>

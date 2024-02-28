@@ -6,6 +6,7 @@ export type Order = {
 }
 
 export type OrderItem = {
+      _id: string
       products: CartProduct[]
       order_time_payment: Date
       order_total: number

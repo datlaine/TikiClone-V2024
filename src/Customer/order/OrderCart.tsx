@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import React from 'react'
 import CartService from '../../apis/cart.service'
 import CartItem from '../../component/Cart/CartItem'
 import CartEmpty from '../../component/Cart/CartEmpty'
@@ -9,7 +8,6 @@ const OrderCart = () => {
       const getMyCart = useQuery({
             queryKey: ['v1/api/cart/cart-get-my-cart'],
             queryFn: () => CartService.getMyCart(),
-            staleTime: 60 * 1000 * 10,
       })
       return (
             <div className='min-w-full bg-yellow-700'>

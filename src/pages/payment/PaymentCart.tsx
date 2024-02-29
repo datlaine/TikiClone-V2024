@@ -24,7 +24,7 @@ const PaymentCart = (props: TProps) => {
       const productWrapperRef = useRef<HTMLDivElement>(null)
       const heightElement = useRef<number>(30)
       const [height, setHeight] = useState<number>(0)
-
+      const [disable, setDisable] = useState<boolean>(false)
       const [openSeeProduct, setOpenSeeProduct] = useState<boolean>(false)
 
       const orderPaymentMutation = useMutation({
@@ -39,6 +39,7 @@ const PaymentCart = (props: TProps) => {
       console.log({ product_payment })
       const handleVerifyBuy = () => {
             orderPaymentMutation.mutate({ products: product_payment, order_total: price })
+            setDisable(true)
       }
 
       useEffect(() => {
@@ -126,7 +127,9 @@ const PaymentCart = (props: TProps) => {
                                     </div>
                                     <span className='block w-full text-right'>(Đã bao gồm VAT nếu có)</span>
                               </div>
+                              {/* {!orderPaymentMutation.isSuccess && ( */}
                               <button
+                                    disabled={disable}
                                     onClick={handleVerifyBuy}
                                     className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md text-[16px] mt-[16px]'
                               >
@@ -134,6 +137,7 @@ const PaymentCart = (props: TProps) => {
                                     {carts?.cart_products.length}
                                     {')'}
                               </button>
+                              {/* )} */}
                         </div>
                   </div>
             </React.Fragment>

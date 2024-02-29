@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import InputText from '../../components/InputText'
 import InputNumber from '../../components/InputNumber'
 import { Input, Select } from 'antd'
-import { BookType } from '../../types/product.schema'
+import { BookType } from '../../../../types/product/product.book.type'
 
 // const schema = z.object({
 //     producpublishing: z.string().min(1, { message: 'Tên nhà xuất bản là bắt buộc' }),

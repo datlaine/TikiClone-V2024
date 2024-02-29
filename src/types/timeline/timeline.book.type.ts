@@ -1,4 +1,4 @@
-import { TBookProduct, TBookProductNestedForm } from '../product/product.book.type'
+import { TBookProductNestedForm } from '../product/product.book.type'
 import { TTimeLineFieldName, TTimeLineLabelName } from './timeLine.type'
 
 export type TTimeLineBookField = TBookProductNestedForm

@@ -1,5 +1,6 @@
-import { BookType } from '../../Customer/Sell/types/product.schema'
 import { TProductFormCommon } from './product.type'
+
+export type BookType = 'Novel' | 'Manga' | 'Detective'
 
 export type TBookProduct = {
       publishing: string
@@ -19,3 +20,4 @@ export type TBookProductNestedForm = {
 }
 
 export type TRegisterFormBook = TProductFormCommon & { attribute: TBookProduct }
+export type TRegisterFormBookTest = TProductFormCommon & { attribute: '1123' }

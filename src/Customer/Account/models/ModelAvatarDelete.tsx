@@ -6,41 +6,70 @@ import { fetchUser } from '../../../Redux/authenticationSlice'
 import { RootState } from '../../../store'
 import { addToast } from '../../../Redux/toast'
 import AccountService from '../../../apis/account.service'
+import { UserResponse } from '../../../types/user.type'
+import { ShopResponse } from '../../../types/shop.type'
+import { TResponseApi } from '../../../types/axiosResponse'
+import { AxiosResponse } from 'axios'
+import { AnyAction } from '@reduxjs/toolkit'
+// dispatch(addToast({ type: 'WARNNING', message: 'Không thể xóa avatar mặc định', id: Math.random().toString() }))
 
-type Tprops = {
+// dispatch(fetchUser({ user: deleteAvatar.data.data.metadata.user }))
+
+export type ResultApiDeleteAvatar = { user: UserResponse } | { shop: ShopResponse }
+export type ResultApiUser = { user: UserResponse }
+type TProps<T = ResultApiDeleteAvatar> = {
       modeDispatch: React.Dispatch<TAvatarActions>
 
       setModelAvatar?: React.Dispatch<SetStateAction<boolean>>
       setModelAvatarDelete?: React.Dispatch<SetStateAction<boolean>>
+
+      AvatarSource: { avatar: string; avatar_default: string }
+      onDeleteKey: string
+      ModeParent: 'SHOP' | 'USER'
+
+      onDeleteFn: () => Promise<AxiosResponse<TResponseApi<{ user: UserResponse } | { shop: ShopResponse }>>>
+      onSuccessDelete: (
+            data: // dispatch(fetchUser({ user: deleteAvatar.data.data.metadata.user }))
+
+            { mode: 'USER'; user: UserResponse } | { mode: 'SHOP'; shop: ShopResponse },
+      ) => void
 }
 
 // () => api
-const ModelAvatarDelete = (props: Tprops) => {
+const ModelAvatarDelete = (props: TProps) => {
       const dispatch = useDispatch()
-      const { modeDispatch } = props
-      const user = useSelector((state: RootState) => state.authentication.user)
-      const deleteAvatar = useMutation({ mutationKey: ['delete-avatar'], mutationFn: () => AccountService.deleteAvatar() })
+      const { modeDispatch, AvatarSource, onSuccessDelete, onDeleteKey, onDeleteFn, ModeParent } = props
+      const deleteAvatar = useMutation({ mutationKey: [onDeleteKey], mutationFn: () => onDeleteFn() })
 
       const handleCancelActionDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             modeDispatch({ type: 'CLOSE_MODE_AVATAR_DELETE', payload: { modeAvatarDelete: false, boxModeAvatar: false } })
       }
 
       const handleDeleteAvatar = () => {
-            if (user.avatar) {
+            if (AvatarSource.avatar) {
                   deleteAvatar.mutate()
                   return
             }
-
-            dispatch(addToast({ type: 'WARNNING', message: 'Không thể xóa avatar mặc định', id: Math.random().toString() }))
+            dispatch(
+                  addToast({
+                        type: 'WARNNING',
+                        message: 'Không thể xóa avatar mặc định',
+                        id: Math.random().toString(),
+                  }),
+            )
       }
 
       useEffect(() => {
             if (deleteAvatar.isSuccess) {
                   modeDispatch({ type: 'CLOSE_MODE_AVATAR_DELETE', payload: { modeAvatarDelete: false, boxModeAvatar: false } })
-
-                  dispatch(fetchUser({ user: deleteAvatar.data.data.metadata.user }))
+                  if (ModeParent === 'USER') {
+                        onSuccessDelete({ mode: ModeParent, user: (deleteAvatar.data.data.metadata as { user: UserResponse }).user })
+                  }
+                  if (ModeParent === 'SHOP') {
+                        onSuccessDelete({ mode: ModeParent, shop: (deleteAvatar.data.data.metadata as { shop: ShopResponse }).shop })
+                  }
             }
-      }, [deleteAvatar.isSuccess, deleteAvatar.data?.data.metadata, dispatch, modeDispatch])
+      }, [deleteAvatar.isSuccess, dispatch, modeDispatch])
 
       return (
             <div

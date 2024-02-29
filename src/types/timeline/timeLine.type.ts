@@ -1,7 +1,8 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form'
 import { TTimeLineBookField, TTimeLineBookLabel } from './timeline.book.type'
+import { TimelineFoodFieldName, TimelineFoodLabel } from './timeline.food.type'
 
-export type TimeLineProps<T, HookFormType extends FieldValues> = {
+export type TimeLineProps<FieldNameInput, HookFormType extends FieldValues> = {
       //@từ dùng hàm watch trong methods để lấy các giá trị cập nhập tức thì
       methods?: UseFormReturn<HookFormType, any, undefined>
       value?: string
@@ -13,7 +14,7 @@ export type TimeLineProps<T, HookFormType extends FieldValues> = {
       error?: boolean
 
       //@field cung cấp cho hàm watch
-      FieldName?: keyof T
+      FieldName?: keyof FieldNameInput
 
       //@các dạng timeline khác nhau
       type: 'Text' | 'File' | 'Files' | 'Money'
@@ -42,5 +43,5 @@ export type Timeline<T, K> = {
       text: keyof K
 }
 
-export type TTimeLineFieldName = TTimeLineBookField
-export type TTimeLineLabelName = TTimeLineBookLabel
+export type TTimeLineFieldName = TTimeLineBookField | TimelineFoodFieldName
+export type TTimeLineLabelName = TTimeLineBookLabel | TimelineFoodLabel

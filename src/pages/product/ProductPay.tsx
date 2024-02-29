@@ -198,7 +198,7 @@ const ProductPay = (props: TProps) => {
                               Mua ngay
                         </button>
                         <button
-                              disabled={disabledBtn}
+                              disabled={disabledBtn || cartMutation.isPending}
                               className='w-full h-[45px] flex items-center justify-center bg-white text-blue-600 border-[1px] border-blue-600 rounded-md font-semibold text-[16px]'
                               onClick={handleClickBuy}
                         >

@@ -1,17 +1,43 @@
 import React, { useEffect, useReducer, useRef } from 'react'
 import { customerAccountReducer, initialValue } from '../../../reducer/customer.reducer'
 import { RootState } from '../../../store'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Eye, Image, Pencil, Trash2 } from 'lucide-react'
 import Portal from '../../../component/Portal'
 import ModelAvatarSee from '../models/ModelAvatarSee'
 import ModelAvatarUpdate from '../models/ModelAvatarUpdate'
-import ModelAvatarDelete from '../models/ModelAvatarDelete'
+import ModelAvatarDelete, { ResultApiDeleteAvatar } from '../models/ModelAvatarDelete'
+import { ShopResponse } from '../../../types/shop.type'
+import { UserResponse } from '../../../types/user.type'
+import { useMutation } from '@tanstack/react-query'
+import AccountService from '../../../apis/account.service'
+import { TResponseApi } from '../../../types/axiosResponse'
+import { fetchUser } from '../../../Redux/authenticationSlice'
 
-const BoxAvatarMode = () => {
-      const user = useSelector((state: RootState) => state.authentication.user)
+type TProps = {
+      AvatartSource: {
+            avatar: string
+            avatar_default: string
+      }
+      widthImage?: string
+      heightImage?: string
+      Mode: 'USER' | 'SHOP'
+}
+
+const BoxAvatarMode = (props: TProps) => {
+      const { AvatartSource, widthImage = 'w-[180px] xl:w-[120px]', heightImage = 'h-[180px] xl:h-[120px]', Mode } = props
+
+      // const user = useSelector((state: RootState) => state.authentication.user)
       const [state, modeDispatch] = useReducer(customerAccountReducer, initialValue)
       const refModelAvatar = useRef<HTMLDivElement>(null)
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+      const updateAvatarResponse = useMutation({
+            mutationKey: ['update-avatar'],
+            mutationFn: (data: any) => AccountService.updateAvatar(data),
+      })
+
+      const dispatch = useDispatch()
+
       useEffect(() => {
             // count.current = count.current += 1
             const handleEvent = (e: MouseEvent) => {
@@ -45,9 +71,21 @@ const BoxAvatarMode = () => {
             e.stopPropagation()
             modeDispatch({ type: 'OPEN_MODE_AVATAR_DELETE', payload: { modeAvatarDelete: true } })
       }
+
+      const onSuccessDelete = (data: { mode: 'USER'; user: UserResponse } | { mode: 'SHOP'; shop: ShopResponse }) => {
+            if (data.mode === 'USER') {
+                  dispatch(fetchUser({ user: data.user }))
+            }
+      }
+
+      const styleEffect = {
+            widthImage,
+            heightImage,
+      }
+
       return (
             <div
-                  className=' flex  items-center justify-center h-[180px] w-full xl:h-[120px] xl:w-[120px] rounded-full mb-[15px]'
+                  className={`${styleEffect.widthImage}  ${styleEffect.heightImage} flex  items-center justify-center  rounded-full mb-[15px]`}
                   onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                         e.stopPropagation()
                         modeDispatch({ type: 'OPEN_BOX_AVATAR', payload: { boxModeAvatar: true } })
@@ -55,9 +93,9 @@ const BoxAvatarMode = () => {
             >
                   <div className='relative'>
                         <img
-                              src={user.avatar?.secure_url || user.avartar_url_default || ''}
+                              src={AvatartSource?.avatar || AvatartSource.avatar_default || ''}
                               alt='user_avatar'
-                              className='w-[180px] h-[180px] xl:w-[120px]  xl:h-[120px] rounded-full border-[4px] border-cyan-200'
+                              className={`${styleEffect.widthImage} ${styleEffect.heightImage} rounded-full border-[4px] border-cyan-200 `}
                         />
 
                         <div className='absolute bottom-[10px] right-[4px] w-[20px] h-[20px] bg-slate-500 rounded-full flex items-center justify-center'>
@@ -107,19 +145,38 @@ const BoxAvatarMode = () => {
                                           {/* @model::boxAvatar->see */}
                                           {state.modeAvatarSee && (
                                                 <Portal>
-                                                      <ModelAvatarSee modeDispatch={modeDispatch} />
+                                                      <ModelAvatarSee
+                                                            modeDispatch={modeDispatch}
+                                                            onFetchAvatarKey='avatar-used'
+                                                            AvatarSource={{
+                                                                  avatar: user.avatar?.secure_url,
+                                                                  avatar_default: user.avartar_url_default,
+                                                            }}
+                                                            AvatarImageUsed={user.avatar_used}
+                                                            onFetchAvatarFn={AccountService.getAllAvatar}
+                                                      />
                                                 </Portal>
                                           )}
                                           {/* @model::boxAvatar->update */}
                                           {state.modeAvatarUpdate && (
                                                 <Portal>
-                                                      <ModelAvatarUpdate modeDispatch={modeDispatch} />
+                                                      <ModelAvatarUpdate modeDispatch={modeDispatch} onUpdate={updateAvatarResponse} />
                                                 </Portal>
                                           )}
                                           {/* @model::boxAvatar->delete */}
                                           {state.modeAvatarDelete && (
                                                 <Portal>
-                                                      <ModelAvatarDelete modeDispatch={modeDispatch} />
+                                                      <ModelAvatarDelete
+                                                            modeDispatch={modeDispatch}
+                                                            AvatarSource={{
+                                                                  avatar: user.avatar?.secure_url,
+                                                                  avatar_default: user.avartar_url_default,
+                                                            }}
+                                                            onDeleteFn={AccountService.deleteAvatar}
+                                                            onDeleteKey='delete-avatar'
+                                                            onSuccessDelete={onSuccessDelete}
+                                                            ModeParent='USER'
+                                                      />
                                                 </Portal>
                                           )}
                                     </div>

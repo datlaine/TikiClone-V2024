@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, memo, useId } from 'react'
 import { FieldValues, Path, RegisterOptions, UseFormReturn, useFormContext } from 'react-hook-form'
-import { ui } from '../RegisterProductForm/FormRegisterBook'
+import { ui } from '../RegisterProductForm/ProductFormUpload'
 
 type TProps<T extends FieldValues> = {
       methods?: UseFormReturn<T, any, undefined>

@@ -3,6 +3,7 @@ import React from 'react'
 import NotificationService from '../../apis/notification.service'
 import NotificationProduct from '../Header/Components/NotificationProduct'
 import NotificationShop from '../Header/NotificationShop'
+import { useLocation } from 'react-router-dom'
 
 const BoxNotification = () => {
       const getMyNotification = useQuery({
@@ -10,17 +11,23 @@ const BoxNotification = () => {
             queryFn: () => NotificationService.getMyNotification(),
       })
 
+      const location = useLocation().hash.slice(1)
+
+      const styleEffect = {
+            activeHash: (notification: string) => (notification === location ? 'bg-blue-100' : ''),
+      }
+
       return (
             <div className='relative w-full  pb-[10px] h-[1000px] flex flex-col '>
-                  <p className='sticky top-[-1px] left-[0px]  w-full h-[30px] py-[4px] bg-[#f5f4f6] flex items-center justify-center text-[16px] font-extrabold'>
+                  <div className='sticky top-[-1px] left-[0px]  w-full min-h-[80px] py-[4px] bg-[#ffffff] shadow-lg flex items-center justify-center text-[16px] font-extrabold'>
                         Thông báo của tôi
-                  </p>
+                  </div>
                   {getMyNotification.isSuccess &&
                         getMyNotification.data?.data.metadata.notifications &&
                         getMyNotification.data.data.metadata.notifications.notifications_message.map((notification) => {
                               return (
                                     <div
-                                          className='flex flex-col min-h-[360px] xl:min-h-[120px] h-max w-full px-[12px] my-[18px]'
+                                          className='flex flex-col min-h-[360px] xl:min-h-[160px] h-max w-full  my-[18px] bg-[#ffffff]'
                                           key={notification._id}
                                     >
                                           <div
@@ -28,30 +35,31 @@ const BoxNotification = () => {
                                                 className='flex justify-between w-full h-full flex-col gap-[24px]'
                                           >
                                                 {notification.notification_attribute.notification_type === 'PRODUCT' && (
-                                                      <NotificationProduct
-                                                            key={notification.notification_attribute.product_id}
-                                                            notificationProduct={notification.notification_attribute}
-                                                            notification={notification}
-                                                      />
+                                                      <div
+                                                            id={notification._id}
+                                                            className={`${styleEffect.activeHash(notification._id)}  p-[12px_10px]`}
+                                                      >
+                                                            <NotificationProduct
+                                                                  key={notification.notification_attribute.product_id}
+                                                                  notificationProduct={notification.notification_attribute}
+                                                                  notification={notification}
+                                                            />
+                                                      </div>
                                                 )}
 
                                                 {notification.notification_attribute.notification_type === 'SHOP' && (
-                                                      <NotificationShop
-                                                            orderProductId={notification.notification_attribute.order_product_id}
-                                                            notification={notification}
-
-                                                            // key={notification.notification_attribute.product_id}
-                                                            // notificationProduct={notification.notification_attribute}
-                                                            // notification={notification}
-                                                      />
+                                                      <div
+                                                            id={notification?._id}
+                                                            className={`${styleEffect.activeHash(notification?._id)}  p-[12px_10px]`}
+                                                      >
+                                                            {/* <span>{notification.notification_attribute.order_id}</span> */}
+                                                            <NotificationShop
+                                                                  orderProductId={notification.notification_attribute.order_id}
+                                                                  notification={notification}
+                                                            />
+                                                      </div>
                                                 )}
-                                                {/* {notification.notification_attribute.notification_type === 'SHOP' && (
-                                                                        <span>Shop nè</span>
-                                                                  )} */}
                                           </div>
-                                          {/* <div className=''>
-                                                            <p>{notification.notification_attribute.notification_content}</p>
-                                                      </div> */}
                                     </div>
                               )
                         })}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import OwnerShopFilterName from './Filter/OwnerShopFilterName'
 import { ShopResponse } from '../../../types/shop.type'
+import BoxAvatarMode from '../../Account/Box/BoxAvatarMode'
 
 type TProps = {
       shop: ShopResponse
@@ -17,9 +18,15 @@ const OwnerLayout = (props: TProps) => {
                   <div className='w-full h-[100px] bg-white flex items-center justify-center'>
                         <p className='tracking-[4px] text-[18px]'>{shop.shop_name}</p>
                   </div>
-                  <div className='relative w-full min-h-[120px] py-[30px] xl:py-0 h-max bg-[#FFA500] flex items-center'>
+                  <div className='relative w-full min-h-[140px] py-[30px] xl:py-0 h-max bg-[#FFA500] flex items-center'>
                         <div className='absolute top-[-50%] translate-y-[137%] xl:translate-y-0 left-[20px]  xl:left-[60px] bg-green-800 w-[70px] h-[70px] xl:h-[140px] xl:w-[140px] rounded-full'>
-                              <img src={shop.shop_avatar_default} className='h-full w-full rounded-full' alt='shop_image' />
+                              <BoxAvatarMode
+                                    AvatartSource={{ avatar: shop.shop_avatar?.secure_url, avatar_default: shop.shop_avatar_default }}
+                                    widthImage='w-[140px]'
+                                    heightImage='h-[140px]'
+                                    Mode='SHOP'
+                              />
+                              {/* <img src={shop.shop_avatar_default} className='h-full w-full rounded-full' alt='shop_image' /> */}
                         </div>
 
                         <ul className='ml-[20px] mt-[30px] xl:mt-0 xl:ml-[240px] flex flex-col xl:flex-row min-h-[40px] xl:items-center gap-[16px]'>

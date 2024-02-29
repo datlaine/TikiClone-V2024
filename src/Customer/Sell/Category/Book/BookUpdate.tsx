@@ -9,6 +9,8 @@ import {
 } from '../../../../types/timeline/timeline.book.type'
 import Book from './Book'
 import ProductUpdate from '../../UpdateProductForm/ProductUpdate'
+import { TRegisterFormBook } from '../../../../types/product/product.book.type'
+import ProductFormUpdate from '../../UpdateProductForm/ProductUpdate'
 
 export type TProps = {
       product: TProductDetail
@@ -24,7 +26,7 @@ const BookUpdate: React.FC<TProps> = (props: TProps) => {
 
       return (
             <div className='w-[1000px] mx-auto bg-white px-[20px] flex justify-center'>
-                  <ProductUpdate<TTimeLineBookField, TTimeLineBookLabel, typeof product>
+                  <ProductFormUpdate<TTimeLineBookField, TTimeLineBookLabel>
                         ProductAttribute={<Book mode='UPDATE' />}
                         product_id={product._id}
                         mode='UPDATE'
@@ -33,9 +35,11 @@ const BookUpdate: React.FC<TProps> = (props: TProps) => {
                               defaultLabelName: timelineLabelNameBook,
                         })}
                         product={product as TProductDetail}
-                        defaultValues={product}
+                        defaultValues={product as unknown as TRegisterFormBook}
                         public_id={product.product_thumb_image.public_id}
                         public_id_array={product.product_desc_image}
+                        ProductType='Book'
+                        endPointUrl='/v1/api/product/upload-product-book'
                   />
             </div>
       )

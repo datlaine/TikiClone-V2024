@@ -12,7 +12,7 @@ import { addToast } from '../../../../Redux/toast'
 import { useMutation } from '@tanstack/react-query'
 import ProductApi, { IFormDataDeleteImage, IFormDataImage, IFormDataImages } from '../../../../apis/product.api'
 import { TCheckDescriptionImage, TChekUploadImage } from '../../../../types/product/product.type'
-import { ui } from '../../RegisterProductForm/FormRegisterBook'
+import { ui } from '../../RegisterProductForm/ProductFormUpload'
 import { TCloudinaryImage } from '../../types/cloudinary.typs'
 
 //@Props

@@ -1,23 +1,21 @@
-import { QueryClient, useMutation } from '@tanstack/react-query'
+import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 import React, { SetStateAction, useEffect, useRef, useState } from 'react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import Account from '../../../apis/account.service'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { TAvatarActions } from '../../../reducer/customer.reducer'
-import { checkAxiosError } from '../../../utils/handleAxiosError'
-import { sleep } from '../../../utils/sleep'
-import TErrorAxios from '../../../types/axios.response.error'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { fetchUser } from '../../../Redux/authenticationSlice'
 import { addToast } from '../../../Redux/toast'
 import AccountService from '../../../apis/account.service'
+import { AxiosResponse } from 'axios'
 
 //@props
 type TProps = {
       setModelAvatarUpdate?: React.Dispatch<SetStateAction<boolean>>
       setModelAvatar?: React.Dispatch<SetStateAction<boolean>>
       modeDispatch: React.Dispatch<TAvatarActions>
+      onUpdate: UseMutationResult<AxiosResponse<any, any>, Error, any, unknown>
 }
 
 type TForm = {
@@ -28,7 +26,7 @@ type TForm = {
 const ModelAvatarUpdate = (props: TProps) => {
       const dispatch = useDispatch()
       //@props
-      const { modeDispatch } = props
+      const { modeDispatch, onUpdate } = props
       const methods = useForm<TForm>({
             defaultValues: { file: null },
       })
@@ -36,16 +34,6 @@ const ModelAvatarUpdate = (props: TProps) => {
       const form = methods.register('file')
 
       const user = useSelector((state: RootState) => state.authentication.user)
-      const updateAvatarResponse = useMutation({
-            mutationKey: ['update-avatar'],
-            mutationFn: (data: any) => AccountService.updateAvatar(data),
-            onSuccess: (res: any) => {
-                  // modeDispatch({ type: 'MODE_AVATAR_UPDATE_SUCCESS', payload: { boxModeAvatar: false, modeAvatarUpdate: false } })
-            },
-            onError: async (error) => {
-                  //@[shape] :: error.response.data.error
-            },
-      })
 
       const [fileAvatar, setFileAvatar] = useState<File>()
       const [filePreview, setFilePreview] = useState<string | undefined>()
@@ -65,15 +53,15 @@ const ModelAvatarUpdate = (props: TProps) => {
       }, [fileAvatar])
 
       useEffect(() => {
-            if (updateAvatarResponse.isSuccess) {
-                  dispatch(fetchUser({ user: updateAvatarResponse.data.data.metadata.user }))
+            if (onUpdate.isSuccess) {
+                  dispatch(fetchUser({ user: onUpdate.data.data.metadata.user }))
                   modeDispatch({ type: 'CLOSE_MODE_AVATAR_UPDATE', payload: { modeAvatarUpdate: false, boxModeAvatar: false } })
                   dispatch(addToast({ type: 'SUCCESS', message: 'Cập nhập avtar thành công', id: Math.random().toString() }))
             }
-            if (updateAvatarResponse.isSuccess && updateAvatarResponse.data) {
-                  console.log({ updateAvatarResponse: updateAvatarResponse.data.data.metadata.user })
+            if (onUpdate.isSuccess && onUpdate.data) {
+                  console.log({ onUpdate: onUpdate.data.data.metadata.user })
             }
-      }, [updateAvatarResponse.isSuccess, modeDispatch, updateAvatarResponse.data, dispatch])
+      }, [onUpdate.isSuccess, modeDispatch, onUpdate.data, dispatch])
 
       //@closeModel
       const modelControllClose = () => {
@@ -112,7 +100,7 @@ const ModelAvatarUpdate = (props: TProps) => {
             formData.append('user', user)
 
             console.log('dirty', methods)
-            updateAvatarResponse.mutate(formData)
+            onUpdate.mutate(formData)
       }
 
       //@element
@@ -186,7 +174,7 @@ const ModelAvatarUpdate = (props: TProps) => {
                                                 className='w-[49%] px-[12px] py-[6px] bg-blue-500 text-white flex justify-center gap-[8px] items-center'
                                           >
                                                 <span>Lưu thay đổi</span>
-                                                {updateAvatarResponse.isPending && (
+                                                {onUpdate.isPending && (
                                                       <span
                                                             className='inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
                                                             role='status'

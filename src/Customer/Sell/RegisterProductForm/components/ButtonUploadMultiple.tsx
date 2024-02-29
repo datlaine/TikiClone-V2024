@@ -11,7 +11,7 @@ import { addToast } from '../../../../Redux/toast'
 //@api
 import { useMutation } from '@tanstack/react-query'
 import ProductApi, { IFormDataDeleteImage, IFormDataImage, IFormDataImages } from '../../../../apis/product.api'
-import { ui } from '../FormRegisterBook'
+import { ui } from '../ProductFormUpload'
 import { TCheckDescriptionImage, TChekUploadImage } from '../../../../types/product/product.type'
 
 //@Props

@@ -4,7 +4,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { Check } from 'lucide-react'
 
 //@api
-import ProductApi, { IFormDataProductFull } from '../../../apis/product.api'
+import ProductApi, { IFormDataProductFull, ProductData } from '../../../apis/product.api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 //@form
@@ -18,22 +18,22 @@ import InputNumber from '../components/InputNumber'
 import Timeline from '../components/Timeline'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
-import { productBookSchema, productSchema } from '../types/product.schema'
+import { productBookSchema, productFoodSchema, productSchema } from '../types/product.schema'
 import Book from '../Category/Book/Book'
-import { TCheckDescriptionImage, TChekUploadImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
+import { ProductForm, TCheckDescriptionImage, TChekUploadImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
 import { TRegisterFormBook } from '../../../types/product/product.book.type'
 import { returnPublicIdCloudinary, returnSecureUrlCloudinary } from '../../../utils/cloudinary.util'
 import { TCloudinaryImage, TCloudinaryPublicId } from '../types/cloudinary.typs'
 import ButtonUpload from '../RegisterProductForm/components/ButtonUpload'
 import UpdateMultipleImage from './components/UpdateMultipleImage'
 import { Link } from 'react-router-dom'
+import { ProductFoodForm } from '../../../types/product/product.food.type'
 
 //@Props - Product::Book
 
 //@type form chính
 
 //@schema chính
-const schema = productSchema.merge(productBookSchema)
 
 export const ui = {
       gapElementChild: 'gap-[6px]',
@@ -41,7 +41,7 @@ export const ui = {
       fontSizeError: 'text-[12px]',
       colorError: 'text-red-700',
 }
-type TProps<T, K, Form> = {
+type TProps<T, K> = {
       mode?: 'UPLOAD' | 'UPDATE'
       product_id: string
       ProductAttribute: React.ReactNode
@@ -49,34 +49,27 @@ type TProps<T, K, Form> = {
             FieldName: keyof T
             label: keyof K
       }[]
-      defaultValues: Form
+      defaultValues: ProductForm
       product?: TProductDetail
       public_id?: string
       public_id_array?: { secure_url: string; public_id: string }[]
-}
-
-const defaultValues: TRegisterFormBook & { product_available: number; product_is_bought: number } = {
-      product_id: '',
-      product_name: '',
-      product_price: null,
-      product_available: 0,
-      product_is_bought: 0,
-      attribute: {
-            publishing: '',
-            page_number: 0,
-            author: '',
-            description: '',
-            book_type: 'Novel',
-      },
+      ProductType: 'Book' | 'Food'
+      endPointUrl: string
 }
 
 //@Component
-const ProductUpdate = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>) => {
-      const { product_id, ProductAttribute, TimelineProps, mode = 'UPDATE', product } = props
+const ProductFormUpdate = <T, K>(props: TProps<T, K>) => {
+      const { product_id, ProductAttribute, TimelineProps, mode = 'UPDATE', product, defaultValues, ProductType, endPointUrl } = props
       console.log({ product })
       //@trang thái submit
       const [, setFormStateSubmit] = useState(false)
       const dispatch = useDispatch()
+      let schema
+      if (ProductType === 'Book') {
+            schema = productSchema.merge(productBookSchema)
+      } else {
+            schema = productSchema.merge(productFoodSchema)
+      }
 
       const queryClient = useQueryClient()
       //@lấy thông tin hình ảnh
@@ -105,7 +98,7 @@ const ProductUpdate = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>
       //@hàm upload sản phẩn
       const uploadProductFull = useMutation({
             mutationKey: ['upload-product-full'],
-            mutationFn: (data: IFormDataProductFull) => ProductApi.uploadProductFull(data),
+            mutationFn: (data: ProductData) => ProductApi.uploadProductFull(data, endPointUrl),
       })
 
       //@hàm submit sản phẩm
@@ -139,22 +132,18 @@ const ProductUpdate = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>
             if (urlProductThumb.isUploadImage && urlProductMultipleImage.isUploadImage) {
                   // console.log({ urlProductThumb })
 
-                  const formData: IFormDataProductFull = new FormData()
-                  formData.append('_id ', product_id)
-                  formData.append('product_available', data.product_available)
-                  formData.append('product_name', data.product_name)
-                  formData.append('product_price', data.product_price as number)
-                  formData.append('product_is_bought', product?.product_is_bought || 0)
-                  formData.append('publishing', data.attribute.publishing)
-                  formData.append('author', data.attribute.author)
-                  formData.append('page_number', data.attribute.page_number)
-                  formData.append('description', data.attribute.description)
-                  formData.append('book_type', data.attribute.book_type)
-                  uploadProductFull.mutate(formData)
+                  const uploadProduct = {
+                        product_id,
+                        product_name: data.product_name,
+                        product_price: data.product_price,
+                        product_available: data.product_available,
+                  }
+
+                  uploadProductFull.mutate({ product_id: product_id, uploadProduct, product_attribute: data.attribute })
             }
       }
 
-      console.log({ submit: methods.formState.isSubmitted, success: methods.formState.isSubmitSuccessful })
+      console.log({ submit: methods.formState.isSubmitted, success: methods.formState.isSubmitSuccessful, erros: methods.formState.errors })
 
       useEffect(() => {
             const callAgain = async () => {
@@ -319,4 +308,4 @@ const ProductUpdate = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>
       )
 }
 
-export default ProductUpdate
+export default ProductFormUpdate

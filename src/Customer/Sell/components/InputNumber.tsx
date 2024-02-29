@@ -1,6 +1,6 @@
 import React, { useId } from 'react'
 import { FieldValue, FieldValues, useFormContext } from 'react-hook-form'
-import { ui } from '../RegisterProductForm/FormRegisterBook'
+import { ui } from '../RegisterProductForm/ProductFormUpload'
 
 type TProps<T extends FieldValues> = {
       FieldName: keyof T

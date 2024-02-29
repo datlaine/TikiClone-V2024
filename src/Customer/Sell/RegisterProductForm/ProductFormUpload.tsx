@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { Check } from 'lucide-react'
 
 //@api
-import ProductApi, { IFormDataProductFull } from '../../../apis/product.api'
+import ProductApi, { ProductData } from '../../../apis/product.api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 //@form
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FieldValues, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 //@components
@@ -19,62 +19,79 @@ import InputNumber from '../components/InputNumber'
 import Timeline from '../components/Timeline'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
-import { productBookSchema, productSchema } from '../types/product.schema'
-import { TCheckDescriptionImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
-import { TRegisterFormBook } from '../../../types/product/product.book.type'
+import { productBookSchema, productFoodSchema, productSchema } from '../types/product.schema'
+import { ProductForm, ProductType, TCheckDescriptionImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
+import { TRegisterFormBook, TRegisterFormBookTest } from '../../../types/product/product.book.type'
 import UpdateMultipleImage from '../UpdateProductForm/components/UpdateMultipleImage'
 import { Link } from 'react-router-dom'
 import { sleep } from '../../../utils/sleep'
+import { ProductFoodForm } from '../../../types/product/product.food.type'
 
 //@Props - Product::Book
 
 //@type form chính
 
 //@schema chính
-const schema = productSchema.merge(productBookSchema)
+const ProductBookFormSchema = productSchema.merge(productBookSchema)
+const ProductFoodFormSchema = productSchema.merge(productFoodSchema)
+type SchemaProduct = typeof ProductBookFormSchema | typeof ProductFoodFormSchema
+// type SchemaProduct = z.infer<typeof schema>
+
 export const ui = {
       gapElementChild: 'gap-[6px]',
       gapElementChildButton: 'gap-[12px]',
       fontSizeError: 'text-[12px]',
       colorError: 'text-red-700',
 }
-type TProps<T, K, Form> = {
+type TProps<TimelineFieldName, TimelineLabel> = {
       mode?: 'UPLOAD' | 'UPDATE'
       product_id: string
+      ProductType: ProductType
       ProductAttribute: React.ReactNode
+
       TimelineProps: {
-            FieldName: keyof T
-            label: keyof K
+            FieldName: keyof TimelineFieldName
+            label: keyof TimelineLabel
       }[]
-      defaultValues: Form
+      defaultValues: ProductForm
       product?: TProductDetail
       public_id?: string
       public_id_array?: { secure_url: string; public_id: string }[]
+      endpointUrl: string
 }
 
-const defaultValues: TRegisterFormBook = {
-      product_id: '',
-      product_name: '',
-      product_price: null,
-      product_available: 0,
-      attribute: {
-            publishing: '',
-            page_number: 0,
-            author: '',
-            description: '',
-            book_type: 'Novel',
-      },
+// const defaultValues: TRegisterFormBook = {
+//       product_id: '',
+//       product_name: '',
+//       product_price: null,
+//       product_available: 0,
+//       attribute: {
+//             publishing: '',
+//             page_number: 0,
+//             author: '',
+//             description: '',
+//             book_type: 'Novel',
+//       },
+// }
+type Test<T extends z.ZodTypeAny> = {
+      schema: T
 }
 
 //@Component
-const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Form>) => {
-      const { product_id, ProductAttribute, TimelineProps, mode = 'UPLOAD' } = props
+const ProductFormUpload = <TimelineFieldName, TimelineLabel>(props: TProps<TimelineFieldName, TimelineLabel>) => {
+      const { product_id, ProductAttribute, TimelineProps, mode = 'UPLOAD', defaultValues, endpointUrl, ProductType } = props
 
       //@trang thái submit
       const [, setFormStateSubmit] = useState(false)
       const dispatch = useDispatch()
       const [isSuccess, setIsSuccess] = useState<boolean>(false)
       const queryClient = useQueryClient()
+      let schema
+      if (ProductType === 'Book') {
+            schema = productSchema.merge(productBookSchema)
+      } else {
+            schema = productSchema.merge(productFoodSchema)
+      }
       //@lấy thông tin hình ảnh
       const [urlProductThumb, setUrlProductThumb] = useState<TProfileImage>({
             isUploadImage: false,
@@ -99,12 +116,12 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
       //@hàm upload sản phẩn
       const uploadProductFull = useMutation({
             mutationKey: ['upload-product-full'],
-            mutationFn: (data: IFormDataProductFull) => ProductApi.uploadProductFull(data),
-            onSuccess: async () => {},
+            mutationFn: (data: ProductData) => ProductApi.uploadProductFull(data, endpointUrl),
       })
-
+      console.log({ erros: methods.formState.errors })
       //@hàm submit sản phẩm
-      const onSubmit = (data: TRegisterFormBook) => {
+      const onSubmit = (data: typeof defaultValues) => {
+            console.log({ data })
             setFormStateSubmit(true)
 
             // console.log({ demo: data })
@@ -131,21 +148,13 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
 
             // chỉ submit khi có đủ image
             if (urlProductThumb.isUploadImage && urlProductMultipleImage.isUploadImage) {
-                  console.log({ urlProductThumb })
-
-                  const formData: IFormDataProductFull = new FormData()
-                  formData.append('_id ', product_id)
-
-                  formData.append('product_name', data.product_name)
-                  formData.append('product_price', data.product_price as number)
-                  formData.append('book_type', data.attribute.book_type)
-                  formData.append('product_available', data.product_available)
-                  formData.append('publishing', data.attribute.publishing)
-                  formData.append('author', data.attribute.author)
-                  formData.append('page_number', data.attribute.page_number)
-                  formData.append('description', data.attribute.description)
-
-                  uploadProductFull.mutate(formData)
+                  const uploadProduct = {
+                        product_id,
+                        product_name: data.product_name,
+                        product_price: data.product_price,
+                        product_available: data.product_available,
+                  }
+                  uploadProductFull.mutate({ product_id: product_id, uploadProduct, product_attribute: data.attribute })
             }
       }
 
@@ -293,7 +302,7 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
                                           type='Text'
                                     />
                                     {TimelineProps.map((timeline) => (
-                                          <Timeline<T, typeof defaultValues>
+                                          <Timeline<TimelineFieldName, typeof defaultValues>
                                                 attribute={true}
                                                 methods={methods}
                                                 type='Text'
@@ -320,4 +329,4 @@ const FormRegisterBook = <T, K, Form extends FieldValues>(props: TProps<T, K, Fo
       )
 }
 
-export default FormRegisterBook
+export default ProductFormUpload

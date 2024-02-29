@@ -26,11 +26,12 @@ import { checkAxiosError } from '../../utils/handleAxiosError'
 import { sleep } from '../../utils/sleep'
 
 //@icon
-import BoxAvatarMode from '../Account/Box/BoxAvatarMode'
 import TErrorAxios from '../../types/axios.response.error'
 import { addToast } from '../../Redux/toast'
 import InputText from '../Sell/components/InputText'
 import AccountService from '../../apis/account.service'
+import { UserResponse } from '../../types/user.type'
+import BoxAvatarMode from '../Account/Box/BoxAvatarMode'
 
 //@type form
 type TFormCustomer = {
@@ -49,7 +50,7 @@ type TFormCustomer = {
 
 //@Component :: api
 const CustomerAccount = () => {
-      const user = useSelector((state: RootState) => state.authentication.user)
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const dispatch = useDispatch()
 
       const dayTime = new Date()
@@ -172,7 +173,13 @@ const CustomerAccount = () => {
                               <div className='h-[40%] xl:h-[24%]  data-user flex flex-col lg:flex-row gap-[20px] xl:gap-0 xl:items-center'>
                                     {/* @onClick active mode*/}
                                     <div className='flex flex-col xl:flex-row gap-[28px] xl:gap-0 w-full '>
-                                          <BoxAvatarMode />
+                                          <BoxAvatarMode
+                                                AvatartSource={{
+                                                      avatar: user.avatar?.secure_url,
+                                                      avatar_default: user.avartar_url_default,
+                                                }}
+                                                Mode='USER'
+                                          />
                                           {/* @ form update infomation account */}
                                           {/* @ formLayout - 1 */}
                                           <div className='min-h-[90px] flex flex-1  flex-col justify-between'>

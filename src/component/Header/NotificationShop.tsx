@@ -16,10 +16,14 @@ type TProps = {
 const NotificationShop = (props: TProps) => {
       const { orderProductId, notification } = props
 
+      console.log('shop')
+
       const getMyShopNotification = useQuery({
             queryKey: ['v1/api/notification/get-my-shop-notifications', orderProductId],
             queryFn: () => NotificationService.getMyShopNotification({ order_product_id: orderProductId }),
       })
+
+      console.log({ notification: notification._id, orderProductId })
 
       return (
             <section className='w-full h-full flex flex-col gap-[12px]'>
@@ -33,6 +37,7 @@ const NotificationShop = (props: TProps) => {
                               <span>{notification.notification_attribute.notification_content}</span>
                               <ArrowBigUp strokeWidth={1.75} color='red' />
                         </p>
+                        {/* <p>{notification._id}</p> */}
                   </header>
                   {getMyShopNotification.isSuccess &&
                         getMyShopNotification.data.data.metadata.myNotificationShop.product_sell &&
@@ -40,9 +45,9 @@ const NotificationShop = (props: TProps) => {
                               return (
                                     <div className='flex-1' key={p._id}>
                                           {
-                                                <div className='flex flex-col xl:flex-row gap-[16px]'>
+                                                <div className='flex flex-col xl:flex-row gap-[6px]'>
                                                       <Link
-                                                            to={`/product/${p.product_doc._id}`}
+                                                            to={`/customer/notification#${notification._id}`}
                                                             className='w-full xl:w-[100px] h-[120px] xl:h-[100px]'
                                                       >
                                                             <img

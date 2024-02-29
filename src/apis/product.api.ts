@@ -1,7 +1,9 @@
 import axios from 'axios'
 import { ServerMessageVerify, TResponseApi } from '../types/axiosResponse'
 import axiosCustom from './http'
-import { TProductDetail, TProductFull } from '../types/product/product.type'
+import { IProductBook, TProductDetail, TProductFormCommon, TProductFull } from '../types/product/product.type'
+import { TBookProduct } from '../types/product/product.book.type'
+import { ProductFood } from '../types/product/product.food.type'
 
 export type TProduct = {
       product_id: string
@@ -64,6 +66,12 @@ export interface IFormDataProductFull extends FormData {
             value: string | Blob | number,
             fileName?: string,
       ): void
+}
+
+export type ProductData = {
+      uploadProduct: Pick<TProductFormCommon, 'product_id' | 'product_name' | 'product_price' | 'product_available'>
+      product_attribute: TBookProduct | ProductFood
+      product_id: string
 }
 
 class ProductApi {
@@ -130,12 +138,12 @@ class ProductApi {
             })
       }
 
-      static async uploadProductFull(product: IFormDataProductFull) {
+      static async uploadProductFull(product: ProductData, endpointUrl: string) {
             return axiosCustom.post<
                   TResponseApi<{
                         product: { product_id: string; product_name: string; product_price: number; product_thumb_image: string }
                   }>
-            >('v1/api/product/upload-product-book', product)
+            >(endpointUrl, product)
       }
 
       static async getProductShop() {

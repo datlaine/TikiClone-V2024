@@ -1,5 +1,10 @@
 import { TCloudinaryImage } from '../../Customer/Sell/types/cloudinary.typs'
 import { ShopResponse } from '../shop.type'
+import { TRegisterFormBook } from './product.book.type'
+import { ProductFoodForm } from './product.food.type'
+
+export type ProductType = 'Book' | 'Food'
+export type ProductForm = TRegisterFormBook | ProductFoodForm
 
 export type TProductFull =
       | {
@@ -38,13 +43,13 @@ export type TProductDetail = {
       product_state: boolean
       product_is_select: boolean
       product_is_bought: number
-      product_type: string
+      product_type: ProductType
       attribute: IProductBook
       shop_id: ShopResponse
 }
 
 export type IProductBook = {
-      product_id: string
+      book_type: 'Novel' | 'Manga' | 'Dictive'
       publishing: string
       author: string
       page_number: number

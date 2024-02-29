@@ -11,10 +11,10 @@ import { ArrowBigDown } from 'lucide-react'
 type TProps = {
       notificationProduct: TNotificationProduct
       notification: NotificationMessage
-}
+} & React.HTMLAttributes<HTMLElement>
 
 const NotificationProduct = (props: TProps) => {
-      const { notification, notificationProduct } = props
+      const { notification, notificationProduct, ...propsElement } = props
       console.log({ id: notificationProduct.product_id })
       const getOrderInfo = useQuery({
             queryKey: ['/v1/api/order/get-order-info', notificationProduct.product_id],
@@ -29,9 +29,9 @@ const NotificationProduct = (props: TProps) => {
       }, [])
 
       return (
-            <section className='w-full h-full flex flex-col gap-[12px]'>
+            <section className='w-full h-full flex flex-col gap-[12px]' {...propsElement}>
                   {/* <NotificationSkeleton /> */}
-
+                  <p>{notification._id}</p>
                   <header className='w-full flex justify-between text-[12px]'>
                         <p className='flex-1 flex flex-col xl:flex-row gap-[4px] items-center'>
                               <span>
@@ -50,9 +50,9 @@ const NotificationProduct = (props: TProps) => {
                                     return (
                                           <div className='flex-1' key={pz._id}>
                                                 {
-                                                      <div className='flex flex-col xl:flex-row gap-[16px]'>
+                                                      <div className='flex flex-col xl:flex-row gap-[6%]'>
                                                             <Link
-                                                                  to={`/product/${pz.product_id._id}`}
+                                                                  to={{ pathname: `/customer/notification`, hash: `#${notification._id}` }}
                                                                   className='w-full xl:w-[100px] h-[120px] xl:h-[100px]'
                                                             >
                                                                   <img

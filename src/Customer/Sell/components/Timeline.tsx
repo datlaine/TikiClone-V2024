@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 //@handle time
 import { DateTime } from 'luxon'
@@ -7,7 +7,7 @@ import { DateTime } from 'luxon'
 import { FieldValues, Path } from 'react-hook-form'
 import { TimeLineProps } from '../../../types/timeline/timeLine.type'
 
-const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, HookFormType>) => {
+const Timeline = <FieldNameInput, HookFormType extends FieldValues>(props: TimeLineProps<FieldNameInput, HookFormType>) => {
       const { methods, TimeLineName, FieldName, File, Files, type, isSubmit, attribute } = props
       // const methods = useFormContext()
       const error = methods?.formState.errors
@@ -28,22 +28,13 @@ const Timeline = <T, HookFormType extends FieldValues>(props: TimeLineProps<T, H
             heightScale: type === 'Files' ? 85 : 70,
             heightContainer: type === 'Files' ? 75 : 70,
       }
-      // console.log(
-      //       new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-      //             .format(Number(methods?.watch(FieldName as unknown as Path<HookFormType>)))
-      //             .replace('₫', 'VNĐ'),
-      // )
-      // console.log(type === 'Files' && Files?.FileName)
 
       //@element
       return (
             <div style={{ minHeight: styleEffect.heightContainer }} className={` h-auto flex`}>
                   <div className='flex gap-[12px] items-start relative'>
                         <div className='relative w-[16px] h-[16px] border-[2px] border-blue-700 rounded-full'></div>
-                        <div
-                              // style={{ height: styleEffect.heightScale }}
-                              className={` absolute top-[16px] left-[8px] h-full translate-x-[-50%]  bg-blue-700 w-[2px] flex items-center`}
-                        >
+                        <div className={` absolute top-[16px] left-[8px] h-full translate-x-[-50%]  bg-blue-700 w-[2px] flex items-center`}>
                               <p className='translate-x-[-180%] text-[12px]'>
                                     {DateTime.now().setZone('Asia/Ho_Chi_Minh').toLocaleString(DateTime.TIME_24_SIMPLE)}
                               </p>

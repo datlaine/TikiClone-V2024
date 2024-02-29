@@ -5,8 +5,9 @@ import { useQuery } from '@tanstack/react-query'
 import ProductApi from '../../../../apis/product.api'
 import { useParams } from 'react-router-dom'
 import { TProductDetail } from '../../../../types/product/product.type'
+import FoodUpdate from '../Food/FoodUpdate'
 
-const UpdateWrapper = () => {
+const PermisionProductUpdate = () => {
       const param = useParams()
       const { product_id } = param
       const protectProduct = useQuery({
@@ -16,13 +17,12 @@ const UpdateWrapper = () => {
 
       useEffect(() => {
             if (protectProduct.isSuccess) {
-                  // console.log({ _id: protectProduct.data.data.metadata.product?._id })
             }
       }, [protectProduct.isSuccess])
 
       return (
             <div className='w-full'>
-                  {protectProduct.isSuccess && (
+                  {protectProduct.isSuccess && protectProduct.data.data.metadata.product?.product_type === 'Book' && (
                         <ProtectProductUpdate
                               isSuccess={protectProduct.isSuccess}
                               product={protectProduct.data?.data.metadata.product}
@@ -30,11 +30,20 @@ const UpdateWrapper = () => {
                               ElementPublic={<p>Sản phẩm có id {product_id} không được tìm thấy trong shop của bạn</p>}
                         />
                   )}
+
+                  {protectProduct.isSuccess && protectProduct.data.data.metadata.product?.product_type === 'Food' && (
+                        <ProtectProductUpdate
+                              isSuccess={protectProduct.isSuccess}
+                              product={protectProduct.data?.data.metadata.product}
+                              ElementPrivate={<FoodUpdate product={protectProduct.data?.data.metadata.product as TProductDetail} />}
+                              ElementPublic={<p>Sản phẩm có id {product_id} không được tìm thấy trong shop của bạn</p>}
+                        />
+                  )}
             </div>
       )
 }
 
-export default UpdateWrapper
+export default PermisionProductUpdate
 // import React from 'react'
 
 // const UpdateWrapper = () => {

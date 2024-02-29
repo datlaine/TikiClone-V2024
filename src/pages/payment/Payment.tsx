@@ -9,6 +9,7 @@ import PaymentItem from './PaymentItem'
 import { Link } from 'react-router-dom'
 import { CartProduct, CartResponse } from '../../types/cart.type'
 import CartEmpty from '../../component/Cart/CartEmpty'
+import NotFound from '../../component/Errors/NotFound'
 
 const Payment = () => {
       const [price, setPrice] = useState<number>(0)
@@ -84,7 +85,10 @@ const Payment = () => {
 
                         {payQuery.isSuccess && !payQuery.data.data.metadata.carts && (
                               <div className='mt-[100px]'>
-                                    <CartEmpty />
+                                    <NotFound
+                                          ContentHeader='Không có sản phẩm nào được thanh toán'
+                                          ContentDescription='Vui lòng cọn sản phẩm trước khi vào trang này'
+                                    />
                               </div>
                         )}
                   </div>

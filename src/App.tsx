@@ -8,6 +8,7 @@ import Footer from './component/Footer/Footer'
 import { RootState } from './store'
 import AuthWrapper from './component/Auth/AuthWrapper'
 import FooterMobile from './component/Footer/FooterMobile'
+import ScrollToAnchor from './component/Header/Components/ScrollArchor'
 
 function App() {
       const boxLogin = useSelector((state: RootState) => state.authentication.isOpenBoxLogin)
@@ -26,6 +27,7 @@ function App() {
                   <div id='main' className='min-h-screen'>
                         <RouterController />
                         <FooterMobile className='block xl:hidden' />
+                        <ScrollToAnchor />
                   </div>
 
                   {boxLogin && <AuthWrapper setShowBoxAuth={setShowBoxAuth} />}

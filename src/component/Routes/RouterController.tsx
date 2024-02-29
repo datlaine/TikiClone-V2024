@@ -27,10 +27,11 @@ import RegisterSell from '../../Customer/Sell/RegisterSell'
 import Buy from '../../pages/product/Product'
 import Product from '../../pages/product/Product'
 import BookUpdate from '../../Customer/Sell/Category/Book/BookUpdate'
-import UpdateWrapper from '../../Customer/Sell/Category/Book/UpdateWrapper'
+import UpdateWrapper from '../../Customer/Sell/Category/Book/PermissionProductUpdate'
 import CustomerRouter from '../../Customer/Components/CustomerRouter'
 import Payment from '../../pages/payment/Payment'
 import CustomerUserAddress from '../../Customer/UserAddress/CustomerUserAddress'
+import PermisionProductUpdate from '../../Customer/Sell/Category/Book/PermissionProductUpdate'
 
 const RouterController = () => {
       // const matchPath = useMatch('/admin' || '/payment')
@@ -74,7 +75,7 @@ const RouterController = () => {
                                                 <Route path='register-sell' element={<RegisterSell />} />
                                                 <Route path='router' element={<CustomerRouter />} />
                                           </Route>
-                                          <Route path='product/update-book/:product_id' element={<UpdateWrapper />} />
+                                          <Route path='product/update-book/:product_id' element={<PermisionProductUpdate />} />
                                           <Route path='query-params' element={<QueryParams />} />
                                     </Routes>
                               </div>

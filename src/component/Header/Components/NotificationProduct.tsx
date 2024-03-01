@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { convertDateToStringFull } from '../../../utils/date.utils'
 import { NotificationAttribute, NotificationMessage, NotificationProduct as TNotificationProduct } from '../../../types/notification.type'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -15,6 +15,8 @@ type TProps = {
 
 const NotificationProduct = (props: TProps) => {
       const { notification, notificationProduct, ...propsElement } = props
+
+      const [heightNotification, setHeightNotification] = useState<number>(180)
       console.log({ id: notificationProduct.product_id })
       const getOrderInfo = useQuery({
             queryKey: ['/v1/api/order/get-order-info', notificationProduct.product_id],
@@ -25,11 +27,19 @@ const NotificationProduct = (props: TProps) => {
       console.log({ order_id: notificationProduct.product_id })
 
       useEffect(() => {
-            // getOrderInfo.mutate({ order_id: notificationProduct.product_id })
-      }, [])
+            if (getOrderInfo.isSuccess) {
+                  setHeightNotification(getOrderInfo?.data?.data?.metadata?.getOrderInfo?.order_products[0].products.length * 180)
+            }
+      }, [getOrderInfo.isSuccess, heightNotification])
 
       return (
-            <section className='w-full h-full flex flex-col gap-[12px]' {...propsElement}>
+            <section
+                  style={{
+                        height: heightNotification === 180 ? '100%' : heightNotification,
+                  }}
+                  className={`w-full  flex flex-col gap-[12px]`}
+                  {...propsElement}
+            >
                   {/* <NotificationSkeleton /> */}
                   <p>{notification._id}</p>
                   <header className='w-full flex justify-between text-[12px]'>

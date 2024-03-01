@@ -10,14 +10,29 @@ import { Link } from 'react-router-dom'
 import { CartProduct, CartResponse } from '../../types/cart.type'
 import CartEmpty from '../../component/Cart/CartEmpty'
 import NotFound from '../../component/Errors/NotFound'
+import { OrderItem } from '../../types/order.type'
+import { PDFInvoice } from './PDFInvoice'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { PDFInvoiceImage } from './PDFInvoiceImage'
 
 const Payment = () => {
       const [price, setPrice] = useState<number>(0)
+      const [stateOrder, setStateOrder] = useState<boolean>(false)
+      const [dataOrder, setDataOrder] = useState<OrderItem | undefined>(undefined)
 
       const payQuery = useQuery({
             queryKey: ['v1/api/cart/cart-pay'],
             queryFn: () => CartService.calculatorPrice(),
       })
+
+      const onSuccesOrder = ({ message, order_success }: { message: string; order_success: OrderItem }) => {
+            if (message === 'SUCCESS') {
+                  setDataOrder(order_success)
+                  setStateOrder(true)
+            }
+      }
+
+      console.log({ dataOrder })
 
       useEffect(() => {
             window.scrollTo({
@@ -63,18 +78,54 @@ const Payment = () => {
                         </header>
                         {payQuery.isSuccess && payQuery.data.data.metadata.carts && (
                               <section className='mt-[30px] w-full xl:w-[1250px] mx-auto min-h-screen h-max  flex flex-col xl:flex-row gap-[16px]'>
-                                    <div className='w-full xl:w-[70%] bg-[#ffffff] p-[20px] h-max'>
-                                          <h4>Chọn hình thức giao hàng</h4>
-                                          <div className='mt-[40px] flex flex-col gap-[70px]'>
-                                                {payQuery.isSuccess &&
-                                                      payQuery.data.data.metadata.carts.cart_products.map((product, index) => (
-                                                            <PaymentItem key={product._id} product={product} index={index + 1} />
-                                                      ))}
+                                    {!stateOrder && (
+                                          <div className='w-full xl:w-[70%] bg-[#ffffff] p-[20px] h-max'>
+                                                <h4>Chọn hình thức giao hàng</h4>
+                                                <div className='mt-[40px] flex flex-col gap-[70px]'>
+                                                      {payQuery.isSuccess &&
+                                                            payQuery.data.data.metadata.carts.cart_products.map((product, index) => (
+                                                                  <PaymentItem key={product._id} product={product} index={index + 1} />
+                                                            ))}
+                                                </div>
                                           </div>
-                                    </div>
+                                    )}
+
+                                    {stateOrder && dataOrder && (
+                                          <div className='animate-mountComponent w-full xl:w-[70%] bg-[#ffffff] p-[20px] h-max'>
+                                                <p className='text-center text-[28px] text-slate-900'>Thanh toán thành công</p>
+                                                <div className='w-[550px] min-h-[400px] h-max mx-auto'>
+                                                      <PDFInvoice
+                                                            orderTime={dataOrder.order_time_payment}
+                                                            products={dataOrder.products}
+                                                            orderTotal={dataOrder.order_total}
+                                                      />
+                                                </div>
+                                                <div className='animate-pulse w-full flex justify-center items-center h-[40px] my-[40px]'>
+                                                      <PDFDownloadLink
+                                                            document={
+                                                                  <PDFInvoiceImage
+                                                                        orderTime={dataOrder.order_time_payment}
+                                                                        products={dataOrder.products}
+                                                                        orderTotal={dataOrder.order_total}
+                                                                  />
+                                                            }
+                                                            fileName='hoadoa'
+                                                            style={{
+                                                                  padding: '12px 16px',
+                                                                  backgroundColor: 'black',
+                                                                  color: '#ffffff',
+                                                                  borderRadius: 6,
+                                                            }}
+                                                      >
+                                                            Tải hóa đơn
+                                                      </PDFDownloadLink>
+                                                </div>
+                                          </div>
+                                    )}
                                     <div className='w-full xl:w-[30%] h-max flex flex-col gap-[16px]'>
                                           <CartUserInfo products={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]} />
                                           <PaymentCart
+                                                onOrderSuccess={onSuccesOrder}
                                                 carts={payQuery.data?.data.metadata.carts as CartResponse}
                                                 price={price}
                                                 product_payment={payQuery.data?.data.metadata.carts.cart_products as CartProduct[]}

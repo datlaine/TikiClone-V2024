@@ -41,7 +41,7 @@ const Food = () => {
                   <InputText
                         FieldName={'attribute.product_food_Manufacturers_Name'}
                         LabelMessage='Tên xưởng sản xuất'
-                        placehorder='Nhập xươnge sản xuất'
+                        placehorder='Nhập xưởng sản xuất'
                   />
                   <InputText
                         FieldName={'attribute.product_food_origin'}
@@ -64,7 +64,7 @@ const Food = () => {
                         }}
                   />
                   <Controller
-                        name={'attribute.product_food_description'}
+                        name={'attribute.description'}
                         control={form.control}
                         render={({ field }) => <TextArea {...field} maxLength={1000} rows={8} />}
                   />

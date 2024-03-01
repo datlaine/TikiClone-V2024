@@ -6,6 +6,7 @@ import { convertDateToStringFull } from '../../utils/date.utils'
 import { useMatch } from 'react-router-dom'
 import NotificationProduct from './Components/NotificationProduct'
 import NotificationShop from './NotificationShop'
+import NotificationSystem from './Components/NotificationSystem'
 
 const HeaderNotification = () => {
       const [showNotification, setShowNotification] = useState<boolean>(false)
@@ -75,35 +76,43 @@ const HeaderNotification = () => {
                                     getMyNotification.data?.data.metadata.notifications &&
                                     getMyNotification.data.data.metadata.notifications.notifications_message.map((notification) => {
                                           return (
-                                                <div
-                                                      className='flex flex-col min-h-[360px] xl:min-h-[180px] h-max w-full px-[12px] my-[18px]'
-                                                      key={notification._id}
-                                                >
+                                                <div className='flex flex-col h-max w-full px-[12px] my-[18px]' key={notification._id}>
                                                       <div
                                                             style={{ direction: 'ltr' }}
                                                             className='flex justify-between w-full h-full flex-col gap-[24px]'
                                                       >
+                                                            {notification.notification_attribute.notification_type === 'SYSTEM' && (
+                                                                  <div className='min-h-[60px]'>
+                                                                        <NotificationSystem
+                                                                              // orderProductId={notification.notification_attribute.order_id}
+                                                                              notification={notification}
+                                                                        />
+                                                                  </div>
+                                                            )}
+
                                                             {notification.notification_attribute.notification_type === 'PRODUCT' && (
-                                                                  <NotificationProduct
+                                                                  <div
+                                                                        className='min-h-[360px] xl:min-h-[180px] '
                                                                         key={notification.notification_attribute.product_id}
-                                                                        notificationProduct={notification.notification_attribute}
-                                                                        notification={notification}
-                                                                  />
+                                                                  >
+                                                                        <NotificationProduct
+                                                                              notificationProduct={notification.notification_attribute}
+                                                                              notification={notification}
+                                                                        />
+                                                                  </div>
                                                             )}
 
                                                             {notification.notification_attribute.notification_type === 'SHOP' && (
-                                                                  <NotificationShop
-                                                                        orderProductId={notification.notification_attribute.order_id}
-                                                                        notification={notification}
-
-                                                                        // key={notification.notification_attribute.product_id}
-                                                                        // notificationProduct={notification.notification_attribute}
-                                                                        // notification={notification}
-                                                                  />
+                                                                  <div
+                                                                        className='min-h-[360px] xl:min-h-[180px] '
+                                                                        key={notification.notification_attribute.order_id}
+                                                                  >
+                                                                        <NotificationShop
+                                                                              orderProductId={notification.notification_attribute.order_id}
+                                                                              notification={notification}
+                                                                        />
+                                                                  </div>
                                                             )}
-                                                            {/* {notification.notification_attribute.notification_type === 'SHOP' && (
-                                                                        <span>Shop nè</span>
-                                                                  )} */}
                                                       </div>
                                                       {/* <div className=''>
                                                             <p>{notification.notification_attribute.notification_content}</p>

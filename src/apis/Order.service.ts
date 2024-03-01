@@ -6,7 +6,9 @@ import axiosCustom from './http'
 
 class OrderService {
       static async orderAddProduct(orders: ParamOrderAdd) {
-            return axiosCustom.post('/v1/api/order/order-payment-product', { orders })
+            return axiosCustom.post<TResponseApi<{ message: string; order_success: OrderItem }>>('/v1/api/order/order-payment-product', {
+                  orders,
+            })
       }
 
       static async getMyOrder() {

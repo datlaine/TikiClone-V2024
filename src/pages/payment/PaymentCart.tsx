@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CartProduct, CartResponse } from '../../types/cart.type'
 import BoxMoney from '../../component/BoxUi/BoxMoney'
@@ -6,11 +6,13 @@ import { ChevronUp } from 'lucide-react'
 import { Address } from '../../types/address.type'
 import { useMutation } from '@tanstack/react-query'
 import OrderService from '../../apis/Order.service'
+import { OrderItem } from '../../types/order.type'
 
 type TProps = {
       carts: CartResponse
       price: number
       product_payment: CartProduct[]
+      onOrderSuccess: ({ message, order_success }: { message: string; order_success: OrderItem }) => void
 }
 
 export type ParamOrderAdd = {
@@ -19,10 +21,11 @@ export type ParamOrderAdd = {
 }
 
 const PaymentCart = (props: TProps) => {
-      const { carts, price, product_payment } = props
+      const { carts, price, product_payment, onOrderSuccess } = props
       console.log({ payment: product_payment })
       const productWrapperRef = useRef<HTMLDivElement>(null)
-      const heightElement = useRef<number>(30)
+
+      const heightElement = useRef<number>(40)
       const [height, setHeight] = useState<number>(0)
       const [disable, setDisable] = useState<boolean>(false)
       const [openSeeProduct, setOpenSeeProduct] = useState<boolean>(false)
@@ -30,6 +33,11 @@ const PaymentCart = (props: TProps) => {
       const orderPaymentMutation = useMutation({
             mutationKey: ['/v1/api/order/order-payment-product'],
             mutationFn: (orders: ParamOrderAdd) => OrderService.orderAddProduct(orders),
+            onSuccess: (axiosResponse) => {
+                  console.log({ order: axiosResponse.data.metadata.order_success })
+                  const { message, order_success } = axiosResponse.data.metadata
+                  onOrderSuccess({ message, order_success })
+            },
       })
 
       const controllOpenSeeProduct = () => {

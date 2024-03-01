@@ -53,7 +53,7 @@ const defaultValuesFood: ProductFoodForm = {
       attribute: {
             product_food_Manufacturers_Name: '',
             product_food_origin: '',
-            product_food_description: '',
+            description: '',
             product_food_unit: 'Kilogram',
             product_food_type: 'Canned Goods',
       },

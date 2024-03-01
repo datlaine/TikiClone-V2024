@@ -4,6 +4,7 @@ import NotificationService from '../../apis/notification.service'
 import NotificationProduct from '../Header/Components/NotificationProduct'
 import NotificationShop from '../Header/NotificationShop'
 import { useLocation } from 'react-router-dom'
+import NotificationSystem from '../Header/Components/NotificationSystem'
 
 const BoxNotification = () => {
       const getMyNotification = useQuery({
@@ -27,17 +28,33 @@ const BoxNotification = () => {
                         getMyNotification.data.data.metadata.notifications.notifications_message.map((notification) => {
                               return (
                                     <div
-                                          className='flex flex-col min-h-[360px] xl:min-h-[160px] h-max w-full  my-[18px] bg-[#ffffff]'
+                                          className='flex flex-col min-h-[360px]  h-max w-full  my-[18px] bg-[#ffffff]'
                                           key={notification._id}
                                     >
                                           <div
                                                 style={{ direction: 'ltr' }}
-                                                className='flex justify-between w-full h-full flex-col gap-[24px]'
+                                                className='flex justify-between w-full h-full flex-col gap-[24px] '
                                           >
+                                                {notification.notification_attribute.notification_type === 'SYSTEM' && (
+                                                      <div
+                                                            id={notification._id}
+                                                            className={`${styleEffect.activeHash(
+                                                                  notification._id,
+                                                            )} min-h-full h-max p-[12px_10px]`}
+                                                      >
+                                                            <NotificationSystem
+                                                                  // orderProductId={notification.notification_attribute.order_id}
+                                                                  notification={notification}
+                                                            />
+                                                      </div>
+                                                )}
+
                                                 {notification.notification_attribute.notification_type === 'PRODUCT' && (
                                                       <div
                                                             id={notification._id}
-                                                            className={`${styleEffect.activeHash(notification._id)}  p-[12px_10px]`}
+                                                            className={`${styleEffect.activeHash(
+                                                                  notification._id,
+                                                            )} min-h-full m-max  p-[12px_10px]`}
                                                       >
                                                             <NotificationProduct
                                                                   key={notification.notification_attribute.product_id}

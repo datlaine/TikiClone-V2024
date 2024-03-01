@@ -39,6 +39,6 @@ export const productFoodSchema = z.object({
             product_food_unit: z.enum(['Kilogram', 'Box']),
             product_food_type: z.enum(['Fast food', 'Canned Goods', 'Drinks']),
 
-            product_food_description: z.string().min(1, 'Vui lòng nhập thêm thông tin mô tả về sản phẩm').max(1000, 'Tối đa 1000 từ'),
+            description: z.string().min(1, 'Vui lòng nhập thêm thông tin mô tả về sản phẩm').max(1000, 'Tối đa 1000 từ'),
       }),
 })

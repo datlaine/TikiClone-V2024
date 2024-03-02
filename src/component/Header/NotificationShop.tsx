@@ -5,7 +5,7 @@ import { renderStringNotificationType } from '../../utils/notification.utit'
 import { NotificationAttribute, NotificationMessage } from '../../types/notification.type'
 import { Link } from 'react-router-dom'
 import { convertDateToStringFull } from '../../utils/date.utils'
-import NotificationSkeleton from '../../Customer/notification/NotificationSkeleton'
+import NotificationSkeleton from '../../Customer/Notification/NotificationSkeleton'
 import { ArrowBigUp } from 'lucide-react'
 
 type TProps = {

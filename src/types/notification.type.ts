@@ -18,6 +18,8 @@ export type NotificationProduct = {
       notification_type: 'PRODUCT'
       product_id: string
       notification_content: string
+      product_name: string
+      product_quantity: number
 }
 
 export type NotificationShop = {

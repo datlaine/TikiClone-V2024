@@ -40,7 +40,7 @@ const HeaderActions = () => {
                               <HeaderBoxHover />
                         </div>
                   </div>
-                  <HeaderNotification />
+                  {/* <HeaderNotification /> */}
                   <HeaderCart />
             </div>
       )

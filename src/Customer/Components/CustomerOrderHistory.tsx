@@ -26,6 +26,7 @@ const sectionName: { text: string; code: Tab }[] = [
 
 const CustomerOrderHistory = () => {
       const [active, setActive] = useState<Tab>('CART')
+
       const widthSection = `calc(100%/${sectionName.length})`
       const [indexActive, setIndexActive] = useState<number>(0)
       const wrapperOrderRef = useRef<HTMLDivElement>(null)
@@ -46,7 +47,7 @@ const CustomerOrderHistory = () => {
 
       return (
             <div className='relative flex flex-col  min-h-full h-max w-full text-[12px] xl:text-[14px]'>
-                  <div className='sticky top-[75px] xl:top-[-1px] pt-[16px] xl:pt-0 h-[60px] bg-[#ffffff] flex flex-col gap-[8px]   z-[10] border-b-[1px] border-[rgb(235_235_240)] '>
+                  <div className='sticky top-[75px] xl:top-[-1px] pt-[16px] xl:pt-0 h-[45px] bg-[#ffffff] flex flex-col gap-[8px]   z-[10] border-b-[1px] border-[rgb(235_235_240)] '>
                         <div className='flex w-full h-full'>
                               {sectionName.map((section, index) => (
                                     <button

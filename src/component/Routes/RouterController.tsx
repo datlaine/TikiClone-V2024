@@ -42,7 +42,7 @@ const RouterController = () => {
       const pathName = useLocation().pathname
 
       const styleEffect = {
-            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[40px_50px] pt-[50px]' : '',
+            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[40px_50px] pt-[30px]' : '',
             matchPathNameCustomer: pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]',
       }
 

@@ -48,6 +48,8 @@ const Customer = () => {
       const textLink = link.find((pathItem) => {
             if (pathName) {
                   if (pathItem.path === pathName) return pathItem
+            } else {
+                  return <NotFound />
             }
       })
 
@@ -59,7 +61,7 @@ const Customer = () => {
       //@element
       return (
             <>
-                  <div className='px-[14px] text-[14px] xl:px-[120px] w-full min-h-screen h-full flex items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
+                  <div className='px-[14px] text-[14px] xl:px-[100px] w-full min-h-screen h-full flex items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
                         {/* @header */}
                         <div className='hidden lg:block mb-[1px]'>
                               <Link to={'/'}>Trang chủ</Link>
@@ -71,7 +73,7 @@ const Customer = () => {
 
                         <div className=' w-full flex gap-[1%] min-h-[450px]  h-[auto] '>
                               {/* @navigate pathname */}
-                              <div className='sticky top-0 hidden h-screen  xl:block lg:w-[25%]'>
+                              <div className='sticky top-0 hidden h-screen  xl:block lg:w-[20%]'>
                                     <div
                                           className='h-[75px] flex items-center gap-[8px] overflow-x-hidden'
                                           title={`Account ${user?.email}` || ''}
@@ -175,7 +177,7 @@ const Customer = () => {
                               </div>
 
                               {/*@ Outlet */}
-                              <div className='w-full 2xl:w-[75%]'>
+                              <div className='w-full 2xl:w-[80%]'>
                                     <div className='hidden xl:flex h-[36px] m-[20px_0px_6px_0px] text-[20px]  items-center'>
                                           {textLink?.text}
                                     </div>

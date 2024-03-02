@@ -1,6 +1,13 @@
 export const convertDateToString = (date: Date) => {
       date = new Date(date)
-      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+      let day = date.getDate().toString()
+      let month = Number(date.getMonth() + 1).toString()
+      let year = date.getFullYear().toString()
+
+      day = Number(day) > 9 ? day : `0${day}`
+      month = Number(month) > 9 ? month : `0${month}`
+
+      return `${day}/${month}/${year}`
 }
 
 export const convertDateToStringFull = (date: Date) => {

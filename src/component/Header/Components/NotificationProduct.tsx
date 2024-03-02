@@ -4,7 +4,7 @@ import { NotificationAttribute, NotificationMessage, NotificationProduct as TNot
 import { useMutation, useQuery } from '@tanstack/react-query'
 import OrderService from '../../../apis/Order.service'
 import { renderStringNotificationType } from '../../../utils/notification.utit'
-import NotificationSkeleton from '../../../Customer/notification/NotificationSkeleton'
+import NotificationSkeleton from '../../../Customer/Notification/NotificationSkeleton'
 import { Link } from 'react-router-dom'
 import { ArrowBigDown } from 'lucide-react'
 
@@ -15,6 +15,8 @@ type TProps = {
 
 const NotificationProduct = (props: TProps) => {
       const { notification, notificationProduct, ...propsElement } = props
+      const limit = 10
+      const [page, setPage] = useState<number>(1)
 
       const [heightNotification, setHeightNotification] = useState<number>(180)
       console.log({ id: notificationProduct.product_id })

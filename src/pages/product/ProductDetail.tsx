@@ -80,7 +80,7 @@ const ProductDetail = (props: TProps) => {
                                     src={image.secure_url}
                                     className={`${
                                           imageActive === image.secure_url ? styleEffect.isActive : 'border-[2px] border-slate-200'
-                                    } h-[100px] w-[40%] xl:w-[70px] xl:h-[70px] md:w-[60px] md:h-[80px]  rounded p-[8px]`}
+                                    }  h-[108px] w-[47%] xl:w-[70px] xl:h-[70px] md:w-[60px] md:h-[80px]  rounded p-[8px]`}
                                     alt='product_sub'
                                     key={image.secure_url}
                                     onMouseLeave={handleMouseLeave}

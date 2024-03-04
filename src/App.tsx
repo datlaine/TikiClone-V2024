@@ -23,7 +23,7 @@ function App() {
       useEffect(() => {}, [boxLogin])
 
       return (
-            <div className=' min-h-screen max-w-full'>
+            <div className=' min-h-screen  w-full min-w-full'>
                   <div id='main' className='min-h-screen'>
                         <RouterController />
                         <FooterMobile className='block xl:hidden' />

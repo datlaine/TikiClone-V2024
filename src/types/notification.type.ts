@@ -4,6 +4,7 @@ export type Notification = {
 }
 
 export type NotificationMessage = {
+      notification_isRead: boolean
       notification_attribute: NotificationAttribute
       notification_creation_time: Date
       _id: string
@@ -20,11 +21,14 @@ export type NotificationProduct = {
       notification_content: string
       product_name: string
       product_quantity: number
+      order_id: string
 }
 
 export type NotificationShop = {
       notification_type: 'SHOP'
       notification_content: string
+      product_name: string
+      product_quantity: number
       order_id: string
       order_product_id: string
       user_buy_id: string

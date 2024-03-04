@@ -60,7 +60,7 @@ const SectionProductItem = (props: Props) => {
 
       return (
             <div className='h-[75%] mx-[4px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
-                  <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  w-[370px] mx-[50px] xl:w-full snap-mandatory	'>
+                  <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  w-[370px]  xl:w-full snap-mandatory	'>
                         {allProduct.isSuccess &&
                               allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
                                     return (

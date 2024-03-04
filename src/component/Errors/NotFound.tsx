@@ -7,10 +7,12 @@ import { Link, useNavigate } from 'react-router-dom'
 type TProps = {
       ContentHeader?: string
       ContentDescription?: string
+      countTime?: boolean
+      onBack?: () => void
 }
 
 const NotFound = (props: TProps) => {
-      const { ContentHeader, ContentDescription } = props
+      const { ContentHeader, ContentDescription, countTime = true, onBack } = props
 
       const [count, setCount] = useState(5)
       const navigate = useNavigate()
@@ -18,6 +20,8 @@ const NotFound = (props: TProps) => {
       let xoaInter = useRef<NodeJS.Timeout>()
       let xoaTimout = useRef<NodeJS.Timeout>()
       useEffect(() => {
+            if (!countTime) return
+
             if (count > 0) {
                   xoaInter.current = setInterval(() => {
                         console.log('1000')
@@ -37,12 +41,13 @@ const NotFound = (props: TProps) => {
       return (
             <div
                   style={{
-                        marginTop: 20,
+                        // marginTop: 20,
                         height: 'calc(100vh-50px)',
                         width: '100%',
+                        minWidth: '100%',
                   }}
             >
-                  <main className='grid min-h-full max-w-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8'>
+                  <main className='grid min-h-full w-full place-items-center bg-white  py-24 sm:py-32 '>
                         <div className='text-center'>
                               <p className='text-base font-semibold text-indigo-600'>404</p>
                               <h1 className='mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl'>
@@ -58,9 +63,15 @@ const NotFound = (props: TProps) => {
                                     >
                                           Gửi hỗ trợ
                                     </Link>
-                                    <Link to='/' className='text-sm font-semibold text-gray-900'>
-                                          Quay về sau {count}
-                                    </Link>
+                                    {!onBack ? (
+                                          <Link to='/' className='text-sm font-semibold text-gray-900'>
+                                                Quay về sau {countTime ? count : ''}
+                                          </Link>
+                                    ) : (
+                                          <button className='text-sm font-semibold text-gray-900' onClick={onBack}>
+                                                Đóng thông báo
+                                          </button>
+                                    )}
                               </div>
                         </div>
                   </main>

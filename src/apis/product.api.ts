@@ -4,6 +4,7 @@ import axiosCustom from './http'
 import { IProductBook, TProductDetail, TProductFormCommon, TProductFull } from '../types/product/product.type'
 import { TBookProduct } from '../types/product/product.book.type'
 import { ProductFood } from '../types/product/product.food.type'
+import { ShopResponse } from '../types/shop.type'
 
 export type TProduct = {
       product_id: string
@@ -172,6 +173,12 @@ class ProductApi {
 
       static async deleteProductWithId({ product_id }: { product_id: string }) {
             return axiosCustom.delete<{ metadata: ServerMessageVerify }>(`v1/api/product/delete-product/${product_id}`)
+      }
+
+      static async getAllProductWithType({ product_type }: { product_type: string }) {
+            return axiosCustom.get<TResponseApi<{ products: TProductDetail[]; shops: ShopResponse[]; count: number }>>(
+                  `v1/api/product/get-all-product-category?product_type=${product_type}`,
+            )
       }
 }
 

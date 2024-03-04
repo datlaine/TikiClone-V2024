@@ -51,7 +51,7 @@ function Header() {
                                           <HeaderSeacrhInput />
                                           <HeaderTagsLocation />
                                     </div>
-                                    <div className='basis-[30%] flex lg:flex-col lg:justify-between lg:basis-[30%] ml-0 xl:ml-[20px] h-full'>
+                                    <div className='basis-[10%] flex lg:flex-col lg:justify-between lg:basis-[30%] ml-0 xl:ml-[20px] h-full'>
                                           <HeaderActions />
                                           <div
                                                 id=''

@@ -22,6 +22,14 @@ class NotificationService {
                   }>
             >(`/v1/api/notification/get-my-shop-notifications/${order_product_id}`)
       }
+
+      static async readNotification({ notification_id }: { notification_id: string }) {
+            return axiosCustom.post<TResponseApi<{ message: string }>>(`/v1/api/notification/read-notification/${notification_id}`)
+      }
+
+      static async deleteNotification({ notification_id }: { notification_id: string }) {
+            return axiosCustom.post<TResponseApi<{ message: string }>>(`/v1/api/notification/delete-notification/${notification_id}`)
+      }
 }
 
 export default NotificationService

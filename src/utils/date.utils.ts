@@ -10,6 +10,37 @@ export const convertDateToString = (date: Date) => {
       return `${day}/${month}/${year}`
 }
 
+export const convertWeekday = (date: Date) => {
+      let day = ''
+      switch (date.getDay()) {
+            case 0:
+                  day = `Chủ nhật`
+                  break
+            case 1:
+                  day = `Thứ hai`
+                  break
+            case 2:
+                  day = `Thứ 3`
+                  break
+            case 3:
+                  day = `Thứ tư`
+                  break
+            case 4:
+                  day = `Thứ năm`
+                  break
+            case 5:
+                  day = `Thứ sáu`
+                  break
+            case 6:
+                  day = `Thử bảy`
+                  break
+            default:
+                  day = 'Không kiểm tra được ngày'
+      }
+
+      return day
+}
+
 export const convertDateToStringFull = (date: Date) => {
       const d = new Date(date)
       let seconds = d.getSeconds().toString()

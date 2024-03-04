@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useMatch } from 'react-router-dom'
 import { connect, useSelector } from 'react-redux'
 import { RootState } from '../../store'
+import { BookOpenCheck, Wheat } from 'lucide-react'
 type TProps = {}
 
 function Sidebar(props: TProps) {
@@ -29,8 +30,26 @@ function Sidebar(props: TProps) {
 
       return (
             <div
-                  className={`${styleEffect.showSideBar}  absolute xl:sticky  bg-red-700 w-[180px] xl:w-[200px] top-[75px] xl:top-[20px] h-[500px] z-[20] `}
-            ></div>
+                  className={`${styleEffect.showSideBar}  absolute xl:sticky  bg-red-700 w-[180px] xl:w-[200px] top-[75px] xl:top-[20px] h-[500px] z-[20]  `}
+            >
+                  <ul className='w-full h-[250px] flex flex-col'>
+                        <li className=''>
+                              <Link
+                                    to={'/books?'}
+                                    className='flex gap-[8px] w-full h-[70px] bg-yellow-400 items-center px-[16px] py-[20px]'
+                              >
+                                    <BookOpenCheck />
+                                    <span>Nhà sách Tiki</span>
+                              </Link>
+                        </li>
+                        <li>
+                              <Link to={'/foods'} className='flex gap-[8px] w-full h-[70px] bg-yellow-400 items-center px-[16px] py-[20px]'>
+                                    <Wheat />
+                                    <span>Sạp thực phẩm</span>
+                              </Link>
+                        </li>
+                  </ul>
+            </div>
       )
 }
 

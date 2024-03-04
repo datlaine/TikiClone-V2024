@@ -28,12 +28,18 @@ module.exports = {
 				scale: "scale .3s",
 				cloudFly: "cloudFly  1s forwards ",
 				rainDown: "rainDown  5s infinite",
+				runLeft: "runLeft 1s",
 			},
 			keyframes: {
 				pulseCustome: {
 					"50%": {
 						opacity: 0.5,
 					},
+				},
+
+				runLeft: {
+					"0%": { right: "-150%" },
+					"100%": { right: 0 },
 				},
 
 				cloudFly: {

@@ -7,6 +7,7 @@ import uiSlice from './Redux/uiSlice'
 import authenticationSlice from './Redux/authenticationSlice'
 import toast from './Redux/toast'
 import cartSlice from './Redux/cartSlice'
+import categorySlice from './Redux/category.slice'
 
 const persistConfig = {
       key: 'anhYeuEm',
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
       uiSlice: uiSlice,
       authentication: authenticationSlice,
       toast: toast,
+      category: categorySlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

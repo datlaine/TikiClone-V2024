@@ -1,10 +1,11 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
 import NotificationService, { NotificationType } from '../../apis/notification.service'
 import { limitNotification } from '../../constant/notification.constant'
 import { convertDateToString, convertDateToStringFull } from '../../utils/date.utils'
-import { Inbox } from 'lucide-react'
-import BoxButton from '../../component/BoxUi/BoxButton'
+import { Clock8, Inbox } from 'lucide-react'
+import BoxConfirmDelete from '../../component/BoxUi/confirm/BoxConfirmDelete'
+import { Link } from 'react-router-dom'
 
 type TProps = {
       type: NotificationType
@@ -12,6 +13,8 @@ type TProps = {
 
 const NotificationProduct = (props: TProps) => {
       const { type } = props
+      const queryClient = useQueryClient()
+      const [showConfirm, setShowConfirm] = useState<boolean>(false)
 
       console.log({ type })
 
@@ -23,38 +26,122 @@ const NotificationProduct = (props: TProps) => {
                   lastPage.data.metadata.notifications.notification.notifications_message.length > 0 ? allPages.length + 1 : undefined,
       })
 
+      const readNotificationMutation = useMutation({
+            mutationKey: ['read-notification'],
+            mutationFn: ({ notification_id }: { notification_id: string }) => NotificationService.readNotification({ notification_id }),
+            onSuccess: () => {
+                  queryClient.invalidateQueries({
+                        queryKey: ['/v1/api/notification/get-my-notification', type],
+                  })
+            },
+      })
+
+      const deleteNotificationMutation = useMutation({
+            mutationKey: ['delete-notification'],
+            mutationFn: ({ notification_id }: { notification_id: string }) => NotificationService.deleteNotification({ notification_id }),
+            onSuccess: () => {
+                  queryClient.invalidateQueries({
+                        queryKey: ['/v1/api/notification/get-my-notification', type],
+                  })
+            },
+      })
+
+      const onReadNotification = ({ notification_id, read }: { notification_id: string; read: boolean }) => {
+            if (read) {
+                  return
+            }
+            readNotificationMutation.mutate({ notification_id })
+      }
+
+      const styleEffect = {
+            isRead: (read: boolean) => (read ? 'bg-white' : 'bg-blue-100'),
+      }
+
       return (
-            <div className='w-full min-h- h-max bg-[#ffffff] relative pb-[20px]'>
-                  <div className='px-[28px] mb-[40px]'>
+            <div className='w-full min-h-[500px] h-max  relative pb-[20px] mb-[80px] xl:mb-0'>
+                  <div className='mb-[80px] xl:mb-[40px] flex flex-col gap-[16px] xl:gap-0'>
                         {getMyNotification.data?.pages.map((page) =>
                               page.data.metadata.notifications.notification.notifications_message.map((notification) => (
-                                    <div className='w-full h-[100px] flex items-center  px-[4px] gap-[16px]' key={notification._id}>
-                                          <div className='flex basis-[28%] h-[70%] items-center justify-between'>
+                                    <div
+                                          className={`${styleEffect.isRead(
+                                                notification.notification_isRead,
+                                          )} bg-[#ffffff] w-full h-[180px] xl:h-[100px] flex flex-col xl:flex-row items-center  p-[14px] xl:px-[32px] gap-[4px] xl:gap-[16px]`}
+                                          key={notification._id}
+                                    >
+                                          <div className='flex w-full xl:w-[24%] h-max xl:h-[70%] items-center  justify-between'>
                                                 <p>{convertDateToStringFull(notification.notification_creation_time)}</p>
-                                                <div className='w-[50px] h-[50px] flex items-center justify-center rounded-full'>
-                                                      <Inbox size={30} color='white' />
+                                                <div className='w-[40px] h-[40px] bg-blue-200 flex items-center justify-center rounded-full'>
+                                                      {notification.notification_attribute.notification_type === 'PRODUCT' && (
+                                                            <Inbox size={24} color='white' />
+                                                      )}
+                                                      {notification.notification_attribute.notification_type === 'SYSTEM' && (
+                                                            <Clock8 size={24} color='white' />
+                                                      )}
                                                 </div>
                                           </div>
-                                          <div className='flex flex-1 items-center  h-full '>
+                                          <div className='flex flex-1 w-full  items-center  h-full '>
                                                 {notification.notification_attribute.notification_type === 'SYSTEM' && (
                                                       <span>{notification.notification_attribute.notification_content}</span>
                                                 )}
-
                                                 {notification.notification_attribute.notification_type === 'SHOP' && (
-                                                      <span>{notification.notification_attribute.notification_content}</span>
+                                                      <p>
+                                                            {notification.notification_attribute.notification_content}
+                                                            <span className='mx-[2px] bg-black text-white inline-block px-[2px] py-1'>
+                                                                  {notification.notification_attribute.product_name}
+                                                            </span>
+                                                            <span className='mx-[2px] bg-blue-400 text-white inline-block px-[2px] py-1'>
+                                                                  số lượng: {notification.notification_attribute.product_quantity}
+                                                            </span>
+                                                      </p>
                                                 )}
 
                                                 {notification.notification_attribute.notification_type === 'PRODUCT' && (
-                                                      <p>
-                                                            {notification.notification_attribute.notification_content}
-                                                            <span>{notification.notification_attribute.product_name}</span>
-                                                            <span>{notification.notification_attribute.product_quantity}</span>
-                                                      </p>
+                                                      <div className='flex flex-col gap-[4px]'>
+                                                            <p>
+                                                                  {notification.notification_attribute.notification_content}
+                                                                  <span className='mx-[2px]  text-blue-600 inline-block px-[2px] py-1'>
+                                                                        {notification.notification_attribute.product_name}
+                                                                  </span>
+                                                                  <span className='mx-[2px] text-blue-400  inline-block px-[2px] py-1'>
+                                                                        số lượng: {notification.notification_attribute.product_quantity}
+                                                                  </span>
+                                                            </p>
+                                                            <Link
+                                                                  to={`/order-check/${notification.notification_attribute.order_id}`}
+                                                                  className='text-left'
+                                                            >
+                                                                  Xem chi tiết
+                                                            </Link>
+                                                      </div>
                                                 )}
                                           </div>
-                                          <div className='basis-[20%] flex items-center justify-between bg-green-500'>
-                                                <button className='min-w-[50%] w-max h-[30px] '>Đánh dấu là đã đọc</button>
-                                                <button className='w-max h-[30px]'>Xóa</button>
+                                          <div className='w-full xl:w-[20%] flex items-center justify-between '>
+                                                {!notification.notification_isRead && (
+                                                      <button
+                                                            className='xl:min-w-[50%] w-max h-[30px]  text-blue-400'
+                                                            onClick={() =>
+                                                                  onReadNotification({
+                                                                        notification_id: notification._id,
+                                                                        read: notification.notification_isRead,
+                                                                  })
+                                                            }
+                                                      >
+                                                            Đánh dấu là đã đọc
+                                                      </button>
+                                                )}
+                                                <button className='w-max h-[30px] text-red-400' onClick={() => setShowConfirm(true)}>
+                                                      Xóa
+                                                      {showConfirm && (
+                                                            <BoxConfirmDelete
+                                                                  content='Bạn có chắc có thông báo này không'
+                                                                  ButtonCancellContent='Hủy'
+                                                                  ButtonConfrimContent='Xóa'
+                                                                  onClose={setShowConfirm}
+                                                                  paramsActive={{ notification_id: notification._id }}
+                                                                  onActive={deleteNotificationMutation.mutate}
+                                                            />
+                                                      )}
+                                                </button>
                                           </div>
                                           {notification.notification_attribute.notification_type === 'SHOP' && (
                                                 <span>{notification.notification_attribute.order_id}</span>

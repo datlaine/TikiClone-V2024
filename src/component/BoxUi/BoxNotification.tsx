@@ -69,11 +69,11 @@ const BoxNotification = () => {
 
       return (
             <div className='relative w-full  pb-[10px] h-[15000px] flex flex-col gap-[16px] '>
-                  <div className='w-full h-[80px] flex items-center bg-[#ffffff] gap-[24px] '>
+                  <div className='w-full min-h-[160px] xl:min-h-[80px] h-max grid grid-cols-3 grid-rows-2 gap[50px] xl:flex items-center bg-[#ffffff] gap-[24px] flex-wrap xl:flex-nowrap '>
                         <button
                               className={`${
                                     activeNotification.title === 'Thông báo chung' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center border-b-[2px] px-[24px]`}
+                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
                               onClick={() => setActiveNotification({ title: 'Thông báo chung', notification: 'COMMON' })}
                               title={'Thông báo chung'}
                         >
@@ -83,7 +83,7 @@ const BoxNotification = () => {
                         <button
                               className={`${
                                     activeNotification.title === 'Thông báo khuyến mãi' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center border-b-[2px] px-[24px]`}
+                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
                               onClick={() => setActiveNotification({ title: 'Thông báo khuyến mãi', notification: 'DISCOUNT' })}
                               title={'Thông báo khuyến mãi'}
                         >
@@ -93,7 +93,7 @@ const BoxNotification = () => {
                         <button
                               className={`${
                                     activeNotification.title === 'Thông báo sản phẩm' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center border-b-[2px] px-[24px]`}
+                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
                               onClick={() => setActiveNotification({ title: 'Thông báo sản phẩm', notification: 'PRODUCT' })}
                               title={'Thông báo sản phẩm'}
                         >
@@ -103,7 +103,7 @@ const BoxNotification = () => {
                         <button
                               className={`${
                                     activeNotification.title === 'Thông báo hệ thống' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center border-b-[2px] px-[24px]`}
+                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
                               onClick={() => setActiveNotification({ title: 'Thông báo hệ thống', notification: 'SYSTEM' })}
                               title={'Thông báo hệ thông'}
                         >
@@ -113,7 +113,7 @@ const BoxNotification = () => {
                         <button
                               className={`${
                                     activeNotification.title === 'Thông báo Shop' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center border-b-[2px] px-[24px]`}
+                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
                               onClick={() => setActiveNotification({ title: 'Thông báo Shop', notification: 'SHOP' })}
                               title={'Thông báo Shop'}
                         >

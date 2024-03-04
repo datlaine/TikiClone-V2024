@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, useMatch } from 'react-router-dom'
+import { Route, Routes, useLocation, useMatch, useSearchParams } from 'react-router-dom'
 
 //page
 import Admin from '../../pages/admin/Admin'
@@ -32,6 +32,11 @@ import CustomerRouter from '../../Customer/Components/CustomerRouter'
 import Payment from '../../pages/payment/Payment'
 import CustomerUserAddress from '../../Customer/UserAddress/CustomerUserAddress'
 import PermisionProductUpdate from '../../Customer/Sell/Category/Book/PermissionProductUpdate'
+import OrderCheck from '../../pages/orderCheck/OrderCheck'
+import BookPage from '../../pages/ProductCategories/Category'
+import Category from '../../pages/ProductCategories/Category'
+import Box from '../BoxUi/Box'
+import BoxFilterProduct from '../BoxUi/BoxFilterProduct'
 
 const RouterController = () => {
       // const matchPath = useMatch('/admin' || '/payment')
@@ -42,15 +47,17 @@ const RouterController = () => {
       const pathName = useLocation().pathname
 
       const styleEffect = {
-            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[40px_50px] pt-[30px]' : '',
+            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[20px_50px] pt-[60px]' : '',
             matchPathNameCustomer: pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]',
       }
+      const [searchParams, setSearchParams] = useSearchParams()
 
+      console.log(searchParams.get('page')?.toString())
       return (
             <>
                   {!hiddenHeader && <Header />}
 
-                  <div className={`${styleEffect.matchPathName} min-h-screen max-w-full flex gap-[32px] px-[4px]   bg-[#f5f4f6] `}>
+                  <div className={`${styleEffect.matchPathName} w-full min-w-full min-h-screen  flex gap-[32px] px-[4px]   bg-[#f5f4f6] `}>
                         <Sidebar />
                         <Routes>
                               <Route path='/admin' element={<Admin />} />
@@ -59,7 +66,17 @@ const RouterController = () => {
                                     <Route path='/product/:id' element={<Product />} />
                                     <Route path='/cart' element={<Cart />} />
                                     <Route path='/payment' element={<Payment />} />
-
+                                    <Route path='/order-check/:order_id' element={<OrderCheck />} />
+                                    <Route path='/books' element={<Category product_type='Book' />} />
+                                    <Route path='/foods' element={<Category product_type='Food' />} />
+                                    <Route
+                                          path='/box'
+                                          element={
+                                                <Box>
+                                                      <BoxFilterProduct />
+                                                </Box>
+                                          }
+                                    />
                                     <Routes>
                                           <Route path='/customer' element={<Customer />}>
                                                 <Route path='account' element={<CustomerAccount />} />

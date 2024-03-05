@@ -2,10 +2,11 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useRef } from 'react'
 import ShopApi from '../../../apis/shop.api'
 import OwnerSkeleton from './OwnerSkeleton'
-import OwnerLayout from './OwnerLayout'
+import OwnerLayout from './ShopOwnerLayout'
 import { ShopResponse } from '../../../types/shop.type'
+import ShopOwnerLayout from './ShopOwnerLayout'
 
-const Owner = () => {
+const ShopOwner = () => {
       const getMyShopApi = useQuery({
             queryKey: ['get-my-shop'],
             queryFn: () => ShopApi.getMyShop(),
@@ -14,11 +15,11 @@ const Owner = () => {
 
       return (
             <div className='w-full h-auto'>
-                  {getMyShopApi.isSuccess && <OwnerLayout shop={shop} />}
+                  {getMyShopApi.isSuccess && <ShopOwnerLayout shop={shop} />}
                   {getMyShopApi.isPending && <OwnerSkeleton />}
                   {/* <OwnerSkeleton /> */}
             </div>
       )
 }
 
-export default Owner
+export default ShopOwner

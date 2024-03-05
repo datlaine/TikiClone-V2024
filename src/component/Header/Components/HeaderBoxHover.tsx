@@ -53,11 +53,23 @@ function HeaderBoxHover() {
             <>
                   <ul className='flex flex-col min-w-[250px] bg-white shadow-xl py-2 gap-2 border border-gray-200 rounded z-20'>
                         <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2'>
-                              <Link to={'/customer/account'}>{user ? `Account: ${user.email}` : 'Thông tin tài khoản'}</Link>
+                              <Link to={'/customer/account'} className='w-full h-full flex items-center'>
+                                    {user ? `Account: ${user.email}` : 'Thông tin tài khoản'}
+                              </Link>
                         </li>
-                        <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleGoToInfo}>
-                              Đơn hàng của tôi
+
+                        <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2'>
+                              <Link to={'/customer/notification'} className='w-full h-full flex items-center'>
+                                    Thông báo của tôi
+                              </Link>
                         </li>
+
+                        <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2'>
+                              <Link to={'/customer/order_history'} className='w-full h-full flex items-center'>
+                                    Đơn hàng của tôi
+                              </Link>
+                        </li>
+
                         {user && (
                               <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleLogOut}>
                                     Đăng xuất

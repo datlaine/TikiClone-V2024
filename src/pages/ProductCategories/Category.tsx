@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import SectionProductItem from '../../component/Content/Components/SectionProductItem'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import FeaturedCategory from './Components/FeaturedCategory'
-import { useMutation, useQuery } from '@tanstack/react-query'
 import NotFound from '../../component/Errors/NotFound'
-import Product from '../product/Product'
-import ProductApi from '../../apis/product.api'
-import ShopCategory from './ShopCategory'
-import { ShopResponse } from '../../types/shop.type'
-import { ProductType, TProductDetail } from '../../types/product/product.type'
+import { ProductType } from '../../types/product/product.type'
 import ProductSection from './ProductSection'
+import FilterWrapper from './Components/FilterWrapper'
+import ShopCategory from './ShopCategory'
+import { Cat } from 'lucide-react'
+import CategoryTitle from './Components/CategoryTitle'
 
 const productBook = ['Sách tiếng Việt', 'Sách tiếng Anh', 'Truyện tranh', 'Tiểu thuyết', 'Ngôn tình', 'Sach giáo khoa']
 const productFood = ['Đồ đóng hộp', 'Bia', 'Nước ngọt', 'Bánh kẹo', 'Snacks']
@@ -18,26 +16,21 @@ type TProps = {
       product_type: ProductType
 }
 
+const onSetTitleProductType = ({ product_type }: { product_type: ProductType }): string[] => {
+      switch (product_type) {
+            case 'Book':
+                  return productBook
+            case 'Food':
+                  return productFood
+            default:
+                  return []
+      }
+}
+
 const Category = (props: TProps) => {
       const { product_type } = props
-      const [searchParams, setSearchParams] = useSearchParams()
       const [activeData, setActiveData] = useState<boolean>(true)
       const [categoryNotFound, setCategoryNotFound] = useState<string>('')
-      // console.log(searchParams.get('page')?.toString())
-      const getProductCategory = useQuery({
-            queryKey: ['getAllProductWithType'],
-            queryFn: () => ProductApi.getAllProductWithType({ product_type }),
-      })
-
-      const products = getProductCategory.data?.data.metadata.products
-
-      console.log({ data: getProductCategory?.data?.data.metadata })
-      useEffect(() => {
-            if (getProductCategory.isSuccess) {
-            }
-      }, [getProductCategory.isSuccess])
-
-      const shops = getProductCategory.data?.data.metadata.shops
 
       const onClickCategory = (nameCategory: string) => {
             setCategoryNotFound(nameCategory)
@@ -53,22 +46,7 @@ const Category = (props: TProps) => {
                         Trang chủ
                   </Link>
                   <div className='w-full h-max flex  gap-[24px]'>
-                        <div className='hidden xl:flex w-[18%] max-w-[18%] h-[1000px] bg-[#ffffff] rounded-md flex-col gap-[16px]'>
-                              <h3 className='text-center h-[60px] flex justify-center items-center'>Danh mục</h3>
-                              <ul className='flex flex-col w-full h-max text-[12px]'>
-                                    {productBook.map((p, index) => {
-                                          return (
-                                                <li
-                                                      key={index}
-                                                      className='w-full px-[16px] py-[10px] border-b-[2px] border-slate-100 '
-                                                      onClick={() => onClickCategory(p)}
-                                                >
-                                                      {p}
-                                                </li>
-                                          )
-                                    })}
-                              </ul>
-                        </div>
+                        <CategoryTitle title={onSetTitleProductType({ product_type })} onGetNameCategory={onClickCategory} />
                         <div className='max-w-full xl:w-[81%] min-h-[1000px] h-max '>
                               {activeData ? (
                                     <header className='w-full min-h-full h-max flex flex-col gap-[28px] overflow-hidden'>
@@ -79,10 +57,13 @@ const Category = (props: TProps) => {
                                                 <FeaturedCategory type={product_type} />
                                           </div>
                                           <div className=' w-full overflow-hidden min-h-[200px] h-max bg-[#ffffff]'>
-                                                <ShopCategory shops={shops as ShopResponse[]} />
+                                                <ShopCategory product_type={product_type} />
+                                          </div>
+                                          <div className='w-full  h-[60px] flex items-center bg-[#ffffff] px-[8px]'>
+                                                <FilterWrapper product_type={product_type} />
                                           </div>
                                           <div className='w-full h-max mt-[20px]'>
-                                                <ProductSection products={products as TProductDetail[]} />
+                                                <ProductSection product_type={product_type} />
                                           </div>
                                     </header>
                               ) : (

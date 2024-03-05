@@ -1,6 +1,6 @@
 import { Rate } from 'antd'
 import { Check } from 'lucide-react'
-import React, { SetStateAction, useEffect, useReducer, useRef } from 'react'
+import React, { SetStateAction, memo, useEffect, useReducer, useRef } from 'react'
 import filterProductReducer, { Actions, initialValue } from '../../../reducer/filterProduct.reducer'
 type TProps = {
       setVote: React.Dispatch<SetStateAction<{ minPrice: number; maxPrice: number; onVote: number }>>
@@ -15,34 +15,38 @@ const FilterProductVote = (props: TProps) => {
 
       const [state, setState] = useReducer(filterProductReducer, initialValue)
 
-      const onChangeInputHigh = ({ type }: { type: Actions }) => {
-            if (inputRef1.current?.checked) {
-                  setState({ type: 'ON_CHECKED_RESET' })
+      const onChangeInput = ({ type }: { type: Actions }) => {
+            if (type === 'ON_CHECKED_HIGH') {
+                  if (inputRef1.current?.checked) {
+                        setState({ type: 'ON_CHECKED_RESET' })
+                        setVote((prev) => ({ ...prev, onVote: 5 }))
+                        return
+                  }
                   setVote((prev) => ({ ...prev, onVote: 5 }))
-
-                  return
+                  setState({ type })
             }
-            setState({ type })
-      }
 
-      const onChangeInputMid = ({ type }: { type: Actions }) => {
-            if (inputRef2.current?.checked) {
-                  setState({ type: 'ON_CHECKED_RESET' })
+            if (type === 'ON_CHECKED_MID') {
+                  if (inputRef2.current?.checked) {
+                        setState({ type: 'ON_CHECKED_RESET' })
+                        setVote((prev) => ({ ...prev, onVote: 5 }))
+
+                        return
+                  }
                   setVote((prev) => ({ ...prev, onVote: 4 }))
-
-                  return
+                  setState({ type })
             }
-            setState({ type })
-      }
 
-      const onChangeInputLow = ({ type }: { type: Actions }) => {
-            if (inputRef3.current?.checked) {
-                  setState({ type: 'ON_CHECKED_RESET' })
+            if (type === 'ON_CHECKED_LOW') {
+                  if (inputRef3.current?.checked) {
+                        setState({ type: 'ON_CHECKED_RESET' })
+                        setVote((prev) => ({ ...prev, onVote: 5 }))
+
+                        return
+                  }
                   setVote((prev) => ({ ...prev, onVote: 3 }))
-
-                  return
+                  setState({ type })
             }
-            setState({ type })
       }
 
       console.log({ onValue: state.onMinValueVote })
@@ -64,7 +68,7 @@ const FilterProductVote = (props: TProps) => {
                                     className={`${styleEffect.onSelect(
                                           state.onCheckedHigh,
                                     )} relative w-[24px] h-[24px]  border-[1px] hover:border-[2px] `}
-                                    onClick={() => onChangeInputHigh({ type: 'ON_CHECKED_HIGH' })}
+                                    onClick={() => onChangeInput({ type: 'ON_CHECKED_HIGH' })}
                               >
                                     {state.onCheckedHigh && (
                                           <Check
@@ -82,7 +86,7 @@ const FilterProductVote = (props: TProps) => {
                               <input className='hidden' defaultChecked={state.onCheckedMid} type='radio' ref={inputRef2} />
                               <div
                                     className={`${styleEffect.onSelect(state.onCheckedMid)} relative w-[24px] h-[24px]  border-[1px] `}
-                                    onClick={() => onChangeInputMid({ type: 'ON_CHECKED_MID' })}
+                                    onClick={() => onChangeInput({ type: 'ON_CHECKED_MID' })}
                               >
                                     {state.onCheckedMid && (
                                           <Check
@@ -100,7 +104,7 @@ const FilterProductVote = (props: TProps) => {
                               <input className='hidden' defaultChecked={state.onCheckedLow} type='radio' ref={inputRef3} />
                               <div
                                     className={`${styleEffect.onSelect(state.onCheckedLow)} relative w-[24px] h-[24px]  border-[1px] `}
-                                    onClick={() => onChangeInputLow({ type: 'ON_CHECKED_LOW' })}
+                                    onClick={() => onChangeInput({ type: 'ON_CHECKED_LOW' })}
                               >
                                     {state.onCheckedLow && (
                                           <Check
@@ -118,4 +122,4 @@ const FilterProductVote = (props: TProps) => {
       )
 }
 
-export default FilterProductVote
+export default memo(FilterProductVote)

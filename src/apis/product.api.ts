@@ -5,6 +5,7 @@ import { IProductBook, TProductDetail, TProductFormCommon, TProductFull } from '
 import { TBookProduct } from '../types/product/product.book.type'
 import { ProductFood } from '../types/product/product.food.type'
 import { ShopResponse } from '../types/shop.type'
+import { ProductFilter } from '../component/BoxUi/BoxFilterProduct'
 
 export type TProduct = {
       product_id: string
@@ -175,9 +176,15 @@ class ProductApi {
             return axiosCustom.delete<{ metadata: ServerMessageVerify }>(`v1/api/product/delete-product/${product_id}`)
       }
 
-      static async getAllProductWithType({ product_type }: { product_type: string }) {
+      static async getAllProductWithType({ product_type, page }: { product_type: string; page: number }) {
             return axiosCustom.get<TResponseApi<{ products: TProductDetail[]; shops: ShopResponse[]; count: number }>>(
-                  `v1/api/product/get-all-product-category?product_type=${product_type}`,
+                  `v1/api/product/get-all-product-category?product_type=${product_type}&page=${page}`,
+            )
+      }
+
+      static async getProductFilter({ params }: { params: ProductFilter }) {
+            return axiosCustom.get<TResponseApi<{ products: TProductDetail[] }>>(
+                  `v1/api/product/get-product-filter?page=${params.page}&product_type=${params.product_type}&vote=${params.product_vote}&minPrice=${params.minPrice}&maxPrice=${params.maxPrice}`,
             )
       }
 }

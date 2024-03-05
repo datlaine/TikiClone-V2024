@@ -83,6 +83,8 @@ const BoxAvatarMode = (props: TProps) => {
             heightImage,
       }
 
+      console.log({ AvatartSource })
+
       return (
             <div
                   className={`${styleEffect.widthImage}  ${styleEffect.heightImage} flex  items-center justify-center  rounded-full mb-[15px]`}

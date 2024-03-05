@@ -1,8 +1,12 @@
-import { TFormRegisterShop } from '../Customer/Shop/RegisterShop'
-import { TProductFull } from '../types/product/product.type'
+import { TFormRegisterShop } from '../Customer/Shop/ShopRegister'
+import { ModeForm } from '../component/BoxUi/BoxShopForm'
+import { TResponseApi } from '../types/axiosResponse'
+import { ProductType, TProductFull } from '../types/product/product.type'
 import { ShopResponse } from '../types/shop.type'
 import { UserResponse } from '../types/user.type'
 import axiosCustom from './http'
+
+export type StateFile = 'Full' | 'no-files'
 
 type ImageCloudinary = {
       secure_url: string
@@ -22,11 +26,20 @@ export interface IPublicIdImage extends FormData {
       append(name: 'public_id', value: string | Blob, fileName?: string): void
 }
 
+export interface RegisterShop extends FormData {
+      append(name: 'file' | 'shop_name', value: string | Blob, fileName?: string): void
+}
+
 class ShopApi {
-      static async registerShop(data: TFormRegisterShop) {
-            return axiosCustom.post<{ metadata: { shop: ShopResponse; user: UserResponse } }>('v1/api/shop/register-shop', {
-                  shop_name: data.shop_name,
-            })
+      static async registerShop(data: RegisterShop, mode: ModeForm, state: StateFile) {
+            return axiosCustom.post<{ metadata: { shop: ShopResponse; user: UserResponse } }>(
+                  `v1/api/shop/register-shop?mode=${mode}&state=${state}`,
+
+                  data,
+                  {
+                        headers: { 'content-Type': 'multipart/form-data' },
+                  },
+            )
       }
 
       static async uploadAvatar(formData: IUploadImageAvatar) {
@@ -49,6 +62,12 @@ class ShopApi {
 
       static async getProductMyShop() {
             return axiosCustom.get<{ metadata: { myProductOfShop: TProductFull[] } }>('v1/api/shop/get-product-my-shop')
+      }
+
+      static async foundShopHasProductType({ product_type }: { product_type: ProductType }) {
+            return axiosCustom.get<TResponseApi<{ shops: ShopResponse[] }>>(
+                  `/v1/api/shop/get-shop-has-product?product_type=${product_type}`,
+            )
       }
 }
 

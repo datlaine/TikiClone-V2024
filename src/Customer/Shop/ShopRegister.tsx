@@ -25,7 +25,7 @@ const schema = z.object({
       shop_name: z.string().min(1, 'Tên của hàng là bắt buộc'),
 })
 
-const RegisterShop = () => {
+const ShopRegister = () => {
       const registerShop = useForm<TFormRegisterShop>({
             defaultValues: {
                   shop_name: '',
@@ -57,7 +57,7 @@ const RegisterShop = () => {
 
       const registerShopMutation = useMutation({
             mutationKey: ['register-shop'],
-            mutationFn: (data: TFormRegisterShop) => ShopApi.registerShop(data),
+            mutationFn: () => ShopApi.getMyShop(),
       })
 
       const uploadImage = useMutation({
@@ -118,7 +118,7 @@ const RegisterShop = () => {
                   setFirst(true)
             }
             // console.log({ data })
-            registerShopMutation.mutate(data)
+            // registerShopMutation.mutate(data)
       }
 
       useEffect(() => {
@@ -136,7 +136,7 @@ const RegisterShop = () => {
 
       useEffect(() => {
             if (registerShopMutation.isSuccess) {
-                  const { user } = registerShopMutation.data.data.metadata
+                  // const { user } = registerShopMutation.data.data.metadata
                   dispatch(fetchUser({ user }))
             }
       }, [registerShopMutation.isSuccess])
@@ -193,4 +193,4 @@ const RegisterShop = () => {
       )
 }
 
-export default RegisterShop
+export default ShopRegister

@@ -1,11 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useRef, useState } from 'react'
-import NotificationService from '../../apis/notification.service'
 import { useLocation } from 'react-router-dom'
 import BoxButton from './BoxButton'
 import { BadgeDollarSign, History, Home, Notebook, Store } from 'lucide-react'
 import NotificationSkeleton from '../../Customer/Notification/NotificationSkeleton'
-import NotificationProduct from '../../Customer/Notification/NotificationProduct'
+import Notification from '../../Customer/Notification/Notification'
+import BoxBuild from './BoxBuild'
 
 type NotificationTypeActive =
       | {
@@ -68,8 +67,8 @@ const BoxNotification = () => {
       }
 
       return (
-            <div className='relative w-full  pb-[10px] h-[15000px] flex flex-col gap-[16px] '>
-                  <div className='w-full min-h-[160px] xl:min-h-[80px] h-max grid grid-cols-3 grid-rows-2 gap[50px] xl:flex items-center bg-[#ffffff] gap-[24px] flex-wrap xl:flex-nowrap '>
+            <div className='relative w-full  pb-[10px] h-max flex flex-col gap-[16px] '>
+                  <div className='w-full min-h-[160px] xl:min-h-[80px] h-[80px] grid grid-cols-3 grid-rows-2  xl:flex items-center bg-[#ffffff] gap-[24px] flex-wrap xl:flex-nowrap '>
                         <button
                               className={`${
                                     activeNotification.title === 'Thông báo chung' ? ' border-blue-500' : 'border-transparent'
@@ -124,29 +123,34 @@ const BoxNotification = () => {
                   <div className='w-full  overflow-hidden'>
                         <div className='w-full min-h-[600px] h-max flex transition-all duration-500      ' ref={wrapperRef}>
                               <div className='min-w-full'>
-                                    {/* {activeNotification.title === 'Thông báo chung' && <NotificationProduct type='SYSTEM' />} */}
+                                    {activeNotification.title === 'Thông báo chung' && (
+                                          <div className='w-full h-[300px]'>
+                                                <BoxBuild />
+                                          </div>
+                                    )}
                               </div>
 
                               <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo khuyến mãi' && <NotificationSkeleton />}
+                                    {activeNotification.title === 'Thông báo khuyến mãi' && (
+                                          <div className='w-full h-[300px]'>
+                                                <BoxBuild />
+                                          </div>
+                                    )}
                               </div>
 
                               <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo sản phẩm' && <NotificationProduct type='PRODUCT' />}
+                                    {activeNotification.title === 'Thông báo sản phẩm' && <Notification type='PRODUCT' />}
                               </div>
 
                               <div className='min-w-full'>
-                                    <p>OK nè</p>
-                                    {activeNotification.title === 'Thông báo hệ thống' && <NotificationProduct type='SYSTEM' />}
+                                    {activeNotification.title === 'Thông báo hệ thống' && <Notification type='SYSTEM' />}
                               </div>
 
                               <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo Shop' && <NotificationProduct type='SHOP' />}
+                                    {activeNotification.title === 'Thông báo Shop' && <Notification type='SHOP' />}
                               </div>
                         </div>
                   </div>
-
-                  <BoxButton content='Tải thêm' />
             </div>
       )
 }

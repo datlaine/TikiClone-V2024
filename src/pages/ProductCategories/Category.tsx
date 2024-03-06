@@ -59,7 +59,7 @@ const Category = (props: TProps) => {
                                           <div className=' w-full overflow-hidden min-h-[200px] h-max bg-[#ffffff]'>
                                                 <ShopCategory product_type={product_type} />
                                           </div>
-                                          <div className='w-full  h-[60px] flex items-center bg-[#ffffff] px-[8px]'>
+                                          <div className='w-full  h-[80px] flex items-center bg-[#ffffff] px-[8px]'>
                                                 <FilterWrapper product_type={product_type} />
                                           </div>
                                           <div className='w-full h-max mt-[20px]'>

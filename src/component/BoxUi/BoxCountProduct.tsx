@@ -1,9 +1,5 @@
-import { UseMutationResult, useMutation, useQueryClient } from '@tanstack/react-query'
-import React, { SetStateAction, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { CartFormData } from '../../types/cart.type'
-import CartService, { TModeChangeQuantityProductCart } from '../../apis/cart.service'
-import { AxiosResponse } from 'axios'
+import React, { SetStateAction } from 'react'
+import { TModeChangeQuantityProductCart } from '../../apis/cart.service'
 
 type TProps = {
       productQuantity: number | undefined
@@ -29,6 +25,15 @@ const BoxCountProduct = (props: TProps) => {
 
       const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
             console.log({ value: e.target.value, productQuantity })
+
+            if (e.target.value === '') {
+                  getValueChangeQuanity({ mode: 'INPUT', quantity: 0 })
+
+                  // if (window.location.pathname === '/') {
+                  //       return
+                  // }
+            }
+
             if (disable) return
             if (Number(e.target.value) > 999) {
                   if (window.location.pathname === '/') {

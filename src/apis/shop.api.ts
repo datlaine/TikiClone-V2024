@@ -1,4 +1,3 @@
-import { TFormRegisterShop } from '../Customer/Shop/ShopRegister'
 import { ModeForm } from '../component/BoxUi/BoxShopForm'
 import { TResponseApi } from '../types/axiosResponse'
 import { ProductType, TProductFull } from '../types/product/product.type'
@@ -6,7 +5,7 @@ import { ShopResponse } from '../types/shop.type'
 import { UserResponse } from '../types/user.type'
 import axiosCustom from './http'
 
-export type StateFile = 'Full' | 'no-files'
+export type StateFile = 'Full' | 'no-file'
 
 type ImageCloudinary = {
       secure_url: string
@@ -31,9 +30,9 @@ export interface RegisterShop extends FormData {
 }
 
 class ShopApi {
-      static async registerShop(data: RegisterShop, mode: ModeForm, state: StateFile) {
+      static async registerShop(data: RegisterShop, state: StateFile, mode: ModeForm) {
             return axiosCustom.post<{ metadata: { shop: ShopResponse; user: UserResponse } }>(
-                  `v1/api/shop/register-shop?mode=${mode}&state=${state}`,
+                  `v1/api/shop/register-shop?state=${state}&mode=${mode}`,
 
                   data,
                   {

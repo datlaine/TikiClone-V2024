@@ -10,7 +10,6 @@ import NotFound from '../Errors/NotFound'
 
 // section layout
 import Header from '../Header/Header'
-import Portal from '../Portal'
 import Sidebar from '../Sidebar/Sidebar'
 
 //page -> path /customer
@@ -33,9 +32,7 @@ import Category from '../../pages/ProductCategories/Category'
 import Box from '../BoxUi/Box'
 import ShopWrapper from '../../Customer/Shop/ShopWrapper'
 import Shop from '../../pages/shop/Shop'
-import RegisterShop from '../../Customer/Shop/ShopRegister'
-import BoxRegisterShop from '../BoxUi/BoxShopForm'
-import BoxShopForm from '../BoxUi/BoxShopForm'
+import BoxCommentProduct from '../BoxUi/BoxCommentProduct'
 
 const RouterController = () => {
       const pathHiddenHeader = ['/admin', '/payment', '/shop', '/box']
@@ -73,7 +70,7 @@ const RouterController = () => {
                                           element={
                                                 <Box>
                                                       <div className='fixed inset-0 bg-[rgba(0,0,0,.4)] h-screen flex items-center justify-center z-[500]'>
-                                                            {/* <BoxShopForm /> */}
+                                                            {/* <BoxCommentProduct /> */}
                                                       </div>{' '}
                                                 </Box>
                                           }

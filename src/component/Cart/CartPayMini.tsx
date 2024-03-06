@@ -21,7 +21,7 @@ const CartPayMini = () => {
             if (payQuery.isSuccess) {
                   if (payQuery.data.data.metadata.carts.cart_products.length === 0) {
                         dispatch(
-                              addToast({ type: 'WARNNING', message: 'Vui lòng chọn sản phẩm để thanh toát', id: Math.random.toString() }),
+                              addToast({ type: 'WARNNING', message: 'Vui lòng chọn sản phẩm để thanh toán', id: Math.random.toString() }),
                         )
                         return
                   }

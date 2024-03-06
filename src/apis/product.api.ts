@@ -1,9 +1,8 @@
-import axios from 'axios'
 import { ServerMessageVerify, TResponseApi } from '../types/axiosResponse'
 import axiosCustom from './http'
-import { IProductBook, TProductDetail, TProductFormCommon, TProductFull } from '../types/product/product.type'
+import { TProductDetail, TProductFormCommon } from '../types/product/product.type'
 import { TBookProduct } from '../types/product/product.book.type'
-import { ProductFood } from '../types/product/product.food.type'
+import { IProductFood } from '../types/product/product.food.type'
 import { ShopResponse } from '../types/shop.type'
 import { ProductFilter } from '../component/BoxUi/BoxFilterProduct'
 
@@ -72,7 +71,7 @@ export interface IFormDataProductFull extends FormData {
 
 export type ProductData = {
       uploadProduct: Pick<TProductFormCommon, 'product_id' | 'product_name' | 'product_price' | 'product_available'>
-      product_attribute: TBookProduct | ProductFood
+      product_attribute: TBookProduct | IProductFood
       product_id: string
 }
 

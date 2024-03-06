@@ -7,6 +7,9 @@ import { Address } from '../../types/address.type'
 import { useMutation } from '@tanstack/react-query'
 import OrderService from '../../apis/Order.service'
 import { OrderItem } from '../../types/order.type'
+import { checkAxiosError } from '../../utils/handleAxiosError'
+import { addToast } from '../../Redux/toast'
+import { useDispatch } from 'react-redux'
 
 type TProps = {
       carts: CartResponse
@@ -29,6 +32,7 @@ const PaymentCart = (props: TProps) => {
       const [height, setHeight] = useState<number>(0)
       const [disable, setDisable] = useState<boolean>(false)
       const [openSeeProduct, setOpenSeeProduct] = useState<boolean>(false)
+      const dispatch = useDispatch()
 
       const orderPaymentMutation = useMutation({
             mutationKey: ['/v1/api/order/order-payment-product'],
@@ -37,6 +41,17 @@ const PaymentCart = (props: TProps) => {
                   console.log({ order: axiosResponse.data.metadata.order_success })
                   const { message, order_success } = axiosResponse.data.metadata
                   onOrderSuccess({ message, order_success })
+            },
+            onError: (error: unknown) => {
+                  if (checkAxiosError<{ code: number; message: string; detail: string }>(error)) {
+                        if (
+                              error.response?.data.code === 400 &&
+                              error.response.data.message === 'Bad Request'
+                              // error.response.data.detail === 'Số lượng sản phẩm được chọn nhiều hơn số lượng trong kho'
+                        ) {
+                              dispatch(addToast({ id: Math.random().toString(), type: 'WARNNING', message: error.response.data.detail }))
+                        }
+                  }
             },
       })
 

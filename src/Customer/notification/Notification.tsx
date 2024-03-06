@@ -6,17 +6,16 @@ import { convertDateToString, convertDateToStringFull } from '../../utils/date.u
 import { Clock8, Inbox } from 'lucide-react'
 import BoxConfirmDelete from '../../component/BoxUi/confirm/BoxConfirmDelete'
 import { Link } from 'react-router-dom'
+import BoxLoading from '../../component/BoxUi/BoxLoading'
 
 type TProps = {
       type: NotificationType
 }
 
-const NotificationProduct = (props: TProps) => {
+const Notification = (props: TProps) => {
       const { type } = props
       const queryClient = useQueryClient()
       const [showConfirm, setShowConfirm] = useState<boolean>(false)
-
-      console.log({ type })
 
       const getMyNotification = useInfiniteQuery({
             queryKey: ['/v1/api/notification/get-my-notification', type],
@@ -58,7 +57,7 @@ const NotificationProduct = (props: TProps) => {
       }
 
       return (
-            <div className='w-full min-h-[500px] h-max  relative pb-[20px] mb-[80px] xl:mb-0'>
+            <div className='w-full min-h-[50px] h-max bg-[#ffffff] relative pb-[20px] mb-[80px] xl:mb-0'>
                   <div className='mb-[80px] xl:mb-[40px] flex flex-col gap-[16px] xl:gap-0'>
                         {getMyNotification.data?.pages.map((page) =>
                               page.data.metadata.notifications.notification.notifications_message.map((notification) => (
@@ -151,14 +150,15 @@ const NotificationProduct = (props: TProps) => {
                         )}
                   </div>
                   <button
-                        className='px-[32px] my-[40px] text-blue'
+                        className='mx-[32px] px-[16px] min-w-[150px] w-max h-[40px] flex items-center gap-[16px] bg-[#ffffff] border-[1px] border-blue-400 text-blue-400 rounded'
                         onClick={() => getMyNotification.fetchNextPage()}
                         disabled={!getMyNotification.hasNextPage || getMyNotification.isFetchingNextPage}
                   >
-                        {!getMyNotification.hasNextPage ? 'Hết dữ liệu thông báo' : 'Tải thêm thông báo'}
+                        {!getMyNotification.hasNextPage ? 'Không có dữ liệu thông báo' : 'Tải thêm thông báo'}
+                        {getMyNotification.isPending && <BoxLoading />}
                   </button>
             </div>
       )
 }
 
-export default NotificationProduct
+export default Notification

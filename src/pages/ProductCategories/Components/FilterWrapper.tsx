@@ -14,11 +14,11 @@ const FilterWrapper = (props: TProps) => {
       return (
             <div className='w-full h-full flex items-center'>
                   <button
-                        className='min-w-[100px] flex items-center justify-center gap-[4px] h-[40px] bg-[#ffffff] rounded-[999px] border-[1px] border-gray-400'
+                        className='xl:ml-[32px] min-w-[100px] w-max flex items-center justify-center gap-[4px] h-[40px] bg-[#ffffff] rounded-[999px] px-[32px] border-[1px] border-gray-400'
                         onClick={() => setOpenFilter(true)}
                   >
-                        <span>Lọc</span>
                         <Filter />
+                        <span>Lọc sản phẩm</span>
                   </button>
 
                   {openFilter && <BoxFilterProduct product_type={product_type} onClose={setOpenFilter} />}

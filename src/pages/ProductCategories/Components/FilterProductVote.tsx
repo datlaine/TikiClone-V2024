@@ -15,7 +15,8 @@ const FilterProductVote = (props: TProps) => {
 
       const [state, setState] = useReducer(filterProductReducer, initialValue)
 
-      const onChangeInput = ({ type }: { type: Actions }) => {
+      const onChangeInput = ({ type, e }: { type: Actions; e: React.MouseEvent<HTMLButtonElement, MouseEvent> }) => {
+            e.preventDefault()
             if (type === 'ON_CHECKED_HIGH') {
                   if (inputRef1.current?.checked) {
                         setState({ type: 'ON_CHECKED_RESET' })
@@ -54,7 +55,7 @@ const FilterProductVote = (props: TProps) => {
       const styleEffect = {
             onSelect: (state: boolean) => {
                   if (state) return 'bg-blue-600 border-blue-600 '
-                  return 'bg-[#ffffff] border-gray-300 hover:border-[2px] hover:border-blue-700 hover:shadow-lg '
+                  return 'bg-[#ffffff] border-gray-100 hover:border-[2px] hover:border-blue-700 hover:shadow-lg '
             },
       }
 
@@ -62,13 +63,15 @@ const FilterProductVote = (props: TProps) => {
             <div>
                   <div className='w-full flex flex-wrap  gap-[30px] py-[16px]'>
                         <h5 className='w-full'>Đánh giá</h5>
-                        <div className='min-:w-[42%] flex items-center gap-[14px] text-[14px]'>
+                        <button
+                              className='min-:w-[42%] flex items-center gap-[14px] text-[14px]'
+                              onClick={(e) => onChangeInput({ type: 'ON_CHECKED_HIGH', e })}
+                        >
                               <input className='hidden' defaultChecked={state.onCheckedHigh} type='radio' ref={inputRef1} />
                               <div
                                     className={`${styleEffect.onSelect(
                                           state.onCheckedHigh,
                                     )} relative w-[24px] h-[24px]  border-[1px] hover:border-[2px] `}
-                                    onClick={() => onChangeInput({ type: 'ON_CHECKED_HIGH' })}
                               >
                                     {state.onCheckedHigh && (
                                           <Check
@@ -80,14 +83,14 @@ const FilterProductVote = (props: TProps) => {
                               </div>
                               <Rate disabled defaultValue={5} className='text-[14px]' />
                               <p>Từ 5 sao</p>
-                        </div>
+                        </button>
 
-                        <div className='min-w-[42%] flex items-center gap-[12px] text-[14px]'>
+                        <button
+                              className='min-w-[42%] flex items-center gap-[12px] text-[14px]'
+                              onClick={(e) => onChangeInput({ type: 'ON_CHECKED_MID', e })}
+                        >
                               <input className='hidden' defaultChecked={state.onCheckedMid} type='radio' ref={inputRef2} />
-                              <div
-                                    className={`${styleEffect.onSelect(state.onCheckedMid)} relative w-[24px] h-[24px]  border-[1px] `}
-                                    onClick={() => onChangeInput({ type: 'ON_CHECKED_MID' })}
-                              >
+                              <div className={`${styleEffect.onSelect(state.onCheckedMid)} relative w-[24px] h-[24px]  border-[1px] `}>
                                     {state.onCheckedMid && (
                                           <Check
                                                 className='animate-mountComponent absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'
@@ -98,14 +101,14 @@ const FilterProductVote = (props: TProps) => {
                               </div>
                               <Rate disabled defaultValue={4} className='text-[14px]' />
                               <p>Từ 4 sao</p>
-                        </div>
+                        </button>
 
-                        <div className='min-w-[50%] flex items-center gap-[14px]'>
+                        <button
+                              className='min-w-[50%] flex items-center gap-[14px]'
+                              onClick={(e) => onChangeInput({ type: 'ON_CHECKED_LOW', e })}
+                        >
                               <input className='hidden' defaultChecked={state.onCheckedLow} type='radio' ref={inputRef3} />
-                              <div
-                                    className={`${styleEffect.onSelect(state.onCheckedLow)} relative w-[24px] h-[24px]  border-[1px] `}
-                                    onClick={() => onChangeInput({ type: 'ON_CHECKED_LOW' })}
-                              >
+                              <div className={`${styleEffect.onSelect(state.onCheckedLow)} relative w-[24px] h-[24px]  border-[1px] `}>
                                     {state.onCheckedLow && (
                                           <Check
                                                 className='animate-mountComponent absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'
@@ -116,7 +119,7 @@ const FilterProductVote = (props: TProps) => {
                               </div>
                               <Rate disabled defaultValue={3} className='text-[14px] gap-[2px]' />
                               <p>Từ 3 sao</p>
-                        </div>
+                        </button>
                   </div>
             </div>
       )

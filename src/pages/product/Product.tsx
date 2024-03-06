@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ProductApi from '../../apis/product.api'
 import { ChevronsRight, Image } from 'lucide-react'
@@ -12,6 +12,7 @@ import { RootState } from '../../store'
 import { UserAddress, UserResponse } from '../../types/user.type'
 import { AddressType, CartCurrent, resetAddressProduct, setAddressProduct } from '../../Redux/cartSlice'
 import { renderStringAddressDetail, renderStringAddressDetailV2 } from '../../utils/address.util'
+import BoxCommentProduct from '../../component/BoxUi/BoxCommentProduct'
 
 export type TImage = {
       secure_url: string
@@ -22,6 +23,7 @@ const Product = () => {
       const { id } = param
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const cart = useSelector((state: RootState) => state.cartSlice.cart_current) as CartCurrent
+      const [openComment, setOpenComment] = useState<boolean>(false)
       const dispatch = useDispatch()
 
       const getProductWithId = useQuery({
@@ -61,6 +63,14 @@ const Product = () => {
             }
       }, [getProductWithId.isSuccess])
 
+      useEffect(() => {
+            if (openComment) {
+                  document.body.style.overflow = 'hidden'
+            } else {
+                  document.body.style.overflow = 'unset'
+            }
+      }, [openComment])
+
       useEffect(() => {}, [getProductWithId.isSuccess])
       if (getProductWithId.isSuccess) {
             const message = [
@@ -95,11 +105,25 @@ const Product = () => {
                                                 <div className='basis-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-sm  h-max flex flex-col gap-[16px] '>
                                                       <ProductDetail product={product} isSuccess={getProductWithId.isSuccess} />
                                                 </div>
-                                                <div className='basis-[60%]  h-[5000px] mt-[20px] xl:mt-0 rounded-lg '>
+                                                <div className='basis-[60%]  min-h-[500px] h-max mt-[20px] xl:mt-0 rounded-lg '>
                                                       <ProductIntro product={product} />
                                                 </div>
                                           </div>
-                                          <div className='comment w-full h-[1000px] bg-yellow-500'></div>
+                                          <div className='flex flex-col gap-[16px] comment w-full h-[1000px] bg-yellow-500'>
+                                                <button
+                                                      className=' mx-auto mt-[30px] w-[180px] h-[40px] border-[1px]  border-blue-400 text-blue-400 bg-[#ffffff] rounded'
+                                                      onClick={() => setOpenComment(true)}
+                                                >
+                                                      Viết đánh giá
+                                                </button>
+
+                                                {openComment && (
+                                                      <BoxCommentProduct
+                                                            onClose={setOpenComment}
+                                                            product_image={product.product_thumb_image.secure_url}
+                                                      />
+                                                )}
+                                          </div>
                                     </div>
                                     <div className='w-[40%] xl:w-[26%] sticky top-[100px] xl:top-[16px] h-max pb-[15px] bg-white  rounded-md'>
                                           <ProductPay product={product} />

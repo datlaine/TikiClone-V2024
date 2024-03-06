@@ -1,7 +1,7 @@
 import { TCloudinaryImage } from '../../Customer/Sell/types/cloudinary.typs'
 import { ShopResponse } from '../shop.type'
 import { TRegisterFormBook } from './product.book.type'
-import { ProductFoodForm } from './product.food.type'
+import { IProductFood, ProductFoodForm } from './product.food.type'
 
 export type ProductType = 'Book' | 'Food'
 export type ProductForm = TRegisterFormBook | ProductFoodForm
@@ -44,7 +44,7 @@ export type TProductDetail = {
       product_is_select: boolean
       product_is_bought: number
       product_type: ProductType
-      attribute: IProductBook
+      attribute: IProductBook | IProductFood
       shop_id: ShopResponse
 }
 
@@ -97,4 +97,8 @@ export type TProductFormCommon = {
       product_name: string
       product_price: number | null
       product_available: number
+}
+
+export interface ProductAttributeObject {
+      [key: string]: string | number
 }

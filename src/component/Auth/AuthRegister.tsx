@@ -9,6 +9,7 @@ import Auth from '../../apis/auth.api'
 import { useDispatch } from 'react-redux'
 import { doCloseBoxLogin, fetchUser } from '../../Redux/authenticationSlice'
 import { addToast } from '../../Redux/toast'
+import { checkAxiosError } from '../../utils/handleAxiosError'
 type TProps = {
       setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
 }
@@ -59,7 +60,17 @@ const AuthRegister = (props: TProps) => {
                   dispatch(doCloseBoxLogin())
             },
 
-            onError: (data: unknown) => console.log('error data check', data),
+            onError: (error: unknown) => {
+                  if (checkAxiosError<{ code: number; detail: string; message: string }>(error)) {
+                        if (
+                              error.response?.data.code === 400 &&
+                              error.response.data.detail === 'Email đã được đăng kí' &&
+                              error.response.data.message === 'Bad Request'
+                        ) {
+                              dispatch(addToast({ id: Math.random().toString(), type: 'ERROR', message: error.response.data.detail }))
+                        }
+                  }
+            },
       })
 
       //type input

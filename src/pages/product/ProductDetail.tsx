@@ -1,6 +1,5 @@
-import { BookOpenText, Hotel, NotepadText, Pen, Store } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
-import { TProductDetail, TProductFull } from '../../types/product/product.type'
+import { TProductDetail } from '../../types/product/product.type'
 import { TImage } from './Product'
 import BoxModalImage from './BoxModalImage'
 

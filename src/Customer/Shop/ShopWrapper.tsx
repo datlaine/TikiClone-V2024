@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
-import ShopRegister from './ShopRegister'
 import ShopOwner from './Owner/ShopOwner'
+import BoxShopForm from '../../component/BoxUi/BoxShopForm'
+import ShopRegister from './ShopRegister'
 
 const ShopWrapper = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse

@@ -20,7 +20,7 @@ const ShopOwnerLayout = (props: TProps) => {
       const [filterMode, setfilterMode] = useState<FilterMode>()
       const [openForm, setOpenForm] = useState<boolean>(false)
       const defaultValues = user?.isOpenShop
-            ? { shop_name: shop.shop_name, shop_avatar: shop.shop_avatar.secure_url }
+            ? { shop_name: shop.shop_name, shop_avatar: shop.shop_avatar?.secure_url }
             : { shop_name: '', shop_avatar: '' }
       console.log({ shop })
 

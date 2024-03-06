@@ -9,6 +9,7 @@ import ProductApi from '../../apis/product.api'
 import { fetchProduct } from '../../Redux/category.slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
+import BoxLoading from '../../component/BoxUi/BoxLoading'
 
 type TProps = {
       product_type: ProductType
@@ -89,7 +90,17 @@ const ProductSection = (props: TProps) => {
                                           </Link>
                                     ))}
                               </div>
-                              <button onClick={() => onIncreasePage()}>Xem thêm</button>
+                              <div className='mt-[30px] w-full h-max flex justify-center'>
+                                    <button
+                                          className='min-w-[150px] w-max h-[40px] px-[32px] bg-[#ffffff] flex items-center justify-center gap-[16px] border-[1px] border-blue-400 text-blue-400 rounded'
+                                          onClick={() => onIncreasePage()}
+                                    >
+                                          {getProductCategory.hasNextPage ? 'Xem thêm' : 'Hết dữ liệu sản phẩm'}
+                                          {(getProductCategory.isPending || getProductCategory.isFetchingNextPage) && (
+                                                <BoxLoading color='text-blue-400' />
+                                          )}
+                                    </button>
+                              </div>
                         </>
                   )}
                   {products && products.length === 0 && (

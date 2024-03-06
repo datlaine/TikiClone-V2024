@@ -5,9 +5,10 @@ import InputText from '../../Customer/Sell/components/InputText'
 import { register } from 'module'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import ShopApi, { RegisterShop, StateFile } from '../../apis/shop.api'
-import { TFormRegisterShop } from '../../Customer/Shop/ShopRegister'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../Redux/toast'
+import BoxLoading from './BoxLoading'
+import { fetchUser } from '../../Redux/authenticationSlice'
 
 type TForm = {
       shop_name: string
@@ -56,28 +57,37 @@ const BoxShopForm = (props: TProps) => {
       const onResetAvatar = () => {
             URL.revokeObjectURL(preview)
             setPreview('')
+            if (inputAvatar) {
+                  inputAvatar.current?.click()
+            }
       }
 
       const registerShopMutation = useMutation({
             mutationKey: ['register-shop'],
-            mutationFn: (data: RegisterShop, state: StateFile) => ShopApi.registerShop(data, modeForm, state),
-            onSuccess: () => {
+            mutationFn: ({ data, state }: { data: RegisterShop; state: StateFile; mode: ModeForm }) =>
+                  ShopApi.registerShop(data, state, modeForm),
+            onSuccess: (axiosResponse) => {
+                  const { user } = axiosResponse.data.metadata
+
                   queryClieny.invalidateQueries({
                         queryKey: ['get-my-shop'],
                   })
+                  dispatch(addToast({ id: Math.random().toString(), type: 'SUCCESS', message: 'Cập nhập thành công' }))
+                  dispatch(fetchUser({ user }))
+                  onClose(false)
             },
       })
 
       const onSubmit: SubmitHandler<TForm> = (dataForm) => {
             // console.log({ form: dataForm })
-            if (!preview && modeForm === 'UPDATE') {
+            if (!preview && modeForm === 'UPLOAD') {
                   dispatch(addToast({ id: Math.random().toString(), type: 'WARNNING', message: 'Vui lòng upload hình đại diện' }))
                   return
             }
             const formData: RegisterShop = new FormData()
             formData.append('file', imageAvatar as File)
             formData.append('shop_name', dataForm.shop_name)
-            registerShopMutation.mutate(formData)
+            registerShopMutation.mutate({ data: formData, state: imageAvatar ? 'Full' : 'no-file', mode: modeForm })
       }
 
       useEffect(() => {
@@ -141,8 +151,9 @@ const BoxShopForm = (props: TProps) => {
                                                       })}
                                                 />
                                           </div>
-                                          <button className='mt-[20px] p-[12px_14px] border-[1px] border-blue-500 bg-[#ffffff] text-blue-500 rounded-md hover:bg-blue-500 hover:text-white hover:cursor-pointer transition-all duration-300'>
-                                                Đăng kí
+                                          <button className='mt-[20px] w-max flex items-center gap-[16px] p-[12px_14px] border-[1px] border-blue-500 bg-[#ffffff] text-blue-500 rounded-md hover:bg-blue-500 hover:text-white hover:cursor-pointer transition-all duration-300'>
+                                                {modeForm === 'UPDATE' ? 'Cập nhập' : 'Đăng kí'}
+                                                {registerShopMutation.isPending && <BoxLoading />}
                                           </button>
                                     </div>
 

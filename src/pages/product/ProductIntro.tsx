@@ -1,6 +1,6 @@
 import { CaravanIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { TProductDetail } from '../../types/product/product.type'
+import { IProductBook, ProductAttributeObject, TProductDetail } from '../../types/product/product.type'
 import { Rate } from 'antd'
 import ProductLabel from './ProductLabel'
 import BoxConfirmAddress from '../../component/BoxUi/confirm/BoxConfirmAddress'
@@ -9,6 +9,9 @@ import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
 import { getAddressDefault, renderStringAddressDetailV2 } from '../../utils/address.util'
 import { CartCurrent } from '../../Redux/cartSlice'
+import { IProductFood } from '../../types/product/product.food.type'
+import ProductFood from './ProductFood'
+import ProductBook from './ProductBook'
 
 type TProps = { product: TProductDetail }
 
@@ -44,10 +47,12 @@ const ProductIntro = (props: TProps) => {
                               <header>
                                     <div className='flex gap-[12px] flex-col xl:flex-row'>
                                           <ProductLabel content='Chính hãng' />
-                                          <p>
-                                                <span>Tác giả: </span>
-                                                <span className='text-blue-700'>{product?.attribute.author}</span>
-                                          </p>
+                                          {product.product_type === 'Book' && (
+                                                <p>
+                                                      <span>Tác giả: </span>
+                                                      <span className='text-blue-700'>{(product?.attribute as IProductBook).author}</span>
+                                                </p>
+                                          )}
                                     </div>
                               </header>
                               <p className='text-[18px] text-black font-semibold'>{product?.product_name}</p>
@@ -62,7 +67,7 @@ const ProductIntro = (props: TProps) => {
 
                               <p className='h-[16px] flex items-center gap-[8px]'>
                                     <span>Số sản phẩm đã bán</span>
-                                    <span>{product.product_is_bought || 'NOT DATA'}</span>
+                                    <span>{product.product_is_bought}</span>
                               </p>
                               <p className='text-[24px] text-black font-bold'>
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
@@ -97,6 +102,14 @@ const ProductIntro = (props: TProps) => {
                         </div>
                   </section>
 
+                  <section className='min-h-[70px] h-max w-full  p-[12px] bg-[#ffffff] flex flex-col gap-[10px] flex-wrap '>
+                        <p className='text-[18px] text-black font-semibold'>Thông tin sản phẩm</p>
+                        <div className='flex flex-wrap'>
+                              {product.product_type === 'Food' && <ProductFood product_attribute={product.attribute as IProductFood} />}
+                              {product.product_type === 'Book' && <ProductBook product_attribute={product.attribute as IProductBook} />}
+                        </div>
+                  </section>
+
                   <section className='bg-white w-full min-h-[160px] h-max p-[12px]'>
                         <header>
                               <p className='text-[18px] text-black font-semibold'>Mô tả sản phẩm</p>
@@ -113,6 +126,13 @@ const ProductIntro = (props: TProps) => {
                                     <button onClick={() => setReadMore((prev) => !prev)}>{readMore ? 'Xem thêm' : 'Thu gọn'}</button>
                               </div>
                         )}
+                  </section>
+
+                  <section className='min-h-[70px] py-[30px] h-max w-full  p-[12px] bg-[#ffffff] flex items-center flex-col gap-[40px] flex-wrap '>
+                        <img src={product.product_thumb_image.secure_url} className='w-full h-[400px]' alt='' />
+                        {product.product_desc_image.map((image) => (
+                              <img key={image.public_id} src={image.secure_url} className='w-full h-[400px]' alt='' />
+                        ))}
                   </section>
 
                   {openModal && <BoxConfirmAddress setOpenModal={setOpenModal} product_id={product._id} />}

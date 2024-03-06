@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { TProductDetail } from '../../types/product/product.type'
 import ProductLabel from './ProductLabel'
-import { Rate } from 'antd'
+import { Rate, message } from 'antd'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService from '../../apis/cart.service'
 import { CartFormData } from '../../types/cart.type'
@@ -13,6 +13,7 @@ import { CartCurrent, resetAddressProduct } from '../../Redux/cartSlice'
 import { doOpenBoxLogin } from '../../Redux/authenticationSlice'
 import { Address } from '../../types/address.type'
 import { d } from '@tanstack/react-query-devtools/build/legacy/devtools-dKCOqp9Q'
+import { checkAxiosError } from '../../utils/handleAxiosError'
 
 type TProps = {
       product: TProductDetail
@@ -41,6 +42,17 @@ const ProductPay = (props: TProps) => {
             mutationKey: ['add-cart'],
             mutationFn: ({ cart }: { cart: ProductCart }) => CartService.addCart({ cart }),
             onSuccess: () => {},
+            onError: (error: unknown) => {
+                  if (checkAxiosError<{ code: number; message: string; detail: string }>(error)) {
+                        if (
+                              error.response?.data.code === 400 &&
+                              error.response.data.message === 'Bad Request' &&
+                              error.response.data.detail === 'Số lượng sản phẩm được chọn nhiều hơn số lượng trong kho'
+                        ) {
+                              dispatch(addToast({ id: Math.random().toString(), type: 'WARNNING', message: error.response.data.detail }))
+                        }
+                  }
+            },
       })
 
       const handleIncreaseProductQuantity = () => {

@@ -15,6 +15,7 @@ import NotFound from '../component/Errors/NotFound'
 //@icon
 import { BellDot, Lock, MapPinned, NotebookPen, ShoppingBag, ShoppingCart, Store } from 'lucide-react'
 import { UserRound } from 'lucide-react'
+import { UserResponse } from '../types/user.type'
 
 //@const
 const link = [
@@ -38,7 +39,7 @@ const Customer = () => {
       //@context pathname
       const [_, setSectionActive] = useState('/customer/account')
       //@connect state redux
-      const user = useSelector((state: RootState) => state.authentication.user)
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const auth = Boolean(user)
 
       //@check path
@@ -81,7 +82,7 @@ const Customer = () => {
                                           {user ? (
                                                 <>
                                                       <img
-                                                            src={user.avatar?.secure_url || user.avartar_url_default || ''}
+                                                            src={user.avatar?.secure_url || user.avatar_default_url || ''}
                                                             alt='user_avatar'
                                                             className='min-w-[30px] lg:min-w-[40px] w-[30px] h-[30px] lg:w-[40px] lg:h-[40px] rounded-full'
                                                       />

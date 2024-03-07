@@ -6,9 +6,10 @@ import HeaderCart from './HeaderCart'
 import { Bell } from 'lucide-react'
 import { useState } from 'react'
 import HeaderNotification from '../HeaderNotification'
+import { UserResponse } from '../../../types/user.type'
 
 const HeaderActions = () => {
-      const user = useSelector((state: RootState) => state.authentication.user)
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
 
       return (
             <div className='h-full] flex gap-[16px] items-center text-[13px]  '>
@@ -24,7 +25,7 @@ const HeaderActions = () => {
                   <div className='group relative z-[501] hidden xl:flex items-center px-2 gap-2 '>
                         {user ? (
                               <img
-                                    src={user?.avatar?.secure_url || user.avartar_url_default}
+                                    src={user?.avatar?.secure_url || user.avatar_default_url}
                                     className='w-[28px] h-[28px] rounded-full'
                                     alt='avatar'
                               />

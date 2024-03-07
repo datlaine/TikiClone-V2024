@@ -13,6 +13,8 @@ import { UserAddress, UserResponse } from '../../types/user.type'
 import { AddressType, CartCurrent, resetAddressProduct, setAddressProduct } from '../../Redux/cartSlice'
 import { renderStringAddressDetail, renderStringAddressDetailV2 } from '../../utils/address.util'
 import BoxCommentProduct from '../../component/BoxUi/BoxCommentProduct'
+import CommentMe from '../../component/Comment/CommentMe'
+import CommentStatistic from '../../component/Comment/CommentStatistic'
 
 export type TImage = {
       secure_url: string
@@ -23,7 +25,6 @@ const Product = () => {
       const { id } = param
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const cart = useSelector((state: RootState) => state.cartSlice.cart_current) as CartCurrent
-      const [openComment, setOpenComment] = useState<boolean>(false)
       const dispatch = useDispatch()
 
       const getProductWithId = useQuery({
@@ -39,6 +40,10 @@ const Product = () => {
                   behavior: 'smooth',
             })
       }, [])
+
+      const totalComment = getProductWithId.data?.data.metadata.totalComment
+      const avg = getProductWithId.data?.data.metadata.avg
+      const detailComment = getProductWithId.data?.data.metadata.detailComment
 
       useEffect(() => {
             if (getProductWithId.isSuccess) {
@@ -62,14 +67,6 @@ const Product = () => {
                   }
             }
       }, [getProductWithId.isSuccess])
-
-      useEffect(() => {
-            if (openComment) {
-                  document.body.style.overflow = 'hidden'
-            } else {
-                  document.body.style.overflow = 'unset'
-            }
-      }, [openComment])
 
       useEffect(() => {}, [getProductWithId.isSuccess])
       if (getProductWithId.isSuccess) {
@@ -102,27 +99,20 @@ const Product = () => {
                               <div className='px-[10px] xl:px-[20px] flex gap-[16px] xl:gap-[24px] mt-[30px] xl:mt-0'>
                                     <div className='w-[60%] xl:w-[74%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
-                                                <div className='basis-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-sm  h-max flex flex-col gap-[16px] '>
+                                                <div className='xl:basis-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-sm  h-max flex flex-col gap-[16px] '>
                                                       <ProductDetail product={product} isSuccess={getProductWithId.isSuccess} />
                                                 </div>
                                                 <div className='basis-[60%]  min-h-[500px] h-max mt-[20px] xl:mt-0 rounded-lg '>
-                                                      <ProductIntro product={product} />
+                                                      <ProductIntro product={product} totalComment={totalComment || 0} avg={avg || 0} />
                                                 </div>
                                           </div>
-                                          <div className='flex flex-col gap-[16px] comment w-full h-[1000px] bg-yellow-500'>
-                                                <button
-                                                      className=' mx-auto mt-[30px] w-[180px] h-[40px] border-[1px]  border-blue-400 text-blue-400 bg-[#ffffff] rounded'
-                                                      onClick={() => setOpenComment(true)}
-                                                >
-                                                      Viết đánh giá
-                                                </button>
-
-                                                {openComment && (
-                                                      <BoxCommentProduct
-                                                            onClose={setOpenComment}
-                                                            product_image={product.product_thumb_image.secure_url}
-                                                      />
-                                                )}
+                                          <div className='flex flex-col gap-[16px] comment w-full h-[1000px]  bg-[#ffffff] px-[16px]'>
+                                                <CommentStatistic
+                                                      avg={avg || 0}
+                                                      totalComment={totalComment || 0}
+                                                      detailComment={detailComment || []}
+                                                />
+                                                <CommentMe product={product} />
                                           </div>
                                     </div>
                                     <div className='w-[40%] xl:w-[26%] sticky top-[100px] xl:top-[16px] h-max pb-[15px] bg-white  rounded-md'>

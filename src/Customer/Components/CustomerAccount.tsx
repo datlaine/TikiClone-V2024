@@ -176,7 +176,7 @@ const CustomerAccount = () => {
                                           <BoxAvatarMode
                                                 AvatartSource={{
                                                       avatar: user.avatar?.secure_url,
-                                                      avatar_default: user.avartar_url_default,
+                                                      avatar_default: user.avatar_default_url,
                                                 }}
                                                 Mode='USER'
                                           />

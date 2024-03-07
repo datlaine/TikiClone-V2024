@@ -24,13 +24,13 @@ const ProductBook = (props: TProps) => {
       }
 
       return (
-            <div className='ml-[30px] py-[16px] text-[20px] flex flex-col gap-[16px] '>
+            <div className='ml-[10px] xl:ml-[30px] py-[16px] text-[14px] xl:text-[20px] flex flex-col gap-[8px] xl:gap-[16px] '>
                   {Object.keys(attribute).map((attri, index) => {
                         if (attri === 'product_id' || attri === 'description') {
                               return null
                         }
                         return (
-                              <div className='relative w-full flex flex-wrap items-center gap-[8px]'>
+                              <div className='relative w-full flex flex-wrap items-center gap-[8px]' key={attri + index}>
                                     <span className=' w-[10px] h-[10px] bg-blue-500 rounded-full'></span>
                                     <span>{book_label[index]}</span>
                                     <span>

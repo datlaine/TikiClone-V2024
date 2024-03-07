@@ -88,36 +88,7 @@ const ProductDetail = (props: TProps) => {
                               />
                         ))}
                   </div>
-                  {/* <div className='flex-1 flex flex-col gap-[12px] mt-[8px] text-[14px] pb-[16px]'>
-                        <h3>Đặc điểm nổi bật</h3>
 
-                        <div className='px-[16px] flex gap-[8px] items-center'>
-                              <div className='w-[32px] h-[32px] rounded-full bg-blue-700 flex items-center justify-center'>
-                                    <Store color='white' size={20} />
-                              </div>
-                              <p>Shops: {product?.shop_id.shop_name}</p>
-                        </div>
-                        <div className='px-[16px] flex gap-[8px] items-center'>
-                              <div className='w-[32px] h-[32px] rounded-full bg-blue-700 flex items-center justify-center'>
-                                    <Pen color='white' size={20} />
-                              </div>
-                              <span>Tác giả: {product?.attribute.author}</span>
-                        </div>
-
-                        <div className='px-[16px] flex gap-[8px] items-center'>
-                              <div className='w-[32px] h-[32px] rounded-full bg-blue-700 flex items-center justify-center'>
-                                    <Hotel color='white' size={20} />
-                              </div>
-                              <span>Nhà xuất bản: {product?.attribute.publishing}</span>
-                        </div>
-
-                        <div className='px-[16px] flex gap-[8px] items-center'>
-                              <div className='w-[32px] h-[32px] rounded-full bg-blue-700 flex items-center justify-center'>
-                                    <BookOpenText color='white' size={20} />
-                              </div>
-                              <span>Số trang sách: {product?.attribute.page_number}</span>
-                        </div>
-                  </div> */}
                   {openModal && <BoxModalImage setOpenModal={setOpenModal} secure_url={imageArray} imageActive={imageActive} />}
             </React.Fragment>
       )

@@ -13,10 +13,10 @@ import { IProductFood } from '../../types/product/product.food.type'
 import ProductFood from './ProductFood'
 import ProductBook from './ProductBook'
 
-type TProps = { product: TProductDetail }
+type TProps = { product: TProductDetail; totalComment: number; avg: number }
 
 const ProductIntro = (props: TProps) => {
-      const { product } = props
+      const { product, totalComment, avg } = props
 
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const cartCurrent = useSelector((state: RootState) => state.cartSlice.cart_current) as CartCurrent
@@ -41,7 +41,7 @@ const ProductIntro = (props: TProps) => {
       const votes = 5
 
       return (
-            <div className='flex flex-col gap-[16px] text-[13px]'>
+            <div className='flex flex-col min-h-full h-max gap-[16px] text-[13px]'>
                   <section className='bg-white w-full min-h-[160px] h-auto p-[12px] rounded-lg'>
                         <div className='flex flex-col gap-[16px]'>
                               <header>
@@ -56,9 +56,11 @@ const ProductIntro = (props: TProps) => {
                                     </div>
                               </header>
                               <p className='text-[18px] text-black font-semibold'>{product?.product_name}</p>
-                              <div className=' h-[16px] flex gap-[4px]'>
+                              <div className=' min-h-[16px] h-max flex flex-col xl:flex-row xl:items-center gap-[8px]'>
+                                    <span className='font-semibold'>{avg.toFixed(1)}</span>
                                     {/* {diffrenceBetweenStar(votes)?.map((opacity) => <Star opacity={opacity} />)} */}
-                                    <Rate disabled allowHalf defaultValue={product.product_votes || 0} />
+                                    <Rate disabled allowHalf defaultValue={product.product_votes || 0} className='text-[14px]' />
+                                    <span className=''>({totalComment} lượt đánh giá)</span>
                               </div>
                               <p className='h-[16px] flex items-center gap-[8px]'>
                                     <span>Số sản phẩm có sẵn</span>
@@ -80,7 +82,7 @@ const ProductIntro = (props: TProps) => {
                   <section className='bg-white w-full min-h-[160px] h-auto p-[12px] rounded-lg'>
                         <div className='flex flex-col gap-[8px]'>
                               <p className='[word-spacing:1px] text-[16px] text-black font-semibold word'>Thông tin vận chuyển</p>
-                              <div className=' min-h-[26px] h-max w-full flex justify-between'>
+                              <div className=' min-h-[26px] h-max w-full flex flex-col xl:flex-row justify-between'>
                                     <span>
                                           {cartCurrent.cart_current_address
                                                 ? cartCurrent.cart_current_address
@@ -88,7 +90,7 @@ const ProductIntro = (props: TProps) => {
                                                 ? `Giao đến: ${address_default ? renderStringAddressDetailV2(address_default[0]) : ''}`
                                                 : 'Bạn chưa chọn ví trí giao hàng'}
                                     </span>
-                                    <button className='text-blue-600' onClick={handleOpenModal}>
+                                    <button className='text-left text-blue-600' onClick={handleOpenModal}>
                                           {getAddressDefault(user?.user_address) ? 'Đổi' : 'Chọn vị trí'}
                                     </button>
                               </div>
@@ -129,9 +131,9 @@ const ProductIntro = (props: TProps) => {
                   </section>
 
                   <section className='min-h-[70px] py-[30px] h-max w-full  p-[12px] bg-[#ffffff] flex items-center flex-col gap-[40px] flex-wrap '>
-                        <img src={product.product_thumb_image.secure_url} className='w-full h-[400px]' alt='' />
+                        <img src={product.product_thumb_image.secure_url} className='w-[70%] h-[400px]' alt='' />
                         {product.product_desc_image.map((image) => (
-                              <img key={image.public_id} src={image.secure_url} className='w-full h-[400px]' alt='' />
+                              <img key={image.public_id} src={image.secure_url} className='w-[70%] h-[400px]' alt='' />
                         ))}
                   </section>
 

@@ -30,6 +30,8 @@ export type TProductReturn = {
       }
 }
 
+export type DetailComment = { _id: number; comment_count: number }[]
+
 export interface IFormDataImage extends FormData {
       append(name: 'file' | 'product_id', value: string | Blob, fileName?: string): void
 }
@@ -164,7 +166,9 @@ class ProductApi {
       }
 
       static async getProductWithId({ id }: { id: string }) {
-            return axiosCustom.get<{ metadata: { product: TProductDetail } }>(`v1/api/product/get-product/${id}`)
+            return axiosCustom.get<{
+                  metadata: { product: TProductDetail; totalComment: number; avg: number; detailComment: DetailComment }
+            }>(`v1/api/product/get-product/${id}`)
       }
 
       static async protectProduct({ id }: { id: string }) {

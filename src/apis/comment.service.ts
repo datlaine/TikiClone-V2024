@@ -1,5 +1,5 @@
 import { TResponseApi } from '../types/axiosResponse'
-import { Comment } from '../types/comment.type'
+import { Comment, CommentImage } from '../types/comment.type'
 import axiosCustom from './http'
 import { StateFile } from './shop.api'
 
@@ -15,8 +15,14 @@ export interface AddCommentParam extends FormData {
       append(name: 'file' | 'content' | 'countStar' | 'product_id', value: string | Blob, fileName?: string): void
 }
 
-export type getMeCommentParam = {
+export type GetMeCommentParam = {
       product_id: string
+}
+
+export type GetAllCommentParam = {
+      product_id: string
+      page: number
+      limit: number
 }
 
 class CommentService {
@@ -26,8 +32,19 @@ class CommentService {
             })
       }
 
-      static async getMeComment(params: getMeCommentParam) {
+      static async getMeComment(params: GetMeCommentParam) {
             return axiosCustom.get<TResponseApi<{ comment: Comment }>>('/v1/api/comment/get-me-comment', { params })
+      }
+
+      static async getAllCommentProduct(params: GetAllCommentParam) {
+            return axiosCustom.get<TResponseApi<{ comments: Comment[]; total: number; comment_images: CommentImage[] }>>(
+                  '/v1/api/comment/get-all-comment',
+                  { params },
+            )
+      }
+
+      static async getAllCommentImage(params: GetMeCommentParam) {
+            return axiosCustom.get<TResponseApi<{ comment_images: CommentImage[] }>>('/v1/api/comment/get-all-comment-image', { params })
       }
 }
 

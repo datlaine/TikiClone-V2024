@@ -5,6 +5,7 @@ import { TBookProduct } from '../types/product/product.book.type'
 import { IProductFood } from '../types/product/product.food.type'
 import { ShopResponse } from '../types/shop.type'
 import { ProductFilter } from '../component/BoxUi/BoxFilterProduct'
+import { CommentImage } from '../types/comment.type'
 
 export type TProduct = {
       product_id: string
@@ -167,7 +168,12 @@ class ProductApi {
 
       static async getProductWithId({ id }: { id: string }) {
             return axiosCustom.get<{
-                  metadata: { product: TProductDetail; totalComment: number; avg: number; detailComment: DetailComment }
+                  metadata: {
+                        product: TProductDetail
+                        totalComment: number
+                        avg: number
+                        detailComment: DetailComment
+                  }
             }>(`v1/api/product/get-product/${id}`)
       }
 

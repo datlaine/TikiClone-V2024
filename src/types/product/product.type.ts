@@ -37,7 +37,7 @@ export type TProductDetail = {
             secure_url: string
             public_id: string
       }
-      product_available: string
+      product_available: number
       product_votes: number
       product_desc_image: TCloudinaryImage[]
       product_state: boolean

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { SetStateAction, useEffect, useMemo, useState } from 'react'
 import { Controller, FieldErrors, FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { addressSchemaForm } from '../schema/addressForm.schema'
 import { UserAddress, UserResponse } from '../types/user.type'
@@ -14,6 +14,7 @@ import AccountService from '../apis/account.service'
 import { doOpenBoxLogin, fetchUser } from '../Redux/authenticationSlice'
 import { RootState } from '../store'
 import { Address } from '../types/address.type'
+import { X } from 'lucide-react'
 
 export type AddressForm = {
       address_type: 'Home' | 'Company' | 'Private'
@@ -42,10 +43,12 @@ const address_type = [
 
 type TProps = {
       onSuccessAddAddress?: (id: string) => void
+      iconClose?: React.ReactNode
+      onClose?: React.Dispatch<SetStateAction<boolean>>
 }
 
 const FormAddress = (props: TProps) => {
-      const { onSuccessAddAddress } = props
+      const { onSuccessAddAddress, iconClose, onClose } = props
 
       const dispatch = useDispatch()
 
@@ -66,7 +69,12 @@ const FormAddress = (props: TProps) => {
             onSuccess: (axiosResponse) => {
                   const { user } = axiosResponse.data.metadata
                   dispatch(fetchUser({ user }))
+                  dispatch(addToast({ id: Math.random().toString(), type: 'SUCCESS', message: 'Thêm địa chỉ thành công' }))
+
                   onSuccessAddAddress && onSuccessAddAddress(user.user_address[user.user_address.length - 1]._id)
+                  if (onClose) {
+                        onClose(false)
+                  }
             },
       })
 
@@ -215,8 +223,9 @@ const FormAddress = (props: TProps) => {
       return (
             <FormProvider {...addressForm}>
                   <form
-                        className='animate-mountComponent w-full  p-[16px_10px]  xl:px-[36px] xl:py-[30px] flex flex-col gap-[30px] bg-[#ffffff]'
+                        className='relative min-w-[575px] w-max  p-[16px_10px]  xl:px-[36px] xl:py-[50px] flex flex-col gap-[30px] bg-[#ffffff] rounded-md'
                         onSubmit={addressForm.handleSubmit(onSubmit)}
+                        spellCheck={false}
                   >
                         <div className='] flex flex-col  xl:flex-row gap-[16px]'>
                               <Controller
@@ -321,8 +330,16 @@ const FormAddress = (props: TProps) => {
                               />
                         </div>
                         <div className='w-full h-[50px]'>
-                              <BoxButton content='Cập nhập địa chỉ' type='submit' />
+                              <BoxButton content='Cập nhập địa chỉ' onLoading={addressMutation.isPending} type='submit' />
                         </div>
+                        {onClose && (
+                              <button
+                                    className='absolute top-[-15px] right-[-15px] w-[30px] h-[30px] rounded-full bg-slate-900 text-white flex items-center justify-center'
+                                    onClick={() => onClose(false)}
+                              >
+                                    {iconClose}
+                              </button>
+                        )}
                   </form>
             </FormProvider>
       )

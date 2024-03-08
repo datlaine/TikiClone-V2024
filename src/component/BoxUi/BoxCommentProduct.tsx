@@ -80,7 +80,7 @@ const BoxCommentProduct = (props: TProps) => {
                         addToast({
                               type: 'WARNNING',
                               id: Math.random().toString(),
-                              message: 'Do dung lượng Cloudinary free mình sắp hết nên mỗi comment mình set chỉ up 1 ảnh thôi @@',
+                              message: 'Do dung lượng Cloudinary free của mình sắp hết nên mỗi comment mình set chỉ up 1 ảnh thôi @@',
                         }),
                   )
                   return
@@ -128,10 +128,11 @@ const BoxCommentProduct = (props: TProps) => {
       return (
             <div className='fixed inset-0 bg-[rgba(0,0,0,.4)] h-screen flex items-center justify-center z-[500]'>
                   <form
-                        className='animate-authBox relative w-[350px] xl:w-[420px] h-[600px] mx-[16px] xl:mx-0 bg-[#ffffff] p-[16px] flex flex-col gap-[8px] rounded '
+                        className='animate-authBox relative w-[350px] xl:w-[420px] h-[530px] xl:h-[600px] mx-[16px] xl:mx-0 bg-[#ffffff] p-[16px] flex flex-col gap-[8px] rounded '
                         onSubmit={onSubmit}
+                        spellCheck={false}
                   >
-                        <button className='absolute top-[20px] right-[20px]' onClick={onCloseModel}>
+                        <button className='absolute top-[20px] right-[20px]' onClick={onCloseModel} type='button'>
                               <X />
                         </button>
                         <div className='flex-1 flex flex-col gap-[16px]'>
@@ -154,7 +155,7 @@ const BoxCommentProduct = (props: TProps) => {
                                                 <Camera className=' text-blue-400' />
                                           </div>
 
-                                          {formComment.secure_url && mode === 'UPLOAD' && <button>Chọn lại</button>}
+                                          {formComment.secure_url && mode === 'UPLOAD' && <button type='button'>Chọn lại</button>}
                                     </div>
                                     <div className=''>
                                           {formComment.secure_url && (

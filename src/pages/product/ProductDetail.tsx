@@ -64,22 +64,22 @@ const ProductDetail = (props: TProps) => {
 
       return (
             <React.Fragment>
-                  <div className='basis-[20%] md:basis-[35%] rounded-lg p-[14px]'>
+                  <div className='basis-[20%] md:basis-[35%] h-max flex justify-center rounded-xl p-[12px]  '>
                         <img
                               src={product!.product_thumb_image.secure_url}
-                              className='cursor-pointer w-full h-full xl:h-[370px] p-[8px] max-w-full min-h-[200px] max-h-[200px] sm:min-h-[370px] sm:max-h-[380px] transition-all duration-700 rounded-[6px] border-[2px] border-slate-200'
+                              className='cursor-pointer w-[90%] h-full min-h-[240px] xl:min-h-[360px]  transition-all duration-700 rounded-lg'
                               alt='product'
                               ref={image}
                               onClick={handleOpenModal}
                         />
                   </div>
-                  <div className='flex p-[14px] gap-[8px] flex-wrap md:flex-nowrap rounded-lg'>
+                  <div className='flex px-[14px] gap-[8px] flex-wrap md:flex-nowrap rounded-lg'>
                         {imageArray.map((image) => (
                               <img
                                     src={image.secure_url}
                                     className={`${
                                           imageActive === image.secure_url ? styleEffect.isActive : 'border-[2px] border-slate-200'
-                                    }  h-[108px] w-[47%] xl:w-[70px] xl:h-[70px] md:w-[60px] md:h-[80px]  rounded p-[8px]`}
+                                    }  h-[108px] w-[47%] xl:w-[55px] xl:h-[55px] md:w-[60px] md:h-[80px]  rounded p-[4px]`}
                                     alt='product_sub'
                                     key={image.secure_url}
                                     onMouseLeave={handleMouseLeave}

@@ -7,7 +7,7 @@ const FeaturedCategoryItem = () => {
                   {FeaturedBook.map((product, index) => (
                         <div
                               key={index}
-                              className='flex flex-col justify-center items-center min-w-[calc(100%/2)] xl:min-w-[calc(100%/6.2)] h-full  xl:gap-[8px] snap-center snap-always xl:snap-none'
+                              className='flex flex-col justify-center items-center min-w-[calc(100%/3)] xl:min-w-[calc(100%/6.2)] h-full  xl:gap-[8px] snap-center snap-always xl:snap-none'
                         >
                               <img
                                     src={product.image}

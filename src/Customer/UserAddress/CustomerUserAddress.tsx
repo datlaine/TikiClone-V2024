@@ -1,4 +1,4 @@
-import { MapPinOff, Plus } from 'lucide-react'
+import { MapPinOff, Plus, X } from 'lucide-react'
 import React, { useState } from 'react'
 import BoxButton from '../../component/BoxUi/BoxButton'
 import FormAddress from '../../forms/FormAddress'
@@ -22,8 +22,10 @@ const CustomerUserAddress = () => {
                         <span>{`${openFormAddress ? 'Ẩn Form' : 'Thêm địa chỉ'}`}</span>
                   </button>
                   {openFormAddress && (
-                        <div className='px-[60px]'>
-                              <FormAddress />
+                        <div className='fixed inset-0 bg-[rgba(0,0,0,.4)] h-screen flex items-center justify-center z-[500]'>
+                              <div className='animate-authBox px-[60px] min-w-[575px]'>
+                                    <FormAddress iconClose={<X />} onClose={setOpenFormAddress} />
+                              </div>
                         </div>
                   )}
 

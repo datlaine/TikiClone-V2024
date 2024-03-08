@@ -148,7 +148,10 @@ const BoxConfirmAddress = (props: TProps) => {
       return (
             <Portal>
                   <div className='fixed inset-0 bg-[rgba(0,0,0,.45)] flex justify-center items-center z-[503]'>
-                        <div className='relative w-full xl:w-[600px] min-h-[370px] h-max bg-[#ffffff] p-[12px_8px]  xl:p-[24px_12px] mx-[16px] xl:mx-0 mt-[120px] xl:mt-0 rounded'>
+                        <div
+                              className='relative w-full xl:w-[600px] min-h-[370px] h-max bg-[#ffffff] p-[12px_8px]  xl:p-[24px_12px] mx-[16px] xl:mx-0 
+ rounded'
+                        >
                               <div className='flex flex-col gap-[10px] h-full'>
                                     <div className='basis-[80%] bg-white rounded-lg  py-[12px] flex flex-col gap-[12px]'>
                                           <header className='text-[20px] font-medium text-center'>Địa chỉ giao hàng</header>

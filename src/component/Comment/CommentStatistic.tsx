@@ -18,13 +18,13 @@ const CommentStatistic = (props: TProps) => {
                   const width = lineRef.current.getBoundingClientRect().width
                   setWidth(width)
             }
-      }, [])
+      }, [avg, totalComment, detailComment])
 
       // console.log({ width:  })
 
       return (
-            <div className='w-full h-max flex items-center py-[16px]'>
-                  <div className='w-[350px] h-[250px] flex flex-col gap-[20px]'>
+            <div className='w-max h-max flex items-center py-[16px] '>
+                  <div className='w-[180px] xl:w-[300px] min-h-[100px] h-max flex flex-col gap-[20px]'>
                         <div className=''>
                               <span className='text-[15px] text-slate-800 font-extrabold'>Khách hàng đánh giá</span>
                         </div>
@@ -38,11 +38,11 @@ const CommentStatistic = (props: TProps) => {
                               </div>
                               <div className='h-max text-[16px] text-slate-500'>({totalComment} đánh giá)</div>
                         </div>
-                        <div className='w-full min-h-[120px] h-max flex flex-col gap-[6px]'>
+                        <div className='w-full min-h-[60px] h-max flex flex-col gap-[6px]'>
                               {detailComment.map((comment) => (
                                     <div className='w-full flex items-center gap-[16px]' key={comment._id}>
-                                          <Rate disabled defaultValue={comment._id} className='text-[12px]' />
-                                          <div className=' w-[50%] h-[10px] rounded-lg bg-[rgb(245_245_250)] ' ref={lineRef}>
+                                          <Rate disabled defaultValue={comment._id} className='text-[10px] xl:text-[12px]' />
+                                          <div className='w-[30%] xl:w-[50%] h-[10px] rounded-lg bg-[rgb(245_245_250)] ' ref={lineRef}>
                                                 <div
                                                       style={{ width: (width / totalComment) * comment.comment_count }}
                                                       className=' h-[10px] rounded-lg bg-blue-600'

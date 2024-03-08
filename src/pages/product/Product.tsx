@@ -15,6 +15,9 @@ import { renderStringAddressDetail, renderStringAddressDetailV2 } from '../../ut
 import BoxCommentProduct from '../../component/BoxUi/BoxCommentProduct'
 import CommentMe from '../../component/Comment/CommentMe'
 import CommentStatistic from '../../component/Comment/CommentStatistic'
+import Comment from '../../component/Comment/Comment'
+import CommentImageAll from '../../component/Comment/CommentImageAll'
+import { CommentImage } from '../../types/comment.type'
 
 export type TImage = {
       secure_url: string
@@ -99,20 +102,24 @@ const Product = () => {
                               <div className='px-[10px] xl:px-[20px] flex gap-[16px] xl:gap-[24px] mt-[30px] xl:mt-0'>
                                     <div className='w-[60%] xl:w-[74%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
-                                                <div className='xl:basis-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-sm  h-max flex flex-col gap-[16px] '>
+                                                <div className='xl:basis-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-lg  h-max flex flex-col gap-[16px] '>
                                                       <ProductDetail product={product} isSuccess={getProductWithId.isSuccess} />
                                                 </div>
                                                 <div className='basis-[60%]  min-h-[500px] h-max mt-[20px] xl:mt-0 rounded-lg '>
                                                       <ProductIntro product={product} totalComment={totalComment || 0} avg={avg || 0} />
                                                 </div>
                                           </div>
-                                          <div className='flex flex-col gap-[16px] comment w-full h-[1000px]  bg-[#ffffff] px-[16px]'>
+                                          <div className='flex flex-col gap-[10px] comment w-full min-h-[1000px] h-max  bg-[#ffffff] px-[16px] pb-[50px]'>
                                                 <CommentStatistic
                                                       avg={avg || 0}
                                                       totalComment={totalComment || 0}
                                                       detailComment={detailComment || []}
                                                 />
-                                                <CommentMe product={product} />
+                                                <CommentImageAll product_id={product._id} />
+                                                <div className='w-full mt-[16px]'>
+                                                      <CommentMe product={product} />
+                                                </div>
+                                                <Comment product_id={product._id} />
                                           </div>
                                     </div>
                                     <div className='w-[40%] xl:w-[26%] sticky top-[100px] xl:top-[16px] h-max pb-[15px] bg-white  rounded-md'>
@@ -122,36 +129,36 @@ const Product = () => {
                         )}
 
                         {getProductWithId.isPending && (
-                              <div className='animate-pulse bg-gray-300 flex gap-[24px]'>
+                              <div className='animate-pulse bg-gray-100 flex gap-[24px]'>
                                     <div className='  basis-[80%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
-                                                <div className='basis-[40%] bg-gray-400 static min-h-[800px] h-[900px] xl:sticky top-[16px]  p-[8px] rounded-sm   flex flex-col gap-[16px]'>
-                                                      <div className='bg-gray-500  basis-[35%] w-[450px]'></div>
-                                                      <div className='flex bg-gray-400 h-[50px] gap-[16px]'>
+                                                <div className='basis-[40%] bg-gray-100 static min-h-[800px] h-[900px] xl:sticky top-[16px]  p-[8px] rounded-sm   flex flex-col gap-[16px]'>
+                                                      <div className='animate-pulse bg-gray-400  basis-[35%] w-full'></div>
+                                                      <div className='flex bg-gray-100 h-[50px] gap-[16px]'>
                                                             {Array(5)
                                                                   .fill(0)
                                                                   .map((skeleton, index) => (
                                                                         <div
-                                                                              className='bg-gray-500 w-[20%] flex items-center justify-center'
+                                                                              className='animate-pulse bg-gray-400 w-[20%] flex items-center justify-center'
                                                                               key={index}
                                                                         >
                                                                               <Image size='30' />
                                                                         </div>
                                                                   ))}
                                                       </div>
-                                                      <div className='flex-1 bg-gray-500 w-full'></div>
+                                                      <div className='animate-pulse flex-1 bg-gray-400 w-full'></div>
                                                 </div>
-                                                <div className='basis-[60%] bg-gray-400  h-[5000px] mt-[20px] xl:mt-0 rounded-lg '>
+                                                <div className='animate-pulse basis-[60%] bg-gray-400  h-[5000px] mt-[20px] xl:mt-0 rounded-lg '>
                                                       {/* <ProductIntro product={product} /> */}
                                                 </div>
                                           </div>
-                                          <div className='comment w-full h-[1000px] bg-yellow-500'></div>
+                                          <div className='animate-pulse bg-gray-400 comment w-full h-[1000px] '></div>
                                     </div>
                                     <div className='animate-pulse bg-gray-400 basis-[20%] sticky top-[16px] h-[300px]'></div>
                               </div>
                         )}
                   </div>
-                  <div className='bg-black h-[4000px] w-full'></div>
+                  <div className=' bg-black h-[4000px] w-full'></div>
             </div>
       )
 }

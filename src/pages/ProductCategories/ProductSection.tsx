@@ -92,7 +92,7 @@ const ProductSection = (props: TProps) => {
                               </div>
                               <div className='mt-[30px] w-full h-max flex justify-center'>
                                     <button
-                                          className='min-w-[150px] w-max h-[40px] px-[32px] bg-[#ffffff] flex items-center justify-center gap-[16px] border-[1px] border-blue-400 text-blue-400 rounded'
+                                          className='min-w-[150px] w-max h-[40px] px-[32px] bg-[#ffffff] flex items-center justify-center gap-[8px] border-[1px] border-blue-400 text-blue-400 rounded'
                                           onClick={() => onIncreasePage()}
                                     >
                                           {getProductCategory.hasNextPage ? 'Xem thêm' : 'Hết dữ liệu sản phẩm'}

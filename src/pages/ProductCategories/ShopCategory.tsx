@@ -56,7 +56,7 @@ const ShopCategory = (props: TProps) => {
 
       return (
             <div className='relative w-full h-[200px] rounded  xl:overflow-hidden'>
-                  <div className=' flex gap-[16px] h-full w-[350px] xl:w-full overflow-scroll xl:overflow-visible' ref={wrapperRef}>
+                  <div className=' flex gap-[16px] h-full w-full overflow-scroll xl:overflow-visible' ref={wrapperRef}>
                         {shops?.map((shop) => (
                               <div key={shop._id} className='flex gap-[24px] min-w-[100%]  xl:min-w-[50%]'>
                                     <div className='relative w-[46%] xl:w-[36%] flex  items-center justify-center overflow-hidden'>

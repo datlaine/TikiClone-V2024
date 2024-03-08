@@ -47,7 +47,7 @@ const Category = (props: TProps) => {
                   </Link>
                   <div className='w-full h-max flex  gap-[24px]'>
                         <CategoryTitle title={onSetTitleProductType({ product_type })} onGetNameCategory={onClickCategory} />
-                        <div className='max-w-full xl:w-[81%] min-h-[1000px] h-max '>
+                        <div className='max-w-full w-full xl:w-[81%] min-h-[1000px] h-max '>
                               {activeData ? (
                                     <header className='w-full min-h-full h-max flex flex-col gap-[28px] overflow-hidden'>
                                           <div className='p-[25px] w-full h-[60px] flex items-center bg-[#ffffff]'>

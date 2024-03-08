@@ -1,20 +1,16 @@
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { userLogout } from '../../../Redux/authSlice'
-import { RootState, store } from '../../../store'
-import { clearCart } from '../../../Redux/reducer'
-import { useState } from 'react'
-import Portal from '../../Portal'
-import AuthWrapper from '../../Auth/AuthWrapper'
+import { RootState } from '../../../store'
 import { doLogout, doOpenBoxLogin } from '../../../Redux/authenticationSlice'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Auth from '../../../apis/auth.api'
 import { addToast } from '../../../Redux/toast'
+import { UserResponse } from '../../../types/user.type'
 
 function HeaderBoxHover() {
       // const { user, doCloseBoxLogin, doOpenBoxLogin, isOpenBoxLogin, userLogout, clearCart } = props
       const navigate = useNavigate()
-      const user = useSelector((state: RootState) => state.authentication.user)
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const dispatch = useDispatch()
       const queryClient = useQueryClient()
 
@@ -54,7 +50,7 @@ function HeaderBoxHover() {
                   <ul className='flex flex-col min-w-[250px] bg-white shadow-xl py-2 gap-2 border border-gray-200 rounded z-20'>
                         <li className='flex items-center h-[35px] hover:bg-[#ccc] px-2'>
                               <Link to={'/customer/account'} className='w-full h-full flex items-center'>
-                                    {user ? `Account: ${user.email}` : 'Thông tin tài khoản'}
+                                    {user ? `Tài khoản: ${user?.fullName || user?.nickName || user.email}` : 'Thông tin tài khoản'}
                               </Link>
                         </li>
 

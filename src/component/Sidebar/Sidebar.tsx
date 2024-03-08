@@ -30,7 +30,7 @@ function Sidebar(props: TProps) {
 
       return (
             <div
-                  className={`${styleEffect.showSideBar}  absolute xl:sticky  bg-red-700 w-[180px] xl:w-[200px] top-[75px] xl:top-[20px] h-[500px] z-[20]  `}
+                  className={`${styleEffect.showSideBar}  fixed xl:sticky  bg-red-700 w-[180px] xl:w-[200px] top-[75px] xl:top-[20px] h-[500px] z-[20]  `}
             >
                   <ul className='w-full h-[250px] flex flex-col'>
                         <li className=''>

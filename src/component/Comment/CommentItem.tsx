@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Comment } from '../../types/comment.type'
-import { convertDateToString } from '../../utils/date.utils'
+import { convertDateToString, convertDateToStringFull } from '../../utils/date.utils'
 import { Rate } from 'antd'
 import { renderLevelVote } from '../../utils/comment.util'
 import BoxModalImage from '../../pages/product/BoxModalImage'
 import { TImage } from '../../pages/product/Product'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import { UserResponse } from '../../types/user.type'
 
 type TProps = {
       comment: Comment
@@ -14,8 +17,10 @@ const CommentItem = (props: TProps) => {
       const { comment } = props
       const [openModal, setOpenModal] = useState<boolean>(false)
 
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+
       return (
-            <div className='relative flex flex-col xl:flex-row min-h-[140px] h-max py-[16px] border-y-[2px] border-[rgb(245_245_250)] gap-[16px] xl:gap-0'>
+            <div className='relative flex flex-col xl:flex-row min-h-[250px] h-max py-[32px] xl:py-[16px] border-t-[2px] border-[rgb(245_245_250)] gap-[16px] xl:gap-0'>
                   <div className='w-full xl:w-[35%] min-h-[90px] flex flex-col xl:flex-row  gap-[10px]'>
                         <img
                               src={comment.comment_user_id?.avatar?.secure_url || comment.comment_user_id?.avatar_default_url}
@@ -24,21 +29,26 @@ const CommentItem = (props: TProps) => {
                         />
 
                         <div className='flex flex-col gap-[6px] text-[14px]'>
-                              <span className='text-slate-900 font-semibold'>
-                                    {comment.comment_user_id.fullName || comment.comment_user_id.nickName || comment.comment_user_id.email}
-                              </span>
+                              <p className='flex flex-col xl:flex-row gap-[5px]  font-semibold'>
+                                    <span className='text-slate-900'>
+                                          {comment.comment_user_id.fullName ||
+                                                comment.comment_user_id.nickName ||
+                                                comment.comment_user_id.email}
+                                    </span>
+                                    {user?._id === comment.comment_user_id._id && <span className='text-slate-500'>(Đây là Bạn)</span>}
+                              </p>
                               <p className='text-[12px]'>Đã tham gia {convertDateToString(comment.comment_user_id.createdAt)}</p>
                         </div>
                   </div>
                   <div className='w-full xl:w-[65%] flex  flex-col gap-[12px]'>
                         <div className='flex flex-col xl:flex-row xl:items-center gap-[8px] '>
                               <Rate disabled value={comment.comment_vote} />
-                              <span className='text-[16px] text-slate-800 font-bold'>
+                              <span className='text-[15px] text-slate-600 font-bold'>
                                     {renderLevelVote({ vote: comment.comment_vote })}
                               </span>
                         </div>
-                        <div className='w-full min-h-[20px] h-max break-words text-[13px] text-gray-600'>
-                              {comment.comment_content ? comment.comment_content : 'Không nhận xết'}
+                        <div className='w-full min-h-[20px] h-max break-words text-[11px] text-gray-500'>
+                              {comment.comment_content ? comment.comment_content : 'Không nhận xét'}
                         </div>
                         {comment.comment_image.length > 0 && (
                               <div className='w-full min-h-[80px] h-max flex flex-col gap-[12px]'>
@@ -50,7 +60,7 @@ const CommentItem = (props: TProps) => {
                                     />
                               </div>
                         )}
-                        <p>Đã đăng vào {convertDateToString(comment.comment_date)}</p>
+                        <p className='text-gray-500'>Đã đăng vào {convertDateToStringFull(comment.comment_date)}</p>
                   </div>
 
                   {openModal && (

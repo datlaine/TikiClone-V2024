@@ -7,11 +7,12 @@ type TProps = {
       secure_url: TImage[]
       setOpenModal: React.Dispatch<SetStateAction<boolean>>
       imageActive: string
+      transitionDuration?: number
 }
 
 const BoxModalImage = (props: TProps) => {
-      const { setOpenModal, secure_url, imageActive } = props
-
+      const { setOpenModal, secure_url, imageActive, transitionDuration = 2 } = props
+      console.log({ secure_url })
       const wrapperRef = useRef<HTMLDivElement>(null)
       const [posImage, setPosImage] = useState<number>(1)
       const widthAfter = useRef<number>(0)
@@ -56,30 +57,32 @@ const BoxModalImage = (props: TProps) => {
 
       //cho grandfather overflox hidden, parent thi khong
 
-      const styleEffect = {
-            buttonPrev: posImage === 1 ? 'text-gray-500 border-gray-500' : 'text-white border-white-400',
-            buttonNext: posImage === secure_url.length ? 'text-gray-500 border-gray-500' : 'text-white border-white-400',
-            isActiveImage: 'border-[4px] border-blue-800',
-      }
-
       useEffect(() => {
             const foundElementActive = secure_url.map((img) => img.secure_url).indexOf(imageActive)
             if (foundElementActive === 0 || foundElementActive === -1) return
+            console.log({ foundElementActive })
             indexActive.current = foundElementActive
             if (wrapperRef.current) {
                   const width = wrapperRef.current.getBoundingClientRect().width
                   wrapperRef.current.style.transform = `translate3d(${-width * indexActive.current}px,0px,0px)`
                   widthAfter.current = -width * indexActive.current
-                  wrapperRef.current.style.transition = 'all 2s'
+                  wrapperRef.current.style.transition = `all ${transitionDuration}s`
                   setPosImage(indexActive.current + 1)
             }
             console.log({ width: widthAfter.current })
             console.log({ foundElementActive, secure_url, imageActive })
-      }, [])
+      }, [imageActive, secure_url, transitionDuration])
+
+      const styleEffect = {
+            buttonPrev: posImage === 1 ? 'text-gray-500 border-gray-500' : 'text-white border-white-400',
+            buttonNext: posImage === secure_url.length ? 'text-gray-500 border-gray-500' : 'text-white border-white-400',
+            isActiveImage: 'border-[4px] border-blue-800',
+      }
+      console.log({})
 
       return (
             <Portal>
-                  <div className=' fixed inset-0 bg-[rgba(0,0,0,.93)] flex flex-col content-between h-screen px-[24px]'>
+                  <div className=' fixed inset-0 bg-[rgba(0,0,0,.93)] flex flex-col content-between min-h-screen h-max px-[24px]'>
                         <div className='relative w-full h-[30%]  lg:h-[70%] mt-[100px] xl:mt-[24px]'>
                               <div className='w-full h-full flex justify-center items-center'>
                                     <div className='w-[250px] h-[250px] xl:w-[540px] xl:h-[540px] overflow-x-hidden'>
@@ -121,15 +124,15 @@ const BoxModalImage = (props: TProps) => {
                                     <span>Xem ảnh sau</span>
                               </button>
                               <div
-                                    className='absolute top-[-12px] xl:top-[12px] right-[-16px] xl:right-[40px] flex flex-row xl:flex-col gap-[4px] text-white items-center'
+                                    className='absolute top-[-12px] xl:top-[12px] right-[-16px] xl:right-[40px] flex flex-row xl:flex-col gap-[4px] text-white items-center hover:cursor-pointer      '
                                     onClick={handleHideModal}
                               >
                                     <X color='white' size={30} />
-                                    <span className='text-[16px]'>Đóng</span>
+                                    <span className='hidden xl:inline text-[16px]'>Đóng</span>
                               </div>
                         </div>
 
-                        <div className='w-[300px] lg:w-[1000px] h-[200px] mx-auto mt-[20px] flex flex-col gap-[8px]'>
+                        <div className='modelImage w-[340px] lg:w-[1000px] min-h-[200px] h-[280px] overflow-y-scroll xl:h-max mx-auto my-[20px] flex flex-col gap-[8px]'>
                               <p className='text-[20px] text-white pb-[2px] border-b-[3px] border-blue-600 max-w-max'>
                                     Hình ảnh từ Tiki ({secure_url.length})
                               </p>
@@ -140,7 +143,7 @@ const BoxModalImage = (props: TProps) => {
                                                 key={picture.secure_url}
                                                 className={`${
                                                       index + 1 === posImage ? styleEffect.isActiveImage : 'border-[3px] border-transparent'
-                                                } w-[100px] h-[100px]  xl:w-[120px] xl:h-[120px]`}
+                                                } w-[100px] h-[100px]  xl:w-[80px] xl:h-[80px] hover:cursor-pointer     `}
                                                 alt='product-sub'
                                                 onClick={() => handleClickChangeImage(index)}
                                           />

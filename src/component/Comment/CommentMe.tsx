@@ -35,7 +35,6 @@ const CommentMe = (props: TProps) => {
 
             console.log({ user })
             cb(true)
-            // setOpenBoxComment(true)
       }
 
       useEffect(() => {
@@ -50,7 +49,7 @@ const CommentMe = (props: TProps) => {
       return (
             <div>
                   {getMeCommentQuery.data?.data.metadata.comment && comment && (
-                        <div className='relative '>
+                        <div className='relative ' id={`${comment._id}`}>
                               <CommentItem comment={comment} />
                               {user?._id === comment?.comment_user_id?._id && (
                                     <button

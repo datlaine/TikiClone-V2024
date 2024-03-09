@@ -1,0 +1,1 @@
+export const SLATE_TIME_COMMENT_ME_ALL = 60 * 1000 * 5

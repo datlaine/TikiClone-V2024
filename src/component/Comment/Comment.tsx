@@ -3,31 +3,43 @@ import React, { useEffect, useState } from 'react'
 import CommentService from '../../apis/comment.service'
 import CommentItem from './CommentItem'
 import CommentSketeton from './CommentSketeton'
+import CommentFilter from './CommentFilter'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchComment } from '../../Redux/comment.slice'
+import { RootState } from '../../store'
 
 type TProps = {
       product_id: string
 }
 
-const LIMIT = 2
-
+export const LIMIT = 2
+export const STALE_TIME = 60 * 1000 * 5
 const Comment = (props: TProps) => {
       const { product_id } = props
       const [page, setPage] = useState<number>(1)
+      const [pageFilter, setPageFilter] = useState<number>(1)
+      const dispatch = useDispatch()
+      const comments = useSelector((state: RootState) => state.commentSlice.comments)
+      const total = useSelector((state: RootState) => state.commentSlice.total)
+      const [onModeFilter, setOnModeFilter] = useState<boolean>(false)
+
       const getAllCommentQuery = useQuery({
             queryKey: ['get-all-comment', product_id, page],
             queryFn: () => CommentService.getAllCommentProduct({ product_id, limit: LIMIT, page }),
+            enabled: onModeFilter === false,
             placeholderData: keepPreviousData,
+            staleTime: STALE_TIME,
       })
+
+      //product_id, page,vote,image, time
 
       useEffect(() => {
             if (getAllCommentQuery.isSuccess) {
-                  const { comments } = getAllCommentQuery.data.data.metadata
-                  // console.log({ getAllCommentQuery })
+                  const { comments, total } = getAllCommentQuery.data.data.metadata
+                  dispatch(fetchComment({ comments, total: Math.ceil(total / LIMIT) }))
                   console.log({ comments })
             }
-      }, [getAllCommentQuery.isSuccess])
-
-      // const pages = Math.ceil(getAllCommentQuery?.data?.data?.metadata?.total / LIMIT) || 0
+      }, [getAllCommentQuery.isSuccess, getAllCommentQuery.data?.data.metadata, onModeFilter, dispatch])
 
       const styleEffect = {
             onActive: (check: boolean) => {
@@ -38,10 +50,16 @@ const Comment = (props: TProps) => {
 
       return (
             <div className='relative h-full '>
-                  {getAllCommentQuery.isSuccess &&
-                        getAllCommentQuery.data.data.metadata.comments.map((comment) => (
-                              <CommentItem key={comment._id} comment={comment} />
-                        ))}
+                  <CommentFilter
+                        product_id={product_id}
+                        page={pageFilter}
+                        setOnModeFilter={setOnModeFilter}
+                        setPage={setPageFilter}
+                        onModeFilter={onModeFilter}
+                  />
+                  {getAllCommentQuery.isSuccess && comments.map((comment) => <CommentItem key={comment._id} comment={comment} />)}
+                  {comments.length === 0 && <div>Không có kết quả</div>}
+
                   {getAllCommentQuery.isPending && (
                         <>
                               <CommentSketeton />
@@ -50,15 +68,18 @@ const Comment = (props: TProps) => {
                   )}
                   <div className='absolute bottom-[-10px] xl:bottom-0 right-0 flex gap-[20px] '>
                         {getAllCommentQuery.isSuccess &&
-                              Array(Math.ceil(getAllCommentQuery.data?.data.metadata.total / LIMIT))
+                              Array(total)
                                     .fill(0)
                                     .map((_, index) => (
                                           <button
                                                 key={index}
                                                 className={`${styleEffect.onActive(
-                                                      page === index + 1,
+                                                      onModeFilter === false ? page === index + 1 : pageFilter === index + 1,
                                                 )} w-[20px] h-[20px] xl:w-[30px] xl:h-[30px] flex items-center justify-center transition-all `}
-                                                onClick={() => setPage(index + 1)}
+                                                onClick={() => {
+                                                      console.log({ index })
+                                                      onModeFilter === false ? setPage(index + 1) : setPageFilter(index + 1)
+                                                }}
                                           >
                                                 {index + 1}
                                           </button>

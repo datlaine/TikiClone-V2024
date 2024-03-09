@@ -36,8 +36,6 @@ const ProductIntro = (props: TProps) => {
 
       // console.log({ cartCurrent: renderStringAddressDetailV2(address_default[0]) })
 
-      const votes = 5
-
       return (
             <div className='flex flex-col min-h-full h-max gap-[16px] text-[13px]'>
                   <section className='bg-white w-full min-h-[160px] h-auto p-[18px]  rounded-lg'>

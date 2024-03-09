@@ -25,6 +25,20 @@ export type GetAllCommentParam = {
       limit: number
 }
 
+export type GetAllCommentHasImage = {
+      product_id: string
+      page: number
+      limit: number
+}
+
+export type GetAllCommentFilterLevel = {
+      product_id: string
+      minVote: number
+      maxVote: number
+      page: number
+      limit: number
+}
+
 class CommentService {
       static async addComment({ params, state }: { params: AddCommentParam; state: StateFile }) {
             return axiosCustom.post(`/v1/api/comment/add-comment?state=${state}`, params, {
@@ -36,6 +50,12 @@ class CommentService {
             return axiosCustom.get<TResponseApi<{ comment: Comment }>>('/v1/api/comment/get-me-comment', { params })
       }
 
+      static async getMeAllComment({ page, limit }: { page: number; limit: number }) {
+            return axiosCustom.get<TResponseApi<{ comments: Comment[]; total: number }>>('/v1/api/comment/get-me-all-comment', {
+                  params: { page, limit },
+            })
+      }
+
       static async getAllCommentProduct(params: GetAllCommentParam) {
             return axiosCustom.get<TResponseApi<{ comments: Comment[]; total: number; comment_images: CommentImage[] }>>(
                   '/v1/api/comment/get-all-comment',
@@ -45,6 +65,18 @@ class CommentService {
 
       static async getAllCommentImage(params: GetMeCommentParam) {
             return axiosCustom.get<TResponseApi<{ comment_images: CommentImage[] }>>('/v1/api/comment/get-all-comment-image', { params })
+      }
+
+      static async geAllCommentHasImage(params: GetAllCommentFilterLevel) {
+            return axiosCustom.get<TResponseApi<{ comments: Comment[]; total: number }>>('/v1/api/comment/get-all-comment-has-image', {
+                  params,
+            })
+      }
+
+      static async getAllCommentFollowLevel(params: GetAllCommentFilterLevel) {
+            return axiosCustom.get<TResponseApi<{ comments: Comment[]; total: number }>>('/v1/api/comment/get-all-comment-follow-level', {
+                  params,
+            })
       }
 }
 

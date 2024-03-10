@@ -1,8 +1,6 @@
 import { useRef, useEffect } from 'react'
 import BoxButton from '../../BoxUi/BoxButton'
 import { useDispatch } from 'react-redux'
-import { debounce } from 'lodash'
-import { toDoHideBoxSticky, toDoShowBoxSticky } from '../../../Redux/uiSlice'
 type Props = {
       onClick?: React.MouseEventHandler<HTMLElement>
 }
@@ -18,9 +16,7 @@ const ButtonAdd = (props: Props) => {
                   if (wrapperBoxButton.current) {
                         let top = wrapperBoxButton.current.getBoundingClientRect().top
                         if (top > 200) {
-                              dispatch(toDoShowBoxSticky())
                         } else {
-                              dispatch(toDoHideBoxSticky())
                         }
                   }
             }

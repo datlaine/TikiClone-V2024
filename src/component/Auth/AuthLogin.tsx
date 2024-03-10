@@ -6,14 +6,10 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Auth from '../../apis/auth.api'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { checkAxiosError } from '../../utils/handleAxiosError'
 import TErrorAxios from '../../types/axios.response.error'
-import { debounce } from 'lodash'
 import { doCloseBoxLogin, fetchUser } from '../../Redux/authenticationSlice'
-import { RootState } from '../../store'
-import { doIsLoading } from '../../Redux/uiSlice'
-import { addToast } from '../../Redux/toast'
 
 type TProps = {
       setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
@@ -69,7 +65,6 @@ const AuthLogin = (props: TProps) => {
             mutationFn: (data: TloginZodSchema) => Auth.login(data),
             onSuccess: (res) => {
                   dispatch(doCloseBoxLogin())
-                  dispatch(doIsLoading(false))
                   dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
                   queryClient.invalidateQueries()
             },

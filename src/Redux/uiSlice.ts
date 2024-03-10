@@ -2,11 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 const initialUi = {
       showSideBar: false,
-      positionBottomSticky: 0,
-      showBoxSticky: true,
-      flag: false,
-      topButton: 0,
-      isLoading: false,
+      showOverload: false,
 }
 
 const uiSlice = createSlice({
@@ -27,37 +23,12 @@ const uiSlice = createSlice({
             onShowSideBar: (state, payload: PayloadAction<{ showSideBar: boolean }>) => {
                   state.showSideBar = payload.payload.showSideBar
             },
-
-            setPositionBottomBoxSticky: (state, action: PayloadAction<number>) => {
-                  state.positionBottomSticky = action.payload
-            },
-
-            toDoShowBoxSticky: (state) => {
-                  state.showBoxSticky = true
-            },
-            toDoHideBoxSticky: (state) => {
-                  state.showBoxSticky = false
-            },
-
-            setTopButton: (state, action: PayloadAction<number>) => {
-                  state.topButton = action.payload
-            },
-
-            doIsLoading: (state, payload: PayloadAction<boolean>) => {
-                  state.isLoading = payload.payload
+            onShowOverload: (state, payload: PayloadAction<{ overload: boolean }>) => {
+                  state.showOverload = payload.payload.overload
             },
       },
 })
 
-export const {
-      toDoHideSideBar,
-      toDoShowSideBar,
-      setPositionBottomBoxSticky,
-      toDoHideBoxSticky,
-      toDoShowBoxSticky,
-      setTopButton,
-      doIsLoading,
-      onShowSideBar,
-} = uiSlice.actions
+export const { toDoHideSideBar, toDoShowSideBar, onShowOverload, onShowSideBar } = uiSlice.actions
 
 export default uiSlice.reducer

@@ -30,21 +30,18 @@ function Sidebar(props: TProps) {
 
       return (
             <div
-                  className={`${styleEffect.showSideBar}  fixed xl:sticky  bg-red-700 w-[180px] xl:w-[200px] top-[75px] xl:top-[20px] h-[500px] z-[20]  `}
+                  className={`${styleEffect.showSideBar}  fixed xl:sticky  w-[180px] xl:w-[300px] min-w-[260px] bg-[#ffffff] top-[75px] xl:top-[20px] h-[500px] z-[20]  `}
             >
                   <ul className='w-full h-[250px] flex flex-col'>
                         <li className=''>
-                              <Link
-                                    to={'/books?'}
-                                    className='flex gap-[8px] w-full h-[70px] bg-yellow-400 items-center px-[16px] py-[20px]'
-                              >
-                                    <BookOpenCheck />
+                              <Link to={'/books?'} className='flex gap-[8px] w-full h-[70px] items-center px-[16px] py-[20px]'>
+                                    <BookOpenCheck className='text-blue-400' />
                                     <span>Nhà sách Tiki</span>
                               </Link>
                         </li>
                         <li>
-                              <Link to={'/foods'} className='flex gap-[8px] w-full h-[70px] bg-yellow-400 items-center px-[16px] py-[20px]'>
-                                    <Wheat />
+                              <Link to={'/foods'} className='flex gap-[8px] w-full h-[70px]  items-center px-[16px] py-[20px]'>
+                                    <Wheat className='text-blue-400' />
                                     <span>Sạp thực phẩm</span>
                               </Link>
                         </li>

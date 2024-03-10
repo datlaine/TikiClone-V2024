@@ -7,6 +7,7 @@ import BoxAbsolute from '../../BoxUi/BoxAbsolute'
 import { useQuery } from '@tanstack/react-query'
 import ProductApi, { TProduct, TProductReturn } from '../../../apis/product.api'
 import { Link } from 'react-router-dom'
+import BoxMoneyV2 from '../../BoxUi/BoxMoneyV2'
 
 type Props = {}
 
@@ -28,7 +29,7 @@ const SectionProductItem = (props: Props) => {
                   const width = wrapperListProductsRef.current.getBoundingClientRect().width
                   PositionScrollCurrent.current = PositionScrollCurrent.current - width
                   wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
-                  wrapperListProductsRef.current.style.transition = `all 2s`
+                  wrapperListProductsRef.current.style.transition = `all 1s`
             }
       }
 
@@ -41,85 +42,84 @@ const SectionProductItem = (props: Props) => {
 
                   // console.log(Math.trunc(width))
                   wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
-                  wrapperListProductsRef.current.style.transition = `all 2s`
+                  wrapperListProductsRef.current.style.transition = `all 1s`
             }
       }
 
       useEffect(() => {
             if (allProduct.isSuccess) {
-                  setLimitShowProduct(Math.ceil((allProduct.data.data.metadata.products.length * 2) / 5))
+                  setLimitShowProduct(Math.ceil(allProduct.data.data.metadata.products.length / 6))
             }
       }, [allProduct.isSuccess, allProduct?.data?.data.metadata.products.length])
 
       const styleEffect = {
-            buttonPrev: count === 1 ? 'cursor-not-allowed' : 'cursor-pointer',
-            buttonNext: limitShowProduct === count ? 'cursor-not-allowed' : 'cursor-pointer',
+            buttonPrev: count === 1 ? 'xl:hidden' : 'xl:flex',
+            buttonNext: limitShowProduct === count ? 'xl:hidden' : 'xl:flex',
             disButtonPrev: count === 1 ? true : false,
             disButtonNext: limitShowProduct === count ? true : false,
       }
 
       return (
-            <div className='h-[75%] mx-[4px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
-                  <div ref={wrapperListProductsRef} className=' h-full gap-5 flex  w-[370px]  xl:w-full snap-mandatory	'>
+            <div className='h-[85%] mx-[4px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
+                  <div ref={wrapperListProductsRef} className=' h-full  flex gap-[34px] px-[18px] w-[370px]  xl:w-full snap-mandatory	'>
                         {allProduct.isSuccess &&
                               allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
                                     return (
                                           <Link
                                                 to={`/product/${product._id}`}
-                                                className='flex flex-col min-w-[40%] md:min-w-[45%] lg:min-w-[17%] h-full snap-always snap-start	 '
+                                                className='flex flex-col   lg:-w-[171px] h-full snap-always snap-start	 '
                                                 key={product._id}
                                           >
-                                                <div className='w-full min-h-full'>
+                                                <div className='w-[160px] h-full flex flex-col gap-[12px]'>
                                                       <img
                                                             src={product?.product_thumb_image?.secure_url}
-                                                            className='min-w-full min-h-[85%] max-h-[85%]'
+                                                            className='w-[178px] h-[156px] max-h-[160px]'
                                                             alt='product'
                                                       />
-                                                      <p className='w-full text-center'>{product.product_price}</p>
+                                                      <div className='w-full h-[20px] text-[16px]'>
+                                                            <BoxMoneyV2 money={product.product_price} />
+                                                      </div>
+                                                      <div className='relative w-full h-[20px] flex items-center justify-center bg-red-200 rounded-[999px]'>
+                                                            <div className='absolute top-0 left-0 w-[20px] h-full rounded-full bg-red-500'></div>
+                                                            <span className='text-[11px] text-white'>Vừa mở bán</span>
+                                                      </div>
                                                 </div>
                                           </Link>
                                     )
                               })}
 
-                        {allProduct.isSuccess &&
-                              allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
-                                    return (
-                                          <Link
-                                                to={`/product/${product._id}`}
-                                                className='flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[15%] h-full snap-always snap-start	 '
-                                                key={product._id}
-                                          >
-                                                <div className='w-full min-h-full'>
-                                                      <img
-                                                            src={product?.product_thumb_image?.secure_url}
-                                                            className='min-w-full min-h-[85%] max-h-[85%]'
-                                                            alt='product'
-                                                      />
-                                                      <p className='w-full text-center'>{product.product_price}</p>
+                        {allProduct.isPending &&
+                              Array(6)
+                                    .fill(0)
+                                    .map((_, index) => {
+                                          return (
+                                                <div
+                                                      className='animate-pulse bg-gray-100 flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[15%] h-full snap-always snap-start	 '
+                                                      key={index}
+                                                >
+                                                      <div className='bg-gray-200 w-full min-h-full flex rounded'>
+                                                            <div className='bg-slate-300 min-w-full min-h-[85%] max-h-[85%] rounded'></div>
+                                                            <p className='bg-slate-300 w-full text-center h-[20px] rounded'></p>
+                                                      </div>
                                                 </div>
-                                          </Link>
-                                    )
-                              })}
+                                          )
+                                    })}
                   </div>
-                  <div className='hidden xl:flex absolute top-0 left-[-4px] h-[100%] bg-[#ffffff]  items-center px-[8px]'>
-                        <button
-                              className={`${styleEffect.buttonPrev} border-[1px] border-blue-400 rounded-full`}
-                              onClick={handleClickPrev}
-                              disabled={styleEffect.disButtonPrev}
-                        >
-                              <ChevronLeft size={30} color='blue' />
-                        </button>
-                  </div>
+                  <button
+                        className={`${styleEffect.buttonPrev} hidden xl:flex  absolute top-[50%] left-[0px] translate-y-[-50%]  bg-[#ffffff]  rounded-full shadow-3xl`}
+                        onClick={handleClickPrev}
+                        disabled={styleEffect.disButtonPrev}
+                  >
+                        <ChevronLeft size={24} color='blue' />
+                  </button>
 
-                  <div className='hidden xl:flex absolute top-0 right-[-4px] h-[100%] bg-[#ffffff]  items-center px-[8px]'>
-                        <button
-                              className={`${styleEffect.buttonNext} border-[1px] border-blue-400 rounded-full `}
-                              onClick={handleClickNext}
-                              disabled={styleEffect.disButtonNext}
-                        >
-                              <ChevronRight size={30} color='blue' />
-                        </button>
-                  </div>
+                  <button
+                        className={`${styleEffect.buttonNext} hidden xl:flex absolute top-[50%] right-[0px] translate-y-[-50%] bg-[#ffffff]  rounded-full shadow-3xl `}
+                        onClick={handleClickNext}
+                        disabled={styleEffect.disButtonNext}
+                  >
+                        <ChevronRight size={26} color='blue' />
+                  </button>
             </div>
       )
 }

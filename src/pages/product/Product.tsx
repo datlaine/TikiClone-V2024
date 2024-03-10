@@ -94,7 +94,6 @@ const Product = () => {
                               <div className='flex gap-[4px] '>
                                     <Link to='/'>Trang chủ</Link>
                                     <ChevronsRight size={16} color='black' />
-                                    {/* <Link to={'/product/:type'}>{getProductWithId.data.data.metadata.product.}</Link> */}
                               </div>
                         )}
 

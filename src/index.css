@@ -10,7 +10,7 @@
       }
 
       .custom-product-item {
-            @apply my-8 flex flex-col gap-4 p-2 2xl:py-4 2xl:px-3 h-[300px] lg:h-[280px] lg:overflow-y-hidden   bg-white rounded-[8px];
+            @apply flex flex-col gap-4 py-[16px] h-[300px]  lg:overflow-y-hidden   bg-white rounded-[8px];
       }
 
       .wrapper {

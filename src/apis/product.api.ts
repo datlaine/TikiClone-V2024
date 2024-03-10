@@ -5,7 +5,6 @@ import { TBookProduct } from '../types/product/product.book.type'
 import { IProductFood } from '../types/product/product.food.type'
 import { ShopResponse } from '../types/shop.type'
 import { ProductFilter } from '../component/BoxUi/BoxFilterProduct'
-import { CommentImage } from '../types/comment.type'
 
 export type TProduct = {
       product_id: string
@@ -163,7 +162,7 @@ class ProductApi {
       }
 
       static async getAllProduct() {
-            return axiosCustom.get<{ metadata: { products: TProductReturn[] } }>('v1/api/product/get-all-product')
+            return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-all-product')
       }
 
       static async getProductWithId({ id }: { id: string }) {
@@ -194,6 +193,13 @@ class ProductApi {
       static async getProductFilter({ params }: { params: ProductFilter }) {
             return axiosCustom.get<TResponseApi<{ products: TProductDetail[] }>>(
                   `v1/api/product/get-product-filter?page=${params.page}&product_type=${params.product_type}&vote=${params.product_vote}&minPrice=${params.minPrice}&maxPrice=${params.maxPrice}`,
+            )
+      }
+
+      static async getProductShopName({ text }: { text: string }) {
+            return axiosCustom.get<TResponseApi<{ products: TProductDetail[]; shops: ShopResponse[] }>>(
+                  '/v1/api/product/get-product-shop-name',
+                  { params: { text } },
             )
       }
 }

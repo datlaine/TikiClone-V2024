@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
 import { addToast } from '../../Redux/toast'
+import { SLATE_TIME_COMMENT_ME_ALL } from '../../constant/staleTime'
 
 type TProps = {
       product: TProductDetail
@@ -23,8 +24,9 @@ const CommentMe = (props: TProps) => {
       const [openBoxUpdate, setopenBoxUpdate] = useState<boolean>(false)
 
       const getMeCommentQuery = useQuery({
-            queryKey: ['get-me-comment'],
+            queryKey: ['get-me-comment', product._id],
             queryFn: () => CommentService.getMeComment({ product_id: product._id }),
+            staleTime: SLATE_TIME_COMMENT_ME_ALL,
       })
 
       const onOpenModel = (cb: React.Dispatch<SetStateAction<boolean>>) => {

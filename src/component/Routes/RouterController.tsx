@@ -33,6 +33,8 @@ import Box from '../BoxUi/Box'
 import ShopWrapper from '../../Customer/Shop/ShopWrapper'
 import Shop from '../../pages/shop/Shop'
 import BoxCommentProduct from '../BoxUi/BoxCommentProduct'
+import { RootState } from '../../store'
+import { useSelector } from 'react-redux'
 
 const RouterController = () => {
       const pathHiddenHeader = ['/admin', '/payment', '/shop', '/box']
@@ -40,6 +42,7 @@ const RouterController = () => {
       console.log(window.location.pathname, hideHeaderShopPath)
       const hiddenHeader = pathHiddenHeader.includes(window.location.pathname) || hideHeaderShopPath
       const pathName = useLocation().pathname
+      const showOverload = useSelector((state: RootState) => state.uiSlice.showOverload)
 
       const styleEffect = {
             matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[20px_50px] pt-[60px]' : '',
@@ -51,7 +54,7 @@ const RouterController = () => {
                   {!hiddenHeader && !hideHeaderShopPath && <Header />}
 
                   <div
-                        className={`${styleEffect.matchPathName} w-full min-w-full min-h-screen  flex gap-[32px] px-[4px]   bg-[rgb(245_245_250)] `}
+                        className={`${styleEffect.matchPathName} w-full min-w-full min-h-screen  flex gap-[28px] px-[4px]   bg-[rgb(245_245_250)] `}
                   >
                         <Sidebar />
                         <Routes>
@@ -99,6 +102,7 @@ const RouterController = () => {
 
                               <Route path='*' element={<NotFound />} />
                         </Routes>
+                        {showOverload && <div className='w-full h-full fixed inset-0 bg-[rgba(0,0,0,.75)] z-[500] mt-[100px]'></div>}
                   </div>
             </>
       )

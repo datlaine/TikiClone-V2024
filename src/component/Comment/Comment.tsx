@@ -49,7 +49,7 @@ const Comment = (props: TProps) => {
       }
 
       return (
-            <div className='relative h-full '>
+            <div className='relative h-full bg-[rgb(255, 255, 255)] '>
                   <CommentFilter
                         product_id={product_id}
                         page={pageFilter}

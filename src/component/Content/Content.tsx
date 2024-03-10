@@ -14,6 +14,11 @@ import LinkCategory from './Components/LinkCategory'
 import GridProductList from './Components/GridProductList'
 import Footer from '../Footer/Footer'
 import { memo } from 'react'
+import SectionProductItem from './Components/SectionProductItem'
+import SliderProductV2 from './Components/SliderProductV2'
+import ContentLabel from './Components/ContentLabel'
+import ProductCare from './Components/ProductCare'
+import ProductGenuineBrand from './Components/ProductGenuineBrand'
 
 const Content = () => {
       //Query data -> components Products
@@ -23,16 +28,34 @@ const Content = () => {
       // const goiYHomNay = useFetchProducts('/goiYHomNay', 'Goi Y Hom Nay')
       // console.log(thuongHieuGiaTot.data)
       return (
-            <div className='wrapper'>
+            <div className='wrapper h-max flex flex-col gap-[20px]'>
                   <div className=' hidden 2xl:gap-6 2xl:flex'>
                         <SliderProducts hinhAnhSlider={hinhAnhSlider} height={300} delay={1} />
                         <Banner />
                   </div>
+                  <div className='w-full p-[16px] h-[400px] bg-[#ffffff]'>
+                        <SliderProductV2 />
+                  </div>
                   <SectionProduct
                         title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
                         other={<CountDown />}
-                        ListProducts={<ListProduct />}
+                        ListProducts={<SectionProductItem />}
                   />
+                  <ContentLabel />
+                  <SectionProduct
+                        title={<TitleProductSection content='Sản phẩm bạn quan tâm' />}
+                        // other={<CountDown />}
+                        ListProducts={<ProductCare />}
+                  />
+
+                  <SectionProduct
+                        title={<TitleProductSection content='Sản phẩm bạn quan tâm' />}
+                        // other={<CountDown />}
+                        background={`linear-gradient(rgba(255, 255, 255, 0) 22.49%, rgb(255, 255, 255) 73.49%), linear-gradient(264.03deg, rgb(220, 229, 251)
+                  -10.27%, rgb(234, 236, 255) 35.65%, rgb(213, 236, 253) 110.66%)`}
+                        ListProducts={<ProductGenuineBrand />}
+                  />
+
                   {/* 
                   <SectionProduct
                         title={<TitleProductSection content='Thương hiệu chính hãng' />}

@@ -1,61 +1,57 @@
-import { SetStateAction, memo, useCallback, useEffect, useRef } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { SetStateAction, memo } from 'react'
+import ProductApi from '../../../apis/product.api'
+import { Link } from 'react-router-dom'
 
 type Props = {
-      data: any[]
-      show: boolean
-      setShowSearch: React.Dispatch<SetStateAction<boolean>>
+      onReset: () => void
+      text: string
 }
 
 const HeaderResultSearch = (props: Props) => {
-      const { data, show, setShowSearch } = props
-      const inputRef = useRef<HTMLInputElement>(null)
+      const { text, onReset } = props
+      console.log({ text })
 
-      const controllShowResultSearch = useCallback(
-            (e: MouseEvent) => {
-                  console.log('input clock')
+      const searchQuery = useQuery({
+            queryKey: ['/v1/api/product/get-product-shop-name', text],
+            queryFn: () => ProductApi.getProductShopName({ text }),
+            enabled: Boolean(text),
+      })
 
-                  if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-                        setShowSearch(false)
-                  }
-            },
-            [setShowSearch],
-      )
+      const products = searchQuery.data?.data.metadata.products
+      const shops = searchQuery.data?.data.metadata.shops
 
-      useEffect(() => {
-            console.log('input clock', show)
+      const onNavigate = () => {
+            // setText('')
+            onReset()
+      }
 
-            //má nó chứ, trước xài (e: MosueEvent) => controllShowResultSearch nó tạo hàm mới mới khi re-render
-            //nên dell clean up được, mặc dù hàm controll đã bao bằng useCallback
-            // muốn clean up event thì phải truyền đúng hàm chiếu
-            document.addEventListener('click', controllShowResultSearch)
-
-            return () => {
-                  console.log('remove')
-                  document.removeEventListener('click', controllShowResultSearch)
-            }
-      }, [show, controllShowResultSearch])
       return (
             <>
-                  <div
-                        ref={inputRef}
-                        className=' absolute left-0 top-full right-0  m-h-25 overflow-hidden  rounded-[2px]  bg-white border-[1px] border-solid border-[#ccc] min-h-55 z-[9999] m-h-40'
-                  >
+                  <div className=' absolute left-0 top-full right-0  m-h-25 overflow-hidden  rounded-[2px]  bg-white border-[1px] border-solid border-[#ccc] min-h-55 z-[9999] min-h-[400px]'>
                         <div className='sanPhamTheoTen dienThoai:my-2 flex flex-col gap-y-2 overflow-hidden'>
-                              {data.length === 0 && <span className='p-2 opacity-50'>Hãy nhập tìm kiếm</span>}
+                              {!text && <span className='p-2 opacity-50'>Hãy nhập tìm kiếm</span>}
+                              {searchQuery.isSuccess && (
+                                    <div className='px-[50px] min-h-[40px] h-max bg-[#ffffff] flex flex-col gap-[8px] justify-center'>
+                                          {products &&
+                                                products.length > 0 &&
+                                                products.map((product) => (
+                                                      <Link key={product._id} to={`/product/${product._id}`} onClick={onNavigate}>
+                                                            {product.product_name}
+                                                      </Link>
+                                                ))}
 
-                              {data &&
-                                    data?.map(
-                                          (item: any, index: number) =>
-                                                index <= 5 && (
-                                                      <a
-                                                            key={item.id}
-                                                            href={`/Buy/${item.id}`}
-                                                            className='hover:bg-blue-500 hover:ring-sky-300 p-2 hover:text-white rounded-md dienThoai:mx-2'
-                                                      >
-                                                            <span className='hover:text-white'>{item.name}</span>
-                                                      </a>
-                                                ),
-                                    )}
+                                          {shops &&
+                                                shops.length > 0 &&
+                                                shops.map((shop) => (
+                                                      <Link key={shop._id} to={`/shop/${shop._id}`}>
+                                                            {shop.shop_name}
+                                                      </Link>
+                                                ))}
+
+                                          {products?.length === 0 && shops?.length === 0 && <span>Không tìm thấy kết quả</span>}
+                                    </div>
+                              )}
                         </div>
                   </div>
             </>

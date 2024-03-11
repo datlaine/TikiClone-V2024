@@ -7,7 +7,7 @@ export type TBookProduct = {
       page_number: number
       author: string
       description: string
-      book_type: BookType
+      type: BookType
 }
 
 export type TBookProductNestedForm = {
@@ -16,7 +16,7 @@ export type TBookProductNestedForm = {
       ['attribute.author']: string
       ['attribute.page_number']: number
       ['attribute.description']: string
-      ['attribute.book_type']: BookType
+      ['attribute.type']: BookType
 }
 
 export type TRegisterFormBook = TProductFormCommon & { attribute: TBookProduct }

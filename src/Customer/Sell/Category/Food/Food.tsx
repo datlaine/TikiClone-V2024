@@ -50,7 +50,7 @@ const Food = () => {
                   />
 
                   <Controller
-                        name={'attribute.product_food_type'}
+                        name={'attribute.type'}
                         control={form.control}
                         render={({ field }) => {
                               return <Select placeholder={'Chọn loại thực phẩm'} options={optionSelect} onChange={field.onChange} />

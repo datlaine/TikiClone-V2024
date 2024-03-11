@@ -102,7 +102,9 @@ const RouterController = () => {
 
                               <Route path='*' element={<NotFound />} />
                         </Routes>
-                        {showOverload && <div className='w-full h-full fixed inset-0 bg-[rgba(0,0,0,.75)] z-[500] mt-[100px]'></div>}
+                        {showOverload && (
+                              <div className='w-full h-full fixed inset-0 bg-[rgba(0,0,0,.75)] z-[500] mt-[75px] xl:mt-[100px]'></div>
+                        )}
                   </div>
             </>
       )

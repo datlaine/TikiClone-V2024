@@ -18,6 +18,8 @@ import NowLogo from './assets/img/now.png'
 import SunLogo from './assets/img/sun.png'
 import { convertDateToString } from '../../utils/date.utils'
 import ProductDescription from './ProductDescription'
+import ProductSimiliar from './ProductSimiliar'
+import ProductPayMoblie from './ProductPayMoblie'
 
 type TProps = { product: TProductDetail; totalComment: number; avg: number }
 
@@ -52,7 +54,7 @@ const ProductIntro = (props: TProps) => {
                                     </div>
                               </header>
                               <p className='text-[24px] text-black font-medium'>{product?.product_name}</p>
-                              <div className=' h-[16px]  flex flex-col xl:flex-row xl:items-center gap-[8px] text-[16px] my-[6px]'>
+                              <div className=' min-h-[16px] h-max  flex flex-row    items-center gap-[8px] text-[16px] my-[6px]'>
                                     <span className='font-semibold'>{avg.toFixed(1)}</span>
                                     {/* {diffrenceBetweenStar(votes)?.map((opacity) => <Star opacity={opacity} />)} */}
                                     <Rate disabled allowHalf value={product.product_votes || 0} className='text-[14px]' />
@@ -72,10 +74,12 @@ const ProductIntro = (props: TProps) => {
                         </div>
                   </section>
 
+                  <ProductPayMoblie product={product} />
+
                   <section className='bg-white w-full min-h-[160px] h-auto p-[18px] rounded-lg'>
                         <div className='flex flex-col gap-[12px]'>
                               <p className='[word-spacing:1px] text-[16px] text-black font-semibold word'>Thông tin vận chuyển</p>
-                              <div className=' min-h-[26px] h-max w-full flex flex-col xl:flex-row justify-between'>
+                              <div className=' min-h-[26px] h-max w-full flex flex-row justify-between'>
                                     <span className='text-[14px]'>
                                           {cartCurrent.cart_current_address
                                                 ? `Giao đến: ${cartCurrent.cart_current_address}`
@@ -108,7 +112,9 @@ const ProductIntro = (props: TProps) => {
                         </div>
                   </section>
 
-                  <section className='w-full h-[550px] bg-orange-300'></section>
+                  <section className='max-w-full h-[550px] bg-[#ffffff] rounded-lg'>
+                        <ProductSimiliar product={product} />
+                  </section>
                   <section className='w-full h-[300px] bg-green-400'></section>
                   <section className='w-full h-[130px] bg-blue-400'></section>
 

@@ -7,7 +7,7 @@ export interface IProductFood {
       product_food_origin: string
       product_food_unit: 'Kilogram' | 'Box'
       description: string
-      product_food_type: 'Fast food' | 'Canned Goods' | 'Drinks'
+      type: 'Fast food' | 'Canned Goods' | 'Drinks'
 }
 
 export type ProductFoodFormNested = {
@@ -18,7 +18,7 @@ export type ProductFoodFormNested = {
       ['attribute.product_food_Date_Of_manufacture']: string
       ['attribute.description']: string
 
-      ['attribute.product_food_type']: ProductFoodType
+      ['attribute.type']: ProductFoodType
 }
 
 export type ProductFoodForm = TProductFormCommon & { attribute: IProductFood }

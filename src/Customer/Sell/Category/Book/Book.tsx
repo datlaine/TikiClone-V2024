@@ -47,7 +47,7 @@ const Book = (props: TProps) => {
                   <InputText FieldName={'attribute.author'} LabelMessage='Tác giả' placehorder='Tên tác giả' />
                   <InputNumber FieldName={'attribute.page_number'} LabelMessage='Số trang của sách' placehorder='Số trang của sách' />
                   <Controller
-                        name={'attribute.book_type'}
+                        name={'attribute.type'}
                         control={form.control}
                         render={({ field }) => {
                               return <Select placeholder={'Chọn thể loại sách'} options={optionSelect} onChange={field.onChange} />

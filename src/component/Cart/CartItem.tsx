@@ -107,11 +107,16 @@ const CartItem = (props: TProps) => {
                               <span className='underline'>{shop.shop_name}</span>
                         </p>
                   </div>
-                  <div className='max-h-[70%] h-[60%] xl:max-h-[50%] xl:h-[40%] w-full flex flex-col xl:flex-row'>
-                        <div className='w-[50%] flex  flex-col xl:flex-row gap-[16px] h-[230px] xl:h-[80px]'>
-                              <Checkbox disabled={styleEffect.readOnly} className='z-[5]' checked={select} onChange={changeSelect} />
+                  <div className='max-h-[70%] h-[60%] xl:max-h-[50%] xl:h-[40%] w-full flex flex-col xl:flex-row gap-[20px]'>
+                        <div className='w-full flex  flex-col xl:flex-row gap-[30px] min-h-[230px] h-max xl:min-h-[80px]'>
+                              <Checkbox
+                                    disabled={styleEffect.readOnly}
+                                    className='z-[5] hidden xl:block'
+                                    checked={select}
+                                    onChange={changeSelect}
+                              />
                               <Link
-                                    className='inline-block w-[150px] xl:w-[90px] h-[150px] xl:h-[80px]'
+                                    className='inline-block w-[250px] xl:w-[90px] h-[250px] xl:h-[80px]'
                                     to={`/product/${product.product_id._id}`}
                               >
                                     <img
@@ -121,7 +126,7 @@ const CartItem = (props: TProps) => {
                                     />{' '}
                               </Link>
                               <div
-                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-col gap-[4px] xl:gap-0 content-between justify-between font-semibold text-slate-700`}
+                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-wrap xl:flex-none  gap-[4px] xl:gap-0 content-between justify-between font-semibold text-slate-700`}
                               >
                                     <span>{product.product_id.product_name}</span>
 
@@ -134,20 +139,20 @@ const CartItem = (props: TProps) => {
                               </div>
                         </div>
 
-                        <div className='w-[180px] flex items-center my-[40px] xl:my-[4px] '>
+                        <div className='w-[180px] flex items-center  xl:my-[4px] mt-[20px] xl:mt-0 '>
                               <BoxMoney name='VND' money={product.product_id.product_price} colorBackground='bg-blue-600' />
                         </div>
-                        <div className='w-[120px] flex items-center h-max xl:h-full  my-[8px] xl:my-0'>
+                        <div className='w-[120px] flex items-center h-max xl:h-full  xl:my-0'>
                               <WrapperCountProduct
                                     readOnly={!product.product_id.product_state}
                                     product_id={product.product_id._id}
                                     cart_quantity={product.quantity}
                               />
                         </div>
-                        <div className='w-[180px]  my-[8px] xl:my-0 flex items-center text-[14px] gap-[2px]'>
+                        <div className='w-[180px]  xl:my-0 flex items-center text-[14px] gap-[2px]'>
                               <BoxMoney name='VNĐ' money={product.quantity * product.product_id.product_price} />
                         </div>
-                        <div className='w-[20px] flex items-center  my-[8px] xl:my-0'>
+                        <div className='w-[20px] flex items-center  xl:my-0'>
                               <Trash2 onClick={() => setOpenBoxConfirmDelete(true)} />
                               {openBoxConfirmDelete && (
                                     <BoxConfirmDelete
@@ -170,13 +175,13 @@ const CartItem = (props: TProps) => {
                               )}
                         </div>
                   </div>
-                  <div className='max-h-[32%] flex flex-wrap flex-col xl:flex-row justify-between ml-0 xl:ml-[16px] items-center gap-[24px] xl:gap-[16px]'>
-                        <div className='flex flex-col xl:flex-row items-center gap-[8px] text-slate-800 text-[12px] xl:text-[16px] font-extrabold'>
+                  <div className='max-h-[32%] flex flex-wrap flex-col xl:flex-row justify-between ml-0 xl:ml-[16px]  gap-[24px] xl:gap-[16px]'>
+                        <div className='flex flex-col xl:flex-row  gap-[8px] text-slate-800 text-[12px] xl:text-[16px] font-extrabold'>
                               {/* <TimerIcon className='hidden xl:block' /> */}
                               <span>Đặt hàng vào lúc:</span>
                               <span>{DateTimeFromString(product.cart_date)}</span>
                         </div>
-                        <div className='flex flex-col xl:flex-row items-center gap-[8px] xl:w-[80%]'>
+                        <div className='flex flex-col xl:flex-row xl:items-center gap-[8px] xl:w-[80%]'>
                               <p className='flex gap-[16px] xl:gap-[8px] items-center'>
                                     <span className='mt-[-4px]'>{AddressTypeIcon}</span>
                                     <span>{AddressTypeText}</span>

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { SetStateAction, memo } from 'react'
 import ProductApi from '../../../apis/product.api'
 import { Link } from 'react-router-dom'
+import { Search } from 'lucide-react'
 
 type Props = {
       onReset: () => void
@@ -32,12 +33,18 @@ const HeaderResultSearch = (props: Props) => {
                         <div className='sanPhamTheoTen dienThoai:my-2 flex flex-col gap-y-2 overflow-hidden'>
                               {!text && <span className='p-2 opacity-50'>Hãy nhập tìm kiếm</span>}
                               {searchQuery.isSuccess && (
-                                    <div className='px-[50px] min-h-[40px] h-max bg-[#ffffff] flex flex-col gap-[8px] justify-center'>
+                                    <div className='px-[20px] min-h-[40px] h-max bg-[#ffffff] flex flex-col gap-[8px] justify-center'>
                                           {products &&
                                                 products.length > 0 &&
                                                 products.map((product) => (
-                                                      <Link key={product._id} to={`/product/${product._id}`} onClick={onNavigate}>
-                                                            {product.product_name}
+                                                      <Link
+                                                            key={product._id}
+                                                            to={`/product/${product._id}`}
+                                                            className='flex gap-[8px]'
+                                                            onClick={onNavigate}
+                                                      >
+                                                            <Search className='text-slate-400' />
+                                                            <span>{product.product_name}</span>
                                                       </Link>
                                                 ))}
 

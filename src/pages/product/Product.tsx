@@ -99,16 +99,16 @@ const Product = () => {
 
                         {getProductWithId.isSuccess && product && (
                               <div className='px-[10px] xl:px-[20px] flex gap-[16px] xl:gap-[24px] mt-[30px] xl:mt-0'>
-                                    <div className='w-[60%] xl:w-[74%] flex flex-col gap-[24px]'>
+                                    <div className='w-full xl:w-[74%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
-                                                <div className='xl:basis-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-lg  h-max flex flex-col gap-[16px] '>
+                                                <div className='xl:w-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-lg  h-max flex flex-col gap-[16px] '>
                                                       <ProductDetail product={product} isSuccess={getProductWithId.isSuccess} />
                                                 </div>
-                                                <div className='basis-[60%]  min-h-[500px] h-max mt-[20px] xl:mt-0 rounded-lg '>
+                                                <div className='xl:w-[60%]  min-h-[500px] h-max mt-[20px] xl:mt-0 rounded-lg '>
                                                       <ProductIntro product={product} totalComment={totalComment || 0} avg={avg || 0} />
                                                 </div>
                                           </div>
-                                          <div className='flex flex-col gap-[10px] comment w-full min-h-[1000px] h-max  bg-[#ffffff] px-[16px] pb-[50px]'>
+                                          <div className='flex flex-col gap-[10px] comment w-full min-h-[1000px] h-max  bg-[#ffffff] px-[28px] pb-[50px]'>
                                                 <CommentStatistic
                                                       avg={avg || 0}
                                                       totalComment={totalComment || 0}
@@ -121,7 +121,7 @@ const Product = () => {
                                                 <Comment product_id={product._id} />
                                           </div>
                                     </div>
-                                    <div className='w-[40%] xl:w-[26%] sticky top-[100px] xl:top-[16px] h-max pb-[15px] bg-white  rounded-md'>
+                                    <div className='hidden xl:flex w-[40%] xl:w-[26%] sticky top-[100px] xl:top-[16px] h-max pb-[15px] bg-white  rounded-md'>
                                           <ProductPay product={product} />
                                     </div>
                               </div>

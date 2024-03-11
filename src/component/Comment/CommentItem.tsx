@@ -21,7 +21,7 @@ const CommentItem = (props: TProps) => {
 
       return (
             <div className='relative flex flex-col xl:flex-row min-h-[250px] h-max py-[32px] xl:py-[16px] border-t-[2px] border-[rgb(245_245_250)] gap-[16px] xl:gap-0'>
-                  <div className='w-full xl:w-[35%] min-h-[90px] flex flex-col xl:flex-row  gap-[10px]'>
+                  <div className='w-full  min-h-[50px] flex flex-row  gap-[10px]'>
                         <img
                               src={comment.comment_user_id?.avatar?.secure_url || comment.comment_user_id?.avatar_default_url}
                               className='w-[40px] h-[40px] rounded-full'
@@ -29,7 +29,7 @@ const CommentItem = (props: TProps) => {
                         />
 
                         <div className='flex flex-col gap-[6px] text-[14px]'>
-                              <p className='flex flex-col xl:flex-row gap-[5px]  font-semibold'>
+                              <p className='flex flex-row gap-[10px]  font-semibold'>
                                     <span className='text-slate-900'>
                                           {comment.comment_user_id.fullName ||
                                                 comment.comment_user_id.nickName ||
@@ -40,7 +40,7 @@ const CommentItem = (props: TProps) => {
                               <p className='text-[12px]'>Đã tham gia {convertDateToString(comment.comment_user_id.createdAt)}</p>
                         </div>
                   </div>
-                  <div className='w-full xl:w-[65%] flex  flex-col gap-[12px]'>
+                  <div className='w-full xl:w-[65%] flex  flex-col gap-[24px]'>
                         <div className='flex flex-col xl:flex-row xl:items-center gap-[8px] '>
                               <Rate disabled value={comment.comment_vote} />
                               <span className='text-[15px] text-slate-600 font-bold'>

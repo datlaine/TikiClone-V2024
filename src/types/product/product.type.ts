@@ -49,7 +49,7 @@ export type TProductDetail = {
 }
 
 export type IProductBook = {
-      book_type: 'Novel' | 'Manga' | 'Dictive'
+      type: 'Novel' | 'Manga' | 'Dictive'
       publishing: string
       author: string
       page_number: number

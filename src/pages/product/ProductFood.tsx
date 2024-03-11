@@ -11,13 +11,13 @@ const food_label = ['Xưởng sản xuất', 'Xuất xứ', 'Loại thực phẩ
 const ProductFood = (props: TProps) => {
       const { product_attribute } = props
 
-      const { product_food_Manufacturers_Name, product_food_origin, product_food_unit, product_food_type } = product_attribute
+      const { product_food_Manufacturers_Name, product_food_origin, product_food_unit, type } = product_attribute
 
       const attribute = {
             product_food_Manufacturers_Name,
             product_food_origin,
             product_food_unit,
-            product_food_type,
+            type,
       }
 
       return (

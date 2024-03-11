@@ -1,6 +1,7 @@
 import React from 'react'
 import { TProductDetail } from '../../../types/product/product.type'
 import logoSun from '../../../pages/product/assets/img/sun.png'
+import { Link } from 'react-router-dom'
 //w-175 - h-285
 //item-iamge / h-[175]
 
@@ -12,7 +13,10 @@ const ProductSimplify = (props: TProps) => {
       const { product } = props
 
       return (
-            <div className='w-full h-full  flex flex-col gap-[6px] border-[1px] border-slate-200  rounded-xl'>
+            <Link
+                  to={`product/${product._id}`}
+                  className='w-full h-full  flex flex-col gap-[6px] border-[1px] border-slate-200  rounded-xl'
+            >
                   <img src={product.product_thumb_image?.secure_url} className='w-full h-[58%]' alt='' />
                   <div className='px-[6px] pb-[7px] flex-1 flex flex-col gap-[4px]  justify-between'>
                         <span className='w-[80%] break-words  line-clamp-2 text-[11px]'>
@@ -24,7 +28,7 @@ const ProductSimplify = (props: TProps) => {
                               <span className='text-[11px]'>Giao chiều mai</span>
                         </div>
                   </div>
-            </div>
+            </Link>
       )
 }
 

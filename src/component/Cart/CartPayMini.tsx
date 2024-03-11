@@ -54,7 +54,7 @@ const CartPayMini = () => {
             <React.Fragment>
                   <div className='min-h-[240px] h-max xl:h-[180px] bg-[#ffffff] rounded p-[12px]'>
                         <div className='h-[49%]  flex flex-col gap-[8px] xl:gap-0 justify-center'>
-                              <div className='w-full flex  flex-col xl:flex-row justify-between'>
+                              <div className='w-full flex flex-wrap xl:flex-none flex-row justify-between'>
                                     <span>Tạm tính</span>
                                     <BoxMoney money={price} name='VNĐ' />
                               </div>
@@ -68,10 +68,10 @@ const CartPayMini = () => {
                               <div className='w-full h-[1px] bg-slate-100'></div>
                         </div>
                         <div className='h-[49%] flex flex-col gap-[8px] xl:gap-0 justify-center '>
-                              <div className='flex   flex-col xl:flex-row justify-between '>
+                              <div className='flex flex-row flex-wrap xl:flex-none justify-between '>
                                     <span>Tổng tiền</span>
                                     <p className='w-max flex gap-[4px] items-center '>
-                                          <span className='w-[70px] xl:w-max  max-w-[180px] truncate'>
+                                          <span className='w-[70px] xl:w-max  max-w-[120px] truncate'>
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                                                       .format(price)
                                                       .replace('₫', '')}
@@ -79,7 +79,7 @@ const CartPayMini = () => {
                                           <span className='ml-[-2px]'>VNĐ</span>
                                     </p>
                               </div>
-                              <span className='block w-full text-right'>(Đã bao gồm VAT nếu có)</span>
+                              <span className='block w-full text-left'>(Đã bao gồm VAT nếu có)</span>
                         </div>
                   </div>
                   <button

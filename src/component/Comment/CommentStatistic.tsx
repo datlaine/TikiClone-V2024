@@ -23,8 +23,8 @@ const CommentStatistic = (props: TProps) => {
       // console.log({ width:  })
 
       return (
-            <div className='w-max h-max flex items-center py-[16px] '>
-                  <div className='w-[180px] xl:w-[300px] min-h-[100px] h-max flex flex-col gap-[20px]'>
+            <div className='w-[300px] h-max flex items-center py-[16px] '>
+                  <div className='w-full min-h-[100px] h-max flex flex-col gap-[20px]'>
                         <div className=''>
                               <span className='text-[15px] text-slate-800 font-extrabold'>Khách hàng đánh giá</span>
                         </div>

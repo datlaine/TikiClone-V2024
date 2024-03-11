@@ -11,8 +11,8 @@ const ProductCare = () => {
       const [count, setCount] = useState(1)
 
       const allProduct = useQuery({
-            queryKey: ['get-all-product'],
-            queryFn: () => ProductApi.getAllProduct(),
+            queryKey: ['get-product-care'],
+            queryFn: () => ProductApi.getAllProductCare(),
             staleTime: 1000 * 60 * 5,
       })
 

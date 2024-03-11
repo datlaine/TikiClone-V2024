@@ -14,12 +14,12 @@ const ProductBook = (props: TProps) => {
 
       console.log({ product_attribute })
 
-      const { author, book_type, page_number, publishing } = product_attribute
+      const { author, type, page_number, publishing } = product_attribute
 
       const attribute = {
             publishing,
             author,
-            book_type,
+            type,
             page_number,
       }
 

@@ -1,6 +1,6 @@
 import { ServerMessageVerify, TResponseApi } from '../types/axiosResponse'
 import axiosCustom from './http'
-import { TProductDetail, TProductFormCommon } from '../types/product/product.type'
+import { ProductType, TProductDetail, TProductFormCommon } from '../types/product/product.type'
 import { TBookProduct } from '../types/product/product.book.type'
 import { IProductFood } from '../types/product/product.food.type'
 import { ShopResponse } from '../types/shop.type'
@@ -163,6 +163,16 @@ class ProductApi {
 
       static async getAllProduct() {
             return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-all-product')
+      }
+
+      static async getAllProductCare() {
+            return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-product-care')
+      }
+
+      static async getProductSimilar({ product_type, type, product_id }: { product_type: ProductType; type: string; product_id: string }) {
+            return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-product-similar', {
+                  params: { product_type, product_id },
+            })
       }
 
       static async getProductWithId({ id }: { id: string }) {

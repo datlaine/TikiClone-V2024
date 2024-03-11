@@ -35,7 +35,7 @@ const CartUserInfo = (props: TProps) => {
                   </div> */}
                   <div className='flex flex-col  xl:flex-row  xl:w-max gap-[8px] h-[30%] items-start xl:items-center'>
                         <span>{user?.fullName || user?.nickName || 'Tên'} </span>
-                        <span className='w-[100px]  break-words xl:w-full xl:break-normal '>{user?.email}</span>
+                        <span className='w-[180px]  break-words xl:w-full xl:break-normal '>{user?.email}</span>
                   </div>
 
                   <div className='h-[1px]  w-[calc(100%+32px)] ml-[-16px] bg-slate-200 my-[15px]'></div>

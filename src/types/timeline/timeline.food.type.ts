@@ -15,7 +15,7 @@ export type TimelineFoodLabel = {
 export const timelineFieldNameFood: Array<keyof TimelineFoodFieldName> = [
       'attribute.product_food_Manufacturers_Name',
       'attribute.product_food_origin',
-      'attribute.product_food_type',
+      'attribute.type',
 
       'attribute.product_food_unit',
       'attribute.description',

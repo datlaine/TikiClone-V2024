@@ -16,7 +16,7 @@ export const timelineFieldNameBook: Array<keyof TTimeLineBookField> = [
       'attribute.author',
       'attribute.page_number',
       'attribute.description',
-      'attribute.book_type',
+      'attribute.type',
 ]
 export const timelineLabelNameBook: Array<keyof TTimeLineBookLabel> = [
       'Nhà xuất bản',

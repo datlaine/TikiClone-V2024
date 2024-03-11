@@ -44,12 +44,12 @@ const Comment = (props: TProps) => {
       const styleEffect = {
             onActive: (check: boolean) => {
                   if (check) return ' bg-blue-500 text-white border-[1px]  rounded-full'
-                  return ' bg-transparent text-slate-500 border-[1px] border-transparent  rounded-full'
+                  return ' bg-transparent text-slate-500 border-[1px] border-transparent  rounded-full hover:bg-blue-200 hover:text-white'
             },
       }
 
       return (
-            <div className='relative h-full bg-[rgb(255, 255, 255)] '>
+            <div className='relative h-full bg-[rgb(255, 255, 255)] flex flex-col gap-[20px]'>
                   <CommentFilter
                         product_id={product_id}
                         page={pageFilter}

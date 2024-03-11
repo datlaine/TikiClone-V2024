@@ -19,7 +19,6 @@ import ProductFormSkeleton from './RegisterProductForm/components/ProductFormSke
 import { UserResponse } from '../../types/user.type'
 import ProductFormUpload from './RegisterProductForm/ProductFormUpload'
 import Food from './Category/Food/Food'
-import { productBookSchema, productSchema } from './types/product.schema'
 import * as z from 'zod'
 import { ProductFoodForm } from '../../types/product/product.food.type'
 import {
@@ -41,7 +40,7 @@ const defaultValuesForm: TRegisterFormBook = {
             page_number: 0,
             author: '',
             description: '',
-            book_type: 'Novel',
+            type: 'Novel',
       },
 }
 
@@ -55,7 +54,7 @@ const defaultValuesFood: ProductFoodForm = {
             product_food_origin: '',
             description: '',
             product_food_unit: 'Kilogram',
-            product_food_type: 'Canned Goods',
+            type: 'Canned Goods',
       },
 }
 

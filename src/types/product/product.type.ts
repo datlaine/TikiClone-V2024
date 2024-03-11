@@ -48,8 +48,10 @@ export type TProductDetail = {
       shop_id: ShopResponse
 }
 
+export type TypeBook = 'Novel' | 'Manga' | 'Dictive'
+
 export type IProductBook = {
-      type: 'Novel' | 'Manga' | 'Dictive'
+      type: TypeBook
       publishing: string
       author: string
       page_number: number

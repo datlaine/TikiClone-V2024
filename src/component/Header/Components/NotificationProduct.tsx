@@ -4,9 +4,9 @@ import { NotificationAttribute, NotificationMessage, NotificationProduct as TNot
 import { useMutation, useQuery } from '@tanstack/react-query'
 import OrderService from '../../../apis/Order.service'
 import { renderStringNotificationType } from '../../../utils/notification.utit'
-import NotificationSkeleton from '../../../Customer/Notification/NotificationSkeleton'
 import { Link } from 'react-router-dom'
 import { ArrowBigDown } from 'lucide-react'
+import NotificationSkeleton from '../../../Customer/notification/NotificationSkeleton'
 
 type TProps = {
       notificationProduct: TNotificationProduct

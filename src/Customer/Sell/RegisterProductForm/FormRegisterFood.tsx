@@ -227,7 +227,7 @@
 import React from 'react'
 
 const FormRegisterFood = () => {
-    return <div>FormRegisterFood</div>
+      return <div>FormRegisterFood</div>
 }
 
 export default FormRegisterFood

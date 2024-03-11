@@ -12,12 +12,10 @@ import { RootState } from '../../store'
 import { UserAddress, UserResponse } from '../../types/user.type'
 import { AddressType, CartCurrent, resetAddressProduct, setAddressProduct } from '../../Redux/cartSlice'
 import { renderStringAddressDetail, renderStringAddressDetailV2 } from '../../utils/address.util'
-import BoxCommentProduct from '../../component/BoxUi/BoxCommentProduct'
 import CommentMe from '../../component/Comment/CommentMe'
 import CommentStatistic from '../../component/Comment/CommentStatistic'
 import Comment from '../../component/Comment/Comment'
 import CommentImageAll from '../../component/Comment/CommentImageAll'
-import { CommentImage } from '../../types/comment.type'
 
 export type TImage = {
       secure_url: string

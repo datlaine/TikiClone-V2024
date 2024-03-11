@@ -4,14 +4,6 @@ import Banner from './Components/Banner'
 import SectionProduct from './Components/SectionProduct'
 import TitleProductSection from './Components/TitleProductSection'
 import CountDown from './Components/CountDown'
-import ListProduct from './Components/SectionProductItem'
-import BoxSticky from '../BoxUi/BoxSticky'
-import BoxCenter from '../BoxUi/BoxCenter'
-import ButtonAdd from './Components/ButtonAdd'
-import { useFetchProducts } from './utils/useFetchProduct'
-import GridProduct from './Components/GridProduct'
-import LinkCategory from './Components/LinkCategory'
-import GridProductList from './Components/GridProductList'
 import Footer from '../Footer/Footer'
 import { memo } from 'react'
 import SectionProductItem from './Components/SectionProductItem'
@@ -19,6 +11,7 @@ import SliderProductV2 from './Components/SliderProductV2'
 import ContentLabel from './Components/ContentLabel'
 import ProductCare from './Components/ProductCare'
 import ProductGenuineBrand from './Components/ProductGenuineBrand'
+import ContentBook from './Components/ContentBook'
 
 const Content = () => {
       //Query data -> components Products
@@ -33,15 +26,21 @@ const Content = () => {
                         <SliderProducts hinhAnhSlider={hinhAnhSlider} height={300} delay={1} />
                         <Banner />
                   </div>
+
+
                   <div className='w-full p-[16px] h-[400px] bg-[#ffffff]'>
                         <SliderProductV2 />
                   </div>
+
+
                   <SectionProduct
                         title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
                         other={<CountDown />}
                         ListProducts={<SectionProductItem />}
                   />
+
                   <ContentLabel />
+                  
                   <SectionProduct
                         title={<TitleProductSection content='Sản phẩm bạn quan tâm' />}
                         // other={<CountDown />}
@@ -55,6 +54,9 @@ const Content = () => {
                   -10.27%, rgb(234, 236, 255) 35.65%, rgb(213, 236, 253) 110.66%)`}
                         ListProducts={<ProductGenuineBrand />}
                   />
+
+                  <ContentBook
+                   />
 
                   {/* 
                   <SectionProduct

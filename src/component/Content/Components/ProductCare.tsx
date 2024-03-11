@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ProductApi from '../../../apis/product.api'
 import { useQuery } from '@tanstack/react-query'
 import ProductSimplify from './ProductSimplify'
@@ -39,6 +39,12 @@ const ProductCare = () => {
             }
       }
 
+      useEffect(() => {
+            if (allProduct.isSuccess) {
+                  setLimitShowProduct(Math.ceil(allProduct.data.data.metadata.products.length / 6))
+            }
+      }, [allProduct.isSuccess])
+
       const styleEffect = {
             buttonPrev: count === 1 ? 'xl:hidden' : 'xl:flex',
             buttonNext: limitShowProduct === count ? 'xl:hidden' : 'xl:flex',
@@ -49,18 +55,15 @@ const ProductCare = () => {
       const products = allProduct.data?.data.metadata.products
 
       return (
-            <div className='relative flex-1 h-[80%]  px-[18px]'>
-                  <div className='w-full h-full overflow-hidden'>
+            <div className='relative flex-1 h-[80%] max-w-full px-0 xl:px-[18px]'>
+                  <div className='max-w-full h-full overflow-hidden'>
                         <div
-                              className='flex justify-between gap-[10px] h-full overflow-x-scroll xl:overflow-visible '
+                              className='flex justify-between gap-[20px] xl:gap-[10px] w-[370px] xl:w-full  h-full overflow-x-scroll xl:overflow-visible '
                               ref={wrapperListProductsRef}
                         >
                               {products &&
                                     products.map((product) => (
-                                          <div
-                                                className='min-w-[calc(100%-30px)/3] xl:min-w-[calc((100%-59px)/6)] h-full'
-                                                key={product._id}
-                                          >
+                                          <div className='min-w-[calc((100%-30px)/3)] xl:min-w-[calc((100%-59px)/6)] h-full' key={product._id}>
                                                 <ProductSimplify product={product} />
                                           </div>
                                     ))}

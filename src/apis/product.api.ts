@@ -165,6 +165,10 @@ class ProductApi {
             return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-all-product')
       }
 
+      static async getProductBookAllType() {
+            return axiosCustom.get<{ metadata: { products: TProductDetail[], manga: TProductDetail[], novel: TProductDetail[], detective: TProductDetail[] } }>('v1/api/product/get-product-book-all-type')
+      }
+
       static async getAllProductCare() {
             return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-product-care')
       }

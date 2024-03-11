@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import BoxButton from './BoxButton'
 import { BadgeDollarSign, History, Home, Notebook, Store } from 'lucide-react'
-import NotificationSkeleton from '../../Customer/Notification/NotificationSkeleton'
-import Notification from '../../Customer/Notification/Notification'
 import BoxBuild from './BoxBuild'
+import Notification from '../../Customer/notification/Notification'
 
 type NotificationTypeActive =
       | {

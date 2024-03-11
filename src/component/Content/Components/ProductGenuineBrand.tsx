@@ -54,18 +54,18 @@ const ProductGenuineBrand = () => {
             <div className='relative flex-1 h-[80%]  px-[18px]'>
                   <div className='w-full h-full overflow-hidden'>
                         <div className='flex  gap-[20px] h-full overflow-x-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
-                              <img src={img1} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img2} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img3} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img4} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img5} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img6} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img7} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img8} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img9} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img10} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img11} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
-                              <img src={img12} className='h-full  min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img1} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img2} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img3} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img4} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img5} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img6} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img7} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img8} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img9} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img10} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img11} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
+                              <img src={img12} className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]' alt='' />
                         </div>
                   </div>
                   <button

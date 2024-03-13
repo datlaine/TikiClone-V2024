@@ -58,15 +58,31 @@ const ProductCare = () => {
             <div className='relative flex-1 h-[80%] max-w-full px-0 xl:px-[18px]'>
                   <div className='max-w-full h-full overflow-hidden'>
                         <div
-                              className='flex justify-between gap-[20px] xl:gap-[10px] w-[370px] xl:w-full  h-full overflow-x-scroll xl:overflow-visible '
+                              className='flex justify-between gap-[20px] xl:gap-[16px] w-[370px] xl:w-full  h-full overflow-x-scroll xl:overflow-visible '
                               ref={wrapperListProductsRef}
                         >
                               {products &&
                                     products.map((product) => (
-                                          <div className='min-w-[calc((100%-30px)/3)] xl:min-w-[calc((100%-59px)/6)] h-full' key={product._id}>
+                                          <div
+                                                className='min-w-[calc((100%-30px)/3)] xl:min-w-[calc((100%-90px)/6)] h-full'
+                                                key={product._id}
+                                          >
                                                 <ProductSimplify product={product} />
                                           </div>
                                     ))}
+
+                              {allProduct.isPending && (
+                                    <>
+                                          {Array(6)
+                                                .fill(0)
+                                                ?.map((_, index) => (
+                                                      <div
+                                                            className='animate-pulse w-full h-full rounded-lg bg-slate-400'
+                                                            key={index}
+                                                      ></div>
+                                                ))}
+                                    </>
+                              )}
                         </div>
                   </div>
 

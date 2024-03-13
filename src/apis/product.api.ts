@@ -161,12 +161,36 @@ class ProductApi {
             return axiosCustom.post<TResponseApi<{ message: string }>>('v1/api/product/delete-product-image-full', { id })
       }
 
-      static async getAllProduct() {
-            return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-all-product')
+      static async getAllProduct({ page, limit }: { page: number; limit: number }) {
+            return axiosCustom.get<{ metadata: { products: TProductDetail[]; shopAdmin: ShopResponse } }>(
+                  'v1/api/product/get-all-product',
+                  {
+                        params: { page, limit },
+                  },
+            )
+      }
+
+      static async getProductBestBought({ page, limit }: { page: number; limit: number }) {
+            return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-product-best-bought', {
+                  params: { page, limit },
+            })
       }
 
       static async getProductBookAllType() {
-            return axiosCustom.get<{ metadata: { products: TProductDetail[], manga: TProductDetail[], novel: TProductDetail[], detective: TProductDetail[] } }>('v1/api/product/get-product-book-all-type')
+            return axiosCustom.get<{
+                  metadata: { products: TProductDetail[]; manga: TProductDetail[]; novel: TProductDetail[]; detective: TProductDetail[] }
+            }>('v1/api/product/get-product-book-all-type')
+      }
+
+      static async getProductFoodAllType() {
+            return axiosCustom.get<{
+                  metadata: {
+                        products: TProductDetail[]
+                        fastFood: TProductDetail[]
+                        cannedGood: TProductDetail[]
+                        drinks: TProductDetail[]
+                  }
+            }>('v1/api/product/get-product-food-all-type')
       }
 
       static async getAllProductCare() {

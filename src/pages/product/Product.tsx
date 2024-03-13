@@ -16,6 +16,7 @@ import CommentMe from '../../component/Comment/CommentMe'
 import CommentStatistic from '../../component/Comment/CommentStatistic'
 import Comment from '../../component/Comment/Comment'
 import CommentImageAll from '../../component/Comment/CommentImageAll'
+import ContentProduct from '../../component/Content/Components/ContentProduct'
 
 export type TImage = {
       secure_url: string
@@ -155,6 +156,8 @@ const Product = () => {
                               </div>
                         )}
                   </div>
+                  <ContentProduct />
+
                   <div className=' bg-black h-[4000px] w-full'></div>
             </div>
       )

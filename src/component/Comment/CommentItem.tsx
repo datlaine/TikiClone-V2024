@@ -35,7 +35,9 @@ const CommentItem = (props: TProps) => {
                                                 comment.comment_user_id.nickName ||
                                                 comment.comment_user_id.email}
                                     </span>
-                                    {user?._id === comment.comment_user_id._id && <span className='text-slate-500'>(Đây là Bạn)</span>}
+                                    {user?._id === comment.comment_user_id._id && (
+                                          <span className='text-slate-500'>(Nhận xét của bạn)</span>
+                                    )}
                               </p>
                               <p className='text-[12px]'>Đã tham gia {convertDateToString(comment.comment_user_id.createdAt)}</p>
                         </div>

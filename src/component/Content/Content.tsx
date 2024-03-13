@@ -12,6 +12,8 @@ import ContentLabel from './Components/ContentLabel'
 import ProductCare from './Components/ProductCare'
 import ProductGenuineBrand from './Components/ProductGenuineBrand'
 import ContentBook from './Components/ContentBook'
+import ContentFood from './Components/ContentFood'
+import ContentProduct from './Components/ContentProduct'
 
 const Content = () => {
       //Query data -> components Products
@@ -27,11 +29,9 @@ const Content = () => {
                         <Banner />
                   </div>
 
-
                   <div className='w-full p-[16px] h-[400px] bg-[#ffffff]'>
                         <SliderProductV2 />
                   </div>
-
 
                   <SectionProduct
                         title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
@@ -40,7 +40,7 @@ const Content = () => {
                   />
 
                   <ContentLabel />
-                  
+
                   <SectionProduct
                         title={<TitleProductSection content='Sản phẩm bạn quan tâm' />}
                         // other={<CountDown />}
@@ -55,9 +55,11 @@ const Content = () => {
                         ListProducts={<ProductGenuineBrand />}
                   />
 
-                  <ContentBook
-                   />
+                  <ContentBook />
+                  <ContentFood />
 
+                  <ContentProduct />
+                  <div className='w-full h-[1500px] bg-black'></div>
                   {/* 
                   <SectionProduct
                         title={<TitleProductSection content='Thương hiệu chính hãng' />}

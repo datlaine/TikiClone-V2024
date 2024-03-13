@@ -19,7 +19,7 @@ const SectionProductItem = (props: Props) => {
 
       const allProduct = useQuery({
             queryKey: ['get-all-product'],
-            queryFn: () => ProductApi.getAllProduct(),
+            queryFn: () => ProductApi.getAllProduct({ page: 1, limit: 18 }),
             staleTime: 1000 * 60 * 5,
       })
 

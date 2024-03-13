@@ -32,7 +32,6 @@ import Category from '../../pages/ProductCategories/Category'
 import Box from '../BoxUi/Box'
 import ShopWrapper from '../../Customer/Shop/ShopWrapper'
 import Shop from '../../pages/shop/Shop'
-import BoxCommentProduct from '../BoxUi/BoxCommentProduct'
 import { RootState } from '../../store'
 import { useSelector } from 'react-redux'
 
@@ -45,7 +44,7 @@ const RouterController = () => {
       const showOverload = useSelector((state: RootState) => state.uiSlice.showOverload)
 
       const styleEffect = {
-            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[20px_140px] pt-[60px]' : 'px-0 xl:px-[50px]',
+            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[20px_80px] pt-[60px]' : 'px-0 xl:px-[50px]',
             matchPathNameCustomer: pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]',
       }
 

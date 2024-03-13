@@ -53,7 +53,7 @@ const ProductSimiliar = (props: TProps) => {
             }
       }
       const productData = allProduct.data?.data.metadata.products
-      const totalPage = Math.ceil(Number(productData?.length) / 8) + 2
+      const totalPage = Math.ceil(Number(productData?.length) / 8)
       const styleEffect = {
             buttonPrev: count === 1 ? 'xl:hidden' : 'xl:flex',
             buttonNext: totalPage === count ? 'xl:hidden' : 'xl:flex',
@@ -76,32 +76,26 @@ const ProductSimiliar = (props: TProps) => {
                               <div className=' w-max xl:min-w-full   grid grid-flow-col auto-cols-[130px] auto-rows-[230px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[230px_230px] gap-[18px] '>
                                     {page1?.map((product) => (
                                           // <div className='min-w-[calc((100%-64px)/4)] h-[230px]' key={product._id}>
-                                          <ProductItemMini product={product} />
+                                          <ProductItemMini product={product} key={product._id} />
                                           // </div>
                                     ))}
                               </div>
                               <div className='w-max xl:min-w-full mx-[50px] xl:mx-0 grid grid-flow-col auto-cols-[130px] auto-rows-[230px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[230px_230px] gap-[18px] '>
                                     {page2?.reverse().map((product) => (
                                           // <div className='min-w-[calc((100%-64px)/4)] h-[230px]' key={product._id}>
-                                          <ProductItemMini product={product} />
+                                          <ProductItemMini product={product} key={product._id} />
                                           // </div>
                                     ))}
                               </div>
+                        </div>
+                  )}
 
-                              <div className=' w-max xl:min-w-full  mx-[50px] xl:mx-0  grid grid-flow-col auto-cols-[130px] auto-rows-[230px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[230px_230px] gap-[18px] '>
-                                    {page1?.map((product) => (
-                                          // <div className='min-w-[calc((100%-64px)/4)] h-[230px]' key={product._id}>
-                                          <ProductItemMini product={product} />
-                                          // </div>
-                                    ))}
-                              </div>
-
-                              <div className=' w-max xl:min-w-full  mx-[50px] xl:mx-0 grid grid-flow-col auto-cols-[130px] auto-rows-[230px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[230px_230px] gap-[18px] '>
-                                    {page1?.map((product) => (
-                                          // <div className='min-w-[calc((100%-64px)/4)] h-[230px]' key={product._id}>
-                                          <ProductItemMini product={product} />
-                                          // </div>
-                                    ))}
+                  {allProduct.isPending && (
+                        <div className='flex xl:w-full  xl:gap-0    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
+                              <div className=' w-max xl:min-w-full mx-[50px] xl:mx-0 grid grid-flow-col auto-cols-[130px] auto-rows-[230px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[230px_230px] gap-[18px] '>
+                                    {Array(8)
+                                          .fill(0)
+                                          ?.map((_, index) => <div className='animate-pulse bg-slate-400' key={index}></div>)}
                               </div>
                         </div>
                   )}
@@ -109,7 +103,7 @@ const ProductSimiliar = (props: TProps) => {
                   <button
                         className={`${styleEffect.buttonPrev} hidden xl:flex  absolute top-[50%] left-[0px] translate-y-[30%]  bg-[#ffffff]  rounded-full shadow-3xl`}
                         onClick={handleClickPrev}
-                        disabled={styleEffect.disButtonPrev}
+                        disabled={styleEffect.disButtonPrev || allProduct.isPending}
                   >
                         <ChevronLeft size={28} color='blue' />
                   </button>
@@ -117,7 +111,7 @@ const ProductSimiliar = (props: TProps) => {
                   <button
                         className={`${styleEffect.buttonNext} hidden xl:flex absolute top-[50%] right-[0px] translate-y-[30%] bg-[#ffffff]  rounded-full shadow-3xl `}
                         onClick={handleClickNext}
-                        disabled={styleEffect.disButtonNext}
+                        disabled={styleEffect.disButtonNext || allProduct.isPending}
                   >
                         <ChevronRight size={26} color='blue' />
                   </button>

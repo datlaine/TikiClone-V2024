@@ -1,4 +1,4 @@
-import { TProductFormCommon } from './product.type'
+import { TProductFormCommon, TypeFood } from './product.type'
 
 export type ProductFoodType = 'Fast food' | 'Canned Goods' | 'Drinks'
 
@@ -7,7 +7,7 @@ export interface IProductFood {
       product_food_origin: string
       product_food_unit: 'Kilogram' | 'Box'
       description: string
-      type: 'Fast food' | 'Canned Goods' | 'Drinks'
+      type: TypeFood
 }
 
 export type ProductFoodFormNested = {

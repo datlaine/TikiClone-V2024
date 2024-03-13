@@ -67,7 +67,7 @@ const HeaderSeacrhInput = () => {
       return (
             <div className='flex h-full border border-gray-300 rounded-lg' ref={divRef}>
                   <div className='relative grow  h-full pl-4'>
-                        <form className='h-full  flex gap-4'>
+                        <form className='h-full  flex gap-4' spellCheck={false}>
                               <div className='basis-[3%]   flex items-center'>
                                     <Search />
                               </div>

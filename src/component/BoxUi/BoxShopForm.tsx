@@ -98,13 +98,13 @@ const BoxShopForm = (props: TProps) => {
 
       return (
             <div className='fixed inset-0 bg-[rgba(0,0,0,.4)] h-screen flex items-center justify-center z-[500]'>
-                  <div className='animate-authBox w-[300px] xl:w-[700px] min-h-[300px] h-max  mx-[10px] xl:mx-0 bg-red-800'>
+                  <div className='animate-authBox w-[300px] xl:w-[700px] min-h-[300px] h-max  mx-[10px] xl:mx-0 bg-red-800 '>
                         <FormProvider {...form}>
                               <form
-                                    className='relative w-full h-[575px] xl:h-[300px] flex flex-col xl:flex-row  bg-[#ffffff]'
+                                    className='relative w-full h-[575px] xl:h-[300px] flex flex-col xl:flex-row  bg-[#ffffff] rounded-lg'
                                     onSubmit={form.handleSubmit(onSubmit)}
                               >
-                                    <div className='w-full xl:w-[40%] h-full bg-black pb-[16px] xl:pb-0'>
+                                    <div className='w-full xl:w-[40%] h-full bg-[rgb(245_245_250)] pb-[16px] xl:pb-0'>
                                           <div className='flex flex-col items-center mt-[30px]'>
                                                 <div
                                                       className='relative w-[180px] h-[180px] flex flex-col items-center justify-center bg-gray-200 rounded-full border-[6px] border-blue-300'
@@ -143,7 +143,7 @@ const BoxShopForm = (props: TProps) => {
                                                 <input
                                                       type='text'
                                                       id='shop_name'
-                                                      className='w-full h-[40px] p-[12px_24px] bg-[#ffffff] rounded outline-none border-[1px] border-gray-200'
+                                                      className='w-full h-[40px] p-[12px_24px] bg-[#ffffff] rounded outline-none border-[1px] border-gray-300'
                                                       {...form.register('shop_name', {
                                                             required: { value: true, message: 'Tên shop là bắt buộc' },
                                                             minLength: { value: 3, message: 'Tối thiểu 3 kí tự' },

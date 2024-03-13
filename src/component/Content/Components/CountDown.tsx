@@ -2,30 +2,30 @@ import { useState, useEffect, useRef } from 'react'
 import BoxCenter from '../../BoxUi/BoxCenter'
 
 const CountDown = () => {
-      const [seconds, setSeconds] = useState<number>(0)
-      const [minute, setMinute] = useState<number>(0)
-      const [hour, setHour] = useState<number>(0)
+      const [seconds, setSeconds] = useState<number>(59)
+      const [minute, setMinute] = useState<number>(59)
+      const [hour, setHour] = useState<number>(2)
       const timerId = useRef<NodeJS.Timeout | null>(null)
 
       useEffect(() => {
-            if (seconds >= 59) {
-                  setSeconds(0)
-                  setMinute((prev) => prev + 1)
+            if (seconds === 0) {
+                  setSeconds(59)
+                  setMinute((prev) => prev - 1)
             }
-            if (minute >= 59) {
+            if (minute === 0) {
                   setMinute(0)
-                  setHour((prev) => prev + 1)
+                  setHour((prev) => prev - 1)
             }
-            if (hour >= 24) {
-                  setSeconds(0)
-                  setMinute(0)
-                  setHour(0)
+            if (hour === 0) {
+                  setSeconds(59)
+                  setMinute(59)
+                  setHour(2)
             }
       }, [seconds, minute, hour])
 
       useEffect(() => {
             timerId.current = setInterval(() => {
-                  setSeconds((prev) => (prev += 1))
+                  setSeconds((prev) => (prev -= 1))
             }, 1000)
             return () => clearInterval(timerId.current as NodeJS.Timeout)
       }, [])

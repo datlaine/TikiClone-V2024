@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import BoxButton from './BoxButton'
 import { BadgeDollarSign, History, Home, Notebook, Store } from 'lucide-react'
 import BoxBuild from './BoxBuild'
-import Notification from '../../Customer/notification/Notification'
+import Notification from '../../Customer/Notification/Notification'
 
 type NotificationTypeActive =
       | {

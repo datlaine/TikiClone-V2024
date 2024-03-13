@@ -76,20 +76,20 @@ const SliderProductV2 = () => {
       return (
             <div className='relative group w-full h-[95%]  '>
                   <div className='w-full h-full  overflow-x-hidden'>
-                        <div className='flex h-full ' ref={wrapperRef}>
+                        <div className='min-w-full flex h-full ' ref={wrapperRef}>
                               <div className='flex min-w-full w-full h-full  gap-[20px]'>
-                                    <img src={img1} className='w-full xl:w-[50%] h-full rounded-xl' alt='' />
-                                    <img src={img2} className='w-full xl:w-[50%] h-full rounded-xl' alt='' />
+                                    <img src={img1} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
+                                    <img src={img2} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
                               </div>
 
                               <div className='flex min-w-full w-full h-full gap-[20px]'>
-                                    <img src={img3} className='w-full xl:w-[50%] h-full rounded-xl' alt='' />
-                                    <img src={img4} className='w-full xl:w-[50%] h-full rounded-xl' alt='' />
+                                    <img src={img3} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
+                                    <img src={img4} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
                               </div>
 
                               <div className='flex min-w-full w-full h-full gap-[20px]'>
-                                    <img src={img5} className='w-full xl:w-[50%] h-full rounded-xl' alt='' />
-                                    <img src={img6} className='w-full xl:w-[50%] h-full rounded-xl' alt='' />
+                                    <img src={img5} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
+                                    <img src={img6} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
                               </div>
                         </div>
                   </div>

@@ -20,6 +20,8 @@ import { convertDateToString } from '../../utils/date.utils'
 import ProductDescription from './ProductDescription'
 import ProductSimiliar from './ProductSimiliar'
 import ProductPayMoblie from './ProductPayMoblie'
+import ProductShopInfo from './Components/ProductShopInfo'
+import ProductBestBought from './ProductBestBought'
 
 type TProps = { product: TProductDetail; totalComment: number; avg: number }
 
@@ -115,8 +117,12 @@ const ProductIntro = (props: TProps) => {
                   <section className='max-w-full h-[550px] bg-[#ffffff] rounded-lg'>
                         <ProductSimiliar product={product} />
                   </section>
-                  <section className='w-full h-[300px] bg-green-400'></section>
-                  <section className='w-full h-[130px] bg-blue-400'></section>
+                  <section className='w-full min-h-[300px] h-max  rounded-lg'>
+                        <ProductBestBought />
+                  </section>
+                  <section className='w-full min-h-[130px] h-max  rounded-lg'>
+                        <ProductShopInfo shop={product.shop_id} />
+                  </section>
 
                   <section className='min-h-[70px] h-max w-full  p-[18px]  bg-[#ffffff] flex flex-col gap-[6px] rounded-lg '>
                         <p className='text-[16px] font-semibold'>Thông tin chi tiết</p>

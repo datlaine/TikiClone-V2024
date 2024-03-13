@@ -21,11 +21,13 @@ const OwnerShopFilterName = () => {
                   {getProductMyShop.data?.data.metadata.myProductOfShop.map((product) => {
                         return (
                               <div className='flex min-w-[25%] flex-col gap-[16px]'>
-                                    <img
-                                          src={product?.product_thumb_image?.secure_url || ''}
-                                          className='w-[150px] h-[150px]'
-                                          alt='product'
-                                    />
+                                    <Link to={`/product/${product?._id}`}>
+                                          <img
+                                                src={product?.product_thumb_image?.secure_url || ''}
+                                                className='w-[150px] h-[150px]'
+                                                alt='product'
+                                          />
+                                    </Link>
                                     <Link to={`/product/${product?._id}`}>Link sản phẩm</Link>
                                     <Link to={`/product/update-book/${product?._id}`}>Chỉnh sửa sản phẩm</Link>
                                     <span className='text-red-800 underline' onClick={handleControllModalDeleteProduct}>

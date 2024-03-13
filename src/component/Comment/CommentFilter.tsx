@@ -126,11 +126,11 @@ const CommentFilter = (props: TProps) => {
       return (
             <div className='w-full min-h-[90px] h-max  flex flex-col gap-[20px] bg-[#ffffff] border-t-[2px] border-[rgb(245_245_250)] py-[16px]'>
                   <p className='ml-[2px] text-[15px] text-slate-700 font-medium'>Lọc theo</p>
-                  <div className='w-full flex flex-wrap items-center justify-between gap-[14px] xl:gap-0'>
+                  <div className='w-full flex overflow-x-scroll items-center justify-between gap-[14px] xl:gap-0'>
                         <button
                               className={`${styleEffect.onActive(
                                     filterVote.isSelectTime,
-                              )} min-w-[80px] h-[36px] flex items-center justify-center gap-[6px] p-[6px_8px]  w-max border-[1px] rounded-[999px]`}
+                              )} min-w-[120px] h-[36px] flex items-center justify-center gap-[6px] p-[6px_8px]  w-max border-[1px] rounded-[999px]`}
                               onClick={() => {
                                     onSetActive('isSelectTime')
                               }}
@@ -141,7 +141,7 @@ const CommentFilter = (props: TProps) => {
                         <button
                               className={`${styleEffect.onActive(
                                     filterVote.isSelectImage,
-                              )} min-w-[80px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
+                              )} min-w-[120px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
                               onClick={() => {
                                     onSetActive('isSelectImage')
                               }}
@@ -152,7 +152,7 @@ const CommentFilter = (props: TProps) => {
                         <button
                               className={`${styleEffect.onActive(
                                     storege.includes(5),
-                              )} min-w-[80px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
+                              )} min-w-[120px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
                               onClick={() => {
                                     onSetFilterVote(5)
                               }}
@@ -162,7 +162,7 @@ const CommentFilter = (props: TProps) => {
                         <button
                               className={`${styleEffect.onActive(
                                     storege.includes(4),
-                              )} min-w-[80px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
+                              )} min-w-[120px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
                               onClick={() => {
                                     onSetFilterVote(4)
                               }}
@@ -172,7 +172,7 @@ const CommentFilter = (props: TProps) => {
                         <button
                               className={`${styleEffect.onActive(
                                     storege.includes(3),
-                              )} min-w-[80px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
+                              )} min-w-[120px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
                               onClick={() => {
                                     onSetFilterVote(3)
                               }}
@@ -182,7 +182,7 @@ const CommentFilter = (props: TProps) => {
                         <button
                               className={`${styleEffect.onActive(
                                     storege.includes(2),
-                              )} min-w-[80px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
+                              )} min-w-[120px] h-[36px]  flex items-center justify-center gap-[6px] p-[6px_8px] w-max border-[1px] rounded-[999px]`}
                               onClick={() => {
                                     onSetFilterVote(2)
                               }}
@@ -192,15 +192,13 @@ const CommentFilter = (props: TProps) => {
                         <button
                               className={`${styleEffect.onActive(
                                     storege.includes(1),
-                              )} min-w-[80px] h-[36px]  flex items-center justify-center gap-[6px] p-[8px_6px] w-max border-[1px] rounded-[999px]`}
+                              )} min-w-[120px] h-[36px]  flex items-center justify-center gap-[6px] p-[8px_6px] w-max border-[1px] rounded-[999px]`}
                               onClick={() => {
                                     onSetFilterVote(1)
                               }}
                         >
                               {storege.includes(1) && <Check size={18} />}1 sao
                         </button>
-
-                        <button onClick={() => console.log({ filterVote })}>SUBMIT</button>
                   </div>
             </div>
       )

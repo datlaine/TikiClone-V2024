@@ -111,6 +111,9 @@ body {
       min-height: 100vh;
 }
 
+:where(.css-dev-only-do-not-override-dkbvqv).ant-rate .ant-rate-star:not(:last-child) {
+      margin-inline-end: 4px;
+}
 #root {
       min-height: 100vh;
       max-height: auto;

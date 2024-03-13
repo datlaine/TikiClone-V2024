@@ -1,49 +1,50 @@
 import React, { ReactNode, useRef, useState } from 'react'
-import { ProductType, TypeBook } from '../../../types/product/product.type'
+import { ProductType, TypeBook, TypeFood } from '../../../types/product/product.type'
 import { useQuery } from '@tanstack/react-query'
 import ProductApi from '../../../apis/product.api'
 import ProductSmall from './ProductSmall'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { getAllJSDocTags } from 'typescript'
 
-export const CATEGORY_BOOK = [
+export const CATEGORY_FOOD = [
       {
             label: 'Tất cả sản phẩm',
             value: 'All',
       },
 
       {
-            label: 'Manga',
-            value: 'Manga',
+            label: 'Thức ăn nhanh',
+            value: 'Fast food',
       },
       {
-            label: 'Tiểu thuyết',
-            value: 'Novel',
+            label: 'Đồ hộp',
+            value: 'Canned Goods',
       },
 
       {
-            label: 'Trinh thám',
-            value: 'Detective',
+            label: 'Đồ giải khát',
+            value: 'Drinks',
       },
 ]
 
-export type TypeFilterBook = 'All' | TypeBook
+export type TypeFilterFood = 'All' | TypeFood
 
-const ContentBook = () => {
-      const getProductBookAllType = useQuery({
-            queryKey: ['/v1/api/product/get-product-book-all-type'],
-            queryFn: () => ProductApi.getProductBookAllType(),
+const ContentFood = () => {
+      const getProductFoodAllType = useQuery({
+            queryKey: ['/v1/api/product/get-product-food-all-type'],
+            queryFn: () => ProductApi.getProductFoodAllType(),
       })
 
       const wrapperListProductsRef = useRef<HTMLDivElement>(null)
       const PositionScrollCurrent = useRef<number>(0)
       const [count, setCount] = useState(1)
-      const [type, setType] = useState<TypeFilterBook>('All')
+      const [type, setType] = useState<TypeFilterFood>('All')
 
-      const productAll = getProductBookAllType.data?.data.metadata.products
-      const productManga = getProductBookAllType.data?.data.metadata.manga
-      const productNovel = getProductBookAllType.data?.data.metadata.novel
-      const productDectective = getProductBookAllType.data?.data.metadata.detective
-      console.log({ productManga })
+      const productAll = getProductFoodAllType.data?.data.metadata.products
+      const productFastFood = getProductFoodAllType.data?.data.metadata.fastFood
+      const productCannedGood = getProductFoodAllType.data?.data.metadata.cannedGood
+      const productDrink = getProductFoodAllType.data?.data.metadata.drinks
+      console.log({ productFastFood })
       const handleClickNext = () => {
             if (wrapperListProductsRef.current) {
                   setCount((prev) => prev + 1)
@@ -83,16 +84,16 @@ const ContentBook = () => {
             },
       }
 
-      const calcLength = (type: TypeFilterBook) => {
+      const calcLength = (type: TypeFilterFood) => {
             switch (type) {
                   case 'All':
                         return Math.ceil((productAll?.length || 6) / 6)
-                  case 'Manga':
-                        return Math.ceil((productManga?.length || 6) / 6)
-                  case 'Novel':
-                        return Math.ceil((productNovel?.length || 6) / 6)
-                  case 'Dictive':
-                        return Math.ceil((productDectective?.length || 6) / 6)
+                  case 'Fast food':
+                        return Math.ceil((productFastFood?.length || 6) / 6)
+                  case 'Canned Goods':
+                        return Math.ceil((productCannedGood?.length || 6) / 6)
+                  case 'Drinks':
+                        return Math.ceil((productDrink?.length || 6) / 6)
                   default:
                         return 1
             }
@@ -100,15 +101,15 @@ const ContentBook = () => {
 
       return (
             <div className='max-w-full w-full h-[485px] bg-[#ffffff] rounded-lg p-[20px] flex flex-col gap-[16px]'>
-                  <h3>ContentBook {type}</h3>
+                  <h3>ContentFood {type}</h3>
 
                   <div className='overflow-hidden'>
                         <div className='h-[40px] max-w-full flex gap-[20px] overflow-scroll'>
-                              {CATEGORY_BOOK.map((btn) => (
+                              {CATEGORY_FOOD.map((btn) => (
                                     <button
                                           key={btn.label}
                                           className={`${styleEffect.onActive(btn.value === type)} min-w-[150px] max-w-full rounded-[999px]`}
-                                          onClick={() => setType(btn.value as TypeFilterBook)}
+                                          onClick={() => setType(btn.value as TypeFilterFood)}
                                     >
                                           {btn.label}
                                     </button>
@@ -123,45 +124,33 @@ const ContentBook = () => {
                         >
                               {type === 'All' &&
                                     productAll?.map((product) => (
-                                          <div
-                                                key={product._id}
-                                                className='h-full min-w-[calc((100%-40px)/2)] xl:min-w-[calc((100%-120px)/6)]'
-                                          >
-                                                <ProductSmall product={product} />
+                                          <div className='h-full min-w-[calc((100%-40px)/2)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)] xl:min-w-[calc((100%-120px)/6)]'>
+                                                <ProductSmall key={product._id} product={product} />
                                           </div>
                                     ))}
 
-                              {type === 'Manga' &&
-                                    productManga?.map((product) => (
-                                          <div
-                                                key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]'
-                                          >
-                                                <ProductSmall product={product} />
+                              {type === 'Fast food' &&
+                                    productFastFood?.map((product) => (
+                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
+                                                <ProductSmall key={product._id} product={product} />
                                           </div>
                                     ))}
 
-                              {type === 'Novel' &&
-                                    productNovel?.map((product) => (
-                                          <div
-                                                key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]'
-                                          >
-                                                <ProductSmall product={product} />
+                              {type === 'Canned Goods' &&
+                                    productCannedGood?.map((product) => (
+                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
+                                                <ProductSmall key={product._id} product={product} />
                                           </div>
                                     ))}
 
-                              {type === 'Dictive' &&
-                                    productDectective?.map((product) => (
-                                          <div
-                                                key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]'
-                                          >
-                                                <ProductSmall product={product} />
+                              {type === 'Drinks' &&
+                                    productDrink?.map((product) => (
+                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
+                                                <ProductSmall key={product._id} product={product} />
                                           </div>
                                     ))}
 
-                              {getProductBookAllType.isPending && (
+                              {getProductFoodAllType.isPending && (
                                     <>
                                           {Array(6)
                                                 .fill(0)
@@ -197,4 +186,4 @@ const ContentBook = () => {
       )
 }
 
-export default ContentBook
+export default ContentFood

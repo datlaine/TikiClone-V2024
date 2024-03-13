@@ -49,6 +49,7 @@ export type TProductDetail = {
 }
 
 export type TypeBook = 'Novel' | 'Manga' | 'Dictive'
+export type TypeFood = 'Fast food' | 'Canned Goods' | 'Drinks'
 
 export type IProductBook = {
       type: TypeBook

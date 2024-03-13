@@ -12,7 +12,7 @@ type Props = {
 
 const SectionProduct = (props: Props) => {
       return (
-            <div style={{ background: props.background ? props.background : '' }} className='custom-product-item'>
+            <div style={{ background: props.background ? props.background : '' }} className='custom-product-item h-[360px] p-[12px]'>
                   <div className='2xl:h[20%] 2xl:h-[8%] flex justify-between'>
                         <div className=' flex items-center  2xl:gap-3 2xl:w-full'>
                               {props.title && props.title}

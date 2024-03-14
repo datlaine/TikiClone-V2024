@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { SetStateAction, useEffect, useState } from 'react'
 import CommentService from '../../apis/comment.service'
 import BoxCommentProduct from '../BoxUi/BoxCommentProduct'
@@ -9,6 +9,7 @@ import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
 import { addToast } from '../../Redux/toast'
 import { SLATE_TIME_COMMENT_ME_ALL } from '../../constant/staleTime'
+import BoxConfirmDelete from '../BoxUi/confirm/BoxConfirmDelete'
 
 type TProps = {
       product: TProductDetail
@@ -19,15 +20,40 @@ const CommentMe = (props: TProps) => {
 
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const dispatch = useDispatch()
+      const queryClient = useQueryClient()
 
       const [openBoxUpload, setOpenBoxUpload] = useState<boolean>(false)
       const [openBoxUpdate, setopenBoxUpdate] = useState<boolean>(false)
+      const [openBoxDelete, setOpenBoxDelete] = useState<boolean>(false)
 
       const getMeCommentQuery = useQuery({
             queryKey: ['get-me-comment', product._id],
             queryFn: () => CommentService.getMeComment({ product_id: product._id }),
             staleTime: SLATE_TIME_COMMENT_ME_ALL,
       })
+
+      const deleteCommentMutation = useMutation({
+            mutationKey: ['/v1/api/comment/delete-comment'],
+            mutationFn: ({ comment_product_id }: { comment_product_id: string }) => CommentService.deleteComment({ comment_product_id }),
+            onSuccess: () => {
+                  setOpenBoxDelete(false)
+                  queryClient.invalidateQueries({
+                        queryKey: ['get-all-comment-image'],
+                  })
+
+                  queryClient.invalidateQueries({
+                        queryKey: ['get-me-comment', product._id],
+                  })
+
+                  queryClient.invalidateQueries({
+                        queryKey: ['get-product-with-id', product._id],
+                  })
+            },
+      })
+
+      const onDeleteComment = ({ comment_product_id }: { comment_product_id: string }) => {
+            deleteCommentMutation.mutate({ comment_product_id })
+      }
 
       const onOpenModel = (cb: React.Dispatch<SetStateAction<boolean>>) => {
             if (!user) {
@@ -54,12 +80,33 @@ const CommentMe = (props: TProps) => {
                         <div className='relative ' id={`${comment._id}`}>
                               <CommentItem comment={comment} />
                               {user?._id === comment?.comment_user_id?._id && (
-                                    <button
-                                          className='absolute bottom-[-10px] right-[4px] xl:bottom-[30px] xl:right-[30px]'
-                                          onClick={() => onOpenModel(setopenBoxUpdate)}
-                                    >
-                                          Chỉnh sửa
-                                    </button>
+                                    <>
+                                          <button
+                                                className='absolute bottom-[0px] right-[45px] xl:bottom-[30px] xl:right-[70px]'
+                                                onClick={() => onOpenModel(setopenBoxUpdate)}
+                                          >
+                                                Chỉnh sửa
+                                          </button>
+
+                                          <button
+                                                className='absolute bottom-[0px] right-[4px] xl:bottom-[30px] xl:right-[30px] text-red-600'
+                                                onClick={() => onOpenModel(setOpenBoxDelete)}
+                                          >
+                                                Xóa
+                                          </button>
+                                    </>
+                              )}
+
+                              {openBoxDelete && (
+                                    <BoxConfirmDelete
+                                          content='Bạn xác nhận xóa comment này phải không'
+                                          ButtonCancellContent='Hủy'
+                                          ButtonConfrimContent='Xóa'
+                                          onClose={setOpenBoxDelete}
+                                          isLoadng={deleteCommentMutation.isPending}
+                                          paramsActive={{ comment_product_id: product._id }}
+                                          onActive={onDeleteComment}
+                                    />
                               )}
 
                               {openBoxUpdate && (

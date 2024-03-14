@@ -16,6 +16,7 @@ import SectionProduct from '../Content/Components/SectionProduct'
 import TitleProductSection from '../Content/Components/TitleProductSection'
 import CountDown from '../Content/Components/CountDown'
 import SectionProductItem from '../Content/Components/SectionProductItem'
+import ContentProduct from '../Content/Components/ContentProduct'
 
 const Cart = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
@@ -151,11 +152,7 @@ const Cart = () => {
                                           getMyCart.data.data.metadata.cart.cart_products.length === 0) && (
                                           <div className='w-[90%]'>
                                                 <CartEmpty />
-                                                <SectionProduct
-                                                      title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
-                                                      other={<CountDown />}
-                                                      ListProducts={<SectionProductItem />}
-                                                />
+                                                <ContentProduct />
                                           </div>
                                     )}
 

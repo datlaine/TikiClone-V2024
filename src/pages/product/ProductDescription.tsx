@@ -28,9 +28,12 @@ const ProductDescription = (props: TProps) => {
       }, [])
       return (
             <>
-                  <div style={{ height: openMore ? 'max-content' : 300 }} className='relative bg-white w-full   p-[18px] overflow-y-hidden'>
+                  <div
+                        style={{ height: openMore ? 'max-content' : 300 }}
+                        className='relative bg-white w-full  px-[18px] pt-[18px] pb-[70px] overflow-y-hidden'
+                  >
                         <header>
-                              <p id='description' className='text-[18px] text-black font-semibold'>
+                              <p id='description' className='text-[18px] text-black font-semibold my-[20px]'>
                                     Mô tả sản phẩm
                               </p>
                         </header>
@@ -45,6 +48,11 @@ const ProductDescription = (props: TProps) => {
                               ))}
                         </div>
 
+                        <pre className='whitespace-pre-wrap break-words '>
+                              {product.attribute.description}
+                              lorem*asdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+                        </pre>
+
                         {!openMore && (
                               <div
                                     style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0), rgb(255, 255, 255,1))' }}
@@ -54,7 +62,7 @@ const ProductDescription = (props: TProps) => {
 
                         {showBtn && (
                               <button
-                                    className='absolute bottom-0 w-[calc(100%-36px)] h-[60px] bg-transparent  flex items-center justify-center text-blue-600'
+                                    className=' absolute bottom-0 w-[calc(100%-36px)] h-[60px] bg-transparent  flex items-center justify-center text-blue-600'
                                     onClick={onReadMore}
                               >
                                     {openMore ? 'Thu gọn' : 'Xem thêm'}

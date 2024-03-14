@@ -2,6 +2,7 @@ import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 import Portal from '../../Portal'
 import BoxButton from '../BoxButton'
 import { X } from 'lucide-react'
+import BoxLoading from '../BoxLoading'
 
 type BoxConfirmDeleteProps<ParamsActive> = {
       content: string
@@ -42,9 +43,9 @@ const BoxConfirmDelete = <T,>(props: BoxConfirmDeleteProps<T>) => {
                               className='relative w-[80%] xl:w-[500px] h-[200px] bg-[#ffffff] rounded-lg flex flex-col gap-[24px] mx-[15px] xl:m-0 p-[14px_10px] xl:px-[24px] xl:py-[20px]'
                               ref={wrapperRef}
                         >
-                              <div className='absolute top-[-20px]  right-[-20px] w-[40px] h-[40px]  bg-slate-900 text-white rounded-full flex items-center justify-center'>
+                              <button className='absolute top-[-20px]  right-[-20px] w-[40px] h-[40px]  bg-slate-900 text-white rounded-full flex items-center justify-center'>
                                     <X onClick={() => onClose(false)} />
-                              </div>
+                              </button>
                               <div className='flex flex-col gap-[8px]'>
                                     <span>{content}</span>
                                     <span>{subContent}</span>
@@ -63,13 +64,16 @@ const BoxConfirmDelete = <T,>(props: BoxConfirmDeleteProps<T>) => {
                                           />
                                     </div>
 
-                                    <div className='w-[38%] xl:w-[30%]'>
-                                          <BoxButton
-                                                content={ButtonConfrimContent}
+                                    <div className='w-max min-w-[38%] xl:min-w-[30%] '>
+                                          <button
+                                                className='min-w-[100px] h-[50px] flex items-center justify-center gap-[8px] rounded-lg bg-[#ffffff] border-[1px] border-blue-400 text-blue-400 hover:text-white hover:bg-blue-400'
                                                 onClick={() => {
                                                       onActive(paramsActive)
                                                 }}
-                                          />
+                                          >
+                                                <span>{ButtonConfrimContent}</span>
+                                                {isLoadng && <BoxLoading color='text-blue-400' hoverColor='hover:text-white' />}
+                                          </button>
                                     </div>
                               </div>
                         </div>

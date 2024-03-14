@@ -21,7 +21,7 @@ const ProductMedium = (props: TProps) => {
 
       return (
             <Link
-                  to={`product/${product._id}`}
+                  to={`/product/${product._id}`}
                   className='w-full h-full  flex flex-col  gap-[10px] border-[1px] border-slate-200  rounded-lg bg-[#ffffff] hover:shadow-xl'
             >
                   <div className='relative w-full h-[60%]'>

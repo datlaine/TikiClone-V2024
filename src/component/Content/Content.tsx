@@ -34,7 +34,7 @@ const Content = () => {
                   </div>
 
                   <SectionProduct
-                        title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
+                        title={<TitleProductSection content={<p className='pl-[13px]'>Gía Tốt Hôm Nay</p>} />}
                         other={<CountDown />}
                         ListProducts={<SectionProductItem />}
                   />

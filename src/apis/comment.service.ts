@@ -46,6 +46,10 @@ class CommentService {
             })
       }
 
+      static async deleteComment({ comment_product_id }: { comment_product_id: string }) {
+            return axiosCustom.delete('/v1/api/comment/delete-comment', { params: { product_id: comment_product_id } })
+      }
+
       static async getMeComment(params: GetMeCommentParam) {
             return axiosCustom.get<TResponseApi<{ comment: Comment }>>('/v1/api/comment/get-me-comment', { params })
       }

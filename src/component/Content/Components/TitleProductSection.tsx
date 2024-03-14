@@ -1,7 +1,7 @@
 import React from 'react'
 
 type Props = {
-      content: string
+      content: string | React.ReactNode
 }
 
 const TitleProductSection = ({ content }: Props) => {

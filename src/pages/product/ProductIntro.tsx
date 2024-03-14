@@ -57,13 +57,13 @@ const ProductIntro = (props: TProps) => {
                               </header>
                               <p className='text-[24px] text-black font-medium'>{product?.product_name}</p>
                               <div className=' min-h-[16px] h-max  flex flex-row    items-center gap-[8px] text-[16px] my-[6px]'>
-                                    <span className='font-semibold'>{avg.toFixed(1)}</span>
+                                    {avg > 0 && <span className='font-semibold'>{avg.toFixed(1)}</span>}
                                     {/* {diffrenceBetweenStar(votes)?.map((opacity) => <Star opacity={opacity} />)} */}
                                     <Rate disabled allowHalf value={product.product_votes || 0} className='text-[14px]' />
                                     <p className='text-gray-400'>({totalComment})</p>
-                                    <p className='w-[1px] h-[12px] mt-[5px] bg-gray-400'></p>
+                                    {product.product_is_bought > 0 && <p className='w-[1px] h-[12px] mt-[5px] bg-gray-400'></p>}
                                     <p className='text-[14px] text-gray-500 leading-3 mt-[2px]'>
-                                          {product.product_is_bought > 1000 ? 'Đã bán 1000+' : product.product_is_bought || ''}
+                                          {product.product_is_bought > 1000 ? 'Đã bán 1000+' : `Đã bán ${product.product_is_bought}` || ''}
                                     </p>
                               </div>
 

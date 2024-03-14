@@ -67,13 +67,13 @@ const SectionProductItem = (props: Props) => {
                                     return (
                                           <Link
                                                 to={`/product/${product._id}`}
-                                                className='flex flex-col   lg:-w-[171px] h-full snap-always snap-start	 '
+                                                className='flex flex-col   w-[calc((100%-170px)/6)] h-full snap-always snap-start	 '
                                                 key={product._id}
                                           >
                                                 <div className='w-[160px] h-full flex flex-col gap-[12px]'>
                                                       <img
                                                             src={product?.product_thumb_image?.secure_url}
-                                                            className='w-[178px] h-[156px] max-h-[160px]'
+                                                            className='w-full h-[156px] max-h-[160px]'
                                                             alt='product'
                                                       />
                                                       <div className='w-full h-[20px] text-[16px]'>

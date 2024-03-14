@@ -93,14 +93,14 @@ const Payment = () => {
                                     {stateOrder && dataOrder && (
                                           <div className='animate-mountComponent w-full xl:w-[70%] bg-[#ffffff] p-[20px] h-max'>
                                                 <p className='text-center text-[28px] text-slate-900'>Thanh toán thành công</p>
-                                                <div className='w-[550px] min-h-[400px] h-max mx-auto'>
+                                                <div className='hidden xl:block w-[550px] min-h-[400px] h-max mx-auto'>
                                                       <PDFInvoice
                                                             orderTime={dataOrder.order_time_payment}
                                                             products={dataOrder.products}
                                                             orderTotal={dataOrder.order_total}
                                                       />
                                                 </div>
-                                                <div className='animate-pulse w-full flex justify-center items-center h-[40px] my-[40px]'>
+                                                <div className='animate-pulse w-full hidden xl:flex justify-center items-center h-[40px] my-[40px]'>
                                                       <PDFDownloadLink
                                                             document={
                                                                   <PDFInvoiceImage

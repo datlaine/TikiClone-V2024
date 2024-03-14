@@ -45,6 +45,7 @@ const OrderCommentItem = (props: TProps) => {
                                     </div>
                               </div>
                               <div className=' min-h-[10px] h-max w-full '>Nội dung: {comment.comment_content}</div>
+                              <img src={comment.comment_image[0]?.secure_url} className='w-[100px] h-[100px]  bg-gray-400' alt='comment' />
                               <p className='w-full h-[20px] '>Thời gian: {convertDateToStringFull(comment.comment_date)}</p>
                         </div>
                   </div>

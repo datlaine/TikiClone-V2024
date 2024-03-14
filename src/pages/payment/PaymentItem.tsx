@@ -1,4 +1,4 @@
-import { Badge, Bike, Building2, Home, ShoppingBag, TentTree } from 'lucide-react'
+import { Badge, Bike, Building2, Car, Home, ShoppingBag, TentTree } from 'lucide-react'
 import React from 'react'
 import { CartProduct, CartProductRef, CartResponse } from '../../types/cart.type'
 import BoxMoney from '../../component/BoxUi/BoxMoney'
@@ -32,9 +32,9 @@ const PaymentItem = (props: TProps) => {
                               <span className='w-max h-full flex items-center'>
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(14000).replace('₫', '')}
                               </span>
-                              <div className='w-[90%] xl:w-[300px] h-[40px] bg-slate-300 rounded-md flex items-center px-[16px] gap-[8px] text-[14px]'>
-                                    <Bike />
-                                    <span>Được giao bởi Đạt</span>
+                              <div className='w-[90%] xl:w-[300px] h-[40px] bg-[#ffffff] border-[2px] border-slate-600 rounded-md flex items-center px-[16px] gap-[8px] text-[14px]'>
+                                    <Car />
+                                    <span>Được giao bởi Tiki</span>
                               </div>
                         </div>
 

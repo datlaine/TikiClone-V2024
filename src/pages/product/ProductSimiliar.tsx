@@ -5,6 +5,7 @@ import ProductSimplify from '../../component/Content/Components/ProductSimplify'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProductItemMini from './Components/ProductItemMini'
 import { TProductDetail } from '../../types/product/product.type'
+import { Span } from 'next/dist/trace'
 
 type TProps = {
       product: TProductDetail
@@ -14,7 +15,7 @@ const ProductSimiliar = (props: TProps) => {
       const { product } = props
 
       const allProduct = useQuery({
-            queryKey: ['get-all-product'],
+            queryKey: ['get-all-product', product._id, product.product_type],
             queryFn: () =>
                   ProductApi.getProductSimilar({
                         product_type: product.product_type,
@@ -59,6 +60,9 @@ const ProductSimiliar = (props: TProps) => {
             buttonNext: totalPage === count ? 'xl:hidden' : 'xl:flex',
             disButtonPrev: count === 1 ? true : false,
             disButtonNext: totalPage === count ? true : false,
+            onActive: (check: boolean) => {
+                  return check ? 'bg-blue-400 rounded-[999px]' : 'bg-slate-400 rounded-[999px]'
+            },
       }
 
       const page1 = productData?.slice(0, 8)
@@ -66,22 +70,25 @@ const ProductSimiliar = (props: TProps) => {
       const page3 = productData?.slice(16, 24)
       const page4 = productData?.slice(24, 32)
 
-      console.log({ page1, page2, page3, page4 })
+      console.log({ page1, page2, page3, page4, totalPage })
 
       return (
-            <div className='relative overflow-hidden flex flex-col gap-[16px] mx-[16px] py-[16px]'>
+            <div className='relative overflow-hidden flex flex-col gap-[16px] mx-[16px] py-[24px]'>
                   <p className='text-[16px] font-semibold'>Sản phẩm tương tự</p>
                   {productData && (
-                        <div className='flex xl:w-full  xl:gap-0    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
-                              <div className=' w-max xl:min-w-full   grid grid-flow-col auto-cols-[130px] auto-rows-[230px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[230px_230px] gap-[18px] '>
+                        <div
+                              className='flex xl:w-full  xl:gap-0 h-[80%]    overflow-scroll xl:overflow-visible '
+                              ref={wrapperListProductsRef}
+                        >
+                              <div className=' w-max xl:min-w-full    grid grid-flow-col auto-cols-[130px] auto-rows-[220px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[220px_220px] gap-[18px] '>
                                     {page1?.map((product) => (
-                                          // <div className='min-w-[calc((100%-64px)/4)] h-[230px]' key={product._id}>
+                                          // <div className='min-w-[calc((100%-64px)/4)] h-[220px]' key={product._id}>
                                           <ProductItemMini product={product} key={product._id} />
                                           // </div>
                                     ))}
                               </div>
-                              <div className='w-max xl:min-w-full mx-[50px] xl:mx-0 grid grid-flow-col auto-cols-[130px] auto-rows-[230px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[230px_230px] gap-[18px] '>
-                                    {page2?.reverse().map((product) => (
+                              <div className='w-max xl:min-w-full mx-[50px] xl:mx-0 grid grid-flow-col auto-cols-[130px] auto-rows-[220px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[220px_220px] gap-[18px] '>
+                                    {page1?.reverse().map((product) => (
                                           // <div className='min-w-[calc((100%-64px)/4)] h-[230px]' key={product._id}>
                                           <ProductItemMini product={product} key={product._id} />
                                           // </div>
@@ -89,6 +96,14 @@ const ProductSimiliar = (props: TProps) => {
                               </div>
                         </div>
                   )}
+
+                  <div className='absolute bottom-[10px] left-[50%] translate-x-[-50%] flex justify-center min-w-[180px] w-max h-[5px] gap-[8px]  '>
+                        {Array(totalPage || 1)
+                              .fill(0)
+                              .map((_, index) => (
+                                    <p className={`${styleEffect.onActive(index + 1 === count)} w-[40px] h-full`} key={index}></p>
+                              ))}
+                  </div>
 
                   {allProduct.isPending && (
                         <div className='flex xl:w-full  xl:gap-0    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>

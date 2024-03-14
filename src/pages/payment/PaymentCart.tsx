@@ -80,9 +80,9 @@ const PaymentCart = (props: TProps) => {
                   <div className='min-h-[230px] xl:min-h-[180px] h-max  transition-all duration-1000 bg-[#ffffff] rounded p-[16px] text-[12px]'>
                         <div className='w-full min-h-[50px]  flex flex-col gap-[6px]'>
                               <h4>Đơn hàng</h4>
-                              <div className='flex gap-[6px]'>
+                              <div className='flex gap-[6px] items-center'>
                                     <span>{carts?.cart_products.length} sản phẩm</span>
-                                    <p className='flex gap-[3px]' onClick={controllOpenSeeProduct}>
+                                    <p className='flex gap-[3px] items-center' onClick={controllOpenSeeProduct}>
                                           <span>Xem thông tin</span>
                                           <ChevronUp className={`${height ? 'rotate-180' : 'rotate-0'} transition-all duration-300`} />
                                     </p>
@@ -151,16 +151,26 @@ const PaymentCart = (props: TProps) => {
                                     <span className='block w-full text-right'>(Đã bao gồm VAT nếu có)</span>
                               </div>
                               {/* {!orderPaymentMutation.isSuccess && ( */}
-                              <button
-                                    disabled={disable}
-                                    onClick={handleVerifyBuy}
-                                    className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md text-[16px] mt-[16px]'
-                              >
-                                    Mua hàng {'('}
-                                    {carts?.cart_products.length}
-                                    {')'}
-                              </button>
-                              {/* )} */}
+                              {!orderPaymentMutation.isSuccess && (
+                                    <button
+                                          disabled={disable}
+                                          onClick={handleVerifyBuy}
+                                          className='w-full h-[45px] flex items-center justify-center bg-red-600 text-white rounded-md text-[16px] mt-[16px]'
+                                    >
+                                          Mua hàng {'('}
+                                          {carts?.cart_products.length}
+                                          {')'}
+                                    </button>
+                              )}
+
+                              {orderPaymentMutation.isSuccess && (
+                                    <Link
+                                          to={'/'}
+                                          className='w-full h-[45px] flex items-center justify-center bg-blue-600 text-white rounded-md text-[16px] mt-[16px]'
+                                    >
+                                          Thanh toán thành công, nhấn để quay về
+                                    </Link>
+                              )}
                         </div>
                   </div>
             </React.Fragment>

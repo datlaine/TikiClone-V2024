@@ -67,7 +67,7 @@ function HeaderBoxHover() {
                         </li>
 
                         {user && (
-                              <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc]' onClick={handleLogOut}>
+                              <li className='flex items-center h-[35px] px-2 hover:bg-[#ccc] hover:cursor-pointer' onClick={handleLogOut}>
                                     Đăng xuất
                               </li>
                         )}

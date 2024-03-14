@@ -3,6 +3,7 @@ import { SetStateAction, memo } from 'react'
 import ProductApi from '../../../apis/product.api'
 import { Link } from 'react-router-dom'
 import { Search } from 'lucide-react'
+import ProductShopInfo from '../../../pages/product/Components/ProductShopInfo'
 
 type Props = {
       onReset: () => void

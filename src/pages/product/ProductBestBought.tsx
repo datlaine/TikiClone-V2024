@@ -53,10 +53,13 @@ const ProductBestBought = () => {
             buttonNext: totalPage === count ? 'xl:hidden' : 'xl:flex',
             disButtonPrev: count === 1 ? true : false,
             disButtonNext: totalPage === count ? true : false,
+            onActive: (check: boolean) => {
+                  return check ? 'bg-blue-400 rounded-[999px]' : 'bg-slate-400 rounded-[999px]'
+            },
       }
 
       return (
-            <div className='relative min-h-[300px] h-max bg-[#ffffff] rounded-lg flex flex-col gap-[16px] p-[16px] overflow-hidden'>
+            <div className='relative min-h-[320px] h-max bg-[#ffffff] rounded-lg flex flex-col gap-[16px] p-[16px] overflow-hidden'>
                   <h4 className='text-[16px] font-medium'>Tiki best</h4>
 
                   <div className=' flex  w-[calc(100%+32px)]    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
@@ -82,6 +85,14 @@ const ProductBestBought = () => {
                               ))}
                         </div>
                         {/* <div className='w-[350px] h-[5px] mx-auto bg-red-800'></div> */}
+                  </div>
+
+                  <div className='absolute bottom-[10px] left-[50%] translate-x-[-50%] my-[8px] flex justify-center min-w-[180px] w-max h-[5px] gap-[8px]  '>
+                        {Array(totalPage || 1)
+                              .fill(0)
+                              .map((_, index) => (
+                                    <p className={`${styleEffect.onActive(index + 1 === count)} w-[40px] h-full`} key={index}></p>
+                              ))}
                   </div>
 
                   <button

@@ -26,7 +26,7 @@ const HeaderActions = () => {
                         {user ? (
                               <img
                                     src={user?.avatar?.secure_url || user.avatar_default_url}
-                                    className='w-[28px] h-[28px] rounded-full'
+                                    className='w-[40px] h-[40px] rounded-full'
                                     alt='avatar'
                               />
                         ) : (
@@ -37,7 +37,7 @@ const HeaderActions = () => {
                               />
                         )}
                         <button className='text-blue-500 font-semibold'>Tài Khoản</button>
-                        <div className='absolute  top-[20px] z-[23] left-0 hidden group-hover:block'>
+                        <div className='absolute  top-[40px] z-[23] left-0 hidden group-hover:block'>
                               <HeaderBoxHover />
                         </div>
                   </div>

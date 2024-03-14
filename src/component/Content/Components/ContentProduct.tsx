@@ -77,7 +77,7 @@ const ContentProduct = () => {
                                     <>
                                           {_shop && (
                                                 <Link
-                                                      to={`/shop/${_shop[0]._id}`}
+                                                      to={`/shop/${_shop[0]?._id}`}
                                                       className='h-full col-span-2 bg-[#ffffff] flex flex-col p-[16px] rounded-lg'
                                                 >
                                                       <img

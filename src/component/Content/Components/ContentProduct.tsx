@@ -86,7 +86,7 @@ const ContentProduct = () => {
                                                             alt='shop admin'
                                                       />
                                                       <div className='w-full flex-1 flex justify-center'>
-                                                            <ProductShopInfo shop={_shop[0]} />
+                                                            {/* <ProductShopInfo shop_id={_shop[0]._id} /> */}
                                                       </div>
                                                 </Link>
                                           )}

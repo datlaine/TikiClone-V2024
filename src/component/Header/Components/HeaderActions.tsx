@@ -33,11 +33,11 @@ const HeaderActions = () => {
                               <img
                                     src='https://salt.tikicdn.com/ts/upload/07/d5/94/d7b6a3bd7d57d37ef6e437aa0de4821b.png'
                                     alt=''
-                                    className='w-5 h-5'
+                                    className='w-[30px] h-[30px]'
                               />
                         )}
                         <button className='text-blue-500 font-semibold'>Tài Khoản</button>
-                        <div className='absolute  top-[40px] z-[23] left-0 hidden group-hover:block'>
+                        <div className='absolute  top-[30px] z-[23] left-0 hidden group-hover:block'>
                               <HeaderBoxHover />
                         </div>
                   </div>

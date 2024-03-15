@@ -17,6 +17,7 @@ import CommentStatistic from '../../component/Comment/CommentStatistic'
 import Comment from '../../component/Comment/Comment'
 import CommentImageAll from '../../component/Comment/CommentImageAll'
 import ContentProduct from '../../component/Content/Components/ContentProduct'
+import CommentService from '../../apis/comment.service'
 
 export type TImage = {
       secure_url: string
@@ -34,7 +35,13 @@ const Product = () => {
             queryFn: () => ProductApi.getProductWithId({ id: id as string }),
       })
 
+      const getCommentCore = useQuery({
+            queryKey: ['get-comment-core', id],
+            queryFn: () => CommentService.getCommentCore({ product_id: id as string }),
+      })
+
       const product = getProductWithId.isSuccess ? getProductWithId!.data!.data!.metadata.product : undefined
+
       useEffect(() => {
             window.scrollTo({
                   top: 0,
@@ -43,9 +50,17 @@ const Product = () => {
             })
       }, [])
 
-      const totalComment = getProductWithId.data?.data.metadata.totalComment
-      const avg = getProductWithId.data?.data.metadata.avg
-      const detailComment = getProductWithId.data?.data.metadata.detailComment
+      useEffect(() => {
+            window.scrollTo({
+                  top: 0,
+                  left: 0,
+            })
+      }, [])
+
+      const totalComment = getCommentCore.data?.data.metadata.totalCommentProduct
+      const avg = getCommentCore.data?.data.metadata.comment_avg
+      const detailComment = getCommentCore.data?.data.metadata.detailComment
+      const vote = getCommentCore.data?.data.metadata.vote
 
       useEffect(() => {
             if (getProductWithId.isSuccess) {
@@ -104,12 +119,16 @@ const Product = () => {
                                                       <ProductDetail product={product} isSuccess={getProductWithId.isSuccess} />
                                                 </div>
                                                 <div className='xl:w-[60%]  min-h-[500px] h-max mt-[20px] xl:mt-0 rounded-lg '>
-                                                      <ProductIntro product={product} totalComment={totalComment || 0} avg={avg || 0} />
+                                                      <ProductIntro
+                                                            product={product}
+                                                            totalComment={totalComment || 0}
+                                                            avg={avg || vote || 0}
+                                                      />
                                                 </div>
                                           </div>
                                           <div className='flex flex-col gap-[10px] comment w-full min-h-[1000px] h-max  bg-[#ffffff] px-[28px] pb-[50px]'>
                                                 <CommentStatistic
-                                                      avg={avg || 0}
+                                                      avg={avg || vote || product.product_votes}
                                                       totalComment={totalComment || 0}
                                                       detailComment={detailComment || []}
                                                 />

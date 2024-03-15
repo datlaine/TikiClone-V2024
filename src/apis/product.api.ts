@@ -5,6 +5,7 @@ import { TBookProduct } from '../types/product/product.book.type'
 import { IProductFood } from '../types/product/product.food.type'
 import { ShopResponse } from '../types/shop.type'
 import { ProductFilter } from '../component/BoxUi/BoxFilterProduct'
+import { ModeForm } from '../component/BoxUi/BoxShopForm'
 
 export type TProduct = {
       product_id: string
@@ -75,6 +76,7 @@ export type ProductData = {
       uploadProduct: Pick<TProductFormCommon, 'product_id' | 'product_name' | 'product_price' | 'product_available'>
       product_attribute: TBookProduct | IProductFood
       product_id: string
+      mode: ModeForm
 }
 
 class ProductApi {
@@ -207,9 +209,6 @@ class ProductApi {
             return axiosCustom.get<{
                   metadata: {
                         product: TProductDetail
-                        totalComment: number
-                        avg: number
-                        detailComment: DetailComment
                   }
             }>(`v1/api/product/get-product/${id}`)
       }

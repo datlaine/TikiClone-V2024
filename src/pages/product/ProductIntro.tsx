@@ -59,7 +59,7 @@ const ProductIntro = (props: TProps) => {
                               <div className=' min-h-[16px] h-max  flex flex-row    items-center gap-[8px] text-[16px] my-[6px]'>
                                     {avg > 0 && <span className='font-semibold'>{avg.toFixed(1)}</span>}
                                     {/* {diffrenceBetweenStar(votes)?.map((opacity) => <Star opacity={opacity} />)} */}
-                                    <Rate disabled allowHalf value={product.product_votes || 0} className='text-[14px]' />
+                                    <Rate disabled allowHalf value={avg || product.product_votes} className='text-[14px]' />
                                     <p className='text-gray-400'>({totalComment})</p>
                                     {product.product_is_bought > 0 && <p className='w-[1px] h-[12px] mt-[5px] bg-gray-400'></p>}
                                     <p className='text-[14px] text-gray-500 leading-3 mt-[2px]'>
@@ -121,7 +121,7 @@ const ProductIntro = (props: TProps) => {
                         <ProductBestBought />
                   </section>
                   <section className='w-full min-h-[130px] h-max  rounded-lg'>
-                        <ProductShopInfo shop={product.shop_id} />
+                        <ProductShopInfo product_id={product._id} shop_id={product.shop_id._id} />
                   </section>
 
                   <section className='min-h-[70px] h-max w-full  p-[18px]  bg-[#ffffff] flex flex-col gap-[6px] rounded-lg '>

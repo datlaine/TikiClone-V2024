@@ -19,7 +19,7 @@ const CommentStatistic = (props: TProps) => {
                   setWidth(width)
             }
       }, [avg, totalComment, detailComment])
-
+      console.log({ avg })
       // console.log({ width:  })
 
       return (
@@ -34,7 +34,7 @@ const CommentStatistic = (props: TProps) => {
                         <div className='w-full min-h-[70px] h-max flex flex-col gap-[2px] '>
                               <div className='flex items-center gap-[8px] flex-1'>
                                     <span className='text-[28px] text-slate-900 font-semibold'>{avg.toFixed(1)}</span>
-                                    <Rate disabled allowHalf defaultValue={avg} className='' />
+                                    <Rate disabled allowHalf value={avg} className='' />
                               </div>
                               <div className='h-max text-[16px] text-slate-500'>({totalComment} đánh giá)</div>
                         </div>

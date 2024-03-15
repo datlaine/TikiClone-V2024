@@ -58,7 +58,7 @@ const ProductCare = () => {
             <div className='relative flex-1 h-[298px] max-w-full px-0 xl:px-[18px]'>
                   <div className='max-w-full h-full overflow-hidden'>
                         <div
-                              className='flex justify-between gap-[20px] xl:gap-[16px] w-[370px] xl:w-full  h-full overflow-x-scroll xl:overflow-visible '
+                              className='flex gap-[20px] xl:gap-[16px] w-[370px] xl:w-full  h-full overflow-x-scroll xl:overflow-visible '
                               ref={wrapperListProductsRef}
                         >
                               {products &&

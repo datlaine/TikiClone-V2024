@@ -18,9 +18,9 @@ const FilterProductVote = (props: TProps) => {
       const onChangeInput = ({ type, e }: { type: Actions; e: React.MouseEvent<HTMLButtonElement, MouseEvent> }) => {
             e.preventDefault()
             if (type === 'ON_CHECKED_HIGH') {
-                  if (inputRef1.current?.checked) {
+                  if (state.onCheckedHigh) {
                         setState({ type: 'ON_CHECKED_RESET' })
-                        setVote((prev) => ({ ...prev, onVote: 5 }))
+                        setVote((prev) => ({ ...prev, onVote: 1 }))
                         return
                   }
                   setVote((prev) => ({ ...prev, onVote: 5 }))
@@ -28,9 +28,9 @@ const FilterProductVote = (props: TProps) => {
             }
 
             if (type === 'ON_CHECKED_MID') {
-                  if (inputRef2.current?.checked) {
+                  if (state.onCheckedMid) {
                         setState({ type: 'ON_CHECKED_RESET' })
-                        setVote((prev) => ({ ...prev, onVote: 5 }))
+                        setVote((prev) => ({ ...prev, onVote: 1 }))
 
                         return
                   }
@@ -39,9 +39,9 @@ const FilterProductVote = (props: TProps) => {
             }
 
             if (type === 'ON_CHECKED_LOW') {
-                  if (inputRef3.current?.checked) {
+                  if (state.onCheckedLow) {
                         setState({ type: 'ON_CHECKED_RESET' })
-                        setVote((prev) => ({ ...prev, onVote: 5 }))
+                        setVote((prev) => ({ ...prev, onVote: 1 }))
 
                         return
                   }
@@ -50,7 +50,7 @@ const FilterProductVote = (props: TProps) => {
             }
       }
 
-      console.log({ onValue: state.onMinValueVote })
+      console.log({ onValue: state })
 
       const styleEffect = {
             onSelect: (state: boolean) => {

@@ -40,7 +40,8 @@ const BoxCommentProduct = (props: TProps) => {
 
       const addCommentMutation = useMutation({
             mutationKey: ['add-comment'],
-            mutationFn: ({ params, state }: { params: AddCommentParam; state: StateFile }) => CommentService.addComment({ params, state }),
+            mutationFn: ({ params, state, mode }: { params: AddCommentParam; state: StateFile; mode: ModeForm }) =>
+                  CommentService.addComment({ params, state, mode }),
             onSuccess: () => {
                   queryClient.invalidateQueries({
                         queryKey: ['get-me-comment'],
@@ -49,6 +50,13 @@ const BoxCommentProduct = (props: TProps) => {
                   onClose(false)
                   queryClient.invalidateQueries({
                         queryKey: ['get-product-with-id', product._id],
+                  })
+
+                  queryClient.invalidateQueries({
+                        queryKey: ['get-comment-core', product._id],
+                  })
+                  queryClient.invalidateQueries({
+                        queryKey: ['/v1/api/shop/get-shop-product'],
                   })
             },
 
@@ -115,9 +123,10 @@ const BoxCommentProduct = (props: TProps) => {
             formData.append('content', formComment.content)
             formData.append('countStar', formComment.vote.toString())
             formData.append('product_id', product._id)
+
             formData.append('file', file as File)
 
-            addCommentMutation.mutate({ params: formData, state: (file ? 'file' : 'no-file') as StateFile })
+            addCommentMutation.mutate({ params: formData, state: (file ? 'file' : 'no-file') as StateFile, mode })
       }
 
       const onCloseModel = () => {

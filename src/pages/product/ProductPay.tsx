@@ -141,7 +141,7 @@ const ProductPay = (props: TProps) => {
                   <div className='flex flex-col xl:flex-row items-center gap-[8px] pb-[15px] border-b-[1px] border-slate-200'>
                         <img
                               src={product.shop_id.shop_avatar?.secure_url || product.shop_id.shop_avatar_default}
-                              className='w-[40px] h-[40px] rounded-full'
+                              className='w-[40px] h-[40px] rounded-md'
                               alt=''
                         />
                         <div className='flex-1 flex flex-col content-center py-[2px] gap-[8px] '>

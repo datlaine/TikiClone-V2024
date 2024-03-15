@@ -9,5 +9,7 @@ export type ShopResponse = {
       shop_avatar_default: string
       shop_avatar_used: TCloudinaryImage[]
       shop_name: string
+      shop_vote: number
+      shop_count_total_vote: number
       updatedAt: string
 }

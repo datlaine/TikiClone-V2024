@@ -61,13 +61,16 @@ const SectionProductItem = (props: Props) => {
 
       return (
             <div className='h-[85%] mx-[4px] relative  overflow-x-scroll lg:overflow-x-hidden  '>
-                  <div ref={wrapperListProductsRef} className=' h-full  flex gap-[34px] px-[18px] w-[370px]  xl:w-full snap-mandatory	'>
+                  <div
+                        ref={wrapperListProductsRef}
+                        className=' h-full  flex  gap-[12px] xl:gap-[34px] px-[18px] w-[370px]  xl:w-full snap-mandatory	'
+                  >
                         {allProduct.isSuccess &&
                               allProduct?.data?.data?.metadata.products.map((product: TProductReturn) => {
                                     return (
                                           <Link
                                                 to={`/product/${product._id}`}
-                                                className='flex flex-col   w-[calc((100%-170px)/6)] h-full snap-always snap-start	 '
+                                                className='flex flex-col w-[calc((100%-24px)/2)]    xl:w-[calc((100%-170px)/6)] h-full snap-always snap-start	 '
                                                 key={product._id}
                                           >
                                                 <div className='w-[160px] h-full flex flex-col gap-[12px]'>

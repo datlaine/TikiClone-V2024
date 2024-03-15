@@ -20,7 +20,6 @@ import CustomerOrderHistory from '../../Customer/Components/CustomerOrderHistory
 import QueryParams from '../../QueryParams'
 import CustomerUpdateEmail from '../../Customer/Account/Update/CustomerUpdateEmail'
 import CustomerUpdatePassword from '../../Customer/Account/Update/CustomerUpdatePassword'
-import ShopProductList from '../../Customer/Shop/ShopProductList'
 import RegisterSell from '../../Customer/Sell/RegisterSell'
 import Product from '../../pages/product/Product'
 import CustomerRouter from '../../Customer/Components/CustomerRouter'
@@ -30,31 +29,30 @@ import PermisionProductUpdate from '../../Customer/Sell/Category/Book/Permission
 import OrderCheck from '../../pages/orderCheck/OrderCheck'
 import Category from '../../pages/ProductCategories/Category'
 import Box from '../BoxUi/Box'
-import ShopWrapper from '../../Customer/Shop/ShopWrapper'
 import Shop from '../../pages/shop/Shop'
 import { RootState } from '../../store'
 import { useSelector } from 'react-redux'
+import ShopWrapper from '../../Customer/Shop/ShopWrapper'
+import ShopProductList from '../../Customer/Shop/ShopProductList'
 
 const RouterController = () => {
-      const pathHiddenHeader = ['/admin', '/payment', '/shop', '/box']
+      const pathHiddenHeader = ['/admin', '/payment', '/box']
       const hideHeaderShopPath = window.location.pathname.startsWith('/shop')
-      console.log(window.location.pathname, hideHeaderShopPath)
-      const hiddenHeader = pathHiddenHeader.includes(window.location.pathname) || hideHeaderShopPath
+      // console.log(window.location.pathname, hideHeaderShopPath)
+      const hiddenHeader = pathHiddenHeader.includes(window.location.pathname)
       const pathName = useLocation().pathname
       const showOverload = useSelector((state: RootState) => state.uiSlice.showOverload)
 
       const styleEffect = {
-            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[20px_80px] pt-[60px]' : 'px-0 xl:px-[50px]',
+            matchPathName: window.location.pathname !== '/payment' ? 'xl:p-[20px_80px]  pt-[75px]' : 'px-0 xl:px-[50px]',
             matchPathNameCustomer: pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]',
       }
 
       return (
             <>
-                  {!hiddenHeader && !hideHeaderShopPath && <Header />}
+                  {!hiddenHeader && <Header />}
 
-                  <div
-                        className={`${styleEffect.matchPathName} w-full min-w-full min-h-screen  flex gap-[28px] px-[4px]   bg-[rgb(245_245_250)] `}
-                  >
+                  <div className={`${styleEffect.matchPathName} w-full min-w-full min-h-screen  flex gap-[28px]    bg-[rgb(245_245_250)] `}>
                         <Sidebar />
                         <Routes>
                               <Route path='/admin' element={<Admin />} />
@@ -102,7 +100,7 @@ const RouterController = () => {
                               <Route path='*' element={<NotFound />} />
                         </Routes>
                         {showOverload && (
-                              <div className='w-full h-full fixed inset-0 bg-[rgba(0,0,0,.75)] z-[500] mt-[75px] xl:mt-[100px]'></div>
+                              <div className='w-full h-full fixed inset-0 bg-[rgba(0,0,0,.75)] z-[500] mt-[75px] xl:mt-[85px]'></div>
                         )}
                   </div>
             </>

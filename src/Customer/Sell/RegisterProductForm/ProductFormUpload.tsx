@@ -60,23 +60,6 @@ type TProps<TimelineFieldName, TimelineLabel> = {
       endpointUrl: string
 }
 
-// const defaultValues: TRegisterFormBook = {
-//       product_id: '',
-//       product_name: '',
-//       product_price: null,
-//       product_available: 0,
-//       attribute: {
-//             publishing: '',
-//             page_number: 0,
-//             author: '',
-//             description: '',
-//             book_type: 'Novel',
-//       },
-// }
-type Test<T extends z.ZodTypeAny> = {
-      schema: T
-}
-
 //@Component
 const ProductFormUpload = <TimelineFieldName, TimelineLabel>(props: TProps<TimelineFieldName, TimelineLabel>) => {
       const { product_id, ProductAttribute, TimelineProps, mode = 'UPLOAD', defaultValues, endpointUrl, ProductType } = props
@@ -154,7 +137,7 @@ const ProductFormUpload = <TimelineFieldName, TimelineLabel>(props: TProps<Timel
                         product_price: data.product_price,
                         product_available: data.product_available,
                   }
-                  uploadProductFull.mutate({ product_id: product_id, uploadProduct, product_attribute: data.attribute })
+                  uploadProductFull.mutate({ product_id: product_id, uploadProduct, product_attribute: data.attribute, mode })
             }
       }
 

@@ -139,7 +139,7 @@ const ProductFormUpdate = <T, K>(props: TProps<T, K>) => {
                         product_available: data.product_available,
                   }
 
-                  uploadProductFull.mutate({ product_id: product_id, uploadProduct, product_attribute: data.attribute })
+                  uploadProductFull.mutate({ product_id: product_id, uploadProduct, product_attribute: data.attribute, mode: 'UPDATE' })
             }
       }
 

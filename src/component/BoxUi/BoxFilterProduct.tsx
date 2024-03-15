@@ -1,5 +1,5 @@
 import { X } from 'lucide-react'
-import React, { SetStateAction, useState } from 'react'
+import React, { SetStateAction, useEffect, useState } from 'react'
 import FilterProductVote from '../../pages/ProductCategories/Components/FilterProductVote'
 import FilterProductPrice from '../../pages/ProductCategories/Components/FilterProductPrice'
 import { ProductType } from '../../types/product/product.type'
@@ -22,7 +22,7 @@ const BoxFilterProduct = (props: TProps) => {
       const dispatch = useDispatch()
 
       const [filter, setFilter] = useState<{ onVote: number; minPrice: number; maxPrice: number }>({
-            onVote: 5,
+            onVote: 1,
             minPrice: 1,
             maxPrice: MAX_PRICE,
       })
@@ -34,6 +34,7 @@ const BoxFilterProduct = (props: TProps) => {
                   const { products } = axiosResponse.data.metadata
                   dispatch(fetchProduct({ products }))
                   onClose(false)
+                  setFilter({ onVote: 1, minPrice: 1, maxPrice: MAX_PRICE })
             },
       })
 
@@ -41,7 +42,7 @@ const BoxFilterProduct = (props: TProps) => {
             e.preventDefault()
             console.log({ filter })
             const payload: ProductFilter = {
-                  product_vote: filter.onVote || 5,
+                  product_vote: filter.onVote || 1,
                   minPrice: filter.minPrice || 1,
                   maxPrice: filter.maxPrice || MAX_PRICE,
                   product_type: product_type,

@@ -3,13 +3,23 @@ import { ShopResponse } from '../../../types/shop.type'
 import { Link } from 'react-router-dom'
 import ShopLogo from '../../../component/Content/assets/img/Label/offical.png'
 import { Rate } from 'antd'
+import { useQuery } from '@tanstack/react-query'
+import ShopApi from '../../../apis/shop.api'
 
 type TProps = {
-      shop: ShopResponse
+      product_id?: string
+      shop_id: string
 }
 
 const ProductShopInfo = (props: TProps) => {
-      const { shop } = props
+      const { product_id, shop_id } = props
+
+      const shopQuery = useQuery({
+            queryKey: ['/v1/api/shop/get-shop-product'],
+            queryFn: () => ShopApi.getShopInfoOfProduct({ shop_id }),
+      })
+
+      const shop = shopQuery.data?.data.metadata.shop
 
       return (
             <>
@@ -32,8 +42,10 @@ const ProductShopInfo = (props: TProps) => {
                                                       <img src={ShopLogo} className='w-[80px]' alt='label logo' />
                                                 </div>
                                                 <div className='flex items-center gap-[6px] w-max'>
-                                                      <Rate disabled allowHalf defaultValue={4} className='text-[12px]' />
-                                                      <span className='text-[13px] xl:text-[14px]'>(5.4tr+ đánh giá)</span>
+                                                      <Rate disabled allowHalf value={shop.shop_vote} className='text-[12px]' />
+                                                      <span className='text-[13px] xl:text-[14px]'>
+                                                            ({shop.shop_count_total_vote} đánh giá)
+                                                      </span>
                                                 </div>
                                           </div>
                                     </div>

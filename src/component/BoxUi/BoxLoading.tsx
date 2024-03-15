@@ -10,7 +10,7 @@ const BoxLoading = (props: TProps) => {
 
       const styleEffect = {
             color: color ? color : 'text-[#ffffff]',
-            hoverColor: hoverColor ? hoverColor : 'hover:text-black',
+            hoverColor: hoverColor ? hoverColor : '',
       }
 
       return (

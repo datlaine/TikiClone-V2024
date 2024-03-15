@@ -29,6 +29,7 @@ module.exports = {
 				cloudFly: "cloudFly  1s forwards ",
 				rainDown: "rainDown  5s infinite",
 				runLeft: "runLeft 1s",
+				runRight: "runRight .8s infinite",
 			},
 			keyframes: {
 				pulseCustome: {
@@ -40,6 +41,11 @@ module.exports = {
 				runLeft: {
 					"0%": { right: "-150%" },
 					"100%": { right: 0 },
+				},
+
+				runRight: {
+					"0%": { left: "0%" },
+					"100%": { left: "100%" },
 				},
 
 				cloudFly: {

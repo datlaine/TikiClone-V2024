@@ -1,6 +1,8 @@
+import { ModeForm } from '../component/BoxUi/BoxShopForm'
 import { TResponseApi } from '../types/axiosResponse'
 import { Comment, CommentImage } from '../types/comment.type'
 import axiosCustom from './http'
+import { DetailComment } from './product.api'
 import { StateFile } from './shop.api'
 
 // export type AddCommentParam = {
@@ -40,8 +42,8 @@ export type GetAllCommentFilterLevel = {
 }
 
 class CommentService {
-      static async addComment({ params, state }: { params: AddCommentParam; state: StateFile }) {
-            return axiosCustom.post(`/v1/api/comment/add-comment?state=${state}`, params, {
+      static async addComment({ params, state, mode }: { params: AddCommentParam; state: StateFile; mode: ModeForm }) {
+            return axiosCustom.post(`/v1/api/comment/add-comment?state=${state}&mode=${mode}`, params, {
                   headers: { 'content-Type': 'multipart/form-data' },
             })
       }
@@ -52,6 +54,12 @@ class CommentService {
 
       static async getMeComment(params: GetMeCommentParam) {
             return axiosCustom.get<TResponseApi<{ comment: Comment }>>('/v1/api/comment/get-me-comment', { params })
+      }
+
+      static async getCommentCore({ product_id }: { product_id: string }) {
+            return axiosCustom.get<
+                  TResponseApi<{ totalCommentProduct: number; comment_avg: number; detailComment: DetailComment; vote: number }>
+            >('/v1/api/comment/get-comment-core', { params: { product_id } })
       }
 
       static async getMeAllComment({ page, limit }: { page: number; limit: number }) {

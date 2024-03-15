@@ -37,6 +37,7 @@ const CommentMe = (props: TProps) => {
             mutationFn: ({ comment_product_id }: { comment_product_id: string }) => CommentService.deleteComment({ comment_product_id }),
             onSuccess: () => {
                   setOpenBoxDelete(false)
+                  dispatch(addToast({ id: Math.random().toString(), message: 'Đã xóa comment thành công', type: 'SUCCESS' }))
                   queryClient.invalidateQueries({
                         queryKey: ['get-all-comment-image'],
                   })
@@ -46,7 +47,10 @@ const CommentMe = (props: TProps) => {
                   })
 
                   queryClient.invalidateQueries({
-                        queryKey: ['get-product-with-id', product._id],
+                        queryKey: ['get-comment-core', product._id],
+                  })
+                  queryClient.invalidateQueries({
+                        queryKey: ['/v1/api/shop/get-shop-product'],
                   })
             },
       })

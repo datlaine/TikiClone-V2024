@@ -163,7 +163,7 @@ const ProductFormUpdate = <T, K>(props: TProps<T, K>) => {
 
       return (
             <React.Fragment>
-                  <div className='animate-mountComponent w-full h-auto flex justify-center '>
+                  <div className='mb-[70px] animate-mountComponent w-full h-auto flex justify-center '>
                         <div className=' w-[full] lg:w-[65%]  h-full'>
                               <FormProvider {...methods}>
                                     <form

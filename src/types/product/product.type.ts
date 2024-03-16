@@ -48,7 +48,7 @@ export type TProductDetail = {
       shop_id: ShopResponse
 }
 
-export type TypeBook = 'Novel' | 'Manga' | 'Dictive'
+export type TypeBook = 'Novel' | 'Manga' | 'Detective'
 export type TypeFood = 'Fast food' | 'Canned Goods' | 'Drinks'
 
 export type IProductBook = {

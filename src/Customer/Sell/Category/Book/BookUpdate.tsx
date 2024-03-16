@@ -25,7 +25,7 @@ const BookUpdate: React.FC<TProps> = (props: TProps) => {
       useEffect(() => {}, [product])
 
       return (
-            <div className='w-[1000px] mx-auto bg-white px-[20px] flex justify-center'>
+            <div className=' mx-auto bg-white px-[20px] flex justify-center'>
                   <ProductFormUpdate<TTimeLineBookField, TTimeLineBookLabel>
                         ProductAttribute={<Book mode='UPDATE' />}
                         product_id={product._id}

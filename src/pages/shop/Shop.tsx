@@ -10,7 +10,7 @@ import ShopProductAll from './Components/ShopProductAll'
 import ShopCollection from './Components/ShopCollection'
 import ShopDiscount from './Components/ShopDiscount'
 import ShopProfile from './Components/ShopProfile'
-
+import bgCore from './assets/img/bgCore.jpeg'
 type TagShopActive = 'Store' | 'AllProduct' | 'Collection' | 'Discount' | 'ProfileShop'
 type TagShopLabel = 'Cửa hàng' | 'Tất cả sản phẩm' | 'Bộ sưu tập' | 'Giá sốc hôm nay' | 'Hồ sơ cửa hàng'
 
@@ -62,11 +62,10 @@ const Shop = () => {
       return (
             <>
                   {shopQuery.isSuccess && (
-                        <div className='w-full min-h-screen h-max'>
+                        <div className='sticky top-[10px] w-full min-h-screen h-max'>
                               <div className='w-full xl:w-[1240px] mx-auto  h-[500px]'>
                                     <header className='relative w-full h-[250px] xl:h-[150px]'>
-                                          <div className='bg-gradient-to-r from-red-400 to-rose-500 opacity-50 absolute w-full h-full inset-0'></div>
-                                          <div className='bg-[rgba(0,0,0,.35)] absolute w-full h-full inset-0 z-[3]'></div>
+                                          <img src={bgCore} className='w-full h-[250px] xl:h-[150px]' alt='background shop' />
 
                                           <div className='absolute z-[4] w-full h-full inset-0 bg-transparent flex flex-col gap-[60px] xl:gap-0 xl:justify-between p-[18px_24px] content-between '>
                                                 <div className='flex  items-center  gap-[18px]'>
@@ -96,7 +95,7 @@ const Shop = () => {
                                                       <div className='w-full h-[100px] xl:h-[40px] xl:w-[70%] flex items-center justify-between overflow-x-scroll xl:overflow-visible '>
                                                             {TagTransition.map((btn) => (
                                                                   <button
-                                                                        className={`relative pb-[4px] xl:pb-[8px] min-w-[150px] w-max h-[50px] xl:h-[30px]`}
+                                                                        className={`relative pb-[4px] xl:pb-[8px] min-w-[150px] w-max h-[50px] xl:h-[30px] text-white`}
                                                                         onClick={() => setTagActive(btn.value)}
                                                                         key={btn.value}
                                                                   >

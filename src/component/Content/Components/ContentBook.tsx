@@ -91,7 +91,7 @@ const ContentBook = () => {
                         return Math.ceil((productManga?.length || 6) / 6)
                   case 'Novel':
                         return Math.ceil((productNovel?.length || 6) / 6)
-                  case 'Dictive':
+                  case 'Detective':
                         return Math.ceil((productDectective?.length || 6) / 6)
                   default:
                         return 1
@@ -151,7 +151,7 @@ const ContentBook = () => {
                                           </div>
                                     ))}
 
-                              {type === 'Dictive' &&
+                              {type === 'Detective' &&
                                     productDectective?.map((product) => (
                                           <div
                                                 key={product._id}

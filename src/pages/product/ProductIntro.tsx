@@ -83,11 +83,28 @@ const ProductIntro = (props: TProps) => {
                               <p className='[word-spacing:1px] text-[16px] text-black font-semibold word'>Thông tin vận chuyển</p>
                               <div className=' min-h-[26px] h-max w-full flex flex-row justify-between'>
                                     <span className='text-[14px]'>
-                                          {cartCurrent.cart_current_address
-                                                ? `Giao đến: ${cartCurrent.cart_current_address}`
-                                                : `Giao đến: ${getAddressDefault(user?.user_address)}`
-                                                ? `Giao đến: ${address_default ? renderStringAddressDetailV2(address_default[0]) : ''}`
-                                                : 'Bạn chưa chọn ví trí giao hàng'}
+                                          {cartCurrent.cart_current_address ? (
+                                                <p className='flex gap-[8px]'>
+                                                      <span>Giao đến</span>
+                                                      <span className='underline text-slate-800 font-bold'>
+                                                            {cartCurrent.cart_current_address}
+                                                      </span>
+                                                </p>
+                                          ) : <p className='flex gap-[8px]'>
+                                                  <span>Giao đến</span>
+                                                  <span className='underline text-slate-800 font-bold'>
+                                                        {getAddressDefault(user?.user_address) as React.ReactNode}
+                                                  </span>
+                                            </p> ? (
+                                                <p className='flex gap-[8px]'>
+                                                      <span>Giao đến</span>
+                                                      <span className='underline text-slate-800 font-bold'>
+                                                            {address_default ? renderStringAddressDetailV2(address_default[0]) : ''}
+                                                      </span>
+                                                </p>
+                                          ) : (
+                                                'Bạn chưa chọn ví trí giao hàng'
+                                          )}
                                     </span>
                                     <button className='text-left text-blue-600' onClick={handleOpenModal}>
                                           {getAddressDefault(user?.user_address) ? 'Đổi' : 'Chọn vị trí'}

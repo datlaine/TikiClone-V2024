@@ -42,6 +42,8 @@ export type TProductDetail = {
       product_desc_image: TCloudinaryImage[]
       product_state: boolean
       product_is_select: boolean
+      product_date_create: Date
+
       product_is_bought: number
       product_type: ProductType
       attribute: IProductBook | IProductFood

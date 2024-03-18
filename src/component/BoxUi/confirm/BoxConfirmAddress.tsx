@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react'
+import React, { SetStateAction, useState } from 'react'
 import { X } from 'lucide-react'
 import { Radio, RadioChangeEvent } from 'antd'
 import Portal from '../../Portal'
@@ -6,21 +6,21 @@ import FormAddress from '../../../forms/FormAddress'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { UserAddress, UserResponse } from '../../../types/user.type'
-import { renderStringAddress, renderStringAddressDetail, renderStringAddressDetailV2 } from '../../../utils/address.util'
+import { renderStringAddressDetailV2 } from '../../../utils/address.util'
 import BoxButton from '../BoxButton'
 import { AddressType, CartCurrent, setAddressProduct } from '../../../Redux/cartSlice'
-import { TProductDetail } from '../../../types/product/product.type'
 import { addToast } from '../../../Redux/toast'
 import { CartProduct } from '../../../types/cart.type'
-import CartItem from '../../Cart/CartItem'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CartService from '../../../apis/cart.service'
 import { Address } from '../../../types/address.type'
+import AccountService from '../../../apis/account.service'
+import { fetchUser } from '../../../Redux/authenticationSlice'
 
 type TProps = {
       setOpenModal: React.Dispatch<SetStateAction<boolean>>
-      product_id: string
-      mode?: 'Select' | 'Update'
+      product_id?: string
+      mode?: 'Select' | 'Update' | 'User'
       cart_item?: CartProduct
 }
 
@@ -44,6 +44,17 @@ const BoxConfirmAddress = (props: TProps) => {
             },
       })
 
+      const setAddressDefaultMutation = useMutation({
+            mutationKey: ['/v1/api/account/set-address-default'],
+            mutationFn: (form: Pick<UserAddress, '_id'>) => AccountService.setAddressDefault(form),
+            onSuccess: (axiosResponse) => {
+                  const { user } = axiosResponse.data.metadata
+                  dispatch(fetchUser({ user }))
+                  dispatch(addToast({ id: Math.random().toString(), message: 'Cập nhập địa chỉ thành công', type: 'SUCCESS' }))
+                  handleCloseModal()
+            },
+      })
+
       const dispatch = useDispatch()
 
       const [valueAddress, setValueAddress] = useState<string>(() => {
@@ -51,7 +62,6 @@ const BoxConfirmAddress = (props: TProps) => {
                   let foundId = user.user_address.find((address) =>
                         address.address_text.includes(cart_item?.cart_address.address_text as string),
                   )
-                  // console.log({ cart: cart_item?.cart_address._id, foundId, user: user?.user_address, item: cart_item })
                   return foundId?._id as string
             }
 
@@ -81,10 +91,18 @@ const BoxConfirmAddress = (props: TProps) => {
                   return
             }
 
+            if (mode === 'User') {
+                  const addressSelector = user?.user_address.find((address) => address._id === valueAddress) as UserAddress
+                  console.log({ addressSelector })
+                  setAddressDefaultMutation.mutate({ _id: addressSelector._id })
+                  return
+                  // return
+            }
+
             if (mode === 'Update') {
                   const addressSelector = user?.user_address.find((address) => address._id === valueAddress) as UserAddress
                   updateAddressCart.mutate({
-                        product_id,
+                        product_id: product_id || '',
                         address_full: {
                               // cart_current_product_id: product_id as string,
                               address_street: renderStringAddressDetailV2(addressSelector as UserAddress) || '',
@@ -148,7 +166,7 @@ const BoxConfirmAddress = (props: TProps) => {
             <Portal>
                   <div className='fixed inset-0 bg-[rgba(0,0,0,.45)] flex justify-center items-center z-[503]'>
                         <div
-                              className='relative w-full xl:w-[600px] min-h-[370px] h-max bg-[#ffffff] p-[12px_8px]  xl:p-[24px_12px] mx-[16px] xl:mx-0 
+                              className='relative w-full xl:w-[600px] min-h-[370px] h-max bg-[#ffffff] p-[12px_8px]  xl:p-[18px_12px] mx-[16px] xl:mx-0 
  rounded'
                         >
                               <div className='flex flex-col gap-[10px] h-full'>
@@ -162,7 +180,11 @@ const BoxConfirmAddress = (props: TProps) => {
                                                 </span>
                                           </div>
                                           {user && user?.user_address && (
-                                                <div className='px-[36px] mt-[24px] '>
+                                                <div
+                                                      className={`${
+                                                            valueAddress === 'Other' ? 'h-[100px]' : 'h-max'
+                                                      } scrollCustome px-[36px] mt-[24px]  overflow-y-auto `}
+                                                >
                                                       <Radio.Group
                                                             className='flex flex-col gap-[8px]'
                                                             onChange={handleChangeRadio}

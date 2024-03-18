@@ -72,7 +72,7 @@ const ProductPay = (props: TProps) => {
                   return
             }
 
-            if (user._id === product.shop_id.owner) {
+            if (user._id === product.shop_id.owner._id) {
                   dispatch(addToast({ type: 'WARNNING', message: 'Không thể thêm sản phẩm của chính mình', id: Math.random().toString() }))
                   return
             }

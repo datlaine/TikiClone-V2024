@@ -50,11 +50,11 @@ const CommentImageAll = (props: TProps) => {
       return (
             <>
                   {getAllCommentImage.isSuccess && getAllCommentImage.data.data.metadata.comment_images.length > 0 && (
-                        <div className='ml-auto my-[25px] w-[136px] xl:w-[655px] min-h-[60px] xl:min-h-[80px] h-max'>
-                              <h4>Tất cả hình ảnh</h4>
+                        <div className=' my-[25px] w-[136px] xl:w-[170px] min-h-[60px] xl:min-h-[120px] h-max flex flex-col gap-[16px]'>
+                              <h4 className='text-[18px] font-semibold text-slate-900'>Tất cả hình ảnh</h4>
                               {getAllCommentImage.isSuccess && (
-                                    <div className='relative w-full h-full flex flex-col gap-[19px] xl:gap-[16px] overflow-x-hidden'>
-                                          <div className='w-[655px] ml-auto overflow-x-hidden '>
+                                    <div className='relative w-full h-full flex  gap-[19px] xl:gap-[8px] overflow-x-hidden'>
+                                          <div className='w-[80px]   '>
                                                 <div className='w-[40%] xl:w-full flex flex-1  gap-[16px]'>
                                                       {comment_images?.map((image) => (
                                                             <img
@@ -68,10 +68,21 @@ const CommentImageAll = (props: TProps) => {
                                                 </div>
                                           </div>
                                           <div
-                                                className='absolute bottom-0 right-0 min-w-[60px] h-[60px] xl:min-w-[80px] xl:h-[80px] bg-[rgba(0,0,0,.6)] flex items-center justify-center text-white hover:cursor-pointer'
+                                                // style={{ backgroundImage: `url(${comment_images && comment_images[0]?.image.secure_url})` }}
+                                                className='relative w-[80px] h-[80px] hover:cursor-pointer rounded overflow-hidden'
                                                 onClick={() => onClickOpenModel(imageUrl[0].secure_url)}
                                           >
-                                                (+{comment_images?.length})
+                                                <div
+                                                      className='absolute z-[5] min-w-[60px] w-full h-full bg-[rgba(0,0,0,.6)] flex items-center justify-center text-white 
+'
+                                                >
+                                                      (+{comment_images?.length})
+                                                </div>
+                                                <img
+                                                      src={comment_images && comment_images[0]?.image.secure_url}
+                                                      alt=''
+                                                      className='absolute z-[3] w-full h-full'
+                                                />
                                           </div>
                                     </div>
                               )}

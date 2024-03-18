@@ -1,8 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
-import { SetStateAction, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import BoxLoading from '../../../component/BoxUi/BoxLoading'
+import { useDispatch } from 'react-redux'
+import { addToast } from '../../../Redux/toast'
+import { useMutation } from '@tanstack/react-query'
+import AccountService from '../../../apis/account.service'
+import { fetchUser } from '../../../Redux/authenticationSlice'
+import { checkAxiosError } from '../../../utils/handleAxiosError'
+import TErrorAxios from '../../../types/axios.response.error'
 
 // () => api
 
@@ -28,6 +36,7 @@ const CustomerUpdatePassword = () => {
       const [showPassword, setShowPassword] = useState<'text' | 'password'>('password')
       const [showNewPassword, setShowNewPassword] = useState<'text' | 'password'>('password')
       const [showNewConfirmPassword, setShowNewConfirmPassword] = useState<'text' | 'password'>('password')
+      const dispatch = useDispatch()
 
       const {
             register,
@@ -47,17 +56,69 @@ const CustomerUpdatePassword = () => {
             }
       }
 
+      const onSubmit = (form: TRegisterZodSchema) => {
+            console.log({ form })
+            const { password, new_password } = form
+            updatePasswordMutation.mutate({ password, newPassword: new_password })
+      }
+
+      const updatePasswordMutation = useMutation({
+            mutationKey: ['/v1/api/account/update-password'],
+            mutationFn: ({ password, newPassword }: { password: string; newPassword: string }) =>
+                  AccountService.updatePassword({ password, newPassword }),
+            onSuccess: (axiosResponse) => {
+                  const { message, user } = axiosResponse.data.metadata
+                  if (message) {
+                        dispatch(fetchUser({ user }))
+                        dispatch(addToast({ id: Math.random().toString(), type: 'SUCCESS', message: 'Cập nhập mật khẩu thành công' }))
+                  }
+            },
+
+            onError: (error) => {
+                  if (checkAxiosError<TErrorAxios>(error)) {
+                        if (error?.response?.status === 404 && error?.response?.statusText === 'Not Found') {
+                              const detail = error.response.data?.detail
+                              dispatch(addToast({ id: Math.random().toString(), message: detail || 'Đã có lỗi xảy ra', type: 'WARNNING' }))
+                              return
+                        }
+
+                        if (error?.response?.status === 400 && error?.response?.statusText === 'Bad Request') {
+                              const detail = error.response.data?.detail
+                              dispatch(addToast({ id: Math.random().toString(), message: detail || 'Đã có lỗi xảy ra', type: 'WARNNING' }))
+                              return
+                        }
+                  }
+            },
+      })
+
+      useEffect(() => {
+            if (Object.keys(errors).length > 0) {
+                  const subMessage: string[] = []
+                  Object.keys(errors).map((key) => {
+                        subMessage.push(`Field ${key} đã xảy ra lỗi, vui lòng ${errors[key as keyof TRegisterZodSchema]?.message}`)
+                  })
+
+                  dispatch(addToast({ id: Math.random().toString(), subMessage, message: 'Error', type: 'WARNNING' }))
+            }
+      }, [errors, dispatch])
+
       return (
-            <div className='w-full h-[360px] flex items-center justify-center py-[12px]'>
-                  <form className='w-[400px] px-[15px] pt-[15px] gap-[6%] h-full border-[1px] border-stone-200 rounded-md'>
+            <div className='w-full min-h-[360px] h-max bg-[#ffffff] rounded  flex items-center justify-center py-[30px] '>
+                  <form
+                        className='flex flex-col gap-[16px]  min-w-[150px] xl:min-w-[400px] xl:min-h-[150px] h-max max-w-auto  p-[24px] rounded-sm  shadow-2xl border-[1px] border-slate-100 bg-[#ffffff]'
+                        onSubmit={handleSubmit(onSubmit)}
+                  >
                         <div className='h-[25%] flex flex-col gap-[4px]'>
                               <label htmlFor='password'>Mật khẩu hiện tại</label>
-                              <div className='flex justify-between  border-[1px] border-stone-200 rounded-sm items-center px-[16px] py-[6px]'>
+                              <div
+                                    className='w-full h-[50px] max-w-auto group flex gap-[10px] px-[18px] py-[2px] items-center border-[1px] border-blue-700 rounded'
+                                    tabIndex={0}
+                              >
                                     <input
                                           {...register('password')}
+                                          className='w-full max-w-auto border-none h-full outline-none py-[8px]'
                                           type={showPassword}
                                           id='password'
-                                          className='w-[90%] border-none p-[0px]'
                                           placeholder='Nhập mật khẩu hiện tại'
                                     />
                                     <div
@@ -73,26 +134,27 @@ const CustomerUpdatePassword = () => {
                               </div>
                         </div>
 
-                        <div className='h-[30%] flex flex-col gap-[4px]'>
+                        <div className='h-[25%] flex flex-col gap-[4px]'>
                               <label htmlFor='new_password'>Nhập mật khẩu mới</label>
-                              <div className='flex justify-between  border-[1px] border-stone-200 rounded-sm items-center px-[16px] py-[6px]'>
+                              <div
+                                    className='w-full h-[50px] max-w-auto group flex gap-[10px] px-[18px] py-[2px] items-center border-[1px] border-blue-700 rounded'
+                                    tabIndex={0}
+                              >
                                     <input
                                           {...register('new_password')}
                                           type={showNewPassword}
                                           id='new_password'
-                                          className='w-[90%] border-none p-[0px]'
                                           placeholder='Nhập mật khẩu mới'
+                                          className='w-full max-w-auto border-none h-full outline-none py-[8px]'
                                     />
                                     <div
                                           className='icon w-[15px] h-[15px]'
-                                          onClick={() => {
-                                                handleShowHidePassword(showNewPassword, setShowNewPassword)
-                                          }}
+                                          onClick={() => handleShowHidePassword(showNewPassword, setShowNewPassword)}
                                     >
                                           {showNewPassword === 'text' ? (
-                                                <EyeOff size={'20px'} color={errors.new_confirm_password ? 'red' : 'black'} />
+                                                <EyeOff size={'20px'} color={errors.password ? 'red' : 'black'} />
                                           ) : (
-                                                <Eye size={'20px'} color={errors.new_password ? 'red' : 'black'} />
+                                                <Eye size={'20px'} color={errors.password ? 'red' : 'black'} />
                                           )}
                                     </div>
                               </div>
@@ -101,13 +163,16 @@ const CustomerUpdatePassword = () => {
 
                         <div className='h-[25%] flex flex-col gap-[4px]'>
                               <label htmlFor='confirm_password'>Nhập lại mật khẩu mới</label>
-                              <div className='flex justify-between  border-[1px] border-stone-200 rounded-sm items-center px-[16px] py-[6px]'>
+                              <div
+                                    className='w-full h-[50px] max-w-auto group flex gap-[10px] px-[18px] py-[2px] items-center border-[1px] border-blue-700 rounded'
+                                    tabIndex={0}
+                              >
                                     <input
                                           {...register('new_confirm_password')}
                                           type={showNewConfirmPassword}
                                           id='confirm_password'
-                                          className='w-[90%] border-none p-[0px]'
                                           placeholder='Nhập lại mật khẩu mới'
+                                          className='w-full max-w-auto border-none h-full outline-none py-[8px]'
                                     />
                                     <div
                                           className='icon w-[15px] h-[15px'
@@ -120,12 +185,15 @@ const CustomerUpdatePassword = () => {
                                           )}
                                     </div>
                               </div>
+                              <span className='text-[11px] text-stone-600'>Mật khẩu phải dài từ 8 đến 32 ký tự, bao gồm chữ và số</span>
                         </div>
-                        <div className='h-[15%] w-full rounded-lg'>
-                              <button className='w-full bg-stone-200 text-[rgba(0,0,0,.2)] rounded-[4px]  p-[8px]' type='submit'>
-                                    Lưu thay đổi
-                              </button>
-                        </div>
+                        <button
+                              type='submit'
+                              className='w-full h-[45px] flex items-center justify-center gap-[14px] bg-blue-700 text-white rounded-md'
+                        >
+                              <span>Lưu thay đổi</span>
+                              {updatePasswordMutation.isPending && <BoxLoading />}
+                        </button>
                   </form>
             </div>
       )

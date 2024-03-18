@@ -40,6 +40,21 @@ class AccountService {
       static async deleteAddress({ address_id }: { address_id: string }) {
             return axiosCustom.delete<TResponseApi<{ user: UserResponse }>>(`v1/api/account/delete-address/${address_id}`)
       }
+
+      static async securityPassword({ password }: { password: string }) {
+            return axiosCustom.post<TResponseApi<{ message: boolean }>>('/v1/api/account/check-password', { password })
+      }
+
+      static async updateEmail({ password, newEmail }: { password: string; newEmail: string }) {
+            return axiosCustom.post<TResponseApi<{ user: UserResponse }>>('/v1/api/account/update-email', { password, newEmail })
+      }
+
+      static async updatePassword({ password, newPassword }: { password: string; newPassword: string }) {
+            return axiosCustom.post<TResponseApi<{ user: UserResponse; message: string }>>('/v1/api/account/update-password', {
+                  password,
+                  newPassword,
+            })
+      }
 }
 
 export default AccountService

@@ -1,18 +1,15 @@
 import React, { memo, useRef, useState } from 'react'
 
 import { useEffect } from 'react'
-import SeacrhInput from './Components/HeaderSearch'
 import HeaderActions from './Components/HeaderActions'
-import HeaderCart from './Components/HeaderCart'
 import HeaderTagsLocation from './Components/HeaderTagsLocation'
 import HeaderLogoToggle from './Components/HeaderLogoToggle'
 import HeaderSeacrhInput from './Components/HeaderSearch'
 import { Link, useLocation } from 'react-router-dom'
-import { throttle } from 'lodash'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
-import { getAddressDefault, renderStringAddress, renderStringAddressDetail, renderStringAddressDetailV2 } from '../../utils/address.util'
+import { getAddressDefault, renderStringAddressDetailV2 } from '../../utils/address.util'
 
 function HeaderSlogan() {
       return (
@@ -32,7 +29,6 @@ function HeaderSlogan() {
 
 function Header() {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
-
       useEffect(() => {
             window.scrollTo(0, 0)
       }, [])
@@ -61,15 +57,20 @@ function Header() {
                                                 <img
                                                       src='https://salt.tikicdn.com/ts/upload/88/5c/9d/f5ee506836792eb7775e527ef8350a44.png'
                                                       alt='Location'
-                                                      width={25}
-                                                      height={25}
+                                                      width={20}
+                                                      height={2}
                                                       className='mr-[4px]'
                                                 />
                                                 <div className='text-[11px] text-slate-500'>
                                                       {getAddressDefault(user?.user_address) ? (
-                                                            `Giao đến ${
-                                                                  address_default ? renderStringAddressDetailV2(address_default[0]) : ''
-                                                            }`
+                                                            <p className='flex gap-[8px]'>
+                                                                  <span>Giao đến</span>
+                                                                  <span className='underline text-slate-800 font-bold'>
+                                                                        {address_default
+                                                                              ? renderStringAddressDetailV2(address_default[0])
+                                                                              : ''}
+                                                                  </span>
+                                                            </p>
                                                       ) : (
                                                             <p className='flex gap-[4px] text-[11px]'>
                                                                   <span>[BẠN CHƯA THIẾT LẬP ĐỊA CHỈ GIAO HÀNG MẶC ĐỊNH]</span>

@@ -10,6 +10,11 @@ export const convertDateToString = (date: Date) => {
       return `${day}/${month}/${year}`
 }
 
+export const getYear = (date: Date) => {
+      const year = new Date(date).getFullYear()
+      return year
+}
+
 export const convertWeekday = (date: Date) => {
       let day = ''
       switch (date.getDay()) {

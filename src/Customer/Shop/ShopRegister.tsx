@@ -13,7 +13,13 @@ const ShopRegister = () => {
                         Đăng kí shop
                   </button>
 
-                  {openForm && <BoxShopForm defaultValues={{ shop_avatar: '', shop_name: '' }} modeForm='UPLOAD' onClose={setOpenForm} />}
+                  {openForm && (
+                        <BoxShopForm
+                              defaultValues={{ shop_avatar: '', shop_name: '', shop_description: '' }}
+                              modeForm='UPLOAD'
+                              onClose={setOpenForm}
+                        />
+                  )}
             </div>
       )
 }

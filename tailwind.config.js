@@ -29,6 +29,8 @@ module.exports = {
 				cloudFly: "cloudFly  1s forwards ",
 				rainDown: "rainDown  5s infinite",
 				runLeft: "runLeft 1s",
+				runTop: "runTop 1s",
+
 				runRight: "runRight .8s infinite",
 			},
 			keyframes: {
@@ -36,6 +38,11 @@ module.exports = {
 					"50%": {
 						opacity: 0.5,
 					},
+				},
+
+				runTop: {
+					"0%": { top: "-150%" },
+					"100%": { top: 0 },
 				},
 
 				runLeft: {

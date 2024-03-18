@@ -34,7 +34,7 @@ const DeleteProduct = (props: TProps) => {
 
       return (
             <Portal>
-                  <div className='fixed bg-[rgba(0,0,0,.8)] inset-0 flex items-center justify-center'>
+                  <div className='fixed bg-[rgba(0,0,0,.2)] z-[500] inset-0 flex items-center justify-center'>
                         <div className='w-[400px] h-[150px] bg-white rounded-md'>
                               <div className='h-full flex flex-col gap-[8px] px-[12px] py-[10px]'>
                                     <div className='flex flex-wrap gap-[4px] '>

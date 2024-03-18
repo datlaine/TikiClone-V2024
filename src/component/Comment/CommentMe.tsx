@@ -13,10 +13,11 @@ import BoxConfirmDelete from '../BoxUi/confirm/BoxConfirmDelete'
 
 type TProps = {
       product: TProductDetail
+      ownerProduct: string
 }
 
 const CommentMe = (props: TProps) => {
-      const { product } = props
+      const { product, ownerProduct } = props
 
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const dispatch = useDispatch()
@@ -60,6 +61,15 @@ const CommentMe = (props: TProps) => {
       }
 
       const onOpenModel = (cb: React.Dispatch<SetStateAction<boolean>>) => {
+            console.log({ User: user?._id, owner: ownerProduct })
+
+            if (ownerProduct === user._id) {
+                  dispatch(
+                        addToast({ id: Math.random().toString(), message: 'Bạn không đánh giá sản phẩm của chính mình', type: 'WARNNING' }),
+                  )
+                  return
+            }
+
             if (!user) {
                   dispatch(addToast({ id: Math.random().toString(), type: 'WARNNING', message: 'Vui lòng đăng nhập để đánh giá sản phẩm' }))
                   return
@@ -81,19 +91,19 @@ const CommentMe = (props: TProps) => {
       return (
             <div>
                   {getMeCommentQuery.data?.data.metadata.comment && comment && (
-                        <div className='relative ' id={`${comment._id}`}>
+                        <div className='relative ' id={'comment_me'}>
                               <CommentItem comment={comment} />
                               {user?._id === comment?.comment_user_id?._id && (
                                     <>
                                           <button
-                                                className='absolute bottom-[0px] right-[45px] xl:bottom-[30px] xl:right-[70px]'
+                                                className='absolute bottom-[0px] right-[45px]  xl:right-[70px]'
                                                 onClick={() => onOpenModel(setopenBoxUpdate)}
                                           >
                                                 Chỉnh sửa
                                           </button>
 
                                           <button
-                                                className='absolute bottom-[0px] right-[4px] xl:bottom-[30px] xl:right-[30px] text-red-600'
+                                                className='absolute bottom-[0px] right-[4px]  xl:right-[30px] text-red-600'
                                                 onClick={() => onOpenModel(setOpenBoxDelete)}
                                           >
                                                 Xóa

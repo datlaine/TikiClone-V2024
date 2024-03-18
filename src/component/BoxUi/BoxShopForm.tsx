@@ -1,17 +1,17 @@
 import { Plus, X } from 'lucide-react'
 import React, { SetStateAction, useEffect, useRef, useState } from 'react'
 import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import InputText from '../../Customer/Sell/components/InputText'
-import { register } from 'module'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import ShopApi, { RegisterShop, StateFile } from '../../apis/shop.api'
 import { useDispatch } from 'react-redux'
 import { addToast } from '../../Redux/toast'
 import BoxLoading from './BoxLoading'
 import { fetchUser } from '../../Redux/authenticationSlice'
+import TextArea from 'antd/es/input/TextArea'
 
 type TForm = {
       shop_name: string
+      shop_description: string
 }
 
 /*
@@ -23,7 +23,7 @@ export type ModeForm = 'UPLOAD' | 'UPDATE'
 type TProps = {
       onClose: React.Dispatch<SetStateAction<boolean>>
       modeForm: ModeForm
-      defaultValues: { shop_name: string; shop_avatar: string }
+      defaultValues: { shop_name: string; shop_avatar: string; shop_description: string }
 }
 
 const BoxShopForm = (props: TProps) => {
@@ -32,11 +32,12 @@ const BoxShopForm = (props: TProps) => {
       const inputAvatar = useRef<HTMLInputElement | null>(null)
       const [preview, setPreview] = useState<string>(defaultValues.shop_avatar)
       const [imageAvatar, setImageAvatar] = useState<File>()
+
       const queryClieny = useQueryClient()
       const dispatch = useDispatch()
 
       const form = useForm<TForm>({
-            defaultValues: { shop_name: defaultValues.shop_name },
+            defaultValues: { shop_name: defaultValues.shop_name, shop_description: defaultValues.shop_description },
       })
 
       const onClickAvatar = () => {
@@ -87,6 +88,7 @@ const BoxShopForm = (props: TProps) => {
             const formData: RegisterShop = new FormData()
             formData.append('file', imageAvatar as File)
             formData.append('shop_name', dataForm.shop_name)
+            formData.append('shop_description', dataForm.shop_description)
             registerShopMutation.mutate({ data: formData, state: imageAvatar ? 'Full' : 'no-file', mode: modeForm })
       }
 
@@ -98,21 +100,21 @@ const BoxShopForm = (props: TProps) => {
 
       return (
             <div className='fixed inset-0 bg-[rgba(0,0,0,.4)] h-screen flex items-center justify-center z-[500]'>
-                  <div className='animate-authBox w-[300px] xl:w-[700px] min-h-[300px] h-max  mx-[10px] xl:mx-0 bg-red-800 '>
+                  <div className='animate-authBox w-[300px] xl:w-[700px] min-h-[480px] h-max  mx-[10px] xl:mx-0 bg-red-800 '>
                         <FormProvider {...form}>
                               <form
-                                    className='relative w-full h-[575px] xl:h-[300px] flex flex-col xl:flex-row  bg-[#ffffff] rounded-lg'
+                                    className='relative w-full h-[575px] xl:h-[480px] flex flex-col xl:flex-row  bg-[#ffffff] rounded-lg'
                                     onSubmit={form.handleSubmit(onSubmit)}
                               >
                                     <div className='w-full xl:w-[40%] h-full bg-[rgb(245_245_250)] pb-[16px] xl:pb-0'>
                                           <div className='flex flex-col items-center mt-[30px]'>
                                                 <div
-                                                      className='relative w-[180px] h-[180px] flex flex-col items-center justify-center bg-gray-200 rounded-full border-[6px] border-blue-300'
+                                                      className='relative w-[180px] h-[180px] flex flex-col items-center justify-center bg-[#ffffff] rounded-full border-[6px] border-blue-300'
                                                       onClick={onClickAvatar}
                                                 >
                                                       {preview && <img src={preview} className='w-full h-full rounded-full' alt='avatar' />}
 
-                                                      {!preview && <Plus size={40} color='blue' />}
+                                                      {!preview && <Plus size={30} color='blue' />}
                                                 </div>
 
                                                 {preview && (
@@ -142,6 +144,7 @@ const BoxShopForm = (props: TProps) => {
                                                 <label htmlFor='shop_name'>Tên Shop</label>
                                                 <input
                                                       type='text'
+                                                      placeholder='Nhập tên shop'
                                                       id='shop_name'
                                                       className='w-full h-[40px] p-[12px_24px] bg-[#ffffff] rounded outline-none border-[1px] border-gray-300'
                                                       {...form.register('shop_name', {
@@ -149,6 +152,13 @@ const BoxShopForm = (props: TProps) => {
                                                             minLength: { value: 3, message: 'Tối thiểu 3 kí tự' },
                                                             maxLength: { value: 150, message: 'Tối thiểu 150 kí tự' },
                                                       })}
+                                                />
+                                                <Controller
+                                                      control={form.control}
+                                                      name='shop_description'
+                                                      render={({ field }) => (
+                                                            <TextArea rows={10} {...field} placeholder='Nhập mô tả của shop'></TextArea>
+                                                      )}
                                                 />
                                           </div>
                                           <button className='mt-[20px] w-max flex items-center gap-[16px] p-[12px_14px] border-[1px] border-blue-500 bg-[#ffffff] text-blue-500 rounded-md hover:bg-blue-500 hover:text-white hover:cursor-pointer transition-all duration-300'>

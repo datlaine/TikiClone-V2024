@@ -1,31 +1,121 @@
+import { Mail } from 'lucide-react'
 import { RootState } from '../../../store'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { UserResponse } from '../../../types/user.type'
+import { useEffect, useRef, useState } from 'react'
+import { addToast } from '../../../Redux/toast'
+import { validateEmail } from '../../../utils/account.utils'
+import CustomerPasswordSecurity from '../form/CustomerPasswordSecurity'
+import { check } from 'prettier'
+import { useMutation } from '@tanstack/react-query'
+import AccountService from '../../../apis/account.service'
+import { fetchUser } from '../../../Redux/authenticationSlice'
+import BoxLoading from '../../../component/BoxUi/BoxLoading'
 
 // () => api
 const CustomerUpdateEmail = () => {
-      const user = useSelector((state: RootState) => state.authentication.user)
-      const emailLength = user.email.length
-      // const emailFake = 'sdsssssssssssssssdsdsdsdssssdsdddddddddđssssssdsadsadsasssssssssssssssssssssss'
-      console.log(emailLength, user.email)
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+
+      const [email, setEmail] = useState<string>(user?.email || '')
+      const [password, setPassword] = useState<string>('')
+
+      const [openSecurity, setOpenSecurity] = useState<boolean>(false)
+      const [checkSecurity, setCheckSecurity] = useState<boolean>(false)
+      const buttonSubmit = useRef<HTMLButtonElement>(null)
+
+      const dispatch = useDispatch()
+
+      const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+            setEmail(e.target.value)
+      }
+
+      const onSubmit = (e: React.FormEvent) => {
+            e.preventDefault()
+            if (!email) {
+                  dispatch(addToast({ id: Math.random().toString(), message: 'Bạn không thể gửi email rỗng', type: 'WARNNING' }))
+                  return
+            }
+
+            if (email === user?.email) {
+                  dispatch(addToast({ id: Math.random().toString(), message: 'Email không có sự thay đổi', type: 'WARNNING' }))
+                  return
+            }
+
+            if (!checkSecurity) {
+                  setOpenSecurity(true)
+                  return
+            }
+            updateEmailMutation.mutate({ password, newEmail: email })
+            // const checkEmail = validateEmail(email)
+            // console.log({ checkEmail })
+      }
+
+      useEffect(() => {
+            if (openSecurity) {
+                  document.body.style.overflow = 'hidden'
+            } else {
+                  document.body.style.overflow = 'unset'
+            }
+      }, [openSecurity])
+
+      useEffect(() => {
+            if (checkSecurity) {
+                  buttonSubmit.current?.click()
+            }
+      }, [checkSecurity])
+
+      const updateEmailMutation = useMutation({
+            mutationKey: ['/v1/api/account/update-email'],
+            mutationFn: ({ password, newEmail }: { password: string; newEmail: string }) =>
+                  AccountService.updateEmail({ password, newEmail }),
+            onSuccess: (axiosResponse) => {
+                  const { user } = axiosResponse.data.metadata
+                  dispatch(fetchUser({ user }))
+                  dispatch(addToast({ id: Math.random().toString(), message: 'Cập nhập Email thành công', type: 'SUCCESS' }))
+            },
+      })
+
       return (
-            <div className='flex items-center justify-center w-full h-[200px]  '>
+            <div className='flex items-center justify-center w-full min-h-[200px] h-max  bg-[#ffffff] py-[60px] rounded'>
                   <form
-                        className='flex flex-col gap-[6px]  min-w-[150px] sm:min-w-[400px]  max-w-auto h-full p-[15px] rounded-sm  border-[1px] border-stone-300'
+                        className='flex flex-col gap-[16px]  min-w-[150px] xl:min-w-[400px] xl:min-h-[150px] h-max max-w-auto  p-[24px] rounded-sm  shadow-2xl border-[1px] border-slate-100 bg-[#ffffff]'
                         style={{ width: Number(user.email.length) * 10 }}
+                        onSubmit={onSubmit}
                   >
-                        <label htmlFor='account_email_update'>Địa chỉ email</label>
+                        <label htmlFor='account_email_update' className='[word-spacing:1px] text-[16px] text-black font-medium '>
+                              Địa chỉ Email
+                        </label>
+
                         <div
-                              className='w-full max-w-auto group flex gap-[10px] px-[16px] py-[2px] items-center border-[1px] border-blue-700'
+                              className='w-full h-[50px] max-w-auto group flex gap-[10px] px-[8px] py-[2px] items-center border-[1px] border-blue-700 rounded'
                               tabIndex={0}
                         >
-                              <div className='icon w-[25px] h-[25px] bg-blue-50'></div>
-                              <input className='w-full max-w-auto border-none' type='text' id='account_email_update' value={user.email} />
-                              {/* <span className='w-[5px] h-[15px] bg-black hidden group-focus:inline'>x</span> */}
+                              <Mail />
+                              <input
+                                    className='w-full max-w-auto border-none h-full outline-none py-[8px]'
+                                    type='text'
+                                    id='account_email_update'
+                                    value={email}
+                                    onChange={onChangeEmail}
+                              />
                         </div>
-                        <button type='submit' className='w-full h-[45px] bg-blue-700 text-white rounded-md'>
-                              Lưu thay đổi
+                        <button
+                              type='submit'
+                              className='w-full h-[45px] flex items-center justify-center gap-[14px] bg-blue-700 text-white rounded-md'
+                        >
+                              <span>Lưu thay đổi</span>
+
+                              {updateEmailMutation.isPending && <BoxLoading />}
                         </button>
                   </form>
+                  {openSecurity && (
+                        <CustomerPasswordSecurity
+                              onCheck={setCheckSecurity}
+                              onClose={setOpenSecurity}
+                              user={user}
+                              onGetPassword={setPassword}
+                        />
+                  )}
             </div>
       )
 }

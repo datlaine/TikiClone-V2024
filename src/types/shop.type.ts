@@ -1,10 +1,12 @@
 import { TCloudinaryImage } from '../Customer/Sell/types/cloudinary.typs'
+import { TProductDetail } from './product/product.type'
+import { UserResponse } from './user.type'
 
 export type ShopResponse = {
       _id: string
-      owner: string
+      owner: UserResponse
       __v: number
-      createdAt: string
+      createdAt: Date
       shop_avatar: TCloudinaryImage
       shop_avatar_default: string
       shop_avatar_used: TCloudinaryImage[]
@@ -12,4 +14,6 @@ export type ShopResponse = {
       shop_vote: number
       shop_count_total_vote: number
       updatedAt: string
+      shop_products: TProductDetail[]
+      shop_description: string
 }

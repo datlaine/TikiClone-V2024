@@ -239,6 +239,12 @@ class ProductApi {
                   { params: { text } },
             )
       }
+
+      static async getProductName({ text, shop_id, page, limit }: { text: string; shop_id: string; page: number; limit: number }) {
+            return axiosCustom.get<TResponseApi<{ shop: ShopResponse }>>('/v1/api/product/get-product-name', {
+                  params: { text, shop_id, page, limit },
+            })
+      }
 }
 
 export default ProductApi

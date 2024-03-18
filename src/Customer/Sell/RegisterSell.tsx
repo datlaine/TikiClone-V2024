@@ -27,6 +27,7 @@ import {
       timelineFieldNameFood,
       timelineLabelNameFood,
 } from '../../types/timeline/timeline.food.type'
+import { Link } from 'react-router-dom'
 
 // const version2 = t
 
@@ -63,6 +64,7 @@ const defaultValuesFood: ProductFoodForm = {
 const RegisterSell = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const [productType, setProductType] = useState<'Book' | 'Food'>()
+      const [openSelect, setOpenSelect] = useState<boolean>(false)
 
       const createBaseProductId = useMutation({
             mutationKey: ['create-base-product-id'],
@@ -70,60 +72,83 @@ const RegisterSell = () => {
       })
 
       if (!user.isOpenShop) {
-            return <h1>Chức năng chỉ dành cho email đã được xác thực</h1>
+            return (
+                  <div className='w-full h-[500px] bg-[#ffffff] rounded-lg flex flex-col gap-[30px] items-center justify-center text-[20px] font-semibold'>
+                        <span>Chức năng chỉ dành cho các tài khoản đã đăng kí shop</span>
+                        <Link
+                              className='w-[150px] h-[40px] flex items-center justify-center bg-[#ffffff] border-[1px] border-blue-400 text-blue-400 rounded'
+                              to={'/customer/shop'}
+                        >
+                              Đăng kí shop
+                        </Link>
+                  </div>
+            )
       }
       return (
-            <div className='min-w-full min-h-[100px] h-auto flex bg-[#ffffff] p-[20px] '>
-                  <div className=' w-full h-full'>
-                        <Select
-                              className='w-[150px]'
-                              placeholder='Loại sản phẩm'
-                              options={[
-                                    { value: 'Book', label: 'Book' },
-                                    { value: 'Food', label: 'Food' },
-                              ]}
-                              onChange={(type: 'Book' | 'Food') => {
-                                    setProductType(type)
-                                    createBaseProductId.mutate()
-                              }}
-                        />
-                        {createBaseProductId.isSuccess && (
-                              <>
-                                    {productType === 'Book' && (
-                                          <ProductFormUpload<TTimeLineBookField, TTimeLineBookLabel>
-                                                ProductType={'Book'}
-                                                ProductAttribute={<Book mode='UPLOAD' />}
-                                                product_id={createBaseProductId.data.data.metadata.product_id}
-                                                TimelineProps={renderTimeLine({
-                                                      defaultFieldName: timelineFieldNameBook,
-                                                      defaultLabelName: timelineLabelNameBook,
-                                                })}
-                                                endpointUrl='v1/api/product/upload-product-book'
-                                                defaultValues={defaultValuesForm}
-                                          />
-                                    )}
+            <div className='min-w-full min-h-[100px] h-auto flex items-center justify-center bg-[#ffffff] p-[20px] '>
+                  {!openSelect && (
+                        <button
+                              className='w-[150px] h-[40px] bg-[#ffffff] border-[1px] border-blue-400 text-blue-400 rounded'
+                              onClick={() => setOpenSelect(true)}
+                        >
+                              Đăng sản phẩm
+                        </button>
+                  )}
 
-                                    {productType === 'Food' && (
-                                          <>
-                                                <span>{productType}</span>
-                                                <ProductFormUpload<TimelineFoodFieldName, TimelineFoodLabel>
-                                                      ProductType={'Food'}
-                                                      ProductAttribute={<Food />}
+                  {openSelect && (
+                        <div className='w-full h-full flex flex-col justify-center'>
+                              <div className='w-full h-[50px] flex justify-center'>
+                                    <Select
+                                          className='w-[150px] '
+                                          placeholder='Loại sản phẩm'
+                                          options={[
+                                                { value: 'Book', label: 'Book' },
+                                                { value: 'Food', label: 'Food' },
+                                          ]}
+                                          onChange={(type: 'Book' | 'Food') => {
+                                                setProductType(type)
+                                                createBaseProductId.mutate()
+                                          }}
+                                    />
+                              </div>
+                              {createBaseProductId.isSuccess && (
+                                    <div className='w-full h-max '>
+                                          {productType === 'Book' && (
+                                                <ProductFormUpload<TTimeLineBookField, TTimeLineBookLabel>
+                                                      ProductType={'Book'}
+                                                      ProductAttribute={<Book mode='UPLOAD' />}
                                                       product_id={createBaseProductId.data.data.metadata.product_id}
                                                       TimelineProps={renderTimeLine({
-                                                            defaultFieldName: timelineFieldNameFood,
-                                                            defaultLabelName: timelineLabelNameFood,
+                                                            defaultFieldName: timelineFieldNameBook,
+                                                            defaultLabelName: timelineLabelNameBook,
                                                       })}
-                                                      endpointUrl='v1/api/product/upload-product-food'
-                                                      defaultValues={defaultValuesFood}
+                                                      endpointUrl='v1/api/product/upload-product-book'
+                                                      defaultValues={defaultValuesForm}
                                                 />
-                                          </>
-                                    )}
-                              </>
-                        )}
+                                          )}
 
-                        {createBaseProductId.isPending && <ProductFormSkeleton />}
-                  </div>
+                                          {productType === 'Food' && (
+                                                <>
+                                                      <span>{productType}</span>
+                                                      <ProductFormUpload<TimelineFoodFieldName, TimelineFoodLabel>
+                                                            ProductType={'Food'}
+                                                            ProductAttribute={<Food />}
+                                                            product_id={createBaseProductId.data.data.metadata.product_id}
+                                                            TimelineProps={renderTimeLine({
+                                                                  defaultFieldName: timelineFieldNameFood,
+                                                                  defaultLabelName: timelineLabelNameFood,
+                                                            })}
+                                                            endpointUrl='v1/api/product/upload-product-food'
+                                                            defaultValues={defaultValuesFood}
+                                                      />
+                                                </>
+                                          )}
+                                    </div>
+                              )}
+
+                              {createBaseProductId.isPending && <ProductFormSkeleton />}
+                        </div>
+                  )}
             </div>
       )
 }

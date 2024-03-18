@@ -22,30 +22,36 @@ const HeaderSeacrhInput = () => {
             setText(value)
       }
 
+      console.log('re-render')
+
       const onReset = useCallback(() => {
             setText('')
             setShowSearch(false)
             dispatch(onShowOverload({ overload: false }))
       }, [])
 
-      const controllShowResultSearch = useCallback(
-            (e: MouseEvent) => {
-                  if (divRef.current && !divRef.current.contains(e.target as Node)) {
-                        setShowSearch(false)
-                        dispatch(onShowOverload({ overload: false }))
-                  }
-            },
-            [setShowSearch],
-      )
+      const controllShowResultSearch = useCallback((e: MouseEvent) => {
+            console.log('check')
+
+            if (divRef.current && !divRef.current.contains(e.target as Node)) {
+                  setShowSearch(false)
+                  dispatch(onShowOverload({ overload: false }))
+            }
+      }, [])
 
       useEffect(() => {
             console.log('check')
-            document.addEventListener('click', controllShowResultSearch)
+            if (!showSearch) {
+                  document.removeEventListener('click', controllShowResultSearch)
+            }
+            if (showSearch) {
+                  document.addEventListener('click', controllShowResultSearch)
+            }
             return () => {
                   console.log('remove')
                   document.removeEventListener('click', controllShowResultSearch)
             }
-      }, [controllShowResultSearch])
+      }, [controllShowResultSearch, showSearch])
 
       useEffect(() => {
             timer.current = setTimeout(() => {
@@ -86,6 +92,7 @@ const HeaderSeacrhInput = () => {
                                                 }
                                                 dispatch(onShowOverload({ overload: true }))
                                           }}
+                                          onBlur={() => {}}
                                     />
                               </div>
                               <div className='hidden xl:flex group basis-[25%]  lg:basis-[28%] 2xl:basis-[11%]   items-center transition-all duration-200 before:content-["|"] before:text-gray-300 before:text-2xl: opacity-80 hover:before:opacity-0 hover:bg-sky-700 '>

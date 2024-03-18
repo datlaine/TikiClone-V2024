@@ -152,7 +152,7 @@ const BoxAvatarMode = (props: TProps) => {
                                                             onFetchAvatarKey='avatar-used'
                                                             AvatarSource={{
                                                                   avatar: user.avatar?.secure_url,
-                                                                  avatar_default: user.avatar_default_url,
+                                                                  avatar_default: user.avatar_url_default,
                                                             }}
                                                             AvatarImageUsed={user.avatar_used}
                                                             onFetchAvatarFn={AccountService.getAllAvatar}
@@ -172,7 +172,7 @@ const BoxAvatarMode = (props: TProps) => {
                                                             modeDispatch={modeDispatch}
                                                             AvatarSource={{
                                                                   avatar: user.avatar?.secure_url,
-                                                                  avatar_default: user.avatar_default_url,
+                                                                  avatar_default: user.avatar_url_default,
                                                             }}
                                                             onDeleteFn={AccountService.deleteAvatar}
                                                             onDeleteKey='delete-avatar'

@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react'
+import React, { SetStateAction, useEffect, useState } from 'react'
 import { TModeAuth } from './AuthWrapper'
 import { Eye, EyeOff, ShieldX } from 'lucide-react'
 import * as z from 'zod'
@@ -101,92 +101,65 @@ const AuthRegister = (props: TProps) => {
             authRegister.mutate(data)
       }
 
+      useEffect(() => {
+            if (Object.keys(errors).length > 0) {
+                  const subMessage: string[] = []
+                  Object.keys(errors).map((key) => {
+                        subMessage.push(`Field ${key} đã xảy ra lỗi, vui lòng ${errors[key as keyof TRegisterZodSchema]?.message}`)
+                  })
+
+                  dispatch(addToast({ id: Math.random().toString(), subMessage, message: 'Error', type: 'WARNNING' }))
+            }
+      }, [errors, dispatch])
+
+      console.log({ errors })
+
       return (
             <div className='flex flex-col items-center gap-[15px] py-[35px]'>
-                  <h3
-                        className={`${
-                              Object.keys(errors).length > 0 ? 'text-red-700' : 'text-slate-900'
-                        } font-black tracking-[5px] text-[24px]`}
-                  >
-                        Register
-                  </h3>
-                  <h4
-                        className={`${
-                              Object.keys(errors).length > 0 ? 'text-red-700' : 'text-stone-600'
-                        } italic text-[16px] opacity-80 px-[12px]`}
-                  >
-                        Đăng kí để cùng trải nghiệm cảm giác mua sắm
-                  </h4>
+                  <h3 className={`text-slate-900 font-black tracking-[5px] text-[24px]`}>Register</h3>
+                  <h4 className={`text-stone-600 italic text-[16px] opacity-80 px-[12px]`}>Đăng kí để cùng trải nghiệm cảm giác mua sắm</h4>
                   <form className='flex flex-1 flex-col gap-[20px] mt-[12px] w-[70%]' onSubmit={handleSubmit(onSubmit)}>
                         <div className='w-full'>
                               <input
                                     {...register('email')}
                                     type='text'
-                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
-                                          errors.email
-                                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                                : 'border-slate-900 placeholder:text-stone-500  '
-                                    }`}
+                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] border-slate-900 placeholder:text-stone-500  `}
                                     placeholder='Nhập email của bạn'
                               />
                         </div>
-                        {errors.email && (
-                              <div className='flex gap-[6px] items-center mt-[-10px]'>
-                                    <ShieldX size={'18px'} color={'red'} />
-                                    <span className='text-red-700 italic  text-[13px]'>{errors.email.message}</span>
-                              </div>
-                        )}
+
                         <div className='w-full relative flex items-center'>
                               <input
                                     {...register('password')}
                                     type={typePassword}
-                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
-                                          errors.password
-                                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                                : 'border-slate-900 placeholder:text-stone-500  '
-                                    }`}
+                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] border-slate-900 placeholder:text-stone-500`}
                                     placeholder='Nhập mật khẩu của bạn'
                               />
                               <span className='absolute right-[5px]' onClick={handleShowHidePassword}>
                                     {typePassword === 'text' ? (
-                                          <EyeOff size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                          <EyeOff size={'20px'} color={'black'} />
                                     ) : (
-                                          <Eye size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                          <Eye size={'20px'} color={'black'} />
                                     )}
                               </span>
                         </div>
-                        {errors.password && (
-                              <div className='flex gap-[6px] items-center mt-[-10px]'>
-                                    <ShieldX size={'18px'} color={'red'} />
-                                    <span className='text-red-700 italic  text-[13px]'>{errors.password.message}</span>
-                              </div>
-                        )}
 
                         <div className='w-full relative flex items-center'>
                               <input
                                     {...register('confirm_password')}
                                     type={typeConfirmPassword}
-                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
-                                          errors.confirm_password
-                                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                                : 'border-slate-900 placeholder:text-stone-500  '
-                                    }`}
+                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] border-slate-900 placeholder:text-stone-500`}
                                     placeholder='Xác nhận lại mật khẩu'
                               />
                               <span className='absolute right-[5px]  ' onClick={handleShowHidePasswordConfirm}>
                                     {typeConfirmPassword === 'text' ? (
-                                          <EyeOff size={'20px'} color={errors.confirm_password ? 'red' : 'black'} />
+                                          <EyeOff size={'20px'} color={'black'} />
                                     ) : (
-                                          <Eye size={'20px'} color={errors.confirm_password ? 'red' : 'black'} />
+                                          <Eye size={'20px'} color={'black'} />
                                     )}
                               </span>
                         </div>
-                        {errors.confirm_password && (
-                              <div className='flex gap-[6px] items-center mt-[-10px]'>
-                                    <ShieldX size={'18px'} color={'red'} />
-                                    <span className='text-red-700 italic  text-[13px]'>{errors.confirm_password.message}</span>
-                              </div>
-                        )}
+
                         <div className=''>
                               <p>
                                     Bạn đã có tài khoản, {''}
@@ -199,7 +172,7 @@ const AuthRegister = (props: TProps) => {
                               <button
                                     onClick={() => console.log('click')}
                                     type='submit'
-                                    className='flex justify-center items-center gap-[8px] w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
+                                    className='flex justify-center items-center gap-[8px] w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:opacity-50 disabled:cursor-not-allowed'
                                     disabled={!authRegister.isPending && Object.keys(errors).length > 0}
                                     title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
                               >

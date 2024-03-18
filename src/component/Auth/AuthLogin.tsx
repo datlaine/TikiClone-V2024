@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux'
 import { checkAxiosError } from '../../utils/handleAxiosError'
 import TErrorAxios from '../../types/axios.response.error'
 import { doCloseBoxLogin, fetchUser } from '../../Redux/authenticationSlice'
+import { addToast } from '../../Redux/toast'
+import BoxLoading from '../BoxUi/BoxLoading'
 
 type TProps = {
       setModeAuth: React.Dispatch<SetStateAction<TModeAuth>>
@@ -76,7 +78,13 @@ const AuthLogin = (props: TProps) => {
                               error?.response?.statusText === 'Not Found' &&
                               error?.response?.data?.detail === 'Not found Email'
                         ) {
-                              setShowToast(true)
+                              dispatch(
+                                    addToast({
+                                          id: Math.random().toString(),
+                                          message: 'Không tìm thấy thông tin đăng nhập',
+                                          type: 'ERROR',
+                                    }),
+                              )
                         }
                   }
             },
@@ -99,70 +107,46 @@ const AuthLogin = (props: TProps) => {
             authLogin.mutate(form)
       }
 
+      useEffect(() => {
+            if (Object.keys(errors).length > 0) {
+                  const subMessage: string[] = []
+                  Object.keys(errors).map((key) => {
+                        subMessage.push(`Field ${key} đã xảy ra lỗi, vui lòng ${errors[key as keyof TFormLogin]?.message}`)
+                  })
+
+                  dispatch(addToast({ id: Math.random().toString(), subMessage, message: 'Error', type: 'WARNNING' }))
+            }
+      }, [errors, dispatch])
+
       return (
             <div className=' flex flex-col items-center gap-[15px] py-[35px]'>
-                  {/* {toast && <BoxToast setShowToast={setShowToast} message={'Thông tin không hợp lệ'} children={<p>OK</p>} />} */}
-
-                  <h3
-                        className={`${
-                              Object.keys(errors).length > 0 ? 'text-red-700' : 'text-slate-900'
-                        } font-black tracking-[5px] text-[24px]`}
-                  >
-                        Login
-                  </h3>
-                  <h4
-                        className={`${
-                              Object.keys(errors).length > 0 ? 'text-red-700' : 'text-stone-600'
-                        } italic text-[16px] opacity-80 px-[12px]`}
-                  >
-                        Đăng nhập để trải nghiệm mua sắm thỏa thích
-                  </h4>
+                  <h3 className={`text-slate-900 font-black tracking-[5px] text-[24px]`}>Login</h3>
+                  <h4 className={`text-stone-600 italic text-[16px] opacity-80 px-[12px]`}>Đăng nhập để trải nghiệm mua sắm thỏa thích</h4>
                   <form className='flex flex-1 flex-col gap-[20px] mt-[12px] w-[70%]' noValidate onSubmit={handleSubmit(onSubmit)}>
                         <div className='w-full flex flex-col gap-[16px]'>
                               <input
                                     {...register('email')}
                                     type='text'
-                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
-                                          errors.email
-                                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                                : 'border-slate-900 placeholder:text-stone-500  '
-                                    }
-}`}
+                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] border-slate-900 placeholder:text-stone-500  `}
                                     placeholder='Email'
                               />
-                              {errors.email && (
-                                    <div className='flex gap-[6px] items-center mt-[-10px]'>
-                                          <ShieldX size={'18px'} color={'red'} />
-                                          <span className='text-red-700 italic  text-[13px]'>{errors.email.message}</span>
-                                    </div>
-                              )}
                         </div>
                         <div className='w-full relative flex items-center'>
                               <input
                                     {...register('password')}
                                     type={typePassword}
-                                    className={`
-h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
-                                          errors.password
-                                                ? ' placeholder:text-red-700 placeholder:italic text-[12px] border-red-700'
-                                                : 'border-slate-900 placeholder:text-stone-500  '
-                                    }`}
+                                    className={`h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] border-slate-900 placeholder:text-stone-500 `}
                                     placeholder='Mật khẩu'
                               />
                               <span className='absolute right-[5px]' onClick={handleShowHidePassword}>
                                     {typePassword === 'text' ? (
-                                          <EyeOff size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                          <EyeOff size={'20px'} color={'black'} />
                                     ) : (
-                                          <Eye size={'20px'} color={errors.password ? 'red' : 'black'} />
+                                          <Eye size={'20px'} color={'black'} />
                                     )}
                               </span>
                         </div>
-                        {errors.password && (
-                              <div className='flex gap-[6px] items-center mt-[-10px]'>
-                                    <ShieldX size={'18px'} color={'red'} />
-                                    <span className='text-red-700 italic  text-[13px]'>{errors.password.message}</span>
-                              </div>
-                        )}
+
                         <div className=''>
                               <p>
                                     Bạn chưa có tài khoản,{' '}
@@ -173,17 +157,12 @@ h-[36px] w-full border-[1px]  outline-none px-[12px] py-[4px] rounded-[3px] ${
                         </div>
                         <button
                               type='submit'
-                              className='flex justify-center items-center gap-[8px] w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:bg-stone-400 disabled:cursor-not-allowed'
+                              className='flex justify-center items-center gap-[8px] w-full h-[60px] rounded-lg bg-slate-900 text-white disabled:opacity-40 disabled:cursor-not-allowed'
                               disabled={authLogin.isPending && Object.keys(errors).length > 0}
                               title={Object.keys(errors).length > 0 ? 'Vui lòng nhập thông tin hợp lệ' : `Đăng nhập`}
                         >
                               <span>Login</span>
-                              {authLogin.isPending && (
-                                    <span
-                                          className=' inline-block h-[25px] w-[25px] text-[#ffffff] animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]'
-                                          role='status'
-                                    ></span>
-                              )}
+                              {authLogin.isPending && <BoxLoading />}
                         </button>
                   </form>
             </div>

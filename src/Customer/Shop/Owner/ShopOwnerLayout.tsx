@@ -7,22 +7,30 @@ import BoxShopForm from '../../../component/BoxUi/BoxShopForm'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { UserResponse } from '../../../types/user.type'
+import { Link } from 'react-router-dom'
 
 type TProps = {
       shop: ShopResponse
 }
 
-type FilterMode = 'NAME' | 'TYPE' | 'BEST_SELLER'
+type FilterMode = 'PRODUCT_SHOP' | 'BEST_SELLER' | 'NAVIGATE_SHOP_PUBLIC'
 
 const ShopOwnerLayout = (props: TProps) => {
       const { shop } = props
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
-      const [filterMode, setfilterMode] = useState<FilterMode>()
+      const [filterMode, setfilterMode] = useState<FilterMode>('PRODUCT_SHOP')
       const [openForm, setOpenForm] = useState<boolean>(false)
       const defaultValues = user?.isOpenShop
-            ? { shop_name: shop.shop_name, shop_avatar: shop.shop_avatar?.secure_url }
-            : { shop_name: '', shop_avatar: '' }
+            ? { shop_name: shop.shop_name, shop_avatar: shop.shop_avatar?.secure_url, shop_description: shop.shop_description }
+            : { shop_name: '', shop_avatar: '', shop_description: '' }
       console.log({ shop })
+
+      const styleEffect = {
+            onActive: (check: boolean) => {
+                  if (check) return 'bg-slate-900 text-white rounded'
+                  return 'bg-white text-slate-900 rounded'
+            },
+      }
 
       return (
             <div className='relative w-full min-h-[200px] h-max flex flex-col'>
@@ -46,29 +54,37 @@ const ShopOwnerLayout = (props: TProps) => {
                               {/* <img src={shop.shop_avatar_default} className='h-full w-full rounded-full' alt='shop_image' /> */}
                         </div>
 
-                        <ul className='ml-[20px] mt-[100px] xl:mt-0 xl:ml-[240px] flex flex-col xl:flex-row min-h-[40px] xl:items-center gap-[16px]'>
-                              <li
-                                    className='px-[16px] py-[12px]  bg-white  rounded-lg hover:bg-slate-900 hover:text-white transition-all duration-500'
-                                    onClick={() => setfilterMode('NAME')}
+                        <div className='ml-[20px] mt-[100px] xl:mt-0 xl:ml-[240px] flex flex-col xl:flex-row min-h-[40px] xl:items-center gap-[16px]'>
+                              <button
+                                    className={`${styleEffect.onActive(
+                                          filterMode === 'PRODUCT_SHOP',
+                                    )} px-[16px] py-[12px]   transition-all duration-500`}
+                                    onClick={() => setfilterMode('PRODUCT_SHOP')}
                               >
                                     Sản phẩm của Shop
-                              </li>
-                              <li
-                                    className='px-[16px] py-[12px] bg-white  rounded-lg hover:bg-slate-900 hover:text-white transition-all duration-500'
-                                    onClick={() => setfilterMode('TYPE')}
-                              >
-                                    Sắp xếp theo loại
-                              </li>
-                              <li
-                                    className='px-[16px] py-[12px] bg-white  rounded-lg hover:bg-slate-900 hover:text-white transition-all duration-500'
+                              </button>
+
+                              <button
+                                    className={`${styleEffect.onActive(
+                                          filterMode === 'BEST_SELLER',
+                                    )} px-[16px] py-[12px]  transition-all duration-500`}
                                     onClick={() => setfilterMode('BEST_SELLER')}
                               >
                                     Các sản phẩm bán chạy
-                              </li>
-                        </ul>
+                              </button>
+                              <Link
+                                    to={`/shop/${shop._id}`}
+                                    className={`${styleEffect.onActive(
+                                          filterMode === 'NAVIGATE_SHOP_PUBLIC',
+                                    )} px-[16px] py-[12px]  transition-all duration-500`}
+                                    onClick={() => setfilterMode('NAVIGATE_SHOP_PUBLIC')}
+                              >
+                                    Trang cửa hàng công khai
+                              </Link>
+                        </div>
                   </div>
 
-                  <div className=' w-full h-max mt-[16px]'>{filterMode === 'NAME' && <OwnerShopFilterName />}</div>
+                  <div className=' w-full h-max mt-[16px]'>{filterMode === 'PRODUCT_SHOP' && <OwnerShopFilterName />}</div>
 
                   {openForm && (
                         <BoxShopForm onClose={setOpenForm} modeForm={user.isOpenShop ? 'UPDATE' : 'UPLOAD'} defaultValues={defaultValues} />

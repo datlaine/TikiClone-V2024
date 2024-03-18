@@ -85,7 +85,7 @@ const ToastDemo = (props: TProps) => {
                         <div
                               onMouseEnter={handleOnMouseEnter}
                               onMouseLeave={handleOnMouseLeave}
-                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] py-[8px] px-[6px] xl:py-[16px] xl:px-[12px] w-[220px] xl:w-[300px]  relative min-w-[140px] xl:min-w-[150px]   min-h-[80px] xl:min-h-[114px] h-max   rounded-lg transition-all duration-1000  flex items-center justify-center`}
+                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] pt-[8px] px-[6px] xl:pt-[16px] pb-[30px] xl:px-[12px] w-[220px] xl:w-[300px]  relative min-w-[140px] xl:min-w-[150px]   min-h-[100px]  xl:min-h-[114px] h-max   rounded-lg transition-all duration-1000  flex items-center justify-center`}
                         >
                               <div
                                     className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[50px] h-[20
@@ -122,9 +122,9 @@ px] xl:w-[60px] xl:h-[30px] flex items-center justify-center rounded-md  text-wh
                                                       {toast.subMessage.map((sub) => (
                                                             <div className='relative flex items-center gap-[8px]' key={sub}>
                                                                   <span
-                                                                        className={`${styleEffect.bgBoxTime} w-[8px] h-[8px] rounded-full`}
+                                                                        className={`${styleEffect.bgBoxTime} min-w-[8px] min-h-[8px] rounded-full`}
                                                                   ></span>
-                                                                  <span>{sub}</span>
+                                                                  <span className='max-w-full break-words'>{sub}</span>
                                                             </div>
                                                       ))}
                                                 </div>

@@ -22,7 +22,6 @@ const AddressItem = (props: TProps) => {
       const [detailAddress, setDetailAdress] = useState<boolean>(false)
       const [loadingIframe, setLoadingIframe] = useState<boolean>(true)
       const iframeRef = useRef<HTMLIFrameElement>(null)
-      const [geolocation, setGeolocation] = useState<{ lat: string; lon: string }>({ lat: '', lon: '' })
       const dispatch = useDispatch()
 
       const setAddressDefaultMutation = useMutation({

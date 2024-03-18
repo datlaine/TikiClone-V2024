@@ -95,7 +95,7 @@ const Product = () => {
                   return (
                         <NotFound
                               ContentHeader='Không tìm thấy sản phẩm'
-                              ContentDescription={user._id === product?.shop_id.owner ? message[1] : message[0]}
+                              ContentDescription={user._id === product?.shop_id.owner._id ? message[1] : message[0]}
                         />
                   )
             }
@@ -134,7 +134,7 @@ const Product = () => {
                                                 />
                                                 <CommentImageAll product_id={product._id} />
                                                 <div className='w-full mt-[16px]'>
-                                                      <CommentMe product={product} />
+                                                      <CommentMe product={product} ownerProduct={product.shop_id.owner._id} />
                                                 </div>
                                                 <Comment product_id={product._id} />
                                           </div>
@@ -147,7 +147,7 @@ const Product = () => {
 
                         {getProductWithId.isPending && (
                               <div className='animate-pulse bg-gray-100 flex gap-[24px]'>
-                                    <div className='  basis-[80%] flex flex-col gap-[24px]'>
+                                    <div className=' w-full flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
                                                 <div className='basis-[40%] bg-gray-100 static min-h-[800px] h-[900px] xl:sticky top-[16px]  p-[8px] rounded-sm   flex flex-col gap-[16px]'>
                                                       <div className='animate-pulse bg-gray-400  basis-[35%] w-full'></div>
@@ -171,7 +171,7 @@ const Product = () => {
                                           </div>
                                           <div className='animate-pulse bg-gray-400 comment w-full h-[1000px] '></div>
                                     </div>
-                                    <div className='animate-pulse bg-gray-400 basis-[20%] sticky top-[16px] h-[300px]'></div>
+                                    {/* <div className='animate-pulse bg-gray-400 basis-[20%] sticky top-[16px] h-[300px]'></div> */}
                               </div>
                         )}
                   </div>

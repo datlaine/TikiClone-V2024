@@ -135,6 +135,7 @@ code {
       display: none;
 }
 
+scrollCustome::-webkit-scrollbar,
 body::-webkit-scrollbar {
       width: 8px;
       scroll-behavior: smooth;
@@ -147,18 +148,21 @@ body::-webkit-scrollbar {
 }
 
 /* Track */
+scrollCustome::-webkit-scrollbar,
 body::-webkit-scrollbar-track {
       background: transparent;
       border-radius: 5px;
 }
 
 /* Handle */
+scrollCustome::-webkit-scrollbar,
 body::-webkit-scrollbar-thumb {
       background: rgb(15 23 42);
       /* border-radius: 5px; */
 }
 
 /* Handle on hover */
+scrollCustome::-webkit-scrollbar,
 body::-webkit-scrollbar-thumb:hover {
       background: #555;
 }

@@ -94,7 +94,7 @@ const CartItem = (props: TProps) => {
       return (
             <div className='min-h-[350px] h-[850px] xl:h-[300px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
                   <div className='flex gap-[12px] h-[14%] xl:h-[30%] items-center'>
-                        <Checkbox disabled={styleEffect.readOnly} />
+                        {/* <Checkbox disabled={styleEffect.readOnly} /> */}
                         <Home />
                         <ChevronRight className='hidden xl:block' />
                         <img

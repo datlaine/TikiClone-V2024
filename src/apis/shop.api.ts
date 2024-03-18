@@ -1,6 +1,6 @@
 import { ModeForm } from '../component/BoxUi/BoxShopForm'
 import { TResponseApi } from '../types/axiosResponse'
-import { ProductType, TProductFull } from '../types/product/product.type'
+import { ProductType, TProductDetail, TProductFull } from '../types/product/product.type'
 import { ShopResponse } from '../types/shop.type'
 import { UserResponse } from '../types/user.type'
 import axiosCustom from './http'
@@ -26,7 +26,7 @@ export interface IPublicIdImage extends FormData {
 }
 
 export interface RegisterShop extends FormData {
-      append(name: 'file' | 'shop_name', value: string | Blob, fileName?: string): void
+      append(name: 'file' | 'shop_name' | 'shop_description', value: string | Blob, fileName?: string): void
 }
 
 class ShopApi {
@@ -85,12 +85,14 @@ class ShopApi {
             inc,
       }: {
             shop_id: string
-            sort: string
+            sort: keyof TProductDetail
             page: number
             limit: number
             inc: number
       }) {
-            return axiosCustom.get<TResponseApi<{ shop: ShopResponse }>>('/v1/api/shop/get-shop-id', {
+            let index = 0
+            console.log({ index: page })
+            return axiosCustom.get<TResponseApi<{ shop: ShopResponse }>>('/v1/api/shop/get-product-best-seller', {
                   params: { shop_id, sort, page, limit, inc },
             })
       }

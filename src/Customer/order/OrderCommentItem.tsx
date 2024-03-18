@@ -12,7 +12,7 @@ const OrderCommentItem = (props: TProps) => {
       const { comment } = props
 
       return (
-            <Link to={`/product/${comment.comment_product_id._id}`} className=' w-full h-[600px] xl:min-h-[200px] xl:h-max  '>
+            <Link to={`/product/${comment.comment_product_id._id}#comment_me`} className=' w-full h-[600px] xl:min-h-[200px] xl:h-max  '>
                   <div className='w-[calc(100%+60px)] h-[1px] ml-[-30px] my-[16px] bg-slate-100 '></div>
                   <div className=' w-full h-[40%] xl:h-full flex flex-col xl:flex-row items-center gap-[20px] xl:gap-[30px]'>
                         <div className='w-full xl:w-[40%] h-full p-[10px] xl:p-[20px] flex flex-col gap-[20px] xl:gap-[40px]   '>
@@ -28,7 +28,7 @@ const OrderCommentItem = (props: TProps) => {
                         <div className='w-full xl:w-[50%] h-full p-[10px] xl:p-[20px] flex flex-col gap-[20px] '>
                               <div className='w-full h-[80px] flex gap-[16px] '>
                                     <img
-                                          src={comment.comment_user_id.avatar?.secure_url || comment.comment_user_id.avatar_default_url}
+                                          src={comment.comment_user_id.avatar?.secure_url || comment.comment_user_id.avatar_url_default}
                                           className='w-[80px] h-[80px] rounded-full bg-gray-400'
                                           alt='comment'
                                     />
@@ -39,9 +39,9 @@ const OrderCommentItem = (props: TProps) => {
                                                       comment.comment_user_id.email ||
                                                       ''}
                                           </p>
-                                          <p className='h-[36%] w-full '>
+                                          <div className='h-[36%] w-full '>
                                                 <Rate allowHalf disabled defaultValue={comment.comment_vote} />
-                                          </p>
+                                          </div>
                                     </div>
                               </div>
                               <div className=' min-h-[10px] h-max w-full '>Nội dung: {comment.comment_content}</div>

@@ -176,7 +176,7 @@ const CustomerAccount = () => {
                                           <BoxAvatarMode
                                                 AvatartSource={{
                                                       avatar: user.avatar?.secure_url,
-                                                      avatar_default: user.avatar_default_url,
+                                                      avatar_default: user.avatar_url_default,
                                                 }}
                                                 Mode='USER'
                                           />
@@ -249,16 +249,33 @@ const CustomerAccount = () => {
                   <div className='hidden xl:block w-[1px] min-h-full bg-slate-200'></div>
                   <div className='w-full xl:w-[45%] min-h-full '>
                         {/* @customer::account -> update::email */}
-                        <div className='flex flex-col gap-[1px]'>
-                              <span>Email & liên hệ</span>
-                              <div className='flex flex-col 2xl:flex-row justify-between 2xl:items-center min-h-[90px] pb-[15px] gap-[15px] 2xl:gap-0 '>
-                                    <div className='w-full sm:w-[70%] flex flex-col justify-center'>
-                                          <div className=''>Địa chỉ email</div>
-                                          <span className='block w-[250px] truncate'>{user.email}</span>
+                        <div className='flex flex-col gap-[8px]'>
+                              <span className='text-[16px] text-black font-semibold'>Email & liên hệ</span>
+
+                              <div className='flex flex-col 2xl:flex-row  2xl:items-center min-h-[20px] pb-[15px] gap-[15px] 2xl:gap-0 '>
+                                    <div className='w-full flex items-center  gap-[16px]'>
+                                          <div className='min-w-[100px]'>Địa chỉ email</div>
+                                          <span className='flex-grow truncate max-w-[180px] underline  font-semibold'>{user.email}</span>
                                     </div>
                                     <Link
                                           to={'/customer/account/update/email'}
-                                          className='w-[150px] sm:w-[90px] flex items-center justify-center rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '
+                                          className='w-[100px]  flex items-center justify-center rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] p-[6px] '
+                                    >
+                                          Cập nhập
+                                    </Link>
+                              </div>
+                        </div>
+
+                        <div className='flex flex-col gap-[8px]'>
+                              <span className='text-[16px] text-black font-semibold'>Bảo mật</span>
+
+                              <div className='flex flex-col 2xl:flex-row  2xl:items-center min-h-[20px] pb-[15px] gap-[15px] 2xl:gap-0 '>
+                                    <div className='w-full flex items-center  gap-[16px]'>
+                                          <div className='min-w-[100px]'>Đổi mật khẩu</div>
+                                    </div>
+                                    <Link
+                                          to={'/customer/account/update/password'}
+                                          className='w-[100px]  flex items-center justify-center rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] p-[6px] '
                                     >
                                           Cập nhập
                                     </Link>
@@ -266,19 +283,6 @@ const CustomerAccount = () => {
                         </div>
                         {/* @customer::account -> update::password */}
                         <div className='flex flex-col gap-[1px]'>
-                              <span>Bảo mật</span>
-                              <div className='flex flex-col 2xl:flex-row justify-between 2xl:items-center min-h-[90px] pb-[15px] gap-[15px] 2xl:gap-0'>
-                                    <div>
-                                          <div className=''>Đổi mật khẩu</div>
-                                    </div>
-                                    <Link
-                                          to={'/customer/account/update/password'}
-                                          className='w-[150px] sm:w-[90px] flex items-center justify-center rounded-md bg-white border-[1px] border-blue-700 text-blue-700 h-[15%] px-[6px] py-[2px] '
-                                    >
-                                          Cập nhập
-                                    </Link>
-                              </div>
-
                               <button className='bg-slate-900 text-white' onClick={handleGetMe}>
                                     Get me{' '}
                               </button>

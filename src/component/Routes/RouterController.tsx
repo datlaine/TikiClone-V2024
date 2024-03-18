@@ -52,7 +52,9 @@ const RouterController = () => {
             <>
                   {!hiddenHeader && <Header />}
 
-                  <div className={`${styleEffect.matchPathName} w-full min-w-full min-h-screen  flex gap-[28px]    bg-[rgb(245_245_250)] `}>
+                  <div
+                        className={`${styleEffect.matchPathName} w-full min-w-full min-h-screen h-max  flex gap-[28px]    bg-[rgb(245_245_250)] `}
+                  >
                         <Sidebar />
                         <Routes>
                               <Route path='/admin' element={<Admin />} />

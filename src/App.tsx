@@ -9,16 +9,19 @@ import { RootState } from './store'
 import AuthWrapper from './component/Auth/AuthWrapper'
 import FooterMobile from './component/Footer/FooterMobile'
 import ScrollToAnchor from './component/Header/Components/ScrollArchor'
+import { useLocation } from 'react-router-dom'
 
 function App() {
       const boxLogin = useSelector((state: RootState) => state.authentication.isOpenBoxLogin)
       const [, setShowBoxAuth] = useState(true)
+      const location = useLocation().pathname
+
       useEffect(() => {
             window.scrollTo({
                   top: 0,
                   left: 0,
             })
-      }, [])
+      }, [location])
 
       useEffect(() => {}, [boxLogin])
 

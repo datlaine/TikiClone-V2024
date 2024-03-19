@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { ShopResponse } from '../../../types/shop.type'
 import { Box, CalendarCheck, Star, Store } from 'lucide-react'
-import { string } from 'zod'
 import { getYear } from '../../../utils/date.utils'
 import { Rate } from 'antd'
 
@@ -11,6 +10,9 @@ type TProps = {
 
 const ShopProfile = (props: TProps) => {
       const { shop } = props
+
+      const [readMore, setReadMore] = useState<boolean>(false)
+      const pagrap = useRef<HTMLParagraphElement>(null)
 
       return (
             <div className='w-full min-h-[340px] flex flex-col xl:flex-row  h-max bg-[#ffffff]   rounded-lg'>
@@ -43,14 +45,24 @@ const ShopProfile = (props: TProps) => {
                               <span className='ml-[16px]'>{shop.shop_products.length}</span>
                         </div>
 
-                        <div className='flex items-center gap-[10px]'>
+                        <div className={`${readMore ? 'items-start' : 'items-center'} flex gap-[10px]`}>
                               <div className='flex gap-[10px] min-w-[150px]'>
                                     <Store size={19} color='gray' className='mt-[-2px]' />
                                     <span className='text-gray-600'>Mô tả sản phẩm</span>
                               </div>
-                              <span className='ml-[16px] max-w-[400px] break-words text-justify line-clamp-6 '>
-                                    {shop.shop_description || 'Chưa có thông tin'}
-                              </span>
+                              <div className='ml-[16px] h-max flex flex-col gap-[8px] max-w-[400px]   '>
+                                    <p
+                                          style={{ height: readMore ? 'max-content' : shop.shop_description.length > 200 ? 180 : 'autp' }}
+                                          className={`${readMore ? 'line-clamp-none' : 'line-clamp-6'} break-words text-justify`}
+                                    >
+                                          {shop.shop_description || 'Chưa có thông tin'}
+                                    </p>
+                                    {shop.shop_description.length > 200 && (
+                                          <button className='underline text-blue-700' onClick={() => setReadMore((prev) => !prev)}>
+                                                {readMore ? 'Thu gọn' : 'Đọc thêm'}
+                                          </button>
+                                    )}
+                              </div>
                         </div>
 
                         <div className='flex items-center gap-[10px]'>

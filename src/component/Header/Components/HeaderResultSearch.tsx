@@ -8,7 +8,7 @@ import { STALE_TIME } from '../../Comment/Comment'
 import truyenNgan from '../assets/img/book.png'
 import taiNghe from '../assets/img/taiNghe.jpg'
 import nguCoc from '../assets/img/ngucoc.png'
-import message from '../assets/img/ngucoc.png'
+import message from '../assets/img/message.png'
 
 import tatVoNam from '../assets/img/tatNam.jpg'
 import truyenDai from '../assets/img/truyenDai.jpg'
@@ -60,8 +60,8 @@ const HeaderResultSearch = (props: Props) => {
 
       return (
             <>
-                  <div className=' absolute left-0 top-full right-0  m-h-25 overflow-hidden  rounded-[2px]  bg-white border-[1px] border-solid border-[#ccc] min-h-55 z-[9999] min-h-[400px]'>
-                        <div className='sanPhamTheoTen dienThoai:my-2 flex flex-col gap-y-2 overflow-hidden min-h-[150px]'>
+                  <div className=' absolute left-0 top-full right-0  m-h-25 overflow-hidden   bg-white border-[1px] border-solid border-[#ccc] min-h-55 z-[9999] min-h-[400px] rounded-lg'>
+                        <div className='sanPhamTheoTen dienThoai:my-2 flex flex-col gap-y-2 overflow-hidden min-h-[150px] '>
                               {!text && getProductTopSearch.isSuccess && getProductTopSearch.data.data.metadata.products.length === 0 && (
                                     <span className='p-2 opacity-50'>Hãy nhập tìm kiếm</span>
                               )}
@@ -72,7 +72,11 @@ const HeaderResultSearch = (props: Props) => {
                                                 className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[8px] justify-center hover:bg-slate-200'
                                                 key={product._id}
                                           >
-                                                <Link to={`/product/${product._id}`} className='flex gap-[8px] ' onClick={onNavigate}>
+                                                <Link
+                                                      to={`/product/${product._id}`}
+                                                      className='flex items-center gap-[8px] min-h-[40px] '
+                                                      onClick={onNavigate}
+                                                >
                                                       <Search className='text-slate-400' />
                                                       <span>{product.product_name}</span>
                                                 </Link>
@@ -109,12 +113,12 @@ const HeaderResultSearch = (props: Props) => {
                         </div>
                         <div className=''>
                               <p className='ml-[16px]'>Danh mục nổi bật</p>
-                              <div className='w-full grid grid-cols-4 grid-rows-[160px] gap-[40px] justify-between p-[24px]'>
+                              <div className='w-full grid grid-cols-[140px_140px] auto-cols-[140px] grid-flow-col  xl:auto-rows-[160px] xl:grid-flow-row  xl:grid-cols-4 grid-rows-[160px] gap-[20px]  xl:gap-[40px] justify-between p-[24px] overflow-x-scroll xl:overflow-x-visible'>
                                     {arrayCategory.map((category) => (
                                           <Link
                                                 to={category.href}
-                                                key={category.href}
-                                                className='w-full h-full hover:bg-[#ffffff] hover:shadow-2xl flex flex-col items-center gap-[6px] px-[4px]'
+                                                key={category.href + category.label}
+                                                className='w-full h-full hover:bg-[#ffffff] hover:shadow-2xl flex flex-col items-center gap-[6px] p-[8px]'
                                           >
                                                 <img src={category.image} className='w-[110px] h-[110px] rounded-full' alt='category' />
                                                 <span className=' text-[13px]'>{category.label}</span>

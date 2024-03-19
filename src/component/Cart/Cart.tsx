@@ -156,7 +156,7 @@ const Cart = () => {
                                           </div>
                                     )}
 
-                              {getMyCart.isPending && <span>Loading</span>}
+                              {getMyCart.isPending && <div className='animate-pulse w-full min-h-[500px] bg-gray-200 rounded-lg'></div>}
                         </div>
                   </div>
             </React.Fragment>

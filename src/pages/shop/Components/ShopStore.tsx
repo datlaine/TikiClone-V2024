@@ -4,6 +4,7 @@ import ProductTopSellQuery from './ProductTopSellQuery'
 import ProductBestSellerRank from './ProductBestSellerRank'
 import ShopProductAll from './ShopProductAll'
 import { ShopResponse } from '../../../types/shop.type'
+import Footer from '../../../component/Footer/Footer'
 
 type TProps = {
       shop_id: string
@@ -50,7 +51,7 @@ const ShopStore = (props: TProps) => {
                   </div>
                   <ShopProductAll shop_id={shop_id} searchName='' mode='Normal' shop={shop} />
 
-                  <div className='w-full h-[500px] bg-yellow-400'></div>
+                  <Footer />
             </div>
       )
 }

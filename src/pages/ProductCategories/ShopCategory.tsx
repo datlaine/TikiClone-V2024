@@ -58,8 +58,8 @@ const ShopCategory = (props: TProps) => {
             <div className='relative w-full h-[200px] rounded  xl:overflow-hidden'>
                   <div className=' flex gap-[16px] h-full w-full overflow-scroll xl:overflow-visible' ref={wrapperRef}>
                         {shops?.map((shop) => (
-                              <div key={shop._id} className='flex gap-[24px] min-w-[100%]  xl:min-w-[50%]'>
-                                    <div className='relative w-[46%] xl:w-[36%] flex  items-center justify-center overflow-hidden'>
+                              <div key={shop._id} className='flex gap-[18px] min-w-[100%]  xl:min-w-[50%]'>
+                                    <div className='relative w-[36%] xl:w-[36%] flex  items-center justify-center overflow-hidden'>
                                           <div
                                                 style={{
                                                       backgroundImage: `url(${shop.shop_avatar?.secure_url || shop.shop_avatar_default}) `,
@@ -74,7 +74,9 @@ const ShopCategory = (props: TProps) => {
                                           />
                                     </div>
                                     <Link to={`/shop/${shop._id}`} className='w-[60%] flex flex-col justify-center'>
-                                          <h4>Cửa hàng: {shop.shop_name} </h4>
+                                          <h4>
+                                                Cửa hàng: <span className='underline font-bold'>{shop.shop_name}</span>{' '}
+                                          </h4>
                                     </Link>
                               </div>
                         ))}

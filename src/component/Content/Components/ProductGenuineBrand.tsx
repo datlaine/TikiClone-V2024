@@ -11,8 +11,7 @@ import img9 from '../assets/img/ThuongHieuChinhHang/item_9.jpg'
 import img10 from '../assets/img/ThuongHieuChinhHang/item_10.jpg'
 import img11 from '../assets/img/ThuongHieuChinhHang/item_11.jpg'
 import img12 from '../assets/img/ThuongHieuChinhHang/item_12.jpg'
-import { useQuery } from '@tanstack/react-query'
-import ProductApi from '../../../apis/product.api'
+
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const ProductGenuineBrand = () => {

@@ -29,14 +29,14 @@ const ProductShopInfo = (props: TProps) => {
                               className='w-full min-h-[130px] h-full bg-[#ffffff] rounded-lg flex flex-col gap-[16px] p-[16px]'
                         >
                               <h4 className='text-[16px] font-medium'>Thông tin nhà bán</h4>
-                              <div className='flex flex-row xl:flex-col gap-[16px]'>
-                                    <div className='flex flex-1 gap-[12px]'>
+                              <div className='flex flex-row xl:flex-col gap-[12px]'>
+                                    <div className='flex flex-1 gap-[8px]'>
                                           <img
                                                 src={shop?.shop_avatar?.secure_url || shop.shop_avatar_default}
                                                 className='w-[40px] h-[40px] rounded-full'
                                                 alt='shop avatar'
                                           />
-                                          <div className='flex  flex-col gap-[6px] xl:gap-[12px]'>
+                                          <div className='flex  flex-col gap-[6px] xl:gap-[8px]'>
                                                 <div className='w-max flex  flex-col-reverse xl:flex-row gap-[6px]'>
                                                       <span className='font-medium text-[14px]'>{shop.shop_name}</span>
                                                       <img src={ShopLogo} className='w-[80px]' alt='label logo' />
@@ -51,11 +51,9 @@ const ProductShopInfo = (props: TProps) => {
                                     </div>
 
                                     <div className='ml-[48px] self-start justify-self-start flex flex-col gap-[12px]'>
-                                          <div className=''>
-                                                <button className='min-w-[60px] w-max h-[24px] p-[4px] border-[1px] border-slate-400 flex items-center justify-center rounded-md'>
-                                                      Xem shop
-                                                </button>
-                                          </div>
+                                          <button className='min-w-[60px] w-max h-[30px] p-[8px] border-[1px] border-slate-400 flex items-center justify-center rounded-md'>
+                                                Xem shop
+                                          </button>
                                     </div>
                               </div>
                         </Link>

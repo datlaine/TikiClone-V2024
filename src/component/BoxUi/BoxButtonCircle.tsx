@@ -13,7 +13,7 @@ const BoxButtonCircle = (props: TProps) => {
             <button
                   {...attribute}
                   style={{ width: width, height: height }}
-                  className={`${attribute.className} flex items-center justify-center bg-[#ffffff]  rounded-full shadow-3xl`}
+                  className={`${attribute.className} flex items-center justify-center bg-[#ffffff]  rounded-full shadow-3xl disabled:cursor-not-allowed`}
             >
                   {icon}
             </button>

@@ -14,7 +14,7 @@ const FeaturedCategoryItem = () => {
                                     className='w-[100px] h-[100px] xl:w-[120px] xl:h-[120px] bg-gray-300  rounded-full'
                                     alt='product'
                               ></img>
-                              <span className='text-center'>{product.title}</span>
+                              <span className='text-center break-all'>{product.title}</span>
                         </div>
                   ))}
             </>

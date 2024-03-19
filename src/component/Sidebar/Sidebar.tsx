@@ -43,7 +43,7 @@ const arrayCategory = [
       { image: thietBiSo, label: 'Thiết bị số - Phụ kiện số', href: '/digital-device' },
       { image: dienGiaDung, label: 'Điện gia dụng', href: '/electronic' },
       { image: lamDep, label: 'Làm đẹp', href: '/beauty' },
-      { image: oto, label: 'Oto', href: '/oto' },
+      { image: oto, label: 'Xe máy', href: '/honda' },
       { image: thoiTrangNu, label: 'Thời trang nữ', href: '/fashion-female' },
       { image: thoiTrangNam, label: 'Thời trang nam', href: '/fashion-male' },
       { image: giayDepNam, label: 'Giày dép nam', href: '/shoes-man' },

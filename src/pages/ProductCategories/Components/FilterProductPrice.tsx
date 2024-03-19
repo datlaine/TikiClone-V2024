@@ -49,7 +49,7 @@ const FilterProductPrice = (props: TProps) => {
       const styleEffect = {
             onActive: (state: boolean) => {
                   if (state) return 'border-[1px] border-blue-700 hover:bg-blue-50 text-blue-700'
-                  return 'border-[1px] border-gray-100 bg-[#ffffff] hover:bg-gray-300'
+                  return 'border-[1px] border-gray-200 bg-[#ffffff] hover:bg-gray-300'
             },
       }
 

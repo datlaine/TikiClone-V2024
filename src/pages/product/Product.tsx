@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ProductApi from '../../apis/product.api'
-import { ChevronsRight, Image } from 'lucide-react'
+import { ChevronRight, ChevronsRight, Image } from 'lucide-react'
 import ProductDetail from './ProductDetail'
 import ProductIntro from './ProductIntro'
 import ProductPay from './ProductPay'
@@ -42,20 +42,7 @@ const Product = () => {
 
       const product = getProductWithId.isSuccess ? getProductWithId!.data!.data!.metadata.product : undefined
 
-      useEffect(() => {
-            window.scrollTo({
-                  top: 0,
-                  left: 0,
-                  behavior: 'smooth',
-            })
-      }, [])
-
-      useEffect(() => {
-            window.scrollTo({
-                  top: 0,
-                  left: 0,
-            })
-      }, [])
+      console.log('re-render')
 
       const totalComment = getCommentCore.data?.data.metadata.totalCommentProduct
       const avg = getCommentCore.data?.data.metadata.comment_avg
@@ -83,7 +70,7 @@ const Product = () => {
                         }
                   }
             }
-      }, [getProductWithId.isSuccess])
+      }, [getProductWithId.isSuccess, dispatch, user, id, cart])
 
       useEffect(() => {}, [getProductWithId.isSuccess])
       if (getProductWithId.isSuccess) {
@@ -105,14 +92,18 @@ const Product = () => {
             <div className='flex flex-col w-full text-[12px]'>
                   <div className=' w-full flex flex-col gap-[4px] '>
                         {getProductWithId.data?.data && (
-                              <div className='flex gap-[4px] '>
+                              <div className='flex items-center gap-[4px] px-[10px] xl:px-0 text-[16px] pb-[4px]'>
                                     <Link to='/'>Trang chủ</Link>
-                                    <ChevronsRight size={16} color='black' />
+
+                                    <ChevronRight size={16} color='black' />
+                                    <Link to={`/${product?.product_type}`}>{product?.product_type}</Link>
+                                    <ChevronRight size={16} color='black' />
+                                    <Link to={`/${product?.product_type}`}>{product?.attribute.type}</Link>
                               </div>
                         )}
 
                         {getProductWithId.isSuccess && product && (
-                              <div className='px-[10px] xl:px-[20px] flex gap-[16px] xl:gap-[24px] mt-[30px] xl:mt-0'>
+                              <div className='  flex gap-[16px] xl:gap-[24px] mt-[30px] xl:mt-0'>
                                     <div className='w-full xl:w-[74%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
                                                 <div className='xl:w-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-lg  h-max flex flex-col gap-[16px] '>
@@ -126,7 +117,7 @@ const Product = () => {
                                                       />
                                                 </div>
                                           </div>
-                                          <div className='flex flex-col gap-[10px] comment w-full min-h-[1000px] h-max  bg-[#ffffff] px-[28px] pb-[50px]'>
+                                          <div className='flex flex-col gap-[10px] comment w-full min-h-[1000px] h-max  bg-[#ffffff] rounded-lg  pb-[50px]'>
                                                 <CommentStatistic
                                                       avg={avg || vote || product.product_votes}
                                                       totalComment={totalComment || 0}

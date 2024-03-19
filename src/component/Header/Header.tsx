@@ -43,11 +43,11 @@ function Header() {
                                     <HeaderLogoToggle />
                               </div>
                               <div className=' grow flex-1 xl:flex-auto flex h-full gap-[24px]'>
-                                    <div className='grow flex flex-col basis-[75%]'>
+                                    <div className='grow flex flex-col basis-[70%]'>
                                           <HeaderSeacrhInput />
                                           <HeaderTagsLocation />
                                     </div>
-                                    <div className='basis-[10%] flex lg:flex-col lg:justify-between lg:basis-[25%] ml-0 xl:ml-[20px] h-full'>
+                                    <div className='basis-[10%] flex lg:flex-col lg:justify-between lg:basis-[30%] ml-0 xl:ml-[20px] h-full'>
                                           <HeaderActions />
                                           <div
                                                 id=''

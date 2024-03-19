@@ -49,7 +49,7 @@ const Comment = (props: TProps) => {
       }
 
       return (
-            <div className='relative h-full bg-[rgb(255, 255, 255)] flex flex-col gap-[20px]'>
+            <div className='relative h-full bg-[rgb(255, 255, 255)] flex flex-col gap-[20px] px-[20px]'>
                   <CommentFilter
                         product_id={product_id}
                         page={pageFilter}
@@ -68,7 +68,7 @@ const Comment = (props: TProps) => {
                               <CommentSketeton />
                         </>
                   )}
-                  <div className='absolute bottom-[-10px] xl:bottom-0 right-0 flex gap-[20px] '>
+                  <div className='absolute bottom-[-10px] xl:bottom-0 right-0 flex gap-[20px] px-[20px] '>
                         {getAllCommentQuery.isSuccess &&
                               Array(total)
                                     .fill(0)

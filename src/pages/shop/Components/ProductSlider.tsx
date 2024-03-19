@@ -198,7 +198,7 @@ const ProductSlider = (props: TProps) => {
                   </div>
 
                   <BoxButtonCircle
-                        className='hidden group-hover:flex absolute top-[50%] translate-x-[-50%] left-[20px]'
+                        className='hidden group-hover:flex absolute top-[50%] translate-x-[-50%] left-[20px] disabled:cursor-not-allowed'
                         width={30}
                         height={30}
                         icon={<ChevronLeft className='text-blue-600' />}
@@ -207,7 +207,7 @@ const ProductSlider = (props: TProps) => {
                   />
 
                   <BoxButtonCircle
-                        className='hidden group-hover:flex absolute top-[50%] translate-x-[-50%] right-[-10px]'
+                        className='hidden group-hover:flex absolute top-[50%] translate-x-[-50%] right-[-10px] disabled:cursor-not-allowed'
                         width={30}
                         height={30}
                         icon={<ChevronRight className='text-blue-600' />}

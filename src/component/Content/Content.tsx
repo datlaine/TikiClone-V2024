@@ -59,7 +59,6 @@ const Content = () => {
                   <ContentFood />
 
                   <ContentProduct />
-                  <div className='w-full h-[1500px] bg-black'></div>
                   {/* 
                   <SectionProduct
                         title={<TitleProductSection content='Thương hiệu chính hãng' />}
@@ -130,7 +129,11 @@ const Content = () => {
                         other={<CountDown />}
                         ListProducts={<ListProduct query={giaTotHomNay} />}
                   /> */}
-                  <Footer className='hidden xl:block' />
+
+                  <Footer className='hidden xl:block bg-[#ffffff]' />
+                  <Footer className='hidden xl:block bg-[#ffffff]' />
+
+                  <Footer className='hidden xl:block bg-[#ffffff]' />
                   {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
                   {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
                   {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}

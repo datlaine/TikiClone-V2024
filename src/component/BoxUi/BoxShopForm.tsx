@@ -103,6 +103,7 @@ const BoxShopForm = (props: TProps) => {
                   <div className='animate-authBox w-[300px] xl:w-[700px] min-h-[480px] h-max  mx-[10px] xl:mx-0 bg-red-800 '>
                         <FormProvider {...form}>
                               <form
+                                    spellCheck={false}
                                     className='relative w-full h-[575px] xl:h-[480px] flex flex-col xl:flex-row  bg-[#ffffff] rounded-lg'
                                     onSubmit={form.handleSubmit(onSubmit)}
                               >

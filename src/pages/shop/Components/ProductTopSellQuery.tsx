@@ -33,7 +33,7 @@ const ProductTopSellQuery = <PropsChildren,>(props: TProps<PropsChildren>) => {
             if (getProductBestSell.isSuccess) {
                   return <Component {...(props as PropsChildren)} products={products} />
             }
-            return <p>Loading</p>
+            return <p className='animate-pulse w-full h-[500px] bg-gray-200'></p>
       }
 
       return WrapperComponent

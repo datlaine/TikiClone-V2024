@@ -158,7 +158,6 @@ const Footer = ({ ...props }: IProps) => {
                               </div>
                         </div>
                         <hr />
-                        <div className=''>123</div>
                   </div>
             </div>
       )

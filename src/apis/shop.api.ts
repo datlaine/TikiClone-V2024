@@ -86,6 +86,10 @@ class ShopApi {
             return axiosCustom.get<TResponseApi<{ shop: ShopResponse }>>('/v1/api/shop/get-shop-id', { params: { shop_id } })
       }
 
+      static async getShopAdmin() {
+            return axiosCustom.get<TResponseApi<{ shopAdmin: ShopResponse }>>('/v1/api/shop/get-shop-admin')
+      }
+
       static async getProductFilter({
             shop_id,
             sort,

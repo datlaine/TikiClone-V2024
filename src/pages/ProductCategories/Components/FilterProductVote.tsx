@@ -55,7 +55,7 @@ const FilterProductVote = (props: TProps) => {
       const styleEffect = {
             onSelect: (state: boolean) => {
                   if (state) return 'bg-blue-600 border-blue-600 '
-                  return 'bg-[#ffffff] border-gray-100 hover:border-[2px] hover:border-blue-700 hover:shadow-lg '
+                  return 'bg-[#ffffff] border-gray-300 hover:border-[2px] hover:border-blue-700 hover:shadow-lg '
             },
       }
 

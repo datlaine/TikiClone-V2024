@@ -27,6 +27,20 @@ const onSetTitleProductType = ({ product_type }: { product_type: ProductType }):
       }
 }
 
+const onSetHeaderProductType = ({ product_type }: { product_type: ProductType }): string => {
+      let header = ''
+      switch (product_type) {
+            case 'Book':
+                  header = 'Nhà sách Tiki'
+                  return header
+            case 'Food':
+                  header = 'Bách hóa Online'
+                  return header
+            default:
+                  return header
+      }
+}
+
 const Category = (props: TProps) => {
       const { product_type } = props
       const [activeData, setActiveData] = useState<boolean>(true)
@@ -42,7 +56,7 @@ const Category = (props: TProps) => {
 
       return (
             <div className='w-[1450px] mx-auto flex flex-col gap-[24px] px-[20px] xl:px-0 mt-[70px] mb-[70px] xl:mt-0 text-[14px]'>
-                  <Link to={'/'} className=''>
+                  <Link to={'/'} className='underline text-slate-800 font-bold'>
                         Trang chủ
                   </Link>
                   <div className='w-full h-max flex  gap-[24px]'>
@@ -51,7 +65,9 @@ const Category = (props: TProps) => {
                               {activeData ? (
                                     <header className='w-full min-h-full h-max flex flex-col gap-[28px] overflow-hidden'>
                                           <div className='p-[25px] w-full h-[60px] flex items-center bg-[#ffffff]'>
-                                                <h1 className='text-[26px] font-extrabold text-slate-900'>Nhà sách Tiki</h1>
+                                                <h1 className='text-[22px] font-semibold text-slate-700'>
+                                                      {onSetHeaderProductType({ product_type })}
+                                                </h1>
                                           </div>
                                           <div className='w-full'>
                                                 <FeaturedCategory type={product_type} />
@@ -59,7 +75,7 @@ const Category = (props: TProps) => {
                                           <div className=' w-full overflow-hidden min-h-[200px] h-max bg-[#ffffff]'>
                                                 <ShopCategory product_type={product_type} />
                                           </div>
-                                          <div className='w-full  h-[80px] flex items-center bg-[#ffffff] px-[8px]'>
+                                          <div className='w-full  h-[80px] flex items-center bg-[#ffffff] rounded-lg px-[8px]'>
                                                 <FilterWrapper product_type={product_type} />
                                           </div>
                                           <div className='w-full h-max mt-[20px]'>

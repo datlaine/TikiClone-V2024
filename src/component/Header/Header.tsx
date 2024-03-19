@@ -38,16 +38,16 @@ function Header() {
       return (
             <>
                   <div className={`fixed lg:static top-0 left-0 w-full z-[600] bg-white shadow-xl`}>
-                        <div className='h-[75px] lg:h-[85px] py-2 px-[10px] xl:px-[80px] bg-white flex items-center gap-3 lg:gap-0'>
+                        <div className='h-[75px] lg:h-[90px] py-2 px-[10px] xl:px-[80px] bg-white flex items-center gap-3 lg:gap-0'>
                               <div className='basis-[14%] flex items-center'>
                                     <HeaderLogoToggle />
                               </div>
                               <div className=' grow flex-1 xl:flex-auto flex h-full gap-[24px]'>
-                                    <div className='grow flex flex-col basis-[70%]'>
+                                    <div className='grow flex flex-col basis-[75%]'>
                                           <HeaderSeacrhInput />
                                           <HeaderTagsLocation />
                                     </div>
-                                    <div className='basis-[10%] flex lg:flex-col lg:justify-between lg:basis-[30%] ml-0 xl:ml-[20px] h-full'>
+                                    <div className='basis-[10%] flex lg:flex-col lg:justify-between lg:basis-[25%] ml-0 xl:ml-[20px] h-full'>
                                           <HeaderActions />
                                           <div
                                                 id=''

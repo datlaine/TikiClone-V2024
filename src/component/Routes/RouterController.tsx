@@ -37,7 +37,7 @@ import ShopProductList from '../../Customer/Shop/ShopProductList'
 
 const RouterController = () => {
       const pathHiddenHeader = ['/admin', '/payment', '/box']
-      const hideHeaderShopPath = window.location.pathname.startsWith('/shop')
+      // const hideHeaderShopPath = window.location.pathname.startsWith('/shop')
       // console.log(window.location.pathname, hideHeaderShopPath)
       const hiddenHeader = pathHiddenHeader.includes(window.location.pathname)
       const pathName = useLocation().pathname
@@ -64,9 +64,9 @@ const RouterController = () => {
                                     <Route path='/cart' element={<Cart />} />
                                     <Route path='/payment' element={<Payment />} />
                                     <Route path='/order-check/:order_id' element={<OrderCheck />} />
-                                    <Route path='/books' element={<Category product_type='Book' />} />
+                                    <Route path='/book' element={<Category product_type='Book' />} />
                                     <Route path='/shop' element={<ShopWrapper />} />
-                                    <Route path='/foods' element={<Category product_type='Food' />} />
+                                    <Route path='/food' element={<Category product_type='Food' />} />
                                     <Route path='/shop/:shop_id' element={<Shop />} />
 
                                     <Route

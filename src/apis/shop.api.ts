@@ -1,6 +1,7 @@
 import { ModeForm } from '../component/BoxUi/BoxShopForm'
 import { TResponseApi } from '../types/axiosResponse'
-import { ProductType, TProductDetail, TProductFull } from '../types/product/product.type'
+import { Order } from '../types/order.type'
+import { ProductType, TProductDetail } from '../types/product/product.type'
 import { ShopResponse } from '../types/shop.type'
 import { UserResponse } from '../types/user.type'
 import axiosCustom from './http'
@@ -59,8 +60,16 @@ class ShopApi {
             return axiosCustom.get<{ metadata: { shop: ShopResponse } }>('v1/api/shop/get-my-shop')
       }
 
-      static async getProductMyShop() {
-            return axiosCustom.get<{ metadata: { myProductOfShop: TProductFull[] } }>('v1/api/shop/get-product-my-shop')
+      static async getProductMyShop({ page, limit, shop_id }: { page: number; limit: number; shop_id: string }) {
+            return axiosCustom.get<{ metadata: { shop: ShopResponse } }>('v1/api/shop/get-product-my-shop', {
+                  params: { page, limit, shop_id },
+            })
+      }
+
+      static async getMyOrderShop({ page, limit, shop_id }: { page: number; limit: number; shop_id: string }) {
+            return axiosCustom.get<{ metadata: { orderShop: Order } }>('v1/api/shop/get-my-order-shop', {
+                  params: { page, limit, shop_id },
+            })
       }
 
       static async foundShopHasProductType({ product_type }: { product_type: ProductType }) {
@@ -90,7 +99,6 @@ class ShopApi {
             limit: number
             inc: number
       }) {
-            let index = 0
             console.log({ index: page })
             return axiosCustom.get<TResponseApi<{ shop: ShopResponse }>>('/v1/api/shop/get-product-best-seller', {
                   params: { shop_id, sort, page, limit, inc },

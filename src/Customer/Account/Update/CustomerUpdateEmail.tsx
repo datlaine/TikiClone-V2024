@@ -31,6 +31,11 @@ const CustomerUpdateEmail = () => {
 
       const onSubmit = (e: React.FormEvent) => {
             e.preventDefault()
+            const checkEmail = validateEmail(email)
+            if (!checkEmail) {
+                  dispatch(addToast({ id: Math.random().toString(), message: 'Email không hợp lệ', type: 'WARNNING' }))
+                  return
+            }
             if (!email) {
                   dispatch(addToast({ id: Math.random().toString(), message: 'Bạn không thể gửi email rỗng', type: 'WARNNING' }))
                   return

@@ -6,7 +6,7 @@ import { OrderItem } from '../types/order.type'
 import { TProductDetail } from '../types/product/product.type'
 import axiosCustom from './http'
 
-export type NotificationType = 'PRODUCT' | 'SYSTEM' | 'ADMIN' | 'SHOP' | 'COMMON'
+export type NotificationType = 'PRODUCT' | 'SYSTEM' | 'ADMIN' | 'SHOP' | 'USER'
 
 class NotificationService {
       static async getMyNotification({ page, type, limit = limitNotification }: { page: number; type: NotificationType; limit: number }) {

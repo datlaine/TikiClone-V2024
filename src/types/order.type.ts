@@ -1,6 +1,7 @@
 import { CartProduct } from './cart.type'
 
 export type Order = {
+      _id: string
       order_time: Date
       order_products: OrderItem[]
 }

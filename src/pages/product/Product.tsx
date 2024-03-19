@@ -134,9 +134,9 @@ const Product = () => {
                                                 />
                                                 <CommentImageAll product_id={product._id} />
                                                 <div className='w-full mt-[16px]'>
-                                                      <CommentMe product={product} ownerProduct={product.shop_id.owner._id} />
+                                                      <CommentMe product={product} ownerProduct={product?.shop_id?.owner._id} />
                                                 </div>
-                                                <Comment product_id={product._id} />
+                                                <Comment product_id={product?._id} />
                                           </div>
                                     </div>
                                     <div className='hidden xl:flex w-[40%] xl:w-[26%] sticky top-[100px] xl:top-[16px] h-max pb-[15px] bg-white  rounded-md'>

@@ -1,19 +1,22 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { debounce } from 'lodash'
 import HeaderResultSearch from './HeaderResultSearch'
 import { Search } from 'lucide-react'
-import { useDebounce } from 'use-debounce'
 import { useDispatch, useSelector } from 'react-redux'
 import { onShowOverload } from '../../../Redux/uiSlice'
 import { RootState } from '../../../store'
+import { useLocation } from 'react-router-dom'
 
 const HeaderSeacrhInput = () => {
       const [showSearch, setShowSearch] = useState(false)
-      const divRef = useRef<HTMLDivElement>(null)
-      const [text, setText] = useState<string>('')
-      const inputRef = useRef<HTMLInputElement | null>(null)
       const [textDelay, setTextDelay] = useState<string>('')
+      const [text, setText] = useState<string>('')
+
+      const divRef = useRef<HTMLDivElement>(null)
+      const inputRef = useRef<HTMLInputElement | null>(null)
       const timer = useRef<NodeJS.Timeout>()
+
+      const location = useLocation()
+
       const dispatch = useDispatch()
       const showOverload = useSelector((state: RootState) => state.uiSlice.showOverload)
 
@@ -29,6 +32,14 @@ const HeaderSeacrhInput = () => {
             setShowSearch(false)
             dispatch(onShowOverload({ overload: false }))
       }, [])
+
+      useEffect(() => {
+            if (location.pathname !== '/') {
+                  dispatch(onShowOverload({ overload: false }))
+                  setText('')
+                  setShowSearch(false)
+            }
+      }, [location, dispatch])
 
       const controllShowResultSearch = useCallback((e: MouseEvent) => {
             console.log('check')

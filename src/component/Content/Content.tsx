@@ -24,10 +24,10 @@ const Content = () => {
       // console.log(thuongHieuGiaTot.data)
       return (
             <div className='wrapper h-max flex flex-col gap-[20px] '>
-                  <div className=' hidden 2xl:gap-6 2xl:flex'>
+                  {/* <div className=' hidden 2xl:gap-6 2xl:flex'>
                         <SliderProducts hinhAnhSlider={hinhAnhSlider} height={300} delay={1} />
                         <Banner />
-                  </div>
+                  </div> */}
 
                   <div className='w-full p-[16px] h-[400px] bg-[#ffffff]'>
                         <SliderProductV2 />

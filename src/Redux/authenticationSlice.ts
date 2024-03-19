@@ -16,9 +16,6 @@ import { UserResponse } from '../types/user.type'
 const authSlice = createSlice({
       name: 'authentication',
       initialState: {
-            // isAuthencation: false,
-            // userCurrent: null, // chưa học back-end nên setup fake data hơi lubu...
-            // isOpenBoxLogin: false,
             isOpenBoxLogin: false,
             token: JSON.parse(localStorage.getItem('token')!) || null,
             user: JSON.parse(localStorage.getItem('user') as string) || null,

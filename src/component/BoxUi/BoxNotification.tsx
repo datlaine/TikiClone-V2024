@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import BoxButton from './BoxButton'
-import { BadgeDollarSign, History, Home, Notebook, Store } from 'lucide-react'
+import { BadgeDollarSign, History, Home, Notebook, Store, User } from 'lucide-react'
 import BoxBuild from './BoxBuild'
 import Notification from '../../Customer/Notification/Notification'
 
@@ -11,8 +11,8 @@ type NotificationTypeActive =
               notification: 'COMMON'
         }
       | {
-              title: 'Thông báo khuyến mãi'
-              notification: 'DISCOUNT'
+              title: 'Thông báo cá nhân'
+              notification: 'USER'
         }
       | {
               title: 'Thông báo sản phẩm'
@@ -41,7 +41,7 @@ const BoxNotification = () => {
                   if (activeNotification.title === 'Thông báo chung') {
                         numberTranslate = 0
                   }
-                  if (activeNotification.title === 'Thông báo khuyến mãi') {
+                  if (activeNotification.title === 'Thông báo cá nhân') {
                         console.log('OK')
                         numberTranslate = 1
                   }
@@ -80,12 +80,12 @@ const BoxNotification = () => {
 
                         <button
                               className={`${
-                                    activeNotification.title === 'Thông báo khuyến mãi' ? ' border-blue-500' : 'border-transparent'
+                                    activeNotification.title === 'Thông báo cá nhân' ? ' border-blue-500' : 'border-transparent'
                               } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
-                              onClick={() => setActiveNotification({ title: 'Thông báo khuyến mãi', notification: 'DISCOUNT' })}
-                              title={'Thông báo khuyến mãi'}
+                              onClick={() => setActiveNotification({ title: 'Thông báo cá nhân', notification: 'USER' })}
+                              title={'Thông báo cá nhân'}
                         >
-                              <BadgeDollarSign size={28} />
+                              <User size={28} />
                         </button>
 
                         <button
@@ -130,9 +130,10 @@ const BoxNotification = () => {
                               </div>
 
                               <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo khuyến mãi' && (
+                                    {activeNotification.title === 'Thông báo cá nhân' && (
                                           <div className='w-full h-[300px]'>
-                                                <BoxBuild />
+                                                {/* <BoxBuild /> */}
+                                                <Notification type='USER' />
                                           </div>
                                     )}
                               </div>

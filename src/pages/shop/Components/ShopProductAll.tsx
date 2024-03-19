@@ -11,6 +11,7 @@ import BoxConfirmAddress from '../../../component/BoxUi/confirm/BoxConfirmAddres
 import { fetchShopProduct } from '../../../Redux/category.slice'
 import ProductMedium from '../../../component/Content/Components/ProductMedium'
 import ProductApi from '../../../apis/product.api'
+import { ShopResponse } from '../../../types/shop.type'
 
 const LIMIT = 2
 
@@ -19,6 +20,7 @@ type TProps = {
       searchName: string
       setSearch?: React.Dispatch<SetStateAction<string>>
       mode: 'Normal' | 'Search'
+      shop: ShopResponse
 }
 
 type Filter = { label: string; value: keyof TProductDetail; inc: number }
@@ -32,7 +34,7 @@ const filter: Filter[] = [
 ]
 
 const ShopProductAll = (props: TProps) => {
-      const { shop_id, searchName, setSearch } = props
+      const { shop_id, searchName, shop, setSearch } = props
       let mode = props.mode
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const address_default = (user?.user_address && user?.user_address.filter((address) => address.address_default === true)) || ''
@@ -95,6 +97,14 @@ const ShopProductAll = (props: TProps) => {
                   dispatch(fetchShopProduct({ shop_products: shop_products }))
             }
       }, [getProductAll.isSuccess, dispatch, getProductAll.data?.pages])
+
+      if (shop && shop?.shop_products.length === 0) {
+            return (
+                  <div className='w-full h-[500px] bg-[#ffffff] flex items-center justify-center text-[18px] font-semibold'>
+                        Shop này chưa đăng sản phẩm
+                  </div>
+            )
+      }
 
       const styleEffect = {
             onActive: (check: boolean) => {

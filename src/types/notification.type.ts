@@ -15,6 +15,11 @@ interface NotificationSystem {
       notification_content: string
 }
 
+interface NotificationUser {
+      notification_type: 'USER'
+      notification_content: string
+}
+
 export type NotificationProduct = {
       notification_type: 'PRODUCT'
       product_id: string
@@ -29,6 +34,7 @@ export type NotificationShop = {
       notification_content: string
       product_name: string
       product_quantity: number
+      product_image: string
       order_id: string
       order_product_id: string
       user_buy_id: string
@@ -40,4 +46,4 @@ export type NotificationAdmin = {
       notification_sender: string
 }
 
-export type NotificationAttribute = NotificationSystem | NotificationProduct | NotificationAdmin | NotificationShop
+export type NotificationAttribute = NotificationSystem | NotificationProduct | NotificationAdmin | NotificationShop | NotificationUser

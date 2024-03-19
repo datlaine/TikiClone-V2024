@@ -6,6 +6,7 @@ import { RootState, store } from '../../../store'
 import { useQuery } from '@tanstack/react-query'
 import CartService from '../../../apis/cart.service'
 import { ShoppingCart } from 'lucide-react'
+import { STALE_TIME } from '../../Comment/Comment'
 
 const HeaderCart = () => {
       const user = useSelector((state: RootState) => state.authentication.user)
@@ -13,6 +14,8 @@ const HeaderCart = () => {
       const cartQuery = useQuery({
             queryKey: ['cart-get-count-product'],
             queryFn: () => CartService.getCountProductCart(),
+            staleTime: STALE_TIME,
+            enabled: !!user,
       })
 
       useEffect(() => {}, [cartQuery.data?.data.metadata.count])

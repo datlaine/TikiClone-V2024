@@ -17,6 +17,7 @@ import { STALE_TIME } from '../../component/Comment/Comment'
 import { useDispatch } from 'react-redux'
 import { fetchShopProduct } from '../../Redux/category.slice'
 import ShopBuild from './ShopBuild'
+import { ShopResponse } from '../../types/shop.type'
 type TagShopActive = 'Store' | 'AllProduct' | 'Collection' | 'Discount' | 'ProfileShop'
 type TagShopLabel = 'Cửa hàng' | 'Tất cả sản phẩm' | 'Bộ sưu tập' | 'Giá sốc hôm nay' | 'Hồ sơ cửa hàng'
 
@@ -54,7 +55,7 @@ const Shop = () => {
       const dispatch = useDispatch()
 
       const shopQuery = useQuery({
-            queryKey: ['/v1/api/shop/get-shop-id'],
+            queryKey: ['/v1/api/shop/get-shop-id', shop_id],
             queryFn: () => ShopApi.getShopId({ shop_id: shop_id as string }),
       })
 
@@ -72,6 +73,10 @@ const Shop = () => {
       }
 
       const shop = shopQuery.data?.data.metadata.shop
+
+      useEffect(() => {
+            console.log({ shop })
+      }, [shop])
 
       return (
             <>
@@ -131,29 +136,24 @@ const Shop = () => {
                                           </div>
                                     </header>
                                     <div className='mt-[40px] w-full min-h-[500px] h-max'>
-                                          {shop && shop?.shop_products.length > 0 && (
-                                                <>
-                                                      {tagActive === 'Store' && <ShopStore shop_id={shop?._id as string} />}
+                                          <>
+                                                {tagActive === 'Store' && (
+                                                      <ShopStore shop_id={shop?._id as string} shop={shop as ShopResponse} />
+                                                )}
 
-                                                      {tagActive === 'AllProduct' && (
-                                                            <ShopProductAll
-                                                                  shop_id={shop?._id as string}
-                                                                  searchName={search}
-                                                                  setSearch={setSeacrh}
-                                                                  mode='Search'
-                                                            />
-                                                      )}
-                                                      {tagActive === 'Collection' && <ShopBuild />}
-                                                      {tagActive === 'Discount' && <ShopBuild />}
-                                                      {tagActive === 'ProfileShop' && <ShopProfile shop={shop} />}
-                                                </>
-                                          )}
-
-                                          {shop && shop?.shop_products.length === 0 && (
-                                                <div className='w-full h-[500px] bg-[#ffffff] flex items-center justify-center text-[18px] font-semibold'>
-                                                      Shop này chưa đăng sản phẩm
-                                                </div>
-                                          )}
+                                                {tagActive === 'AllProduct' && (
+                                                      <ShopProductAll
+                                                            shop={shop as ShopResponse}
+                                                            shop_id={shop?._id as string}
+                                                            searchName={search}
+                                                            setSearch={setSeacrh}
+                                                            mode='Search'
+                                                      />
+                                                )}
+                                                {tagActive === 'Collection' && <ShopBuild />}
+                                                {tagActive === 'Discount' && <ShopBuild />}
+                                                {tagActive === 'ProfileShop' && <ShopProfile shop={shop as ShopResponse} />}
+                                          </>
                                     </div>
                               </div>
                         </div>

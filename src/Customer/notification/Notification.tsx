@@ -76,10 +76,27 @@ const Notification = (props: TProps) => {
                                                       {notification.notification_attribute.notification_type === 'SYSTEM' && (
                                                             <Clock8 size={24} color='white' />
                                                       )}
+
+                                                      {notification.notification_attribute.notification_type === 'USER' && (
+                                                            <Clock8 size={24} color='white' />
+                                                      )}
+
+                                                      {notification.notification_attribute.notification_type === 'SHOP' && (
+                                                            // <Clock8 size={24} color='white' />
+                                                            <img
+                                                                  className='w-full h-full rounded-full'
+                                                                  src={notification.notification_attribute.product_image}
+                                                                  alt='product'
+                                                            />
+                                                      )}
                                                 </div>
                                           </div>
                                           <div className='flex flex-1 w-full  items-center  h-full '>
                                                 {notification.notification_attribute.notification_type === 'SYSTEM' && (
+                                                      <span>{notification.notification_attribute.notification_content}</span>
+                                                )}
+
+                                                {notification.notification_attribute.notification_type === 'USER' && (
                                                       <span>{notification.notification_attribute.notification_content}</span>
                                                 )}
                                                 {notification.notification_attribute.notification_type === 'SHOP' && (

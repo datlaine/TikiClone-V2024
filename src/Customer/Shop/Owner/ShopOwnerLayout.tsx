@@ -8,12 +8,13 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { UserResponse } from '../../../types/user.type'
 import { Link } from 'react-router-dom'
+import ShopBoughtWrapper from './ShopBoughtWrapper'
 
 type TProps = {
       shop: ShopResponse
 }
 
-type FilterMode = 'PRODUCT_SHOP' | 'BEST_SELLER' | 'NAVIGATE_SHOP_PUBLIC'
+type FilterMode = 'PRODUCT_SHOP' | 'PRODUCT_SHOP_BOUGHT' | 'NAVIGATE_SHOP_PUBLIC'
 
 const ShopOwnerLayout = (props: TProps) => {
       const { shop } = props
@@ -66,9 +67,9 @@ const ShopOwnerLayout = (props: TProps) => {
 
                               <button
                                     className={`${styleEffect.onActive(
-                                          filterMode === 'BEST_SELLER',
+                                          filterMode === 'PRODUCT_SHOP_BOUGHT',
                                     )} px-[16px] py-[12px]  transition-all duration-500`}
-                                    onClick={() => setfilterMode('BEST_SELLER')}
+                                    onClick={() => setfilterMode('PRODUCT_SHOP_BOUGHT')}
                               >
                                     Các sản phẩm bán chạy
                               </button>
@@ -84,7 +85,8 @@ const ShopOwnerLayout = (props: TProps) => {
                         </div>
                   </div>
 
-                  <div className=' w-full h-max mt-[16px]'>{filterMode === 'PRODUCT_SHOP' && <OwnerShopFilterName />}</div>
+                  <div className=' w-full h-max mt-[16px]'>{filterMode === 'PRODUCT_SHOP' && <OwnerShopFilterName shop={shop} />}</div>
+                  <div className=' w-full h-max mt-[16px]'>{filterMode === 'PRODUCT_SHOP_BOUGHT' && <ShopBoughtWrapper shop={shop} />}</div>
 
                   {openForm && (
                         <BoxShopForm onClose={setOpenForm} modeForm={user.isOpenShop ? 'UPDATE' : 'UPLOAD'} defaultValues={defaultValues} />

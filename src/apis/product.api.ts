@@ -245,6 +245,12 @@ class ProductApi {
                   params: { text, shop_id, page, limit },
             })
       }
+
+      static async getTopProductSearch({ limit }: { limit: number }) {
+            return axiosCustom.get<{ metadata: { products: TProductDetail[] } }>('v1/api/product/get-product-top-search', {
+                  params: { limit },
+            })
+      }
 }
 
 export default ProductApi

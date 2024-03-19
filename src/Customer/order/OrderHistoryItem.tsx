@@ -5,7 +5,7 @@ import { Store, Truck } from 'lucide-react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import OrderService from '../../apis/Order.service'
 import { CartProduct } from '../../types/cart.type'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 type TProps = {
       orderItem: OrderItem

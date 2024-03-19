@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import BoxButton from './BoxButton'
-import { BadgeDollarSign, History, Home, Notebook, Store, User } from 'lucide-react'
+import { History, Home, Notebook, Store, User } from 'lucide-react'
 import BoxBuild from './BoxBuild'
-import Notification from '../../Customer/Notification/Notification'
+import NotificationSection from '../../Customer/Notification/NotificationSection'
 
 type NotificationTypeActive =
       | {
@@ -133,21 +132,21 @@ const BoxNotification = () => {
                                     {activeNotification.title === 'Thông báo cá nhân' && (
                                           <div className='w-full h-[300px]'>
                                                 {/* <BoxBuild /> */}
-                                                <Notification type='USER' />
+                                                <NotificationSection type='USER' />
                                           </div>
                                     )}
                               </div>
 
                               <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo sản phẩm' && <Notification type='PRODUCT' />}
+                                    {activeNotification.title === 'Thông báo sản phẩm' && <NotificationSection type='PRODUCT' />}
                               </div>
 
                               <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo hệ thống' && <Notification type='SYSTEM' />}
+                                    {activeNotification.title === 'Thông báo hệ thống' && <NotificationSection type='SYSTEM' />}
                               </div>
 
                               <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo Shop' && <Notification type='SHOP' />}
+                                    {activeNotification.title === 'Thông báo Shop' && <NotificationSection type='SHOP' />}
                               </div>
                         </div>
                   </div>

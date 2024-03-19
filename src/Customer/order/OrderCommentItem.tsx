@@ -1,4 +1,3 @@
-import React from 'react'
 import { Comment } from '../../types/comment.type'
 import { Rate } from 'antd'
 import { convertDateToStringFull } from '../../utils/date.utils'

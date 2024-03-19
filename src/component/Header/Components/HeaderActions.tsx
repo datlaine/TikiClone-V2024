@@ -3,9 +3,6 @@ import HeaderBoxHover from './HeaderBoxHover'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import HeaderCart from './HeaderCart'
-import { Bell } from 'lucide-react'
-import { useState } from 'react'
-import HeaderNotification from '../HeaderNotification'
 import { UserResponse } from '../../../types/user.type'
 
 const HeaderActions = () => {
@@ -41,7 +38,6 @@ const HeaderActions = () => {
                               <HeaderBoxHover />
                         </div>
                   </div>
-                  {/* <HeaderNotification /> */}
                   <HeaderCart />
             </div>
       )

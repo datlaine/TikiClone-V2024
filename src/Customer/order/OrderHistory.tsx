@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
 import OrderService from '../../apis/Order.service'
 import CartEmpty from '../../component/Cart/CartEmpty'
 import OrderHistoryItem from './OrderHistoryItem'

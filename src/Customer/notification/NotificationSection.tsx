@@ -1,8 +1,8 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import NotificationService, { NotificationType } from '../../apis/notification.service'
 import { limitNotification } from '../../constant/notification.constant'
-import { convertDateToString, convertDateToStringFull } from '../../utils/date.utils'
+import { convertDateToStringFull } from '../../utils/date.utils'
 import { Clock8, Inbox } from 'lucide-react'
 import BoxConfirmDelete from '../../component/BoxUi/confirm/BoxConfirmDelete'
 import { Link } from 'react-router-dom'
@@ -12,7 +12,7 @@ type TProps = {
       type: NotificationType
 }
 
-const Notification = (props: TProps) => {
+const NotificationSection = (props: TProps) => {
       const { type } = props
       const queryClient = useQueryClient()
       const [showConfirm, setShowConfirm] = useState<boolean>(false)
@@ -178,4 +178,4 @@ const Notification = (props: TProps) => {
       )
 }
 
-export default Notification
+export default NotificationSection

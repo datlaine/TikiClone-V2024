@@ -6,7 +6,7 @@ import OrderService from '../../../apis/Order.service'
 import { renderStringNotificationType } from '../../../utils/notification.utit'
 import { Link } from 'react-router-dom'
 import { ArrowBigDown } from 'lucide-react'
-import NotificationSkeleton from '../../../Customer/Notification/NotificationSkeleton'
+import NotificationSkeleton from '../../../Customer/CustomerNotification/NotificationSkeleton'
 
 type TProps = {
       notificationProduct: TNotificationProduct

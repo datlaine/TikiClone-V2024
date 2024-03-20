@@ -16,6 +16,7 @@ import dongHoVaTrangSuc from '../../Sidebar/img/danhMuc/dongHoVaTrangSuc.jpg'
 import dienThoaiMayTinhBang from '../../Sidebar/img/danhMuc/dienThoaiMayTinhBang.jpg'
 import mayAnhCamera from '../../Sidebar/img/danhMuc/mayAnhMayQuayPhim.jpg'
 import oto from '../../Sidebar/img/danhMuc/otoXeMayVaXeDap.jpg'
+import { ShopResponse } from '../../../types/shop.type'
 
 const arrayCategory = [
       { image: NhaSachTikiLogo, label: 'Nhà sách Tiki', href: '/book' },
@@ -62,7 +63,6 @@ const ContentProduct = () => {
                               stickyRef.current.style.transition = 'opacity 1s'
                         }
                   }
-                  console.log({ top })
                   return top
             }, 50),
             [],
@@ -84,6 +84,12 @@ const ContentProduct = () => {
 
             // }
       }, [inViewport, onGetPositionTop])
+
+      const shopAdminQuery = useQuery({
+            queryKey: ['/v1/api/shop/get-shop-admin'],
+            queryFn: () => ShopApi.getShopAdmin(),
+            staleTime: STALE_TIME,
+      })
 
       const _page = getAllProduct.data?.pages.flatMap((page) => page.data.metadata.products)
       const shopAdmin = getShopAdmin.data?.data.metadata.shopAdmin
@@ -127,7 +133,9 @@ const ContentProduct = () => {
                                                             />
                                                       </Link>
                                                       <div className='w-full h-[35%] flex justify-center'>
-                                                            <ProductShopInfo shop_id={shopAdmin._id} />
+                                                            <ProductShopInfo
+                                                                  shop={shopAdminQuery.data?.data.metadata.shopAdmin as ShopResponse}
+                                                            />
                                                       </div>
                                                 </div>
                                           )}

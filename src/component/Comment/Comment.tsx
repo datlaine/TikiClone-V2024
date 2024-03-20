@@ -37,7 +37,6 @@ const Comment = (props: TProps) => {
             if (getAllCommentQuery.isSuccess) {
                   const { comments, total } = getAllCommentQuery.data.data.metadata
                   dispatch(fetchComment({ comments, total: Math.ceil(total / LIMIT) }))
-                  console.log({ comments })
             }
       }, [getAllCommentQuery.isSuccess, getAllCommentQuery.data?.data.metadata, onModeFilter, dispatch])
 

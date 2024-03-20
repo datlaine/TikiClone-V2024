@@ -75,7 +75,6 @@ const CommentMe = (props: TProps) => {
                   return
             }
 
-            console.log({ user })
             cb(true)
       }
 

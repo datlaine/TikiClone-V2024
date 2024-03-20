@@ -14,6 +14,7 @@ import tatVoNam from '../assets/img/tatNam.jpg'
 import truyenDai from '../assets/img/truyenDai.jpg'
 import milk from '../assets/img/milk.jpg'
 import nhaSach from '../assets/img/nhaSach.png'
+import { Rate } from 'antd'
 
 type Props = {
       onReset: () => void
@@ -84,7 +85,7 @@ const HeaderResultSearch = (props: Props) => {
                                     ))}
 
                               {searchQuery.isSuccess && (
-                                    <div className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[8px] justify-center hover:bg-slate-200'>
+                                    <div className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[20px] justify-center hover:bg-slate-200'>
                                           {products &&
                                                 products.length > 0 &&
                                                 products.map((product) => (
@@ -102,8 +103,25 @@ const HeaderResultSearch = (props: Props) => {
                                           {shops &&
                                                 shops.length > 0 &&
                                                 shops.map((shop) => (
-                                                      <Link key={shop._id} to={`/shop/${shop._id}`}>
-                                                            {shop.shop_name}
+                                                      <Link key={shop._id} to={`/shop/${shop._id}`} className='flex gap-[20px]'>
+                                                            <img
+                                                                  src={shop.shop_avatar.secure_url || shop.shop_avatar_default}
+                                                                  className='w-[50px h-[50px]'
+                                                                  alt=''
+                                                            />
+                                                            <div className='flex flex-col gap-[4px]'>
+                                                                  <span>{shop.shop_name}</span>
+                                                                  <p>
+                                                                        <span>{shop.shop_vote}</span>
+                                                                        <Rate
+                                                                              defaultValue={1}
+                                                                              count={1}
+                                                                              allowHalf
+                                                                              disabled
+                                                                              className='text-[10px]'
+                                                                        />
+                                                                  </p>
+                                                            </div>
                                                       </Link>
                                                 ))}
 

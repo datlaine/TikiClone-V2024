@@ -115,7 +115,6 @@ const ProductPayMoblie = (props: TProps) => {
       }
 
       useEffect(() => {
-            console.log('ol')
             setDisableBtn(false)
       }, [cartCurrent.cart_current_address])
 

@@ -71,7 +71,7 @@ const CustomerOrderHistory = () => {
 
                   <div className='flex-1 mt-[20px]'>
                         <div className='w-full overflow-x-hidden'>
-                              <div style={{ width: '100%' }} ref={wrapperOrderRef} className='flex'>
+                              <div style={{ width: '100%' }} ref={wrapperOrderRef} className='flex h-[350px]'>
                                     {/* {active === 'CART' &&  */}
                                     <div className='min-w-full max-w-full w-full'>{active === 'CART' && <OrderCart />}</div>
                                     <div className='min-w-full max-w-full w-full'>{active === 'ORDER' && <OrderHistory />}</div>
@@ -84,7 +84,6 @@ const CustomerOrderHistory = () => {
                                     {/* } */}
                               </div>
                         </div>
-                        <div className='w-full h-[5000px] bg-red-800'></div>
                   </div>
             </div>
       )

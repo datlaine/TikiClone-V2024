@@ -8,18 +8,11 @@ import ShopApi from '../../../apis/shop.api'
 
 type TProps = {
       product_id?: string
-      shop_id: string
+      shop: ShopResponse
 }
 
 const ProductShopInfo = (props: TProps) => {
-      const { product_id, shop_id } = props
-
-      const shopQuery = useQuery({
-            queryKey: ['/v1/api/shop/get-shop-product'],
-            queryFn: () => ShopApi.getShopInfoOfProduct({ shop_id }),
-      })
-
-      const shop = shopQuery.data?.data.metadata.shop
+      const { shop } = props
 
       return (
             <>

@@ -27,15 +27,12 @@ const CustomerAccountBirth = () => {
 
       //render day
       const renderDay = (soNgay: number, year: number) => {
-            console.log({ year })
             let newDayArray = []
             for (let index = 1; index <= soNgay; index++) {
                   newDayArray.push({ value: index, label: index })
             }
             return newDayArray
       }
-      console.log({ methods: watch('birth.month'), soNgay: dayCurrent, yearCurrent })
-      console.log({ monthSelectDefault })
       //render month
       const renderMonth = useCallback(() => {
             let newMonthYear = []

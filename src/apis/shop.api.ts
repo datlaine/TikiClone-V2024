@@ -78,8 +78,10 @@ class ShopApi {
             )
       }
 
-      static async getShopInfoOfProduct({ shop_id }: { shop_id: string }) {
-            return axiosCustom.get<TResponseApi<{ shop: ShopResponse }>>('/v1/api/shop/get-shop-product', { params: { shop_id } })
+      static async getShopInfoOfProduct({ shop_id, product_id }: { shop_id: string; product_id: string }) {
+            return axiosCustom.get<TResponseApi<{ shop: ShopResponse }>>('/v1/api/shop/get-shop-product', {
+                  params: { shop_id, product_id },
+            })
       }
 
       static async getShopId({ shop_id }: { shop_id: string }) {

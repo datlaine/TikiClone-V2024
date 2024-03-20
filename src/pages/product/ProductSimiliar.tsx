@@ -66,8 +66,6 @@ const ProductSimiliar = (props: TProps) => {
       const page3 = productData?.slice(16, 24)
       const page4 = productData?.slice(24, 32)
 
-      console.log({ page1, page2, page3, page4, totalPage })
-
       return (
             <div className='relative overflow-hidden flex flex-col gap-[16px] mx-[16px] py-[24px]'>
                   <p className='text-[16px] font-semibold'>Sản phẩm tương tự</p>

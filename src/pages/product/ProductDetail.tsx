@@ -37,8 +37,6 @@ const ProductDetail = (props: TProps) => {
             setOpenModal(true)
       }
 
-      console.log({ product })
-
       useEffect(() => {
             if (isSuccess) {
                   setImageActive(product?.product_thumb_image.secure_url as string)

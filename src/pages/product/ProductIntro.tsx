@@ -21,6 +21,10 @@ import ProductSimiliar from './ProductSimiliar'
 import ProductPayMoblie from './ProductPayMoblie'
 import ProductShopInfo from './Components/ProductShopInfo'
 import ProductBestBought from './ProductBestBought'
+import { useQuery } from '@tanstack/react-query'
+import ShopApi from '../../apis/shop.api'
+import { ShopResponse } from '../../types/shop.type'
+import { STALE_TIME } from '../../component/Comment/Comment'
 
 type TProps = { product: TProductDetail; totalComment: number; avg: number }
 
@@ -36,6 +40,12 @@ const ProductIntro = (props: TProps) => {
       const handleOpenModal = () => {
             setOpenModal(true)
       }
+
+      const shopQuery = useQuery({
+            queryKey: ['/v1/api/shop/get-shop-product'],
+            queryFn: () => ShopApi.getShopInfoOfProduct({ shop_id: product.shop_id._id, product_id: product._id }),
+            staleTime: STALE_TIME,
+      })
 
       // console.log({ cartCurrent: renderStringAddressDetailV2(address_default[0]) })
 
@@ -137,7 +147,7 @@ const ProductIntro = (props: TProps) => {
                         <ProductBestBought />
                   </section>
                   <section className='w-full min-h-[130px] h-max  rounded-lg'>
-                        <ProductShopInfo product_id={product._id} shop_id={product.shop_id._id} />
+                        <ProductShopInfo shop={shopQuery.data?.data.metadata.shop as ShopResponse} />
                   </section>
 
                   <section className='min-h-[70px] h-max w-full  p-[18px]  bg-[#ffffff] flex flex-col gap-[6px] rounded-lg '>

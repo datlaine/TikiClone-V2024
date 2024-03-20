@@ -128,7 +128,6 @@ const RegisterSell = () => {
 
                                           {productType === 'Food' && (
                                                 <>
-                                                      <span>{productType}</span>
                                                       <ProductFormUpload<TimelineFoodFieldName, TimelineFoodLabel>
                                                             ProductType={'Food'}
                                                             ProductAttribute={<Food />}

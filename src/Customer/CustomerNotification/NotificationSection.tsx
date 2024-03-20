@@ -84,7 +84,7 @@ const NotificationSection = (props: TProps) => {
                                                       {notification.notification_attribute.notification_type === 'SHOP' && (
                                                             // <Clock8 size={24} color='white' />
                                                             <img
-                                                                  className='w-full h-full rounded-full'
+                                                                  className='w-full h-full rounded'
                                                                   src={notification.notification_attribute.product_image}
                                                                   alt='product'
                                                             />
@@ -102,10 +102,10 @@ const NotificationSection = (props: TProps) => {
                                                 {notification.notification_attribute.notification_type === 'SHOP' && (
                                                       <p>
                                                             {notification.notification_attribute.notification_content}
-                                                            <span className='mx-[2px] bg-black text-white inline-block px-[2px] py-1'>
+                                                            <span className='mx-[2px]  text-black underlinex inline-block px-[2px] py-1'>
                                                                   {notification.notification_attribute.product_name}
                                                             </span>
-                                                            <span className='mx-[2px] bg-blue-400 text-white inline-block px-[2px] py-1'>
+                                                            <span className='mx-[2px] text-blue-400 underline  inline-block px-[2px] py-1'>
                                                                   số lượng: {notification.notification_attribute.product_quantity}
                                                             </span>
                                                       </p>
@@ -159,9 +159,9 @@ const NotificationSection = (props: TProps) => {
                                                       )}
                                                 </button>
                                           </div>
-                                          {notification.notification_attribute.notification_type === 'SHOP' && (
+                                          {/* {notification.notification_attribute.notification_type === 'SHOP' && (
                                                 <span>{notification.notification_attribute.order_id}</span>
-                                          )}
+                                          )} */}
                                     </div>
                               )),
                         )}

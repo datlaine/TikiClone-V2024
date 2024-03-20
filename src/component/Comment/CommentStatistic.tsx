@@ -19,7 +19,6 @@ const CommentStatistic = (props: TProps) => {
                   setWidth(width)
             }
       }, [avg, totalComment, detailComment])
-      console.log({ avg })
       // console.log({ width:  })
 
       return (

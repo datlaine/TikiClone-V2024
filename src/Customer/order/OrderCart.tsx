@@ -10,7 +10,7 @@ const OrderCart = () => {
             queryFn: () => CartService.getMyCart(),
       })
       return (
-            <div className='min-w-full bg-yellow-700'>
+            <div className='min-w-full bg-[#ffffff]'>
                   {getMyCart.isSuccess &&
                         getMyCart.data.data.metadata.cart &&
                         getMyCart.data.data.metadata.cart.cart_products.map((product) => (

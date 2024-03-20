@@ -71,7 +71,7 @@ const CustomerOrderHistory = () => {
 
                   <div className='flex-1 mt-[20px]'>
                         <div className='w-full overflow-x-hidden'>
-                              <div style={{ width: '100%' }} ref={wrapperOrderRef} className='flex h-[350px]'>
+                              <div style={{ width: '100%' }} ref={wrapperOrderRef} className='flex  min-h-[350px] h-max'>
                                     {/* {active === 'CART' &&  */}
                                     <div className='min-w-full max-w-full w-full'>{active === 'CART' && <OrderCart />}</div>
                                     <div className='min-w-full max-w-full w-full'>{active === 'ORDER' && <OrderHistory />}</div>

@@ -105,7 +105,7 @@ const HeaderResultSearch = (props: Props) => {
                                                 shops.map((shop) => (
                                                       <Link key={shop._id} to={`/shop/${shop._id}`} className='flex gap-[20px]'>
                                                             <img
-                                                                  src={shop.shop_avatar.secure_url || shop.shop_avatar_default}
+                                                                  src={shop.shop_avatar?.secure_url || shop.shop_avatar_default}
                                                                   className='w-[50px h-[50px]'
                                                                   alt=''
                                                             />

@@ -282,7 +282,7 @@ const CustomerAccount = () => {
                               </div>
                         </div>
                         {/* @customer::account -> update::password */}
-                        <div className='flex flex-col gap-[1px]'>
+                        {/* <div className='flex flex-col gap-[1px]'>
                               <button className='bg-slate-900 text-white' onClick={handleGetMe}>
                                     Get me{' '}
                               </button>
@@ -295,7 +295,7 @@ const CustomerAccount = () => {
                               >
                                     Add toast{' '}
                               </button>
-                        </div>
+                        </div> */}
                   </div>
             </div>
       )

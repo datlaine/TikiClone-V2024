@@ -70,12 +70,12 @@ const HeaderResultSearch = (props: Props) => {
                                     getProductTopSearch.isSuccess &&
                                     getProductTopSearch.data.data.metadata.products.map((product) => (
                                           <div
-                                                className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[8px] justify-center hover:bg-slate-200'
+                                                className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[8px] justify-center '
                                                 key={product._id}
                                           >
                                                 <Link
                                                       to={`/product/${product._id}`}
-                                                      className='flex items-center gap-[8px] min-h-[40px] '
+                                                      className='flex items-center gap-[8px] min-h-[40px] hover:bg-slate-200'
                                                       onClick={onNavigate}
                                                 >
                                                       <Search className='text-slate-400' />
@@ -85,14 +85,14 @@ const HeaderResultSearch = (props: Props) => {
                                     ))}
 
                               {searchQuery.isSuccess && (
-                                    <div className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[20px] justify-center hover:bg-slate-200'>
+                                    <div className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[20px] justify-center '>
                                           {products &&
                                                 products.length > 0 &&
                                                 products.map((product) => (
                                                       <Link
                                                             key={product._id}
                                                             to={`/product/${product._id}`}
-                                                            className='flex gap-[8px]'
+                                                            className='flex gap-[8px] hover:bg-slate-200'
                                                             onClick={onNavigate}
                                                       >
                                                             <Search className='text-slate-400' />

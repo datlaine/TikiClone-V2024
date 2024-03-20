@@ -101,7 +101,7 @@ const Product = () => {
                         )}
 
                         {getProductWithId.isSuccess && product && (
-                              <div className='  flex gap-[16px] xl:gap-[24px] mt-[30px] xl:mt-0'>
+                              <div className='  flex gap-[16px] xl:gap-[24px] xl:mt-0'>
                                     <div className='w-full xl:w-[74%] flex flex-col gap-[24px]'>
                                           <div className='top w-full min-h-[1000px] h-max flex flex-col xl:flex-row gap-[24px]'>
                                                 <div className='xl:w-[40%] static xl:sticky top-[32px] xl:top-[16px] bg-white px-[3px] py-[6px] rounded-lg  h-max flex flex-col gap-[16px] '>

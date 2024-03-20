@@ -58,15 +58,12 @@ const ProductCare = () => {
             <div className='relative flex-1 h-[298px] max-w-full px-0 xl:px-[18px]'>
                   <div className='max-w-full h-full overflow-hidden'>
                         <div
-                              className='flex gap-[20px] xl:gap-[16px] w-[370px] xl:w-full  h-full overflow-x-scroll xl:overflow-visible '
+                              className='gap-[20px] xl:gap-[16px]  grid grid-cols-2 auto-cols-[160px] grid-flow-col  xl:grid-flow-row xl:grid-cols-6  h-full overflow-x-scroll xl:overflow-visible '
                               ref={wrapperListProductsRef}
                         >
                               {products &&
                                     products.map((product) => (
-                                          <div
-                                                className='min-w-[calc((100%-30px)/3)] xl:min-w-[calc((100%-90px)/6)] h-full'
-                                                key={product._id}
-                                          >
+                                          <div className='h-full' key={product._id}>
                                                 <ProductSimplify product={product} />
                                           </div>
                                     ))}

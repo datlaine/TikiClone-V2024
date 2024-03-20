@@ -14,7 +14,6 @@ type TProps = {
 const ShopStore = (props: TProps) => {
       const { shop_id, shop } = props
 
-      console.log({ shop_id })
       const Layout = ProductTopSellQuery<{ TransitionTime: number }>({
             shop_id,
             limit: 10,

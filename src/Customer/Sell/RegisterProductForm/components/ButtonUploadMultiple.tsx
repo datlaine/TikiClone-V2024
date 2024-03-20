@@ -41,8 +41,6 @@ interface IProps {
 const ButtonUploadMultiple = (props: IProps) => {
       const { labelMessage, width, product_id, isSubmit, setUrlProductMultipleImage, setGetFileName, mode = 'UPLOAD' } = props
 
-      console.log({ product_id })
-
       //@Input upload chính
       const inputRef = useRef<HTMLInputElement>(null)
 
@@ -99,8 +97,6 @@ const ButtonUploadMultiple = (props: IProps) => {
             mutationKey: ['deleteProductDescriptionImageOne'],
             mutationFn: (formData: IFormDataDeleteImage) => ProductApi.deleteProductDescriptionImageOne(formData),
       })
-
-      console.log({ fileProduct })
 
       //@Click vào button, kích hoạt inputRef click
       const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

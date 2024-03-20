@@ -25,8 +25,6 @@ const HeaderSeacrhInput = () => {
             setText(value)
       }
 
-      console.log('re-render')
-
       const onReset = useCallback(() => {
             setText('')
             setShowSearch(false)
@@ -42,8 +40,6 @@ const HeaderSeacrhInput = () => {
       }, [location, dispatch])
 
       const controllShowResultSearch = useCallback((e: MouseEvent) => {
-            console.log('check')
-
             if (divRef.current && !divRef.current.contains(e.target as Node)) {
                   setShowSearch(false)
                   dispatch(onShowOverload({ overload: false }))
@@ -51,7 +47,6 @@ const HeaderSeacrhInput = () => {
       }, [])
 
       useEffect(() => {
-            console.log('check')
             if (!showSearch) {
                   document.removeEventListener('click', controllShowResultSearch)
             }
@@ -66,7 +61,6 @@ const HeaderSeacrhInput = () => {
 
       useEffect(() => {
             timer.current = setTimeout(() => {
-                  console.log('OK')
                   setTextDelay(text)
             }, 1000)
 

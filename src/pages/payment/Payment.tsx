@@ -31,8 +31,6 @@ const Payment = () => {
             }
       }
 
-      console.log({ dataOrder })
-
       useEffect(() => {
             window.scrollTo({
                   top: 0,

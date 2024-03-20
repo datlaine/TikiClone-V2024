@@ -46,8 +46,6 @@ const ButtonUpload = (props: IProps) => {
             return CloudinaryImage as TCloudinaryImage
       })
 
-      console.log({ cloudinaryImage })
-
       //@api upload image
       const uploadProductThumb = useMutation({
             mutationKey: ['product-thumb'],

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { TToast } from '../Context/ToastContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeToast } from '../../Redux/toast'
 import { RootState } from '../../store'
 import { ShieldAlert, ShieldCheck, ShieldX, X } from 'lucide-react'
 import { DateTime } from 'luxon'
 import { localDateTime } from '../../constant/local'
+import { TToast } from '../Context/ToastContext'
 type TProps = {
       toast: TToast
 }

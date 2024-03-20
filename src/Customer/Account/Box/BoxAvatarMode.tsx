@@ -6,12 +6,11 @@ import { Eye, Image, Pencil, Trash2 } from 'lucide-react'
 import Portal from '../../../component/Portal'
 import ModelAvatarSee from '../models/ModelAvatarSee'
 import ModelAvatarUpdate from '../models/ModelAvatarUpdate'
-import ModelAvatarDelete, { ResultApiDeleteAvatar } from '../models/ModelAvatarDelete'
+import ModelAvatarDelete from '../models/ModelAvatarDelete'
 import { ShopResponse } from '../../../types/shop.type'
 import { UserResponse } from '../../../types/user.type'
 import { useMutation } from '@tanstack/react-query'
 import AccountService from '../../../apis/account.service'
-import { TResponseApi } from '../../../types/axiosResponse'
 import { fetchUser } from '../../../Redux/authenticationSlice'
 
 type TProps = {

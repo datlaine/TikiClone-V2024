@@ -43,15 +43,8 @@ const ProductSlider = (props: TProps) => {
       }
 
       const onChangeSourceImage = ({ secure_url, refIndex }: { secure_url: string; refIndex: number }) => {
-            console.log('OK', imageRef.current)
             if (imageRef.current) {
                   imageRef.current[refIndex].src = secure_url
-            }
-      }
-
-      const onMouseRegainSoucre = ({ refIndex }: { refIndex: number }) => {
-            if (imageRef.current) {
-                  imageRef.current[refIndex].src = products[refIndex].product_thumb_image.secure_url
             }
       }
 

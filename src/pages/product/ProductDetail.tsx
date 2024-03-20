@@ -16,8 +16,6 @@ const ProductDetail = (props: TProps) => {
       const [imageArray, setImageArray] = useState<TImage[]>([])
       const [openModal, setOpenModal] = useState<boolean>(false)
 
-      console.log({ product })
-
       const handleMouseEnter = (secure_url: string) => {
             if (image.current) {
                   image.current.src = secure_url

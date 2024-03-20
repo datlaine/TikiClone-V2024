@@ -63,7 +63,6 @@ const ProductPayMoblie = (props: TProps) => {
       }
 
       const handleClickBuy = () => {
-            console.log('OK')
             if (!user) {
                   dispatch(doOpenBoxLogin())
                   return

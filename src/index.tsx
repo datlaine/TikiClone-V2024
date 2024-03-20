@@ -8,7 +8,6 @@ import App from './App'
 import { PersistGate } from 'redux-persist/integration/react'
 import { checkAxiosError } from './utils/handleAxiosError'
 import TErrorAxios from './types/axios.response.error'
-import ContextToastProvider from './component/Context/ToastContext'
 import { addToast } from './Redux/toast'
 import BoxContainerToast from './component/BoxUi/BoxContainerToast'
 import { doOpenBoxLogin } from './Redux/authenticationSlice'
@@ -99,10 +98,8 @@ root.render(
             <PersistGate persistor={persistor}>
                   <BrowserRouter>
                         <QueryClientProvider client={client}>
-                              <ContextToastProvider>
-                                    <App />
-                                    <BoxContainerToast />
-                              </ContextToastProvider>
+                              <App />
+                              <BoxContainerToast />
                               {/* <ReactQueryDevtools initialIsOpen={false} /> */}
                         </QueryClientProvider>
                   </BrowserRouter>

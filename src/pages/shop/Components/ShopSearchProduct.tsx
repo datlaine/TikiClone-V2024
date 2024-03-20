@@ -14,7 +14,6 @@ const ShopSearchProduct = (props: TProps) => {
             e.preventDefault()
 
             setSearch(searchName)
-            console.log('OOOO', searchName)
       }
 
       useEffect(() => {

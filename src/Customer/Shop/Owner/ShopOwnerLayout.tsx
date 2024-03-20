@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import OwnerShopFilterName from './Filter/OwnerShopFilterName'
 import { ShopResponse } from '../../../types/shop.type'
 import BoxAvatarMode from '../../Account/Box/BoxAvatarMode'
-import BoxRegisterShop from '../../../component/BoxUi/BoxShopForm'
 import BoxShopForm from '../../../component/BoxUi/BoxShopForm'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store'
@@ -24,7 +23,6 @@ const ShopOwnerLayout = (props: TProps) => {
       const defaultValues = user?.isOpenShop
             ? { shop_name: shop.shop_name, shop_avatar: shop.shop_avatar?.secure_url, shop_description: shop.shop_description }
             : { shop_name: '', shop_avatar: '', shop_description: '' }
-      console.log({ shop })
 
       const styleEffect = {
             onActive: (check: boolean) => {

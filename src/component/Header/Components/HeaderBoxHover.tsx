@@ -8,7 +8,6 @@ import { addToast } from '../../../Redux/toast'
 import { UserResponse } from '../../../types/user.type'
 
 function HeaderBoxHover() {
-      // const { user, doCloseBoxLogin, doOpenBoxLogin, isOpenBoxLogin, userLogout, clearCart } = props
       const navigate = useNavigate()
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const dispatch = useDispatch()
@@ -30,16 +29,6 @@ function HeaderBoxHover() {
                   dispatch(addToast({ type: 'ERROR', message: 'Đăng xuất không thành công', id: Math.random().toString() }))
             },
       })
-      // console.log('om', user)
-      const handleGoToInfo = () => {
-            if (!user) {
-                  // doOpenBoxLogin()
-                  dispatch(doOpenBoxLogin())
-                  return
-            }
-            navigate('/customer/order_history')
-            // console.log(isOpenBoxLogin, user)
-      }
 
       const handleLogOut = () => {
             logoutMutation.mutate()

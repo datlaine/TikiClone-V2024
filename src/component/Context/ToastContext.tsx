@@ -35,15 +35,6 @@ const ContextToastProvider = ({ children }: TProps) => {
       const [showToast, setShowToast] = useState(false)
       const timer = useRef<NodeJS.Timeout>()
       const [contentToast, setContentToast] = useState<TToast[]>([])
-      useEffect(() => {
-            if (contentToast.length > 0) {
-                  // timer.current = setInterval(() => {
-                  //       setContentToast((prev) => prev.slice(1))
-                  // }, 5000)
-            }
-
-            return () => clearInterval(timer.current)
-      }, [contentToast.length])
 
       return (
             <ContextToast.Provider value={{ setShowToast, showToast, setContentToast, contentToast }}>

@@ -169,8 +169,6 @@ const FormAddress = (props: TProps) => {
             setWard(code)
       }
 
-      console.log({ province })
-
       useEffect(() => {
             if (province) {
                   districtApi.mutate(province)
@@ -186,12 +184,12 @@ const FormAddress = (props: TProps) => {
       }, [district])
 
       useEffect(() => {
-            console.log({ data: provinceApi.data?.data })
+            // console.log({ data: provinceApi.data?.data })
       }, [provinceApi.isSuccess, provinceApi.data?.data])
 
       useEffect(() => {
             if (districtApi.isSuccess) {
-                  console.log({ district: districtApi.data.data.metadata })
+                  // console.log({ district: districtApi.data.data.metadata })
             }
       }, [districtApi.isSuccess, districtApi.data?.data.metadata])
 

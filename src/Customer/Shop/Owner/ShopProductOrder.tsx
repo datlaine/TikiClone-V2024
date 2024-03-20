@@ -10,8 +10,6 @@ type TProps = {
 const ShopProductOrder = (props: TProps) => {
       const { order } = props
 
-      console.log({ order })
-
       return (
             <div className='bg-[#ffffff] rounded-lg'>
                   {order.products.map((product) => (

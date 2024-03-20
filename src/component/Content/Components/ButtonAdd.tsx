@@ -12,7 +12,6 @@ const ButtonAdd = (props: Props) => {
 
       useEffect(() => {
             const scroll = () => {
-                  console.log('re-render')
                   if (wrapperBoxButton.current) {
                         let top = wrapperBoxButton.current.getBoundingClientRect().top
                         if (top > 200) {

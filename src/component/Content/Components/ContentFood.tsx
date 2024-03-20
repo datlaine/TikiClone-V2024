@@ -1,10 +1,9 @@
-import React, { ReactNode, useRef, useState } from 'react'
-import { ProductType, TypeBook, TypeFood } from '../../../types/product/product.type'
+import React, { useRef, useState } from 'react'
+import { TypeFood } from '../../../types/product/product.type'
 import { useQuery } from '@tanstack/react-query'
 import ProductApi from '../../../apis/product.api'
 import ProductSmall from './ProductSmall'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { getAllJSDocTags } from 'typescript'
 
 export const CATEGORY_FOOD = [
       {

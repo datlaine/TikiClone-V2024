@@ -17,7 +17,6 @@ const NotificationProduct = (props: TProps) => {
       const { notification, notificationProduct, ...propsElement } = props
       const limit = 10
       const [page, setPage] = useState<number>(1)
-
       const [heightNotification, setHeightNotification] = useState<number>(180)
       console.log({ id: notificationProduct.product_id })
       const getOrderInfo = useQuery({

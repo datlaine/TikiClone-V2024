@@ -82,7 +82,6 @@ const UpdateMultipleImage = (props: IProps) => {
             mutationFn: ({ formData }: { formData: IFormDataImage }) => ProductApi.uploadProductDescriptionImageOne({ formData }),
             onSuccess: (axiosResponse) => {
                   setCloudinaryImage((cloudinaryLocal) => {
-                        console.log({ cloudinaryLocal })
                         const newArray = [...cloudinaryLocal]
                         newArray.push({
                               secure_url: axiosResponse.data.metadata.product.secure_url,

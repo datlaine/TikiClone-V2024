@@ -57,7 +57,6 @@ const CustomerUpdatePassword = () => {
       }
 
       const onSubmit = (form: TRegisterZodSchema) => {
-            console.log({ form })
             const { password, new_password } = form
             updatePasswordMutation.mutate({ password, newPassword: new_password })
       }

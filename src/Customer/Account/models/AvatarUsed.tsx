@@ -1,8 +1,7 @@
 import { Trash2 } from 'lucide-react'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Account from '../../../apis/account.service'
-import { ContextToast } from '../../../component/Context/ToastContext'
 import { useDispatch } from 'react-redux'
 import { fetchUser } from '../../../Redux/authenticationSlice'
 import { convertDateToString } from '../../../utils/date.utils'
@@ -15,14 +14,12 @@ type TProps = {
 const AvatarUsed = (props: TProps) => {
       const { avatar } = props
       const dispatch = useDispatch()
-      const { setContentToast } = useContext(ContextToast)
       const queryClient = useQueryClient()
       const [showLoading, setShowLoading] = useState(false)
       const deleteAvatarUsed = useMutation({
             mutationKey: ['delete-avatar-used'],
             mutationFn: (public_id: string) => Account.deleteAvatarUsed(public_id),
             onSuccess: () => {
-                  setContentToast((prev) => [...prev, { type: 'SUCCESS', message: 'Đã xóa thành công', id: Math.random().toString() }])
                   queryClient.invalidateQueries({ queryKey: ['avatar-used'] })
             },
       })

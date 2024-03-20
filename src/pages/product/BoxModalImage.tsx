@@ -12,7 +12,6 @@ type TProps = {
 
 const BoxModalImage = (props: TProps) => {
       const { setOpenModal, secure_url, imageActive, transitionDuration = 2 } = props
-      console.log({ secure_url })
       const wrapperRef = useRef<HTMLDivElement>(null)
       const [posImage, setPosImage] = useState<number>(1)
       const widthAfter = useRef<number>(0)

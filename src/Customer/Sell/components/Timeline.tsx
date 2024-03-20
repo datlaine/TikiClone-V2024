@@ -15,8 +15,6 @@ const Timeline = <FieldNameInput, HookFormType extends FieldValues>(props: TimeL
 
       // const context = useFor
 
-      console.log({ fileName: File?.FileName })
-
       const width = FieldName && error![FieldName as string] ? 'w-[200px]' : 'w-[150px]'
       const widthFile =
             //  ((File?.CountFile as number) || (Files?.CountFile as number)) < 1 ?

@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { ContextToast } from '../Context/ToastContext'
+import React, { useEffect, useRef, useState } from 'react'
 import { ShieldAlert, ShieldCheck, ShieldX, X } from 'lucide-react'
 type TProps = {
       message: string
@@ -12,21 +11,15 @@ const BoxToast = (props: TProps) => {
       const toastTimer = useRef<NodeJS.Timeout>()
       const timer = useRef<NodeJS.Timeout>()
       const [show, setShow] = useState(true)
-      const { setContentToast, contentToast } = useContext(ContextToast)
       const [time, setTime] = useState(props.timer / 1000 || 1000)
 
       const handleControllCloseToast = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
             e.stopPropagation()
-            setContentToast((prev) => prev.filter((toast, index) => toast.id !== props.id))
             setShow(false)
-
-            console.log({ toast: contentToast, key: props.id })
       }
 
       useEffect(() => {
             toastTimer.current = setTimeout(() => {
-                  setContentToast((prev) => prev.filter((toast, index) => toast.id !== props.id))
-                  console.log({ toast: contentToast, key: props.id })
                   setShow(false)
             }, props.timer)
 

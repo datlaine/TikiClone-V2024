@@ -11,8 +11,6 @@ type TProps = {
 const PaymentItem = (props: TProps) => {
       const { product, index } = props
 
-      console.log({ product })
-
       const AddressTypeIcon =
             product.cart_address.type === 'Home' ? <Home /> : product.cart_address.type === 'Company' ? <Building2 /> : <TentTree />
 

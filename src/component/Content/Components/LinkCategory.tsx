@@ -15,7 +15,6 @@ const LinkCategory = ({ query, Title }: Props) => {
       }
 
       const { data } = query
-      console.log(data)
       return (
             <div className='flex flex-col gap-3  py-[25px] h-[250px] lg:h-[150px]'>
                   {Title && Title}

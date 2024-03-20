@@ -45,7 +45,6 @@ const ProductBestBought = () => {
       const _page3 = productAllPage?.slice(ELEMENT_PAGE * 2, ELEMENT_PAGE * 3)
 
       const totalPage = Math.ceil(Number(productAllPage?.length) / 8)
-      console.log({ totalPage, length: productAllPage?.length })
 
       const styleEffect = {
             buttonPrev: count === 1 ? 'xl:hidden' : 'xl:flex',

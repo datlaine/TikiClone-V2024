@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { fetchUser } from '../../../Redux/authenticationSlice'
 import { addToast } from '../../../Redux/toast'
-import AccountService from '../../../apis/account.service'
 import { AxiosResponse } from 'axios'
 
 //@props

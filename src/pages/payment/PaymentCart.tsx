@@ -25,7 +25,6 @@ export type ParamOrderAdd = {
 
 const PaymentCart = (props: TProps) => {
       const { carts, price, product_payment, onOrderSuccess } = props
-      console.log({ payment: product_payment })
       const productWrapperRef = useRef<HTMLDivElement>(null)
 
       const heightElement = useRef<number>(40)

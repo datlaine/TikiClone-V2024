@@ -11,8 +11,6 @@ const book_label: Array<keyof TTimeLineBookLabel> = ['Nhà xuất bản', 'Tác 
 const ProductBook = (props: TProps) => {
       const { product_attribute } = props
 
-      console.log({ product_attribute })
-
       const { author, type, page_number, publishing } = product_attribute
 
       const attribute = {

@@ -12,7 +12,6 @@ const ShopProductList = () => {
 
       useEffect(() => {
             if (product_all.isSuccess) {
-                  console.log({ product: product_all.data.data.metadata.product_all })
             }
       }, [product_all.isSuccess, product_all.data?.data.metadata.product_all])
 

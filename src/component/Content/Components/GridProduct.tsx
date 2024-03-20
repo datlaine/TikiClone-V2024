@@ -9,8 +9,6 @@ const GridProduct = ({ query }: Props) => {
 
       //select 0 / 3 /6
 
-      console.log(data?.data)
-
       return (
             <div className='flex lg:grid lg:grid-cols-4 lg:grid-rows-[150px_150px] lg:gap-[35px]'>
                   {data?.data && (

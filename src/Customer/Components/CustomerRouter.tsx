@@ -31,8 +31,6 @@ const CustomerRouter = () => {
             return <p>Trang này chỉ hiển thị cho mobile</p>
       }
 
-      console.log(window.innerWidth)
-
       return (
             <div className='block '>
                   <div className='ml-[20px] h-[75px] flex items-center gap-[8px] overflow-x-hidden' title={`Account ${user?.email}` || ''}>

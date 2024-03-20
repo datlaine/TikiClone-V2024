@@ -102,7 +102,6 @@ const ProductFormUpload = <TimelineFieldName, TimelineLabel>(props: TProps<Timel
       console.log({ erros: methods.formState.errors })
       //@hàm submit sản phẩm
       const onSubmit = (data: typeof defaultValues) => {
-            console.log({ data })
             setFormStateSubmit(true)
 
             // console.log({ demo: data })
@@ -149,7 +148,6 @@ const ProductFormUpload = <TimelineFieldName, TimelineLabel>(props: TProps<Timel
 
             const showLink = async () => {
                   await sleep(3000)
-                  console.log('123')
                   setIsSuccess(true)
             }
 
@@ -161,7 +159,6 @@ const ProductFormUpload = <TimelineFieldName, TimelineLabel>(props: TProps<Timel
       }, [uploadProductFull.isSuccess, queryClient])
 
       // console.log({ defaultValues: methods.formState.defaultValues })
-      console.log({ submit: methods.formState.isSubmitted, success: methods.formState.isSubmitSuccessful })
 
       return (
             <React.Fragment>

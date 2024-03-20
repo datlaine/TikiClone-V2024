@@ -16,14 +16,10 @@ type TProps = {
 const NotificationShop = (props: TProps) => {
       const { orderProductId, notification } = props
 
-      console.log('shop')
-
       const getMyShopNotification = useQuery({
             queryKey: ['v1/api/notification/get-my-shop-notifications', orderProductId],
             queryFn: () => NotificationService.getMyShopNotification({ order_product_id: orderProductId }),
       })
-
-      console.log({ notification: notification._id, orderProductId })
 
       return (
             <section className='w-full h-full flex flex-col gap-[12px]'>

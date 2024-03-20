@@ -1,16 +1,12 @@
 import React, { SetStateAction, useEffect } from 'react'
 import { TAvatarActions } from '../../../reducer/customer.reducer'
 import { useMutation } from '@tanstack/react-query'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchUser } from '../../../Redux/authenticationSlice'
-import { RootState } from '../../../store'
 import { addToast } from '../../../Redux/toast'
-import AccountService from '../../../apis/account.service'
 import { UserResponse } from '../../../types/user.type'
 import { ShopResponse } from '../../../types/shop.type'
 import { TResponseApi } from '../../../types/axiosResponse'
 import { AxiosResponse } from 'axios'
-import { AnyAction } from '@reduxjs/toolkit'
+import { useDispatch } from 'react-redux'
 // dispatch(addToast({ type: 'WARNNING', message: 'Không thể xóa avatar mặc định', id: Math.random().toString() }))
 
 // dispatch(fetchUser({ user: deleteAvatar.data.data.metadata.user }))

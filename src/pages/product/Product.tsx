@@ -42,8 +42,6 @@ const Product = () => {
 
       const product = getProductWithId.isSuccess ? getProductWithId!.data!.data!.metadata.product : undefined
 
-      console.log('re-render')
-
       const totalComment = getCommentCore.data?.data.metadata.totalCommentProduct
       const avg = getCommentCore.data?.data.metadata.comment_avg
       const detailComment = getCommentCore.data?.data.metadata.detailComment

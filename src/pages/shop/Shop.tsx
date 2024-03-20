@@ -47,7 +47,6 @@ const Shop = () => {
 
       const [tagActive, setTagActive] = useState<TagShopActive>('Store')
       const [search, setSeacrh] = useState<string>('')
-      const dispatch = useDispatch()
 
       const shopQuery = useQuery({
             queryKey: ['/v1/api/shop/get-shop-id', shop_id],
@@ -69,9 +68,7 @@ const Shop = () => {
 
       const shop = shopQuery.data?.data.metadata.shop
 
-      useEffect(() => {
-            console.log({ shop })
-      }, [shop])
+      useEffect(() => {}, [shop])
 
       return (
             <>

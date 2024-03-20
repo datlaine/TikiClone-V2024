@@ -43,7 +43,7 @@ const ContentBook = () => {
       const productManga = getProductBookAllType.data?.data.metadata.manga
       const productNovel = getProductBookAllType.data?.data.metadata.novel
       const productDectective = getProductBookAllType.data?.data.metadata.detective
-      console.log({ productManga })
+      // console.log({ productManga })
       const handleClickNext = () => {
             if (wrapperListProductsRef.current) {
                   setCount((prev) => prev + 1)

@@ -24,7 +24,6 @@ const InputText = <T extends FieldValues>(props: TProps<T>) => {
             formState: { errors },
       } = formNested
 
-      console.log({ errors: errors[FieldName as string]?.message, FieldName })
       // console.log({ zod: (errors!.attribute! as any)!['author']! })
       // methods?.watch(FieldName as unknown as Path<T>[])
 

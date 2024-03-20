@@ -103,13 +103,13 @@ const HeaderResultSearch = (props: Props) => {
                                           {shops &&
                                                 shops.length > 0 &&
                                                 shops.map((shop) => (
-                                                      <Link key={shop._id} to={`/shop/${shop._id}`} className='flex gap-[20px]'>
+                                                      <Link key={shop._id} to={`/shop/${shop._id}`} className='px-[10px] flex gap-[20px]'>
                                                             <img
                                                                   src={shop.shop_avatar?.secure_url || shop.shop_avatar_default}
                                                                   className='w-[50px h-[50px]'
                                                                   alt=''
                                                             />
-                                                            <div className='flex flex-col gap-[4px]'>
+                                                            <div className='flex flex-col gap-[2px]'>
                                                                   <span>{shop.shop_name}</span>
                                                                   <p>
                                                                         <span>{shop.shop_vote}</span>

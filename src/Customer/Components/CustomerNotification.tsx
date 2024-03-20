@@ -1,6 +1,6 @@
 import React from 'react'
 
-import BoxNotification from '../Notification/BoxNotificationV2'
+import BoxNotification from '../CustomerNotification/BoxNotificationV2'
 
 const CustomerNotification = () => {
       return (

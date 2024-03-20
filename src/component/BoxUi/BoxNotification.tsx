@@ -1,160 +1,160 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { History, Home, Notebook, Store, User } from 'lucide-react'
-import BoxBuild from './BoxBuild'
-import NotificationSection from '../../Customer/Notification/NotificationSection'
+// import React, { useEffect, useRef, useState } from 'react'
+// import { useLocation } from 'react-router-dom'
+// import { History, Home, Notebook, Store, User } from 'lucide-react'
+// import BoxBuild from './BoxBuild'
+// import NotificationSection from '../../Customer/Notification/NotificationSection'
 
-type NotificationTypeActive =
-      | {
-              title: 'Thông báo chung'
-              notification: 'COMMON'
-        }
-      | {
-              title: 'Thông báo cá nhân'
-              notification: 'USER'
-        }
-      | {
-              title: 'Thông báo sản phẩm'
-              notification: 'PRODUCT'
-        }
-      | {
-              title: 'Thông báo hệ thống'
-              notification: 'SYSTEM'
-        }
-      | { title: 'Thông báo Shop'; notification: 'SHOP' }
+// type NotificationTypeActive =
+//       | {
+//               title: 'Thông báo chung'
+//               notification: 'COMMON'
+//         }
+//       | {
+//               title: 'Thông báo cá nhân'
+//               notification: 'USER'
+//         }
+//       | {
+//               title: 'Thông báo sản phẩm'
+//               notification: 'PRODUCT'
+//         }
+//       | {
+//               title: 'Thông báo hệ thống'
+//               notification: 'SYSTEM'
+//         }
+//       | { title: 'Thông báo Shop'; notification: 'SHOP' }
 
-const BoxNotification = () => {
-      const location = useLocation().hash.slice(1)
+// const BoxNotification = () => {
+//       const location = useLocation().hash.slice(1)
 
-      const [activeNotification, setActiveNotification] = useState<NotificationTypeActive>({
-            title: 'Thông báo chung',
-            notification: 'COMMON',
-      })
+//       const [activeNotification, setActiveNotification] = useState<NotificationTypeActive>({
+//             title: 'Thông báo chung',
+//             notification: 'COMMON',
+//       })
 
-      const wrapperRef = useRef<HTMLDivElement>(null)
+//       const wrapperRef = useRef<HTMLDivElement>(null)
 
-      useEffect(() => {
-            if (wrapperRef.current) {
-                  const width = wrapperRef.current.getBoundingClientRect().width
-                  let numberTranslate = 0
-                  if (activeNotification.title === 'Thông báo chung') {
-                        numberTranslate = 0
-                  }
-                  if (activeNotification.title === 'Thông báo cá nhân') {
-                        console.log('OK')
-                        numberTranslate = 1
-                  }
+//       useEffect(() => {
+//             if (wrapperRef.current) {
+//                   const width = wrapperRef.current.getBoundingClientRect().width
+//                   let numberTranslate = 0
+//                   if (activeNotification.title === 'Thông báo chung') {
+//                         numberTranslate = 0
+//                   }
+//                   if (activeNotification.title === 'Thông báo cá nhân') {
+//                         console.log('OK')
+//                         numberTranslate = 1
+//                   }
 
-                  if (activeNotification.title === 'Thông báo sản phẩm') {
-                        numberTranslate = 2
-                  }
+//                   if (activeNotification.title === 'Thông báo sản phẩm') {
+//                         numberTranslate = 2
+//                   }
 
-                  if (activeNotification.title === 'Thông báo hệ thống') {
-                        numberTranslate = 3
-                  }
+//                   if (activeNotification.title === 'Thông báo hệ thống') {
+//                         numberTranslate = 3
+//                   }
 
-                  if (activeNotification.title === 'Thông báo Shop') {
-                        numberTranslate = 4
-                  }
-                  wrapperRef.current.style.transform = `translateX(${-width * numberTranslate}px)`
-            }
-      }, [activeNotification])
+//                   if (activeNotification.title === 'Thông báo Shop') {
+//                         numberTranslate = 4
+//                   }
+//                   wrapperRef.current.style.transform = `translateX(${-width * numberTranslate}px)`
+//             }
+//       }, [activeNotification])
 
-      const styleEffect = {
-            activeHash: (notification: string) => (notification === location ? 'bg-blue-100' : ''),
-      }
+//       const styleEffect = {
+//             activeHash: (notification: string) => (notification === location ? 'bg-blue-100' : ''),
+//       }
 
-      return (
-            <div className='relative w-full  pb-[10px] h-max flex flex-col gap-[16px] '>
-                  <div className='w-full min-h-[160px] xl:min-h-[80px] h-[80px] grid grid-cols-3 grid-rows-2  xl:flex items-center bg-[#ffffff] gap-[24px] flex-wrap xl:flex-nowrap '>
-                        <button
-                              className={`${
-                                    activeNotification.title === 'Thông báo chung' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
-                              onClick={() => setActiveNotification({ title: 'Thông báo chung', notification: 'COMMON' })}
-                              title={'Thông báo chung'}
-                        >
-                              <Home size={28} />
-                        </button>
+//       return (
+//             <div className='relative w-full  pb-[10px] h-max flex flex-col gap-[16px] '>
+//                   <div className='w-full min-h-[160px] xl:min-h-[80px] h-[80px] grid grid-cols-3 grid-rows-2  xl:flex items-center bg-[#ffffff] gap-[24px] flex-wrap xl:flex-nowrap '>
+//                         <button
+//                               className={`${
+//                                     activeNotification.title === 'Thông báo chung' ? ' border-blue-500' : 'border-transparent'
+//                               } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
+//                               onClick={() => setActiveNotification({ title: 'Thông báo chung', notification: 'COMMON' })}
+//                               title={'Thông báo chung'}
+//                         >
+//                               <Home size={28} />
+//                         </button>
 
-                        <button
-                              className={`${
-                                    activeNotification.title === 'Thông báo cá nhân' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
-                              onClick={() => setActiveNotification({ title: 'Thông báo cá nhân', notification: 'USER' })}
-                              title={'Thông báo cá nhân'}
-                        >
-                              <User size={28} />
-                        </button>
+//                         <button
+//                               className={`${
+//                                     activeNotification.title === 'Thông báo cá nhân' ? ' border-blue-500' : 'border-transparent'
+//                               } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
+//                               onClick={() => setActiveNotification({ title: 'Thông báo cá nhân', notification: 'USER' })}
+//                               title={'Thông báo cá nhân'}
+//                         >
+//                               <User size={28} />
+//                         </button>
 
-                        <button
-                              className={`${
-                                    activeNotification.title === 'Thông báo sản phẩm' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
-                              onClick={() => setActiveNotification({ title: 'Thông báo sản phẩm', notification: 'PRODUCT' })}
-                              title={'Thông báo sản phẩm'}
-                        >
-                              <Notebook size={28} />
-                        </button>
+//                         <button
+//                               className={`${
+//                                     activeNotification.title === 'Thông báo sản phẩm' ? ' border-blue-500' : 'border-transparent'
+//                               } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
+//                               onClick={() => setActiveNotification({ title: 'Thông báo sản phẩm', notification: 'PRODUCT' })}
+//                               title={'Thông báo sản phẩm'}
+//                         >
+//                               <Notebook size={28} />
+//                         </button>
 
-                        <button
-                              className={`${
-                                    activeNotification.title === 'Thông báo hệ thống' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
-                              onClick={() => setActiveNotification({ title: 'Thông báo hệ thống', notification: 'SYSTEM' })}
-                              title={'Thông báo hệ thông'}
-                        >
-                              <History size={28} />
-                        </button>
+//                         <button
+//                               className={`${
+//                                     activeNotification.title === 'Thông báo hệ thống' ? ' border-blue-500' : 'border-transparent'
+//                               } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
+//                               onClick={() => setActiveNotification({ title: 'Thông báo hệ thống', notification: 'SYSTEM' })}
+//                               title={'Thông báo hệ thông'}
+//                         >
+//                               <History size={28} />
+//                         </button>
 
-                        <button
-                              className={`${
-                                    activeNotification.title === 'Thông báo Shop' ? ' border-blue-500' : 'border-transparent'
-                              } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
-                              onClick={() => setActiveNotification({ title: 'Thông báo Shop', notification: 'SHOP' })}
-                              title={'Thông báo Shop'}
-                        >
-                              <Store size={28} />
-                        </button>
-                  </div>
+//                         <button
+//                               className={`${
+//                                     activeNotification.title === 'Thông báo Shop' ? ' border-blue-500' : 'border-transparent'
+//                               } h-full flex items-center justify-center xl:justify-normal border-b-[2px] px-[24px]`}
+//                               onClick={() => setActiveNotification({ title: 'Thông báo Shop', notification: 'SHOP' })}
+//                               title={'Thông báo Shop'}
+//                         >
+//                               <Store size={28} />
+//                         </button>
+//                   </div>
 
-                  <div className='w-full  overflow-hidden'>
-                        <div className='w-full min-h-[600px] h-max flex transition-all duration-500      ' ref={wrapperRef}>
-                              <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo chung' && (
-                                          <div className='w-full h-[300px]'>
-                                                <BoxBuild />
-                                          </div>
-                                    )}
-                              </div>
+//                   <div className='w-full  overflow-hidden'>
+//                         <div className='w-full min-h-[600px] h-max flex transition-all duration-500      ' ref={wrapperRef}>
+//                               <div className='min-w-full'>
+//                                     {activeNotification.title === 'Thông báo chung' && (
+//                                           <div className='w-full h-[300px]'>
+//                                                 <BoxBuild />
+//                                           </div>
+//                                     )}
+//                               </div>
 
-                              <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo cá nhân' && (
-                                          <div className='w-full h-[300px]'>
-                                                {/* <BoxBuild /> */}
-                                                <NotificationSection type='USER' />
-                                          </div>
-                                    )}
-                              </div>
+//                               <div className='min-w-full'>
+//                                     {activeNotification.title === 'Thông báo cá nhân' && (
+//                                           <div className='w-full h-[300px]'>
+//                                                 {/* <BoxBuild /> */}
+//                                                 <NotificationSection type='USER' />
+//                                           </div>
+//                                     )}
+//                               </div>
 
-                              <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo sản phẩm' && <NotificationSection type='PRODUCT' />}
-                              </div>
+//                               <div className='min-w-full'>
+//                                     {activeNotification.title === 'Thông báo sản phẩm' && <NotificationSection type='PRODUCT' />}
+//                               </div>
 
-                              <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo hệ thống' && <NotificationSection type='SYSTEM' />}
-                              </div>
+//                               <div className='min-w-full'>
+//                                     {activeNotification.title === 'Thông báo hệ thống' && <NotificationSection type='SYSTEM' />}
+//                               </div>
 
-                              <div className='min-w-full'>
-                                    {activeNotification.title === 'Thông báo Shop' && <NotificationSection type='SHOP' />}
-                              </div>
-                        </div>
-                  </div>
-            </div>
-      )
-}
+//                               <div className='min-w-full'>
+//                                     {activeNotification.title === 'Thông báo Shop' && <NotificationSection type='SHOP' />}
+//                               </div>
+//                         </div>
+//                   </div>
+//             </div>
+//       )
+// }
 
-export default BoxNotification
+// export default BoxNotification
 
 // {
 //       getMyNotification.isSuccess &&
@@ -205,3 +205,10 @@ export default BoxNotification
 //                   )
 //             })
 // }
+import React from 'react'
+
+const BoxNotification = () => {
+      return <div>BoxNotification</div>
+}
+
+export default BoxNotification

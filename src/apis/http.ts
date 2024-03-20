@@ -6,7 +6,7 @@ import { addToast } from '../Redux/toast'
 
 let retry = false
 let i = 5
-export const REACT_BACK_END_URL = 'https://backendtiki.onrender.com/'
+export const REACT_BACK_END_URL = 'https://backendtiki.onrender.com'
 
 class AxiosCustom {
       instance: AxiosInstance
@@ -21,7 +21,7 @@ class AxiosCustom {
                   },
             })
 
-            console.log({ backEndUrl: process.env.REACT_BACK_END_URL, i })
+            console.log({ backEndUrl: REACT_BACK_END_URL, i })
 
             //request
 

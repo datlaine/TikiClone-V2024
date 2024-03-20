@@ -6,7 +6,6 @@ import { ProductType } from '../../types/product/product.type'
 import ProductSection from './ProductSection'
 import FilterWrapper from './Components/FilterWrapper'
 import ShopCategory from './ShopCategory'
-import { Cat } from 'lucide-react'
 import CategoryTitle from './Components/CategoryTitle'
 
 const productBook = ['Sách tiếng Việt', 'Sách tiếng Anh', 'Truyện tranh', 'Tiểu thuyết', 'Ngôn tình', 'Sach giáo khoa']

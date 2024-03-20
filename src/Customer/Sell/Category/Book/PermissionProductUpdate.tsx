@@ -1,4 +1,4 @@
-import React, { ElementType, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import ProtectProductUpdate from './ProtectProductUpdate'
 import BookUpdate from './BookUpdate'
 import { useQuery } from '@tanstack/react-query'
@@ -44,10 +44,3 @@ const PermisionProductUpdate = () => {
 }
 
 export default PermisionProductUpdate
-// import React from 'react'
-
-// const UpdateWrapper = () => {
-//       return <div>UpdateWrapper</div>
-// }
-
-// export default UpdateWrapper

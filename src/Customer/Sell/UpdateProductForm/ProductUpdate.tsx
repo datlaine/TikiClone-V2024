@@ -1,15 +1,15 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 //@icon
 import { Check } from 'lucide-react'
 
 //@api
-import ProductApi, { IFormDataProductFull, ProductData } from '../../../apis/product.api'
+import ProductApi, { ProductData } from '../../../apis/product.api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 //@form
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FieldValue, FieldValues, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 //@components
@@ -20,14 +20,10 @@ import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
 import { productBookSchema, productFoodSchema, productSchema } from '../types/product.schema'
 import Book from '../Category/Book/Book'
-import { ProductForm, TCheckDescriptionImage, TChekUploadImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
-import { TRegisterFormBook } from '../../../types/product/product.book.type'
-import { returnPublicIdCloudinary, returnSecureUrlCloudinary } from '../../../utils/cloudinary.util'
-import { TCloudinaryImage, TCloudinaryPublicId } from '../types/cloudinary.typs'
+import { ProductForm, TCheckDescriptionImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
+import { TCloudinaryImage } from '../types/cloudinary.typs'
 import ButtonUpload from '../RegisterProductForm/components/ButtonUpload'
 import UpdateMultipleImage from './components/UpdateMultipleImage'
-import { Link } from 'react-router-dom'
-import { ProductFoodForm } from '../../../types/product/product.food.type'
 
 //@Props - Product::Book
 

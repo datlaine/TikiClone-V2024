@@ -1,5 +1,4 @@
-import { CaravanIcon } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { IProductBook, TProductDetail } from '../../types/product/product.type'
 import { Rate } from 'antd'
 import ProductLabel from './ProductLabel'

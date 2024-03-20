@@ -2,7 +2,6 @@ import React, { ComponentType } from 'react'
 import ShopApi from '../../../apis/shop.api'
 import { STALE_TIME } from '../../../component/Comment/Comment'
 import { useQuery } from '@tanstack/react-query'
-import ProductSlider from './ProductSlider'
 import { TProductDetail } from '../../../types/product/product.type'
 
 export type TPropsC = {

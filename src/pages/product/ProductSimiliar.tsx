@@ -1,11 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useRef, useState } from 'react'
 import ProductApi from '../../apis/product.api'
-import ProductSimplify from '../../component/Content/Components/ProductSimplify'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProductItemMini from './Components/ProductItemMini'
 import { TProductDetail } from '../../types/product/product.type'
-import { Span } from 'next/dist/trace'
 
 type TProps = {
       product: TProductDetail

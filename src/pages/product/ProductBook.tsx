@@ -1,7 +1,6 @@
 import React from 'react'
-import { IProductFood } from '../../types/product/product.food.type'
 import { IProductBook, ProductAttributeObject } from '../../types/product/product.type'
-import { TTimeLineBookField, TTimeLineBookLabel } from '../../types/timeline/timeline.book.type'
+import { TTimeLineBookLabel } from '../../types/timeline/timeline.book.type'
 
 type TProps = {
       product_attribute: Omit<IProductBook, 'product_id' | 'description'>

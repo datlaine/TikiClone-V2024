@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import React, { SetStateAction, useEffect, useState } from 'react'
 import ShopApi from '../../../apis/shop.api'
 import { STALE_TIME } from '../../../component/Comment/Comment'

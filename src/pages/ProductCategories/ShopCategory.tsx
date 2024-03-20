@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { ShopResponse } from '../../types/shop.type'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import ShopApi from '../../apis/shop.api'

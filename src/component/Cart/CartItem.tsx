@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox'
-import { Building2, ChevronRight, Home, TentTree, TimerIcon, Trash2 } from 'lucide-react'
+import { Building2, ChevronRight, Home, TentTree, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { DateTimeFromString } from '../../utils/datetime.util'
 import WrapperCountProduct from '../BoxUi/WrapperCountProduct'
@@ -12,7 +12,6 @@ import { formatMoneyVND } from '../../utils'
 import BoxMoney from '../BoxUi/BoxMoney'
 import BoxConfirmDelete from '../BoxUi/confirm/BoxConfirmDelete'
 import BoxButton from '../BoxUi/BoxButton'
-import FormAddress from '../../forms/FormAddress'
 import BoxConfirmAddress from '../BoxUi/confirm/BoxConfirmAddress'
 
 type TProps = {

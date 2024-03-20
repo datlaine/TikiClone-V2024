@@ -1,8 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { GeolocationApi, WeatherData, convertUnixTimestampToString, getDataWeather, getGeoLocation } from '../../utils/weatherApi.util'
-import { Cloud, CloudHail, Cloudy, Sunrise, Sunset } from 'lucide-react'
-import backgroundImage from '../../Customer/UserAddress/assets/img/bg-image.jpg'
+import { CloudHail, Sunrise, Sunset } from 'lucide-react'
 
 type TProps = {
       locationName: string

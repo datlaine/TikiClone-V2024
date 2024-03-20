@@ -12,7 +12,6 @@ const ShopProfile = (props: TProps) => {
       const { shop } = props
 
       const [readMore, setReadMore] = useState<boolean>(false)
-      const pagrap = useRef<HTMLParagraphElement>(null)
 
       return (
             <div className='w-full min-h-[340px] flex flex-col xl:flex-row  h-max bg-[#ffffff]   rounded-lg'>

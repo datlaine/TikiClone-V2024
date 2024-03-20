@@ -13,7 +13,6 @@ const ProductBestBought = () => {
 
       const wrapperListProductsRef = useRef<HTMLDivElement>(null)
       const PositionScrollCurrent = useRef<number>(0)
-      const [limitShowProduct, setLimitShowProduct] = useState<number>(0)
       const [count, setCount] = useState(1)
 
       const handleClickNext = () => {

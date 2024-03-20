@@ -21,11 +21,9 @@ import { useDispatch } from 'react-redux'
 import { addToast } from '../../../Redux/toast'
 import { productBookSchema, productFoodSchema, productSchema } from '../types/product.schema'
 import { ProductForm, ProductType, TCheckDescriptionImage, TProductDetail, TProfileImage } from '../../../types/product/product.type'
-import { TRegisterFormBook, TRegisterFormBookTest } from '../../../types/product/product.book.type'
 import UpdateMultipleImage from '../UpdateProductForm/components/UpdateMultipleImage'
 import { Link } from 'react-router-dom'
 import { sleep } from '../../../utils/sleep'
-import { ProductFoodForm } from '../../../types/product/product.food.type'
 
 //@Props - Product::Book
 

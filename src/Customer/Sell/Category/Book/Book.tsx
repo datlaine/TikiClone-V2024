@@ -5,14 +5,6 @@ import InputNumber from '../../components/InputNumber'
 import { Input, Select } from 'antd'
 import { BookType } from '../../../../types/product/product.book.type'
 
-// const schema = z.object({
-//     producpublishing: z.string().min(1, { message: 'Tên nhà xuất bản là bắt buộc' }),
-//     product_page_number: z
-//         .number()
-//         .min(1, { message: 'Số trang của sách phải lớn hơn 0' })
-//         .max(3004, { message: 'Số trang của sách lớn nhất là 3004' }),
-// })
-
 const { TextArea } = Input
 
 const optionSelect: { label: BookType; value: BookType }[] = [
@@ -35,8 +27,6 @@ export type TProps = {
 }
 
 const Book = (props: TProps) => {
-      const { mode } = props
-
       const form = useFormContext()
       const errors = form.formState.errors
 

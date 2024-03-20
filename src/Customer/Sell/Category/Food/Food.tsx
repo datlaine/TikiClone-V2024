@@ -1,7 +1,6 @@
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import InputText from '../../components/InputText'
-import InputNumber from '../../components/InputNumber'
 import { Select } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import { ProductFoodType } from '../../../../types/product/product.food.type'

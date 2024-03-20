@@ -12,17 +12,12 @@ import CartPayMini from './CartPayMini'
 import CartUserInfo from './CartUserInfo'
 import CartEmpty from './CartEmpty'
 import { UserResponse } from '../../types/user.type'
-import SectionProduct from '../Content/Components/SectionProduct'
-import TitleProductSection from '../Content/Components/TitleProductSection'
-import CountDown from '../Content/Components/CountDown'
-import SectionProductItem from '../Content/Components/SectionProductItem'
 import ContentProduct from '../Content/Components/ContentProduct'
 
 const Cart = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       // const [, setCartSelectPay] = useState<Pick<CartResponse, '_id' | 'product_price'>[]>([])
       const queryClient = useQueryClient()
-      const dispatch = useDispatch()
       const [selectAll, setSelectAll] = useState<boolean>(false)
 
       const getMyCart = useQuery({

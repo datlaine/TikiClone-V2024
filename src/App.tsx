@@ -1,16 +1,12 @@
-import { connect, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-// import BoxLogin from './component/AuthLoginResister/BoxLogin/BoxLogin'
-import Header from './component/Header/Header'
 import RouterController from './component/Routes/RouterController'
-import AboutTiki from './component/AboutTiki/AboutTiki'
-import Footer from './component/Footer/Footer'
 import { RootState } from './store'
 import AuthWrapper from './component/Auth/AuthWrapper'
 import FooterMobile from './component/Footer/FooterMobile'
 import ScrollToAnchor from './component/Header/Components/ScrollArchor'
 import { useLocation } from 'react-router-dom'
-
+import './index.css'
 function App() {
       const boxLogin = useSelector((state: RootState) => state.authentication.isOpenBoxLogin)
       const [, setShowBoxAuth] = useState(true)

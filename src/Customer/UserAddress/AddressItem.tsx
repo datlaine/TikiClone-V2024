@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { UserAddress } from '../../types/user.type'
 import BoxButton from '../../component/BoxUi/BoxButton'
-import { Anchor, Building2, Home, Image, TentTree, Trash2 } from 'lucide-react'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { Anchor, Building2, Home, TentTree, Trash2 } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
 import AccountService from '../../apis/account.service'
 import { useDispatch } from 'react-redux'
 import { fetchUser } from '../../Redux/authenticationSlice'
-import axiosCustom from '../../apis/http'
-import axios from 'axios'
-import { getGeoLocation } from '../../utils/weatherApi.util'
 import BoxWeatherApi from '../../component/BoxUi/BoxWeatherApi'
 
 type TProps = {

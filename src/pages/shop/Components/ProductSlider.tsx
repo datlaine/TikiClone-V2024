@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { TProductDetail } from '../../../types/product/product.type'
 import BoxButtonCircle from '../../../component/BoxUi/BoxButtonCircle'
-import { original } from '@reduxjs/toolkit'
 
 type TProps = {
       products: TProductDetail[]

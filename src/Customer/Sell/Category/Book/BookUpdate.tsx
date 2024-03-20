@@ -8,7 +8,6 @@ import {
       timelineLabelNameBook,
 } from '../../../../types/timeline/timeline.book.type'
 import Book from './Book'
-import ProductUpdate from '../../UpdateProductForm/ProductUpdate'
 import { TRegisterFormBook } from '../../../../types/product/product.book.type'
 import ProductFormUpdate from '../../UpdateProductForm/ProductUpdate'
 
@@ -18,9 +17,6 @@ export type TProps = {
 
 const BookUpdate: React.FC<TProps> = (props: TProps) => {
       const { product } = props
-
-      // const product = getProductWithId.isSuccess ? getProductWithId!.data!.data!.metadata.product : undefined
-      // console.log({ product })
 
       useEffect(() => {}, [product])
 

@@ -10,8 +10,8 @@ import { addToast } from '../../../../Redux/toast'
 
 //@api
 import { useMutation } from '@tanstack/react-query'
-import ProductApi, { IFormDataDeleteImage, IFormDataImage, IFormDataImages } from '../../../../apis/product.api'
-import { TCheckDescriptionImage, TChekUploadImage } from '../../../../types/product/product.type'
+import ProductApi, { IFormDataDeleteImage, IFormDataImage } from '../../../../apis/product.api'
+import { TCheckDescriptionImage } from '../../../../types/product/product.type'
 import { ui } from '../../RegisterProductForm/ProductFormUpload'
 import { TCloudinaryImage } from '../../types/cloudinary.typs'
 

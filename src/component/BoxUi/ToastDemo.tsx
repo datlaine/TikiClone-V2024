@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { TToast } from '../Context/ToastContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeToast } from '../../Redux/toast'
-import { RootState, store } from '../../store'
+import { RootState } from '../../store'
 import { ShieldAlert, ShieldCheck, ShieldX, X } from 'lucide-react'
 import { DateTime } from 'luxon'
 import { localDateTime } from '../../constant/local'
-import jwt, { jwtDecode } from 'jwt-decode'
 type TProps = {
       toast: TToast
 }
@@ -85,7 +84,7 @@ const ToastDemo = (props: TProps) => {
                         <div
                               onMouseEnter={handleOnMouseEnter}
                               onMouseLeave={handleOnMouseLeave}
-                              className={`${styleEffect.type_toast} animate-toastAnimation !bg-[#ffffff] pt-[8px] px-[6px] xl:pt-[16px] pb-[30px] xl:px-[12px] w-[220px] xl:w-[300px]  relative min-w-[140px] xl:min-w-[150px]   min-h-[100px]  xl:min-h-[114px] h-max   rounded-lg transition-all duration-1000  flex items-center justify-center`}
+                              className={`${styleEffect.type_toast} animate-toastAnimation bg-[#ffffff] pt-[8px] px-[6px] xl:pt-[16px] pb-[30px] xl:px-[12px] w-[220px] xl:w-[300px]  relative min-w-[140px] xl:min-w-[150px]   min-h-[100px]  xl:min-h-[114px] h-max   rounded-lg transition-all duration-1000  flex items-center justify-center`}
                         >
                               <div
                                     className={`${styleEffect.bgBoxTime} absolute top-[15px] right-[35px] w-[50px] h-[20

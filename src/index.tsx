@@ -1,11 +1,8 @@
 import ReactDOM from 'react-dom/client'
-import '../src/component/Main/main.css'
 import { BrowserRouter } from 'react-router-dom'
-import './index.css'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
 import { persistor, store } from './store'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import App from './App'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -14,7 +11,7 @@ import TErrorAxios from './types/axios.response.error'
 import ContextToastProvider from './component/Context/ToastContext'
 import { addToast } from './Redux/toast'
 import BoxContainerToast from './component/BoxUi/BoxContainerToast'
-import { doOpenBoxLogin, doLogout } from './Redux/authenticationSlice'
+import { doOpenBoxLogin } from './Redux/authenticationSlice'
 
 // store.dispatch(addToast({ type: 'ERROR', message: '123', id: '1' }))
 // setTimeout(() => {}, 5000)

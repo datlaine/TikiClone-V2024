@@ -12,7 +12,7 @@ class AxiosCustom {
 
       constructor() {
             this.instance = axios.create({
-                  baseURL: process.env.REACT_APP_BASE_URL_LOCAL,
+                  baseURL: process.env.REACT_BACK_END_URL,
                   timeout: 10000,
                   headers: {
                         'Content-Type': 'application/json',

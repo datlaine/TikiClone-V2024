@@ -44,7 +44,7 @@ const RouterController = () => {
       const showOverload = useSelector((state: RootState) => state.uiSlice.showOverload)
 
       const styleEffect = {
-            matchPathName: window.location.pathname !== '/payment' ? '  pt-[100px]' : '',
+            matchPathName: window.location.pathname !== '/payment' ? '  mt-[20px]' : '',
             matchPathNameCustomer: pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]',
       }
 

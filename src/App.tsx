@@ -22,8 +22,13 @@ function App() {
       useEffect(() => {}, [boxLogin])
 
       return (
-            <div className=' min-h-screen  w-full min-w-full '>
-                  <div id='main w-full mx-auto md:max-w-[700px] bg-red-800 xl:max-w-[1200px]' className='min-h-screen'>
+            <div className=' min-h-screen  w-full min-w-full bg-[rgb(245_245_250)] '>
+                  <div
+                        id='main w-full '
+                        className='min-h-screen
+mx-auto md:max-w-[700px] xl:max-w-[1400px]
+'
+                  >
                         <RouterController />
                         <FooterMobile className='block xl:hidden' />
                         <ScrollToAnchor />

@@ -125,7 +125,7 @@ const CartItem = (props: TProps) => {
                                     />{' '}
                               </Link>
                               <div
-                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-wrap xl:flex-none  gap-[4px] xl:gap-0 content-between justify-between font-semibold text-slate-700`}
+                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-wrap flex-col xl:flex-row  gap-[4px] xl:gap-0 content-between justify-between font-semibold text-slate-700`}
                               >
                                     <span>{product.product_id.product_name}</span>
 

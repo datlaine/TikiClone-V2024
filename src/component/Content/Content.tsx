@@ -16,14 +16,8 @@ import ContentFood from './Components/ContentFood'
 import ContentProduct from './Components/ContentProduct'
 
 const Content = () => {
-      //Query data -> components Products
-      // const giaTotHomNay = useFetchProducts('/giaTotHomNay', 'Gia tot homnay')
-      // const thuongHieuChinhHang = useFetchProducts('/thuongHieuChinhHang', 'Thuong hieu chinh Hang')
-      // const thuongHieuGiaTot = useFetchProducts('/hangThuongHieuGiaTot', 'Hang Thuong Hieu Gia Tot')
-      // const goiYHomNay = useFetchProducts('/goiYHomNay', 'Goi Y Hom Nay')
-      // console.log(thuongHieuGiaTot.data)
       return (
-            <div className='wrapper h-max flex flex-col gap-[20px] '>
+            <div className=' flex-grow h-max flex flex-col gap-[20px] '>
                   {/* <div className=' hidden 2xl:gap-6 2xl:flex'>
                         <SliderProducts hinhAnhSlider={hinhAnhSlider} height={300} delay={1} />
                         <Banner />

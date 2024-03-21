@@ -23,7 +23,7 @@ function App() {
 
       return (
             <div className=' min-h-screen  w-full min-w-full '>
-                  <div id='main' className='min-h-screen'>
+                  <div id='main w-full mx-auto md:max-w-[700px] bg-red-800 xl:max-w-[1200px]' className='min-h-screen'>
                         <RouterController />
                         <FooterMobile className='block xl:hidden' />
                         <ScrollToAnchor />

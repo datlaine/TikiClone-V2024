@@ -26,7 +26,6 @@ function App() {
                   <div
                         id='main w-full '
                         className='min-h-screen
-mx-auto md:max-w-[700px] xl:max-w-[1400px]
 '
                   >
                         <RouterController />

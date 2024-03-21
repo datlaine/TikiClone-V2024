@@ -8,14 +8,15 @@ import img6 from '../assets/img/SliderImage/img6.webp'
 import BoxButtonCircle from '../../BoxUi/BoxButtonCircle'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
+const arrayImage = [img1, img2, img3, img4, img5, img6]
+
 const SliderProductV2 = () => {
       const wrapperRef = useRef<HTMLDivElement>(null)
       const timer = useRef<NodeJS.Timeout | null>(null)
       const [newPosition, setNewPosition] = useState<number>(0)
       const [indexImage, setIndexImage] = useState<number>(1)
       const delay = 4000
-      const LIMIT = 3
-
+      const LIMIT = window.innerWidth > 1023 ? Math.ceil(arrayImage.length / 2) : arrayImage.length
       const onClickNext = () => {
             if (wrapperRef.current) {
                   const width = wrapperRef.current?.getBoundingClientRect().width * -1
@@ -49,6 +50,10 @@ const SliderProductV2 = () => {
             timer.current = setInterval(() => {
                   if (indexImage === LIMIT) {
                         if (wrapperRef.current) {
+                              const width = wrapperRef.current?.getBoundingClientRect().width * 1
+
+                              console.log({ width })
+
                               const pos = 0
                               wrapperRef.current.style.transform = `translateX(${pos}px)`
                               wrapperRef.current.style.transition = 'all 0s'
@@ -76,21 +81,27 @@ const SliderProductV2 = () => {
       return (
             <div className='relative group w-full h-[95%]  '>
                   <div className='w-full h-full  overflow-x-hidden'>
-                        <div className='min-w-full flex h-full gap-[40px] ' ref={wrapperRef}>
-                              <img src={img1} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
-                              <img src={img2} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
-
-                              <img src={img3} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
-                              <img src={img4} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
-
-                              <img src={img5} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
-                              <img src={img6} className='w-full xl:w-[calc((100%-40px)/2)] h-full rounded-xl' alt='' />
+                        <div className='min-w-full w-full  flex h-full gap-[16px] xl:gap-[40px]  ' ref={wrapperRef}>
+                              {arrayImage.map((img) => (
+                                    <img
+                                          src={img}
+                                          key={img}
+                                          className='w-[calc(100%-16px)] xl:w-[calc((100%-40px)/2)] h-full rounded-xl'
+                                          alt=''
+                                    />
+                              ))}
                         </div>
                   </div>
                   <div className='absolute left-[50%] translate-x-[-50%] bottom-[-25px] w-[150px] h-[20px] flex items-center justify-center gap-[6px]'>
-                        <button className={`${styleEffect.onActive(indexImage === 1)}`}></button>
-                        <button className={`${styleEffect.onActive(indexImage === 2)}`}></button>
-                        <button className={`${styleEffect.onActive(indexImage === 3)}`}></button>
+                        {Array(LIMIT)
+                              .fill(0)
+                              .map(
+                                    (_, index) => (
+                                          <button className={`${styleEffect.onActive(indexImage === index + 1)}`} key={index}></button>
+                                    ),
+                                    // <button className={`${styleEffect.onActive(indexImage === 2)}`}></button>
+                                    // <button className={`${styleEffect.onActive(indexImage === 3)}`}></button>
+                              )}
                   </div>
 
                   <BoxButtonCircle

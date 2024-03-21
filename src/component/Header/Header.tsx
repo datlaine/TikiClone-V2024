@@ -22,7 +22,7 @@ function Header() {
       return (
             <>
                   <div className={`fixed lg:static top-0 left-0 w-full z-[600] bg-white shadow-xl xl:shadow-none`}>
-                        <div className='h-[75px] lg:h-[90px] py-2 px-[10px] xl:px-[80px] bg-white flex items-center gap-3 lg:gap-0'>
+                        <div className='h-[75px] lg:h-[90px] py-2 px-[10px]  bg-white flex items-center gap-3 lg:gap-0 mx-auto md:max-w-[700px] xl:max-w-[1400px]'>
                               <div className='basis-[14%] flex items-center'>
                                     <HeaderLogoToggle />
                               </div>

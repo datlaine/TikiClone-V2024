@@ -64,7 +64,7 @@ const Customer = () => {
       //@element
       return (
             <>
-                  <div className='px-[14px] text-[14px] w-full min-h-screen h-full flex items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
+                  <div className='px-[14px] text-[14px] w-full min-h-screen h-full flex xl:items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
                         {/* @header */}
                         <div className='hidden lg:block mb-[1px]'>
                               <Link to={'/'}>Trang chủ</Link>

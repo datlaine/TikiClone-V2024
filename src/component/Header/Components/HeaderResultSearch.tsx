@@ -85,14 +85,14 @@ const HeaderResultSearch = (props: Props) => {
                                     ))}
 
                               {searchQuery.isSuccess && (
-                                    <div className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[20px] justify-center '>
+                                    <div className=' min-h-[40px] h-max bg-[#ffffff]   flex flex-col gap-[20px] justify-center '>
                                           {products &&
                                                 products.length > 0 &&
                                                 products.map((product) => (
                                                       <Link
                                                             key={product._id}
                                                             to={`/product/${product._id}`}
-                                                            className='flex gap-[8px] hover:bg-slate-200'
+                                                            className='flex gap-[8px] hover:bg-slate-200 px-[20px] py-[2px]'
                                                             onClick={onNavigate}
                                                       >
                                                             <Search className='text-slate-400' />
@@ -103,7 +103,11 @@ const HeaderResultSearch = (props: Props) => {
                                           {shops &&
                                                 shops.length > 0 &&
                                                 shops.map((shop) => (
-                                                      <Link key={shop._id} to={`/shop/${shop._id}`} className='px-[10px] flex gap-[20px]'>
+                                                      <Link
+                                                            key={shop._id}
+                                                            to={`/shop/${shop._id}`}
+                                                            className='px-[20px] py-[2px] flex gap-[20px] hover:bg-slate-200'
+                                                      >
                                                             <img
                                                                   src={shop.shop_avatar?.secure_url || shop.shop_avatar_default}
                                                                   className='w-[50px h-[50px]'

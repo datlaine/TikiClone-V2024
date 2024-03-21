@@ -1,4 +1,4 @@
-import { BellDot, Lock, LogIn, NotebookPen, ShoppingBag, ShoppingCart, Store, UserRound } from 'lucide-react'
+import { BellDot, Key, Lock, LogIn, Mail, MapPinned, NotebookPen, ShoppingBag, ShoppingCart, Store, UserRound } from 'lucide-react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -7,9 +7,10 @@ import { useMutation } from '@tanstack/react-query'
 import Auth from '../../apis/auth.api'
 import { doLogout } from '../../Redux/authenticationSlice'
 import { addToast } from '../../Redux/toast'
+import { UserResponse } from '../../types/user.type'
 
 const CustomerRouter = () => {
-      const user = useSelector((state: RootState) => state.authentication.user)
+      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const dispatch = useDispatch()
       const logoutMutation = useMutation({
             mutationKey: ['logout account'],
@@ -32,12 +33,12 @@ const CustomerRouter = () => {
       }
 
       return (
-            <div className='block '>
+            <div className='block w-full py-[20px] bg-[#ffffff]'>
                   <div className='ml-[20px] h-[75px] flex items-center gap-[8px] overflow-x-hidden' title={`Account ${user?.email}` || ''}>
                         {user ? (
                               <>
                                     <img
-                                          src={user.avatar?.secure_url || user.avartar_url_default || ''}
+                                          src={user.avatar?.secure_url || user.avatar_url_default || ''}
                                           alt='user_avatar'
                                           className='min-w-[30px] lg:min-w-[40px] w-[30px] h-[30px] lg:w-[40px] lg:h-[40px] rounded-full'
                                     />
@@ -54,48 +55,57 @@ const CustomerRouter = () => {
                               </div>
                         )}
                   </div>
-                  <div className={`customer-item-bg`}>
+                  <Link to={'/customer/account'} className='customer-item-bg px-[15px] py-[8px] w-full'>
                         <UserRound />
-                        <Link to={'/customer/account'} className='px-[15px] py-[8px] w-full'>
-                              Account
-                        </Link>
-                  </div>
+                        Account
+                  </Link>
 
-                  <div className={`customer-item-bg `}>
+                  <Link to={'/customer/notification'} className='customer-item-bg px-[15px] py-[8px] w-full'>
                         <BellDot />
+                        Thông báo của tôi
+                  </Link>
 
-                        <Link to={'/customer/notification'} className='px-[15px] py-[8px] w-full'>
-                              Thông báo của tôi
-                        </Link>
-                  </div>
-
-                  <div className={`customer-item-bg`}>
+                  <Link to={'/customer/order_history'} className='customer-item-bg px-[15px] py-[8px] w-full'>
                         <NotebookPen />
-                        <Link to={'/customer/order_history'} className='px-[15px] py-[8px] w-full'>
-                              Quản lí đơn hàng
-                        </Link>
-                  </div>
-                  <div className={`customer-item-bg `}>
+                        Quản lí đơn hàng
+                  </Link>
+                  <Link to={'/customer/shop'} className='customer-item-bg px-[15px] py-[8px] w-full'>
                         <ShoppingCart />
-                        <Link to={'/customer/shop'} className='px-[15px] py-[8px] w-full'>
-                              Shop
-                        </Link>
-                  </div>
-                  <div className={`customer-item-bg }`}>
+                        Shop
+                  </Link>
+                  <Link to={'/customer/register-sell'} className=' customer-item-bg px-[15px] py-[8px] w-full'>
                         <ShoppingBag />
-                        <Link to={'/customer/register-sell'} className='px-[15px] py-[8px] w-full'>
-                              Đăng kí bán
-                        </Link>
-                  </div>
+                        Đăng kí bán
+                  </Link>
 
                   {user?.verify_email && (
-                        <div className={`customer-item-bg `}>
+                        <Link to={'/customer/shop/product-list'} className='customer-item-bg px-[15px] py-[8px] w-full'>
                               <Store />
-                              <Link to={'/customer/shop/product-list'} className='px-[15px] py-[8px] w-full'>
-                                    Sản phẩm của Shop
-                              </Link>
-                        </div>
+                              Sản phẩm của Shop
+                        </Link>
                   )}
+                  <Link to={'/customer/shop/product-list'} className={`customer-item-bg flex items-center p-[8px] gap-[24px] `}>
+                        <Store />
+
+                        <span>Sản phẩm của Shop</span>
+                  </Link>
+
+                  <Link to={'/customer/account/address'} className={`customer-item-bg flex items-center p-[8px] gap-[24px] `}>
+                        <MapPinned />
+
+                        <span>Số địa chỉ</span>
+                  </Link>
+
+                  <Link to={'/customer/account/update/email'} className={`customer-item-bg flex items-center p-[8px] gap-[24px] `}>
+                        <Mail />
+                        <span>Cập nhập Email</span>
+                  </Link>
+
+                  <Link to={'/customer/account/update/password'} className={`customer-item-bg flex items-center p-[8px] gap-[24px] `}>
+                        <Key />
+                        <span>Cập nhập mật khẩu</span>
+                  </Link>
+
                   <div className={`customer-item-bg`} onClick={handleLogOut}>
                         <LogIn />
                         <span className='px-[15px] py-[8px] w-full'>Đăng xuất</span>

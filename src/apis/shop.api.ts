@@ -68,7 +68,7 @@ class ShopApi {
       }
 
       static async getMyOrderShop({ page, limit, shop_id }: { page: number; limit: number; shop_id: string }) {
-            return axiosCustom.get<{ metadata: { orderShop: { shop_order: CartProduct[] } } }>('v1/api/shop/get-my-order-shop', {
+            return axiosCustom.get<{ metadata: { orderShop: CartProduct[] } }>('v1/api/shop/get-my-order-shop', {
                   params: { page, limit, shop_id },
             })
       }

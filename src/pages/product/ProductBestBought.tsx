@@ -60,7 +60,7 @@ const ProductBestBought = () => {
             <div className='relative min-h-[320px] h-max bg-[#ffffff] rounded-lg flex flex-col gap-[16px] p-[16px] overflow-hidden'>
                   <h4 className='text-[16px] font-medium'>Tiki best</h4>
 
-                  <div className=' flex  w-[calc(100%+32px)]    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
+                  <div className=' flex  w-full    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
                         <div className='   xl:w-full  w-max grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
                               {_page1 && _page1?.map((product) => <ProductItemMini product={product} key={product._id} />)}
                         </div>

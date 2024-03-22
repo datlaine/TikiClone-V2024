@@ -75,7 +75,7 @@ const Cart = () => {
 
       return (
             <React.Fragment>
-                  <div className='w-full max-w-full h-max min-h-[2000px] mt-[100px] xl:mt-0 flex gap-[12px] text-[13px]'>
+                  <div className='w-full max-w-full h-max min-h-[2000px] overflow-hidden xl:mt-0 flex gap-[12px] text-[13px]'>
                         <div className='px-[15px] w-full pb-[10px]  h-max flex flex-col gap-x-[24px] min-h-[2000px]'>
                               <h3 className='font-extrabold uppercase text-[20px] my-[12px]'>Giỏ hàng</h3>
                               {getMyCart.isSuccess &&
@@ -113,7 +113,7 @@ const Cart = () => {
                                                             </div>
                                                       </div>
                                                 </div>
-                                                <div className='w-full flex gap-[24px]'>
+                                                <div className='w-full py-[16px] flex gap-[24px]'>
                                                       <div className='flex flex-col w-[55%] xl:w-[77%] gap-[24px]'>
                                                             {getMyCart.isSuccess &&
                                                                   getMyCart.data.data.metadata.cart.cart_products.length > 0 &&

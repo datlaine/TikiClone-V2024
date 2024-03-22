@@ -106,9 +106,9 @@ const CustomerRouter = () => {
                         <span>Cập nhập mật khẩu</span>
                   </Link>
 
-                  <div className={`customer-item-bg`} onClick={handleLogOut}>
+                  <div className={`customer-item-bg p-[8px]`} onClick={handleLogOut}>
                         <LogIn />
-                        <span className='px-[15px] py-[8px] w-full'>Đăng xuất</span>
+                        <span className=' py-[8px] w-full'>Đăng xuất</span>
                   </div>
             </div>
       )

@@ -90,7 +90,7 @@ const ProductIntro = (props: TProps) => {
                   <section className='bg-white w-full min-h-[160px] h-auto p-[18px] rounded-lg'>
                         <div className='flex flex-col gap-[12px]'>
                               <p className='[word-spacing:1px] text-[16px] text-black font-semibold word'>Thông tin vận chuyển</p>
-                              <div className=' min-h-[26px] h-max w-full flex flex-row justify-between'>
+                              <div className=' min-h-[26px] h-max w-full flex flex-wrap flex-row justify-between'>
                                     <span className='text-[14px]'>
                                           {cartCurrent.cart_current_address ? (
                                                 <p className='flex gap-[8px]'>
@@ -112,7 +112,7 @@ const ProductIntro = (props: TProps) => {
                                                       </span>
                                                 </p>
                                           ) : (
-                                                'Bạn chưa chọn ví trí giao hàng'
+                                                <span>Bạn chưa chọn ví trí giao hàng</span>
                                           )}
                                     </span>
                                     <button className='text-left text-blue-600' onClick={handleOpenModal}>

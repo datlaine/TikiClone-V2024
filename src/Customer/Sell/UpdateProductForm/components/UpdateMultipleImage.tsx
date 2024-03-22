@@ -281,17 +281,11 @@ const UpdateMultipleImage = (props: IProps) => {
                                     </div>
                               </React.Fragment>
                         )}
-
-                        {uploadProductDescriptionImageOne.isPending &&
-                              Array(countLoading)
-                                    .fill(0)
-                                    .map((image) => {
-                                          return (
-                                                <div className='animate-pulse  bg-gray-100 w-[20%] h-[72px] flex items-center justify-center'>
-                                                      <Image color='#666666' size={50} />
-                                                </div>
-                                          )
-                                    })}
+                        {uploadProductDescriptionImageOne.isPending && (
+                              <div className='animate-pulse  bg-gray-200 w-full h-[80px] '>
+                                    <Image color='#666666' size={50} />
+                              </div>
+                        )}{' '}
                   </div>
 
                   {/* {@nút upload file} */}

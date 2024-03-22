@@ -39,7 +39,7 @@ const ProductDescription = (props: TProps) => {
                         </header>
 
                         <div
-                              className='min-h-[70px]  h-max w-full  bg-[#ffffff] flex items-center flex-col gap-[40px] flex-wrap mb-[40px] '
+                              className='min-h-[70px]  h-max w-full  bg-[#ffffff] grid grid-cols-2 md:grid-cols-3 xl:grid-cols-1 mb-[40px] '
                               ref={wrapperConent}
                         >
                               <img src={product.product_thumb_image.secure_url} className='w-[100%] h-[200px] xl:h-[555px]' alt='' />

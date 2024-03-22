@@ -115,7 +115,7 @@ const CartItem = (props: TProps) => {
                                     onChange={changeSelect}
                               />
                               <Link
-                                    className='inline-block w-[250px] xl:w-[90px] h-[250px] xl:h-[80px]'
+                                    className='inline-block w-[150px] xl:w-[90px] h-[250px] xl:h-[80px]'
                                     to={`/product/${product.product_id._id}`}
                               >
                                     <img
@@ -125,7 +125,7 @@ const CartItem = (props: TProps) => {
                                     />{' '}
                               </Link>
                               <div
-                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-wrap flex-col xl:flex-row  gap-[4px] xl:gap-0 content-between justify-between font-semibold text-slate-700`}
+                                    className={`${styleEffect.product_not_avaiable} flex-1 flex flex-wrap flex-col   gap-[4px] xl:gap-0 content-between justify-between font-semibold text-slate-700`}
                               >
                                     <span>{product.product_id.product_name}</span>
 
@@ -183,7 +183,7 @@ const CartItem = (props: TProps) => {
                         <div className='flex flex-col xl:flex-row xl:items-center gap-[8px] xl:w-[80%]'>
                               <p className='flex gap-[16px] xl:gap-[8px] items-center'>
                                     <span className='mt-[-4px]'>{AddressTypeIcon}</span>
-                                    <span>{AddressTypeText}</span>
+                                    <span>Giao tại nhà: {AddressTypeText}</span>
                               </p>
                               <span className='hidden xl:inline'>-</span>
                               <span>Địa chỉ {product.cart_address.address_text}</span>

@@ -54,7 +54,7 @@ const Category = (props: TProps) => {
       }
 
       return (
-            <div className='w-[1450px] mx-auto flex flex-col gap-[24px] px-[20px] xl:px-0 mt-[70px] mb-[70px] xl:mt-0 text-[14px]'>
+            <div className='w-full xl:max-w-[1450px] xl:w-[1450px] mx-auto flex flex-col gap-[24px] px-[20px] xl:px-0 mt-[70px] mb-[70px] xl:mt-0 text-[14px]'>
                   <Link to={'/'} className='underline text-slate-800 font-bold'>
                         Trang chủ
                   </Link>

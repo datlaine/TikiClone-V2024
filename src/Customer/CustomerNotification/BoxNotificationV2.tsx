@@ -66,7 +66,7 @@ const BoxNotification = () => {
 
       return (
             <div className='relative w-full  pb-[10px] h-max flex flex-col gap-[16px] '>
-                  <div className='w-full min-h-[160px] xl:min-h-[80px] h-[80px] grid grid-cols-3 grid-rows-2  xl:flex items-center bg-[#ffffff] gap-[24px] flex-wrap xl:flex-nowrap '>
+                  <div className='w-full min-h-[60px]  xl:min-h-[80px] h-[40px] overflow-x-scroll flex items-center bg-[#ffffff] gap-[24px] flex-nowrap '>
                         <button
                               className={`${
                                     activeNotification.title === 'Thông báo chung' ? ' border-blue-500' : 'border-transparent'

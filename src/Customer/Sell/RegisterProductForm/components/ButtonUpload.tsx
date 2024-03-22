@@ -186,8 +186,8 @@ const ButtonUpload = (props: IProps) => {
                         </div>
                   )}
                   {uploadProductThumb.isPending && (
-                        <div className='animate-pulse  bg-gray-100 w-[20%] h-[72px] flex items-center justify-center'>
-                              <Image color='#666666' size={80} />
+                        <div className='animate-pulse  bg-gray-100 w-[150px] h-[150px] flex items-center justify-center'>
+                              {/* <Image color='#666666' size={80} /> */}
                         </div>
                   )}
                   <button

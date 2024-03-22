@@ -16,7 +16,7 @@ const SliderProductV2 = () => {
       const [newPosition, setNewPosition] = useState<number>(0)
       const [indexImage, setIndexImage] = useState<number>(1)
       const delay = 4000
-      const LIMIT = window.innerWidth > 1023 ? Math.ceil(arrayImage.length / 2) : arrayImage.length
+      const LIMIT = window.innerWidth >= 1024 ? Math.ceil(arrayImage.length / 2) : arrayImage.length
       const onClickNext = () => {
             if (wrapperRef.current) {
                   const width = wrapperRef.current?.getBoundingClientRect().width * -1
@@ -79,14 +79,14 @@ const SliderProductV2 = () => {
       }, [newPosition, indexImage])
 
       return (
-            <div className='relative group w-full h-[95%]  '>
+            <div className='relative group w-full h-full  '>
                   <div className='w-full h-full  overflow-x-hidden'>
                         <div className='min-w-full w-full  flex h-full gap-[16px] xl:gap-[40px]  ' ref={wrapperRef}>
                               {arrayImage.map((img) => (
                                     <img
                                           src={img}
                                           key={img}
-                                          className='w-[calc(100%-16px)] xl:w-[calc((100%-40px)/2)] h-full rounded-xl'
+                                          className='min-w-[calc(100%-16px)] xl:min-w-[calc((100%-40px)/2)] h-full rounded-xl'
                                           alt=''
                                     />
                               ))}

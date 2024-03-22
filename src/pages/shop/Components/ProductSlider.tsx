@@ -93,88 +93,46 @@ const ProductSlider = (props: TProps) => {
             <div className='relative group w-full h-full  pb-[50px] '>
                   <div className='w-full h-full  overflow-x-hidden'>
                         <div className='  min-w-full flex h-full gap-[15px] xl:gap-[30px]' ref={wrapperRef}>
-                              {(() => {
-                                    let images = []
-                                    for (let index = 0; index < products.length; index += 2) {
-                                          images.push(
+                              {products &&
+                                    products.map((product, index) => {
+                                          return (
                                                 <div
-                                                      className='flex justify-between   min-w-full w-full h-full overflow-x-auto gap-[15px] xl:gap-[30px]'
-                                                      key={index}
+                                                      className='relative flex justify-between   w-[50%] h-full overflow-x-auto gap-[15px] xl:gap-[30px]'
+                                                      key={product._id}
                                                 >
-                                                      <div className='relative w-[calc(100%/2)] h-full  rounded'>
-                                                            <img
-                                                                  ref={(ref) => (imageRef.current![index] = ref as HTMLImageElement)}
-                                                                  src={products[index].product_thumb_image.secure_url}
-                                                                  className='w-full h-full rounded  shadow-3xl'
-                                                                  alt=''
-                                                            />
-                                                            <div className='absolute min-w-[420px] w-max h-[90px] left-[50%] translate-x-[-50%] bottom-[20px] hidden xl:flex gap-[20px] p-[10px] bg-[#ffffff] rounded-lg shadow-2xl'>
-                                                                  {[products[index].product_thumb_image]
-                                                                        .concat(products[index].product_desc_image)
-                                                                        .map((img) => (
-                                                                              <img
-                                                                                    src={img.secure_url}
-                                                                                    className='w-[calc(100%/5)] h-[70px] outline-2 outline-dashed outline-offset-4 outline-blue-600'
-                                                                                    alt='description'
-                                                                                    key={img.public_id}
-                                                                                    onMouseEnter={() =>
-                                                                                          onChangeSourceImage({
-                                                                                                secure_url: img.secure_url,
-                                                                                                refIndex: index,
-                                                                                          })
-                                                                                    }
-                                                                                    onClick={() =>
-                                                                                          onChangeSourceImage({
-                                                                                                secure_url: img.secure_url,
-                                                                                                refIndex: index,
-                                                                                          })
-                                                                                    }
-                                                                              />
-                                                                        ))}
-                                                            </div>
+                                                      <img
+                                                            ref={(ref) => (imageRef.current![index] = ref as HTMLImageElement)}
+                                                            src={products[index].product_thumb_image.secure_url}
+                                                            className='w-full h-full rounded  shadow-3xl'
+                                                            alt=''
+                                                      />
+                                                      <div className='absolute min-w-[420px] w-max h-[90px] left-[50%] translate-x-[-50%] bottom-[20px] hidden xl:flex gap-[20px] p-[10px] bg-[#ffffff] rounded-lg shadow-2xl'>
+                                                            {[products[index].product_thumb_image]
+                                                                  .concat(products[index].product_desc_image)
+                                                                  .map((img) => (
+                                                                        <img
+                                                                              src={img.secure_url}
+                                                                              className='w-[calc(100%/5)] h-[70px] outline-2 outline-dashed outline-offset-4 outline-blue-600'
+                                                                              alt='description'
+                                                                              key={img.public_id}
+                                                                              onMouseEnter={() =>
+                                                                                    onChangeSourceImage({
+                                                                                          secure_url: img.secure_url,
+                                                                                          refIndex: index,
+                                                                                    })
+                                                                              }
+                                                                              onClick={() =>
+                                                                                    onChangeSourceImage({
+                                                                                          secure_url: img.secure_url,
+                                                                                          refIndex: index,
+                                                                                    })
+                                                                              }
+                                                                        />
+                                                                  ))}
                                                       </div>
-                                                      {index + 1 !== products.length && (
-                                                            <div className='relative w-[calc(100%/2)] h-full  rounded'>
-                                                                  <img
-                                                                        ref={(ref) =>
-                                                                              (imageRef.current![index + 1] = ref as HTMLImageElement)
-                                                                        }
-                                                                        src={products[index + 1].product_thumb_image.secure_url}
-                                                                        className='w-full h-full rounded'
-                                                                        alt=''
-                                                                  />
-                                                                  <div className='absolute min-w-[420px] w-max h-[90px] left-[50%] translate-x-[-50%] bottom-[20px] hidden xl:flex gap-[20px] p-[10px] bg-[#ffffff] rounded-lg shadow-2xl'>
-                                                                        {[products[index + 1].product_thumb_image]
-                                                                              .concat(products[index + 1].product_desc_image)
-                                                                              .map((img) => (
-                                                                                    <img
-                                                                                          src={img.secure_url}
-                                                                                          className='w-[calc(100%/5)] h-[70px] outline-2 outline-dashed outline-offset-4 outline-blue-600'
-                                                                                          alt='description'
-                                                                                          key={img.public_id}
-                                                                                          onMouseEnter={() =>
-                                                                                                onChangeSourceImage({
-                                                                                                      secure_url: img.secure_url,
-                                                                                                      refIndex: index + 1,
-                                                                                                })
-                                                                                          }
-                                                                                          // onMouseLeave={() => onMouseRegainSoucre({ refIndex+1: index+1 })}
-                                                                                          onClick={() =>
-                                                                                                onChangeSourceImage({
-                                                                                                      secure_url: img.secure_url,
-                                                                                                      refIndex: index + 1,
-                                                                                                })
-                                                                                          }
-                                                                                    />
-                                                                              ))}
-                                                                  </div>
-                                                            </div>
-                                                      )}
-                                                </div>,
+                                                </div>
                                           )
-                                    }
-                                    return images
-                              })()}
+                                    })}
                         </div>
                   </div>
                   <div className='absolute left-[50%] translate-x-[-50%] bottom-[0px] w-[150px] h-[20px] flex items-center justify-center gap-[6px]'>

@@ -81,7 +81,7 @@ const SliderProductV2 = () => {
       return (
             <div className='relative group w-full h-full  '>
                   <div className='w-full h-full  overflow-x-hidden'>
-                        <div className='min-w-full w-full  flex h-full gap-[16px] xl:gap-[40px]  ' ref={wrapperRef}>
+                        <div className='min-w-full w-full  flex h-full gap-[20px]   ' ref={wrapperRef}>
                               {arrayImage.map((img) => (
                                     <img
                                           src={img}

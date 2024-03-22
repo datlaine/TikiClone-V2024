@@ -1,4 +1,5 @@
 import { TCloudinaryImage } from '../Customer/Sell/types/cloudinary.typs'
+import { CartProduct } from './cart.type'
 import { TProductDetail } from './product/product.type'
 import { UserResponse } from './user.type'
 
@@ -16,4 +17,6 @@ export type ShopResponse = {
       updatedAt: string
       shop_products: TProductDetail[]
       shop_description: string
+      shop_count_product: number
+      shop_order: CartProduct[]
 }

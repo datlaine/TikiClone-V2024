@@ -20,15 +20,15 @@ const ShopBoughtWrapper = (props: TProps) => {
 
             initialPageParam: 1,
             getNextPageParam: (lastPage, allPages) =>
-                  lastPage.data.metadata.orderShop.order_products.length > 0 ? allPages.length + 1 : undefined,
+                  lastPage.data.metadata.orderShop.shop_order.length > 0 ? allPages.length + 1 : undefined,
             staleTime: STALE_TIME,
       })
 
       return (
             <div className='w-full min-h-[250px] h-max flex flex-col gap-[30px]'>
-                  {getMyOrderShop.data?.pages.flatMap((order) =>
-                        order.data.metadata.orderShop.order_products.map((orderSub, index) => (
-                              <ShopProductOrder key={orderSub._id || Math.random().toString()} order={orderSub} />
+                  {getMyOrderShop.data?.pages.flatMap((page) =>
+                        page.data.metadata.orderShop.shop_order.map((CartHistory, index) => (
+                              <ShopProductOrder key={CartHistory._id || Math.random().toString()} CartHistory={CartHistory} />
                         )),
                   )}
 

@@ -1,5 +1,6 @@
 import { ModeForm } from '../component/BoxUi/BoxShopForm'
 import { TResponseApi } from '../types/axiosResponse'
+import { CartProduct, CartResponse } from '../types/cart.type'
 import { Order } from '../types/order.type'
 import { ProductType, TProductDetail } from '../types/product/product.type'
 import { ShopResponse } from '../types/shop.type'
@@ -67,7 +68,7 @@ class ShopApi {
       }
 
       static async getMyOrderShop({ page, limit, shop_id }: { page: number; limit: number; shop_id: string }) {
-            return axiosCustom.get<{ metadata: { orderShop: Order } }>('v1/api/shop/get-my-order-shop', {
+            return axiosCustom.get<{ metadata: { orderShop: { shop_order: CartProduct[] } } }>('v1/api/shop/get-my-order-shop', {
                   params: { page, limit, shop_id },
             })
       }

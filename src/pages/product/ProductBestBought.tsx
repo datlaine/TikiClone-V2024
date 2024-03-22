@@ -44,7 +44,7 @@ const ProductBestBought = () => {
       const _page2 = productAllPage?.slice(ELEMENT_PAGE, ELEMENT_PAGE * 2)
       const _page3 = productAllPage?.slice(ELEMENT_PAGE * 2, ELEMENT_PAGE * 3)
 
-      const totalPage = Math.ceil(Number(productAllPage?.length) / 8)
+      const totalPage = Math.ceil(Number(productAllPage?.length) / 4)
 
       const styleEffect = {
             buttonPrev: count === 1 ? 'xl:hidden' : 'xl:flex',
@@ -62,27 +62,14 @@ const ProductBestBought = () => {
 
                   <div className=' flex  w-[calc(100%+32px)]    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
                         <div className='   xl:w-full  w-max grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
-                              {_page1?.map((product) => (
-                                    // <div className='min-w-[calc((100%-64px)/4)] h-[225px]' key={product._id}>
-                                    <ProductItemMini product={product} key={product._id} />
-                                    // </div>
-                              ))}
+                              {_page1 && _page1?.map((product) => <ProductItemMini product={product} key={product._id} />)}
                         </div>
                         <div className='   xl:w-full w-max  ml-[100%]  grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
-                              {_page2?.map((product) => (
-                                    // <div className='min-w-[calc((100%-64px)/4)] h-[225px]' key={product._id}>
-                                    <ProductItemMini product={product} key={product._id} />
-                                    // </div>
-                              ))}
+                              {_page2 && _page2?.map((product) => <ProductItemMini product={product} key={product._id} />)}
                         </div>
                         <div className='   xl:w-full ml-[100%]   grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
-                              {_page3?.map((product) => (
-                                    // <div className='min-w-[calc((100%-64px)/4)] h-[225px]' key={product._id}>
-                                    <ProductItemMini product={product} key={product._id} />
-                                    // </div>
-                              ))}
+                              {_page3 && _page3?.map((product) => <ProductItemMini product={product} key={product._id} />)}
                         </div>
-                        {/* <div className='w-[350px] h-[5px] mx-auto bg-red-800'></div> */}
                   </div>
 
                   <div className='absolute bottom-[10px] left-[50%] translate-x-[-50%] my-[8px] flex justify-center min-w-[180px] w-max h-[5px] gap-[8px]  '>

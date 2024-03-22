@@ -51,6 +51,7 @@ const ProductSimiliar = (props: TProps) => {
       }
       const productData = allProduct.data?.data.metadata.products
       const totalPage = Math.ceil(Number(productData?.length) / 8)
+      console.log({ totalPage })
       const styleEffect = {
             buttonPrev: count === 1 ? 'xl:hidden' : 'xl:flex',
             buttonNext: totalPage === count ? 'xl:hidden' : 'xl:flex',
@@ -75,18 +76,19 @@ const ProductSimiliar = (props: TProps) => {
                               ref={wrapperListProductsRef}
                         >
                               <div className=' w-max xl:min-w-full    grid grid-flow-col auto-cols-[130px] auto-rows-[220px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[220px_220px] gap-[18px] '>
-                                    {page1?.map((product) => (
-                                          // <div className='min-w-[calc((100%-64px)/4)] h-[220px]' key={product._id}>
-                                          <ProductItemMini product={product} key={product._id} />
-                                          // </div>
-                                    ))}
+                                    {page1 && page1?.map((product) => <ProductItemMini product={product} key={product._id} />)}
                               </div>
-                              <div className='w-max xl:min-w-full mx-[50px] xl:mx-0 grid grid-flow-col auto-cols-[130px] auto-rows-[220px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[220px_220px] gap-[18px] '>
-                                    {page1?.reverse().map((product) => (
-                                          // <div className='min-w-[calc((100%-64px)/4)] h-[230px]' key={product._id}>
-                                          <ProductItemMini product={product} key={product._id} />
-                                          // </div>
-                                    ))}
+
+                              <div className=' w-max xl:min-w-full    grid grid-flow-col auto-cols-[130px] auto-rows-[220px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[220px_220px] gap-[18px] '>
+                                    {page2 && page2?.map((product) => <ProductItemMini product={product} key={product._id} />)}
+                              </div>
+
+                              <div className=' w-max xl:min-w-full    grid grid-flow-col auto-cols-[130px] auto-rows-[220px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[220px_220px] gap-[18px] '>
+                                    {page3 && page3?.map((product) => <ProductItemMini product={product} key={product._id} />)}
+                              </div>
+
+                              <div className=' w-max xl:min-w-full    grid grid-flow-col auto-cols-[130px] auto-rows-[220px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[220px_220px] gap-[18px] '>
+                                    {page4 && page4?.map((product) => <ProductItemMini product={product} key={product._id} />)}
                               </div>
                         </div>
                   )}

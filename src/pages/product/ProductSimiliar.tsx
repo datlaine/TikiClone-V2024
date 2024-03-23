@@ -70,6 +70,11 @@ const ProductSimiliar = (props: TProps) => {
       return (
             <div className='relative overflow-hidden flex flex-col gap-[16px] mx-[16px] py-[24px]'>
                   <p className='text-[16px] font-semibold'>Sản phẩm tương tự</p>
+                  {productData && productData.length === 0 && (
+                        <div className='w-full h-full flex items-center justify-center text-[20px] font-semibold text-slate-700 bg-[#ffffff] rounded-lg'>
+                              Không có thông tin các sản phẩm khác
+                        </div>
+                  )}
                   {productData && (
                         <div
                               className='flex xl:w-full  xl:gap-0 h-[80%]    overflow-scroll xl:overflow-visible '

@@ -80,6 +80,12 @@ const ProductCare = () => {
                                                 ))}
                                     </>
                               )}
+
+                              {products && products.length === 0 && (
+                                    <div className='w-full h-full flex items-center justify-center text-[20px] font-semibold text-slate-700 bg-[#ffffff] rounded-lg'>
+                                          Không có thông tin các sản phẩm khác
+                                    </div>
+                              )}
                         </div>
                   </div>
 

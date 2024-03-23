@@ -32,7 +32,7 @@ const client = new QueryClient({
                   if (checkAxiosError<TErrorAxios>(error)) {
                         // console.log({ mute: error })
                         if (
-                              window.location.origin !== 'http://localhost:3000' &&
+                              window.location.origin !== 'https://tikiclone-v2024.onrender.com' &&
                               error?.response?.status === 403 &&
                               error?.response.statusText === 'Forbidden' &&
                               (error?.response.data?.detail === 'Token không đúng' ||

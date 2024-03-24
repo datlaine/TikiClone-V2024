@@ -10,7 +10,7 @@ import { checkAxiosError } from './utils/handleAxiosError'
 import TErrorAxios from './types/axios.response.error'
 import { addToast } from './Redux/toast'
 import BoxContainerToast from './component/BoxUi/BoxContainerToast'
-import { doOpenBoxLogin } from './Redux/authenticationSlice'
+import { doLogout, doOpenBoxLogin } from './Redux/authenticationSlice'
 
 // store.dispatch(addToast({ type: 'ERROR', message: '123', id: '1' }))
 // setTimeout(() => {}, 5000)
@@ -23,8 +23,8 @@ const client = new QueryClient({
       defaultOptions: {
             queries: {
                   refetchOnWindowFocus: false,
-                  retry: false,
-                  retryDelay: 1000,
+                  retry: 3,
+                  retryDelay: 3000,
             },
       },
       queryCache: new QueryCache({
@@ -85,6 +85,7 @@ const client = new QueryClient({
                               }
 
                               if (error.response.data?.detail === 'Token hết hạn') {
+                                    store.dispatch(doLogout())
                                     store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
                               }
                         }

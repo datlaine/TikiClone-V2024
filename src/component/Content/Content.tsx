@@ -42,7 +42,7 @@ const Content = () => {
                   />
 
                   <SectionProduct
-                        title={<TitleProductSection content='Sản phẩm bạn quan tâm' />}
+                        title={<TitleProductSection content='Hàng chính hãng' />}
                         // other={<CountDown />}
                         background={`linear-gradient(rgba(255, 255, 255, 0) 22.49%, rgb(255, 255, 255) 73.49%), linear-gradient(264.03deg, rgb(220, 229, 251)
                   -10.27%, rgb(234, 236, 255) 35.65%, rgb(213, 236, 253) 110.66%)`}
@@ -53,94 +53,8 @@ const Content = () => {
                   <ContentFood />
 
                   <ContentProduct />
-                  {/* 
-                  <SectionProduct
-                        title={<TitleProductSection content='Thương hiệu chính hãng' />}
-                        ListProducts={<ListProduct query={thuongHieuChinhHang} />}
-                  />
-                  <GridProduct query={thuongHieuGiaTot} />
-                  <BoxSticky
-                        Element={<LinkCategory query={goiYHomNay} Title={<TitleProductSection content='Gợi Ý Hôm Nay' />} />}
-                        ClassName='bg-white'
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
-                        other={<CountDown />}
-                        ListProducts={<ListProduct query={giaTotHomNay} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Thương hiệu chính hãng' />}
-                        ListProducts={<ListProduct query={thuongHieuChinhHang} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
-                        other={<CountDown />}
-                        ListProducts={<ListProduct query={giaTotHomNay} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Thương hiệu chính hãng' />}
-                        ListProducts={<ListProduct query={thuongHieuChinhHang} />}
-                  />{' '}
-                  <SectionProduct
-                        title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
-                        other={<CountDown />}
-                        ListProducts={<ListProduct query={giaTotHomNay} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Thương hiệu chính hãng' />}
-                        ListProducts={<ListProduct query={thuongHieuChinhHang} />}
-                  />
-                  <GridProduct query={thuongHieuGiaTot} /> */}
-                  {/* <GridProductList /> */}
-                  {/* <SectionProduct
-                        title={<TitleProductSection content='Thương hiệu chính hãng' />}
-                        ListProducts={<ListProduct query={thuongHieuChinhHang} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Thương hiệu chính hãng' />}
-                        ListProducts={<ListProduct query={thuongHieuChinhHang} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
-                        other={<CountDown />}
-                        ListProducts={<ListProduct query={giaTotHomNay} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Thương hiệu chính hãng' />}
-                        ListProducts={<ListProduct query={thuongHieuChinhHang} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
-                        other={<CountDown />}
-                        ListProducts={<ListProduct query={giaTotHomNay} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Thương hiệu chính hãng' />}
-                        ListProducts={<ListProduct query={thuongHieuChinhHang} />}
-                  />
-                  <SectionProduct
-                        title={<TitleProductSection content='Gía Tốt Hôm Nay' />}
-                        other={<CountDown />}
-                        ListProducts={<ListProduct query={giaTotHomNay} />}
-                  /> */}
 
                   <Footer className='hidden xl:block bg-[#ffffff]' />
-                  <Footer className='hidden xl:block bg-[#ffffff]' />
-
-                  <Footer className='hidden xl:block bg-[#ffffff]' />
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
-                  {/* <SectionProduct title={<TitleProductSection />} other={<CountDown />} ListProducts={<ListProduct />} /> */}
             </div>
       )
 }

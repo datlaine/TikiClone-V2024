@@ -19,7 +19,7 @@ const ProductCare = () => {
       const handleClickNext = () => {
             if (wrapperListProductsRef.current) {
                   setCount((prev) => prev + 1)
-                  const width = wrapperListProductsRef.current.getBoundingClientRect().width
+                  const width = wrapperListProductsRef.current.getBoundingClientRect().width + 20
                   PositionScrollCurrent.current = PositionScrollCurrent.current - width
                   wrapperListProductsRef.current.style.transform = `translate3d(${PositionScrollCurrent.current}px, 0,0)`
                   wrapperListProductsRef.current.style.transition = `all 1s`
@@ -30,7 +30,7 @@ const ProductCare = () => {
             if (wrapperListProductsRef.current) {
                   setCount((prev) => prev - 1)
 
-                  const width = wrapperListProductsRef.current.getBoundingClientRect().width
+                  const width = wrapperListProductsRef.current.getBoundingClientRect().width + 20
                   PositionScrollCurrent.current = PositionScrollCurrent.current + width
 
                   // console.log(Math.trunc(width))
@@ -74,7 +74,7 @@ const ProductCare = () => {
                                                 .fill(0)
                                                 ?.map((_, index) => (
                                                       <div
-                                                            className='animate-pulse w-full h-full rounded-lg bg-slate-400'
+                                                            className='animate-pulse w-full h-[300px] rounded-lg bg-slate-400'
                                                             key={index}
                                                       ></div>
                                                 ))}

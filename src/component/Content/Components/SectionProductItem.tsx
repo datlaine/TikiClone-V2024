@@ -97,7 +97,7 @@ const SectionProductItem = (props: Props) => {
                                     .map((_, index) => {
                                           return (
                                                 <div
-                                                      className='animate-pulse bg-gray-100 flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[15%] h-full snap-always snap-start	 '
+                                                      className='animate-pulse bg-gray-100 flex flex-col min-w-[40%] md:min-w-[30%] lg:min-w-[15%] h-[160px] snap-always snap-start	 '
                                                       key={index}
                                                 >
                                                       <div className='bg-gray-200 w-full min-h-full flex rounded'>

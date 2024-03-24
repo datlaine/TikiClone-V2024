@@ -15,7 +15,7 @@ class AxiosCustom {
       constructor() {
             this.instance = axios.create({
                   baseURL: REACT_BACK_END_URL,
-                  timeout: 10000,
+                  timeout: 1000 * 60,
                   headers: {
                         'Content-Type': 'application/json',
                   },

@@ -23,7 +23,7 @@ const ProductSlider = (props: TProps) => {
       const onClickNext = () => {
             if (wrapperRef.current) {
                   const width = wrapperRef.current?.getBoundingClientRect().width * -1
-                  const pos = newPosition + width
+                  const pos = newPosition + width + 30
                   wrapperRef.current.style.transform = `translateX(${pos}px)`
                   wrapperRef.current.style.transition = `all ${TransitionTime}s`
                   setNewPosition(pos)
@@ -34,7 +34,7 @@ const ProductSlider = (props: TProps) => {
       const onClickPrev = () => {
             if (wrapperRef.current) {
                   const width = wrapperRef.current?.getBoundingClientRect().width * 1
-                  const pos = newPosition + width
+                  const pos = newPosition + width + 30
                   wrapperRef.current.style.transform = `translateX(${pos}px)`
                   wrapperRef.current.style.transition = `all ${TransitionTime}s`
                   setNewPosition(pos)

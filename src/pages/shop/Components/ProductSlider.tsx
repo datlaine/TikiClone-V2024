@@ -23,7 +23,7 @@ const ProductSlider = (props: TProps) => {
       const onClickNext = () => {
             if (wrapperRef.current) {
                   const width = wrapperRef.current?.getBoundingClientRect().width * -1
-                  const pos = newPosition + width + 30
+                  const pos = newPosition + width
                   wrapperRef.current.style.transform = `translateX(${pos}px)`
                   wrapperRef.current.style.transition = `all ${TransitionTime}s`
                   setNewPosition(pos)
@@ -34,7 +34,7 @@ const ProductSlider = (props: TProps) => {
       const onClickPrev = () => {
             if (wrapperRef.current) {
                   const width = wrapperRef.current?.getBoundingClientRect().width * 1
-                  const pos = newPosition + width + 30
+                  const pos = newPosition + width
                   wrapperRef.current.style.transform = `translateX(${pos}px)`
                   wrapperRef.current.style.transition = `all ${TransitionTime}s`
                   setNewPosition(pos)
@@ -92,12 +92,12 @@ const ProductSlider = (props: TProps) => {
       return (
             <div className='relative group w-full h-full  pb-[50px] '>
                   <div className='w-full h-full  overflow-x-hidden'>
-                        <div className='  min-w-full flex h-full gap-[15px] xl:gap-[30px]' ref={wrapperRef}>
+                        <div className='  min-w-full flex h-full ' ref={wrapperRef}>
                               {products &&
                                     products.map((product, index) => {
                                           return (
                                                 <div
-                                                      className='relative flex justify-between min-w-[50%]  w-[50%] h-full overflow-x-auto gap-[15px] xl:gap-[30px]'
+                                                      className='relative flex justify-between min-w-[50%]  w-[50%] h-full overflow-x-auto even:mr-0 even:xl:mr-[30px]'
                                                       key={product._id}
                                                 >
                                                       <img

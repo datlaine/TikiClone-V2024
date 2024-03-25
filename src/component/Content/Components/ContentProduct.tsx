@@ -101,7 +101,7 @@ const ContentProduct = () => {
                         ref={stickyRef}
                   >
                         <div className=' w-full h-[150px] bg-[#ffffff]  rounded pb-[5px] border[1px] border-b-[1px] border-gray-200 '>
-                              <div className='grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col xl:auto-rows-[150px] xl:grid-flow-row xl:grid-cols-6 grid-rows-[150px] justify-items-center overflow-x-scroll xl:overflow-x-visible'>
+                              <div className='grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col xl:auto-rows-[150px] xl:grid-flow-row sm:grid-cols-3 xl:grid-cols-6 grid-rows-[150px] justify-items-center overflow-x-scroll xl:overflow-x-visible'>
                                     {arrayCategory.map((category) => (
                                           <Link
                                                 to={category.href}

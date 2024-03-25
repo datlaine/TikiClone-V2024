@@ -127,7 +127,7 @@ const ContentBook = () => {
                                     productAll?.map((product) => (
                                           <div
                                                 key={product._id}
-                                                className='h-full min-w-[calc((100%-40px)/2)] md:min-w-[calc((100%-40px)/3)]  xl:min-w-[calc((100%-120px)/6)]'
+                                                className='h-full min-w-[calc((100%-40px)/2)] sm:min-w-[calc((100%-40px)/3)]  xl:min-w-[calc((100%-120px)/6)]'
                                           >
                                                 <ProductSmall product={product} />
                                           </div>
@@ -137,7 +137,7 @@ const ContentBook = () => {
                                     productManga?.map((product) => (
                                           <div
                                                 key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] md:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
+                                                className='h-full min-w-[calc((100%-120px)/2)] sm:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
                                           >
                                                 <ProductSmall product={product} />
                                           </div>
@@ -147,7 +147,7 @@ const ContentBook = () => {
                                     productNovel?.map((product) => (
                                           <div
                                                 key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] md:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
+                                                className='h-full min-w-[calc((100%-120px)/2)] sm:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
                                           >
                                                 <ProductSmall product={product} />
                                           </div>
@@ -157,7 +157,7 @@ const ContentBook = () => {
                                     productDectective?.map((product) => (
                                           <div
                                                 key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] md:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
+                                                className='h-full min-w-[calc((100%-120px)/2)] sm:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
                                           >
                                                 <ProductSmall product={product} />
                                           </div>

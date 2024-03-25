@@ -125,28 +125,28 @@ const ContentFood = () => {
                         >
                               {type === 'All' &&
                                     productAll?.map((product) => (
-                                          <div className='h-full min-w-[calc((100%-40px)/2)] w-[calc((100%-40px)/2)] md:min-w-[calc((100%-40px)/3)] xl:w-[calc((100%-120px)/6)] xl:min-w-[calc((100%-120px)/6)]'>
+                                          <div className='h-full min-w-[calc((100%-40px)/2)] w-[calc((100%-40px)/2)] sm:min-w-[calc((100%-40px)/3)] xl:w-[calc((100%-120px)/6)] xl:min-w-[calc((100%-120px)/6)]'>
                                                 <ProductSmall key={product._id} product={product} />
                                           </div>
                                     ))}
 
                               {type === 'Fast food' &&
                                     productFastFood?.map((product) => (
-                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] md:min-w-[calc((100%-40px)/3)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
+                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] sm:min-w-[calc((100%-40px)/3)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
                                                 <ProductSmall key={product._id} product={product} />
                                           </div>
                                     ))}
 
                               {type === 'Canned Goods' &&
                                     productCannedGood?.map((product) => (
-                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] md:min-w-[calc((100%-40px)/3)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
+                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] sm:min-w-[calc((100%-40px)/3)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
                                                 <ProductSmall key={product._id} product={product} />
                                           </div>
                                     ))}
 
                               {type === 'Drinks' &&
                                     productDrink?.map((product) => (
-                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] md:min-w-[calc((100%-40px)/3)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
+                                          <div className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)] sm:min-w-[calc((100%-40px)/3)] w-[calc((100%-40px)/2)] xl:w-[calc((100%-120px)/6)]'>
                                                 <ProductSmall key={product._id} product={product} />
                                           </div>
                                     ))}

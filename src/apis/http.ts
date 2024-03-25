@@ -40,7 +40,7 @@ class AxiosCustom {
             this.instance.interceptors.response.use(
                   (res) => res,
                   async (error) => {
-                        // console.log({ error })
+                        console.log({ error })
                         const originalRequest = error.config
                         // if (error.response?.status !== 401 || error.response?.status !== 403) return Promise.reject(error)
 

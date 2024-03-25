@@ -84,7 +84,7 @@ const client = new QueryClient({
                                     )
                               }
 
-                              if (error.response.data?.detail === 'Token hết hạn') {
+                              if (error.response.data?.detail === 'Token hết hạn' && error.response.config.url === 'v1/api/auth/logout') {
                                     store.dispatch(doLogout())
                                     store.dispatch(addToast({ type: 'ERROR', message: 'Token hết hạn', id: Math.random().toString() }))
                               }

@@ -43,6 +43,8 @@ const ContentBook = () => {
       const productManga = getProductBookAllType.data?.data.metadata.manga
       const productNovel = getProductBookAllType.data?.data.metadata.novel
       const productDectective = getProductBookAllType.data?.data.metadata.detective
+      const COUNT_SKELETON = window.innerWidth >= 1024 ? 6 : 3
+
       // console.log({ productManga })
       const handleClickNext = () => {
             if (wrapperListProductsRef.current) {
@@ -125,7 +127,7 @@ const ContentBook = () => {
                                     productAll?.map((product) => (
                                           <div
                                                 key={product._id}
-                                                className='h-full min-w-[calc((100%-40px)/2)] xl:min-w-[calc((100%-120px)/6)]'
+                                                className='h-full min-w-[calc((100%-40px)/2)] md:min-w-[calc((100%-40px)/3)]  xl:min-w-[calc((100%-120px)/6)]'
                                           >
                                                 <ProductSmall product={product} />
                                           </div>
@@ -135,7 +137,7 @@ const ContentBook = () => {
                                     productManga?.map((product) => (
                                           <div
                                                 key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]'
+                                                className='h-full min-w-[calc((100%-120px)/2)] md:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
                                           >
                                                 <ProductSmall product={product} />
                                           </div>
@@ -145,7 +147,7 @@ const ContentBook = () => {
                                     productNovel?.map((product) => (
                                           <div
                                                 key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]'
+                                                className='h-full min-w-[calc((100%-120px)/2)] md:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
                                           >
                                                 <ProductSmall product={product} />
                                           </div>
@@ -155,7 +157,7 @@ const ContentBook = () => {
                                     productDectective?.map((product) => (
                                           <div
                                                 key={product._id}
-                                                className='h-full min-w-[calc((100%-120px)/2)] xl:min-w-[calc((100%-120px)/6)]'
+                                                className='h-full min-w-[calc((100%-120px)/2)] md:min-w-[calc((100%-40px)/3)] xl:min-w-[calc((100%-120px)/6)]'
                                           >
                                                 <ProductSmall product={product} />
                                           </div>
@@ -163,7 +165,7 @@ const ContentBook = () => {
 
                               {getProductBookAllType.isPending && (
                                     <>
-                                          {Array(6)
+                                          {Array(COUNT_SKELETON)
                                                 .fill(0)
                                                 ?.map((_, index) => (
                                                       <div

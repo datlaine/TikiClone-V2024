@@ -37,7 +37,7 @@ class Auth {
             return axiosCustom.post<{ metadata: { token: string } }>(
                   '/v1/api/auth/rf',
                   {},
-                  { withCredentials: true, headers: { RefreshToken: 'Ok' } },
+                  { headers: { RefreshToken: 'Ok' }, withCredentials: true },
             )
       }
 }

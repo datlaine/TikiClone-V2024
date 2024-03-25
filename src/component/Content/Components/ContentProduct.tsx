@@ -101,7 +101,7 @@ const ContentProduct = () => {
                         ref={stickyRef}
                   >
                         <div className=' w-full h-[150px] bg-[#ffffff]  rounded pb-[5px] border[1px] border-b-[1px] border-gray-200 '>
-                              <div className='grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col xl:auto-rows-[150px] xl:grid-flow-row sm:grid-cols-3 xl:grid-cols-6 grid-rows-[150px] justify-items-center overflow-x-scroll xl:overflow-x-visible'>
+                              <div className='grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col xl:auto-rows-[150px] xl:grid-flow-row  xl:grid-cols-6 grid-rows-[150px] justify-items-center overflow-x-scroll xl:overflow-x-visible'>
                                     {arrayCategory.map((category) => (
                                           <Link
                                                 to={category.href}
@@ -120,7 +120,7 @@ const ContentProduct = () => {
                         </div>
                   </div>
                   <div className='    w-full h-max min-h-[370px] '>
-                        <div className=' w-full h-full grid grid-col-2 xl:grid-cols-6  grid-row-[370px] grid-flow-row auto-cols-[calc((100%-20px)/2)] xl:auto-cols-[calc((100%-120px)/6)] auto-rows-[370px] gap-[10px] xl:gap-[20px]'>
+                        <div className=' w-full h-full grid grid-col-2 sm:grid-cols-3 xl:grid-cols-6  grid-row-[370px] grid-flow-row auto-cols-[calc((100%-20px)/2)] xl:auto-cols-[calc((100%-120px)/6)] auto-rows-[370px] gap-[10px] xl:gap-[20px]'>
                               {getAllProduct.isSuccess && (
                                     <>
                                           {shopAdmin && (

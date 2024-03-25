@@ -76,10 +76,7 @@ const ProductSimiliar = (props: TProps) => {
                         </div>
                   )}
                   {productData && (
-                        <div
-                              className='flex xl:w-full  xl:gap-0 h-[80%]    overflow-scroll xl:overflow-visible '
-                              ref={wrapperListProductsRef}
-                        >
+                        <div className='flex xl:w-full  xl:gap-0    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
                               <div className=' w-max xl:min-w-full    grid grid-flow-col auto-cols-[130px] auto-rows-[220px] grid-cols-[130px] xl:grid-cols-4 grid-rows-[220px_220px] gap-[18px] '>
                                     {page1 && page1?.map((product) => <ProductItemMini product={product} key={product._id} />)}
                               </div>

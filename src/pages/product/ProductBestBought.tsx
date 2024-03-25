@@ -58,18 +58,25 @@ const ProductBestBought = () => {
 
       return (
             <div className='relative min-h-[320px] h-max bg-[#ffffff] rounded-lg flex flex-col gap-[16px] p-[16px] overflow-hidden'>
-                  <h4 className='text-[16px] font-medium'>Tiki best</h4>
+                  <h4 className='text-[16px] font-medium px-[12px] xl:px-0'>Tiki best</h4>
 
                   <div className=' flex  w-full    overflow-scroll xl:overflow-visible ' ref={wrapperListProductsRef}>
-                        <div className='   xl:w-full  w-max grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
-                              {_page1 && _page1?.map((product) => <ProductItemMini product={product} key={product._id} />)}
-                        </div>
-                        <div className='   xl:w-full w-max  ml-[100%]  grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
-                              {_page2 && _page2?.map((product) => <ProductItemMini product={product} key={product._id} />)}
-                        </div>
-                        <div className='   xl:w-full ml-[100%]   grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
-                              {_page3 && _page3?.map((product) => <ProductItemMini product={product} key={product._id} />)}
-                        </div>
+                        {_page1 && (
+                              <div className='   xl:w-full  w-max grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
+                                    {_page1?.map((product) => <ProductItemMini product={product} key={product._id} />)}
+                              </div>
+                        )}
+
+                        {_page2 && (
+                              <div className='   xl:w-full w-max  ml-[100%]  grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
+                                    {_page2?.map((product) => <ProductItemMini product={product} key={product._id} />)}
+                              </div>
+                        )}
+                        {_page3 && (
+                              <div className='   xl:w-full ml-[100%]   grid grid-flow-col auto-cols-[130px] auto-rows-[225px] grid-cols-[130px] xl:grid-cols-[130px] grid-rows-[225px] gap-[18px] '>
+                                    {_page3?.map((product) => <ProductItemMini product={product} key={product._id} />)}
+                              </div>
+                        )}
                   </div>
 
                   <div className='absolute bottom-[10px] left-[50%] translate-x-[-50%] my-[8px] flex justify-center min-w-[180px] w-max h-[5px] gap-[8px]  '>

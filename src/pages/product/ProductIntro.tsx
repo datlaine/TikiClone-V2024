@@ -3,7 +3,7 @@ import { IProductBook, TProductDetail } from '../../types/product/product.type'
 import { Rate } from 'antd'
 import ProductLabel from './ProductLabel'
 import BoxConfirmAddress from '../../component/BoxUi/confirm/BoxConfirmAddress'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { UserResponse } from '../../types/user.type'
 import { getAddressDefault, renderStringAddressDetailV2 } from '../../utils/address.util'
@@ -25,6 +25,7 @@ import { useQuery } from '@tanstack/react-query'
 import ShopApi from '../../apis/shop.api'
 import { ShopResponse } from '../../types/shop.type'
 import { STALE_TIME } from '../../component/Comment/Comment'
+import { doOpenBoxLogin } from '../../Redux/authSlice'
 
 type TProps = { product: TProductDetail; totalComment: number; avg: number }
 
@@ -34,10 +35,15 @@ const ProductIntro = (props: TProps) => {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
       const cartCurrent = useSelector((state: RootState) => state.cartSlice.cart_current) as CartCurrent
       const address_default = user?.user_address && user?.user_address.filter((address) => address.address_default === true)
+      const dispatch = useDispatch()
 
       const [openModal, setOpenModal] = useState<boolean>(false)
 
       const handleOpenModal = () => {
+            if (!user) {
+                  dispatch(doOpenBoxLogin())
+                  return
+            }
             setOpenModal(true)
       }
 

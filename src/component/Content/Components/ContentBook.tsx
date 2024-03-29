@@ -195,6 +195,11 @@ const ContentBook = () => {
                               <ChevronRight size={26} color='blue' />
                         </button>
                   </div>
+                  {getProductBookAllType && !getProductBookAllType.data?.data.metadata && (
+                        <div className='w-full h-full flex items-center justify-center text-[20px] font-semibold text-slate-700 bg-[#ffffff] rounded-lg'>
+                              Không có thông tin các sản phẩm
+                        </div>
+                  )}
             </div>
       )
 }

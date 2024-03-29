@@ -5,6 +5,10 @@ import { UserAddress, UserAvatarUsed, UserResponse } from '../types/user.type'
 import axiosCustom from './http'
 
 class AccountService {
+      static async getMeQuery() {
+            return axiosCustom.get<TResponseApi<{ user: UserResponse }>>('/v1/api/account/getMe')
+      }
+
       static async getMe() {
             return axiosCustom.post<TResponseApi<{ user: UserResponse }>>('/v1/api/account/getMe')
       }

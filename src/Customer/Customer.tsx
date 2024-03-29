@@ -30,7 +30,6 @@ const link = [
       { path: '/customer/account/address', text: 'Số địa chỉ' },
       { path: '/customer/account/update/email', text: 'Cập nhập Email' },
       { path: '/customer/account/update/password', text: 'Cập nhập mật khẩu' },
-
       { path: '/customer/router', text: '' },
 ]
 

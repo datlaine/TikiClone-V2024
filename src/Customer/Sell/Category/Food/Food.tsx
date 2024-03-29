@@ -65,7 +65,7 @@ const Food = () => {
                   <Controller
                         name={'attribute.description'}
                         control={form.control}
-                        render={({ field }) => <TextArea {...field} maxLength={1000} rows={8} />}
+                        render={({ field }) => <TextArea {...field} maxLength={10000} rows={80} />}
                   />
 
                   {errors?.attribute && (

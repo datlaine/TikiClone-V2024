@@ -78,7 +78,8 @@ class AxiosCustom {
                                                 error.response.config.url === 'v1/api/product/update-product-images-full' ||
                                                 error.response.config.url === 'v1/api/shop/upload-avatar-shop' ||
                                                 error.response.config.url === 'v1/api/product/upload-product-description-image-one' ||
-                                                error.response.config.url === 'v1/api/product/delete-product-description-image-one'
+                                                error.response.config.url === 'v1/api/product/delete-product-description-image-one' ||
+                                                error.response.config.url === 'v1/api/shop/register-shop'
                                           ) {
                                                 console.log('dung url ne')
                                                 error.config.headers['Content-Type'] = 'multipart/form-data'

@@ -34,9 +34,9 @@ export interface RegisterShop extends FormData {
 class ShopApi {
       static async registerShop(data: RegisterShop, state: StateFile, mode: ModeForm) {
             return axiosCustom.post<{ metadata: { shop: ShopResponse; user: UserResponse } }>(
-                  `v1/api/shop/register-shop?state=${state}&mode=${mode}`,
+                  `v1/api/shop/register-shop`,
 
-                  data,
+                  { data, state, mode },
                   {
                         headers: { 'content-Type': 'multipart/form-data' },
                   },

@@ -110,7 +110,7 @@ const ContentProduct = () => {
                         className='animate-mountComponent h-[145px] w-full sticky top-[70px] xl:top-[0px] bg-[rgb(245_245_250)] pt-[16px] z-[2] '
                         ref={stickyRef}
                   >
-                        <div className=' w-full h-[130px] bg-[#ffffff]  rounded pb-[5px] border[1px] border-b-[1px] border-gray-200  flex flex-col gap-[10px]'>
+                        <div className=' w-full h-[135px] bg-[#ffffff]  rounded pb-[5px] border[1px] border-b-[1px] border-gray-200  flex flex-col gap-[10px]'>
                               <h3>Gợi ý hôm nay</h3>
                               <div className='grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col xl:auto-rows-[100px] xl:grid-flow-row  xl:grid-cols-6 grid-rows-[100px] justify-items-center overflow-x-scroll xl:overflow-x-visible'>
                                     {arrayCategory.map((category) => (
@@ -119,7 +119,7 @@ const ContentProduct = () => {
                                                 key={category.href + category.label}
                                                 className={`${styleEffect.onActive(
                                                       tagActive === category.href,
-                                                )} flex h-full items-center flex-col gap-[8px]`}
+                                                )} flex w-full h-full items-center flex-col gap-[8px]`}
                                                 onClick={() => setTagActive(category.href)}
                                           >
                                                 <img

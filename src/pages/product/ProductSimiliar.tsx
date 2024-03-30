@@ -95,7 +95,7 @@ const ProductSimiliar = (props: TProps) => {
                         </div>
                   )}
 
-                  <div className='absolute bottom-[10px] left-[50%] translate-x-[-50%] flex justify-center min-w-[180px] w-max h-[5px] gap-[8px]  '>
+                  <div className='absolute bottom-[10px] left-[50%] translate-x-[-50%] flex justify-center min-w-[180px] w-max h-[3px] gap-[8px]  '>
                         {Array(totalPage || 1)
                               .fill(0)
                               .map((_, index) => (

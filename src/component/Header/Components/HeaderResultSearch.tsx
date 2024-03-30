@@ -69,12 +69,12 @@ const HeaderResultSearch = (props: Props) => {
                                     getProductTopSearch.isSuccess &&
                                     getProductTopSearch.data.data.metadata.products.map((product) => (
                                           <div
-                                                className=' min-h-[40px] h-max bg-[#ffffff]  px-[20px] flex flex-col gap-[8px] justify-center '
+                                                className=' min-h-[40px] h-max bg-[#ffffff] flex flex-col gap-[8px] justify-center '
                                                 key={product._id}
                                           >
                                                 <Link
                                                       to={`/product/${product._id}`}
-                                                      className='flex items-center gap-[8px] min-h-[40px] hover:bg-slate-200'
+                                                      className='flex items-center gap-[8px] min-h-[40px] hover:bg-slate-200 px-[20px] py-[8px]'
                                                       onClick={onNavigate}
                                                 >
                                                       <Search className='text-slate-400' />

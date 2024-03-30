@@ -1,7 +1,6 @@
-import { Document, Font, Image, PDFViewer, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
+import { Document, Font, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
 import React from 'react'
 import { CartProduct } from '../../types/cart.type'
-import { convertCompilerOptionsFromJson } from 'typescript'
 import { convertDateToStringFull } from '../../utils/date.utils'
 
 import Roboto from './Fonts/Roboto-Medium.ttf'

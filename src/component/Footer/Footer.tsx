@@ -158,6 +158,63 @@ const Footer = ({ ...props }: IProps) => {
                               </div>
                         </div>
                         <hr />
+                        <div className='p-[25px] flex flex-col gap-[24px]'>
+                              <h3>Công ty TNHH TIKI</h3>
+                              <p>Tòa nhà số 52 đường Út Tịch, Phường 4, Quận Tân Bình, Thành phố Hồ Chí Minh</p>
+                              <p>
+                                    Giấy chứng nhận đăng ký doanh nghiệp số 0309532909 do Sở Kế Hoạch và Đầu Tư Thành phố Hồ Chí Minh cấp
+                                    lần đầu vào ngày 06/01/2010.
+                              </p>
+                              <p>
+                                    <span>Hotline</span>
+                                    <span className='text-blue-400 hover:underline'>1900 6035</span>
+                              </p>
+                        </div>
+
+                        <hr />
+                        <div className='p-[25px] flex flex-col gap-[24px]'>
+                              <h3>Tiki - Thật nhanh, thật chất lượng, thật rẻ</h3>
+
+                              <div className='flex flex-col gap-[8px]'>
+                                    <h4 className='text-slate-700'>Tiki có tất cả</h4>
+                                    <p>
+                                          Với hàng triệu sản phẩm từ các thương hiệu, cửa hàng uy tín, hàng nghìn loại mặt hàng từ{' '}
+                                          <span className='text-blue-400 hover:underline hover:cursor-pointer'>Điện thoại smartphone</span>
+                                          tới
+                                          <span className='text-blue-400 hover:underline hover:cursor-pointer'>Rau củ quả tươi</span>, kèm
+                                          theo dịch vụ giao hàng siêu tốc TikiNOW, Tiki mang đến cho bạn một trải nghiệm mua sắm online bắt
+                                          đầu bằng chữ tín. Thêm vào đó, ở Tiki bạn có thể dễ dàng sử dụng vô vàn các tiện ích khác
+                                          <span className='text-blue-400 hover:underline hover:cursor-pointer'>
+                                                như mua thẻ cào, thanh toán hoá đơn điện nước, các dịch vụ bảo hiểm.
+                                          </span>
+                                    </p>
+                              </div>
+
+                              <div className='flex flex-col gap-[8px]'>
+                                    <h4 className='text-slate-700'>Khuyến mãi, ưu đãi tràn ngập</h4>
+                                    <p>
+                                          Bạn muốn săn giá sốc, Tiki có
+                                          <span className='text-blue-400 hover:underline hover:cursor-pointer'>giá sốc mỗi ngày</span>
+                                          cho bạn! Bạn là tín đồ của các thương hiệu,
+                                          <span className='text-blue-400 hover:underline hover:cursor-pointer'>
+                                                các cửa hàng Official chính hãng
+                                          </span>
+                                          đang chờ đón bạn. Không cần săn mã freeship, vì Tiki đã có hàng triệu sản phẩm trong
+                                          <span className='text-blue-400 hover:underline hover:cursor-pointer'>
+                                                chương trình Freeship+
+                                          </span>{' '}
+                                          , không giới hạn lượt đặt, tiết kiệm thời gian vàng bạc của bạn. Mua thêm gói
+                                          <span className='text-blue-400 hover:underline hover:cursor-pointer'>TikiNOW tiết kiệm</span> để
+                                          nhận 100% free ship 2h & trong ngày, hoặc mua gói TikiNOW cao cấp để nhận được 100% freeship, áp
+                                          dụng cho 100% sản phẩm, 100% tỉnh thành Việt Nam. Bạn muốn tiết kiệm hơn nữa? Đã có TikiCARD,
+                                          <span className='text-blue-400 hover:underline hover:cursor-pointer'>
+                                                thẻ tín dụng Tiki hoàn tiền 15% trên mọi giao dịch
+                                          </span>
+                                          (tối đa hoàn 600k/tháng) Với hàng triệu sản phẩm từ các thương hiệu, cửa hàng uy tín, hàng nghìn
+                                          loại mặt hàng từ tới
+                                    </p>
+                              </div>
+                        </div>
                   </div>
             </div>
       )

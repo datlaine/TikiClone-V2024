@@ -1,7 +1,7 @@
 import { useInViewport } from '@mantine/hooks'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { debounce } from 'lodash'
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ProductApi from '../../../apis/product.api'
 import ProductMedium from './ProductMedium'
 import { Link } from 'react-router-dom'
@@ -18,7 +18,9 @@ import mayAnhCamera from '../../Sidebar/img/danhMuc/mayAnhMayQuayPhim.jpg'
 import oto from '../../Sidebar/img/danhMuc/otoXeMayVaXeDap.jpg'
 import { ShopResponse } from '../../../types/shop.type'
 
-const arrayCategory = [
+type TagActiveArray = '/book' | '/food' | '/watch' | '/phone-laptop' | '/camera' | '/honda'
+
+const arrayCategory: { image: string; label: string; href: TagActiveArray }[] = [
       { image: NhaSachTikiLogo, label: 'Nhà sách Tiki', href: '/book' },
       { image: bachHoaOnline, label: 'Bách hóa Online', href: '/food' },
 
@@ -32,6 +34,7 @@ const LIMIT = 8
 const ContentProduct = () => {
       const refPos = useRef<HTMLDivElement | null>(null)
       const stickyRef = useRef<HTMLDivElement>(null)
+      const [tagActive, setTagActive] = useState<TagActiveArray>('/book')
 
       const { ref, inViewport } = useInViewport()
 
@@ -94,19 +97,30 @@ const ContentProduct = () => {
       const _page = getAllProduct.data?.pages.flatMap((page) => page.data.metadata.products)
       const shopAdmin = getShopAdmin.data?.data.metadata.shopAdmin
 
+      const styleEffect = {
+            onActive: (check: boolean) => {
+                  if (check) return 'bg-blue-400 border-b-[1px] border-blue-600'
+                  return null
+            },
+      }
+
       return (
             <div className=' z-[5] w-full min-h-[370px] h-max  flex flex-col gap-[28px]  bg-[rgb(245_245_250)]'>
                   <div
-                        className='animate-mountComponent h-[165px] w-full sticky top-[70px] xl:top-[0px] bg-[rgb(245_245_250)] pt-[16px] z-[2] '
+                        className='animate-mountComponent h-[145px] w-full sticky top-[70px] xl:top-[0px] bg-[rgb(245_245_250)] pt-[16px] z-[2] '
                         ref={stickyRef}
                   >
-                        <div className=' w-full h-[150px] bg-[#ffffff]  rounded pb-[5px] border[1px] border-b-[1px] border-gray-200 '>
+                        <div className=' w-full h-[130px] bg-[#ffffff]  rounded pb-[5px] border[1px] border-b-[1px] border-gray-200  flex flex-col gap-[10px]'>
+                              <h3>Gợi ý hôm nay</h3>
                               <div className='grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col xl:auto-rows-[150px] xl:grid-flow-row  xl:grid-cols-6 grid-rows-[150px] justify-items-center overflow-x-scroll xl:overflow-x-visible'>
                                     {arrayCategory.map((category) => (
                                           <Link
                                                 to={category.href}
                                                 key={category.href + category.label}
-                                                className='flex h-full justify-center items-center flex-col gap-[8px]'
+                                                className={`${styleEffect.onActive(
+                                                      tagActive === category.href,
+                                                )} flex h-full justify-center items-center flex-col gap-[8px]`}
+                                                onClick={() => setTagActive(category.href)}
                                           >
                                                 <img
                                                       src={category.image}

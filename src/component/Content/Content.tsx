@@ -14,8 +14,11 @@ import ProductGenuineBrand from './Components/ProductGenuineBrand'
 import ContentBook from './Components/ContentBook'
 import ContentFood from './Components/ContentFood'
 import ContentProduct from './Components/ContentProduct'
+import { useLocation } from 'react-router-dom'
 
 const Content = () => {
+      const pathName = useLocation().pathname
+
       return (
             <div className='   w-full xl:w-[calc(100%-250px)]  h-max flex flex-col gap-[20px] '>
                   {/* <div className=' hidden 2xl:gap-6 2xl:flex'>
@@ -54,7 +57,7 @@ const Content = () => {
 
                   <ContentProduct />
 
-                  <Footer className='hidden xl:block bg-[#ffffff]' />
+                  {pathName === '/' && <Footer className='hidden xl:block bg-[#ffffff]' />}
             </div>
       )
 }

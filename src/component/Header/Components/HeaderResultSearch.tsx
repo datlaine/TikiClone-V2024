@@ -85,14 +85,14 @@ const HeaderResultSearch = (props: Props) => {
                                     ))}
 
                               {searchQuery.isSuccess && (
-                                    <div className=' min-h-[40px] h-max bg-[#ffffff]   flex flex-col gap-[20px] justify-center '>
+                                    <div className=' min-h-[40px] h-max bg-[#ffffff]   flex flex-col gap-[20px] justify-center  px-[20px] py-[2px]'>
                                           {products &&
                                                 products.length > 0 &&
                                                 products.map((product) => (
                                                       <Link
                                                             key={product._id}
                                                             to={`/product/${product._id}`}
-                                                            className='flex gap-[8px] hover:bg-slate-200 px-[20px] py-[2px]'
+                                                            className='flex gap-[8px] hover:bg-slate-200'
                                                             onClick={onNavigate}
                                                       >
                                                             <Search className='text-slate-400' />
@@ -135,7 +135,7 @@ const HeaderResultSearch = (props: Props) => {
                         </div>
                         <div className=''>
                               <p className='ml-[16px]'>Danh mục nổi bật</p>
-                              <div className='w-full grid grid-cols-[140px_140px] auto-cols-[140px] grid-flow-col  xl:auto-rows-[160px] xl:grid-flow-row  xl:grid-cols-4 grid-rows-[160px] gap-[20px]  xl:gap-[40px] justify-between p-[24px] overflow-x-scroll xl:overflow-x-visible'>
+                              <div className='w-full grid grid-cols-[140px_140px] auto-cols-[140px] grid-flow-col  xl:auto-rows-[160px] xl:grid-flow-row  xl:grid-cols-4 grid-rows-[160px] gap-[20px]  xl:gap-[40px] justify-between p-[24px] overflow-x-scroll xl:overflow-x-visible rounded'>
                                     {arrayCategory.map((category) => (
                                           <Link
                                                 to={category.href}

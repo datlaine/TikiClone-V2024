@@ -49,8 +49,6 @@ const ShopStore = (props: TProps) => {
                         <LayoutTopRank />
                   </div>
                   <ShopProductAll shop_id={shop_id} searchName='' mode='Normal' shop={shop} />
-
-                  <Footer />
             </div>
       )
 }

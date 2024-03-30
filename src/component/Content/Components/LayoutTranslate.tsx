@@ -75,10 +75,10 @@ const LayoutTranslate = (props: TProps) => {
 
                   <button
                         className={`${styleEffect.onHidden(
-                              products.length / 6 || 0,
+                              products?.length / 6 || 0,
                         )} hidden xl:flex absolute top-[50%] right-[0px] translate-y-[-50%] bg-[#ffffff]  rounded-full shadow-3xl `}
                         onClick={handleClickNext}
-                        disabled={styleEffect.onDisable(products.length / 6 || 0)}
+                        disabled={styleEffect.onDisable(products?.length / 6 || 0)}
                   >
                         <ChevronRight size={26} color='blue' />
                   </button>

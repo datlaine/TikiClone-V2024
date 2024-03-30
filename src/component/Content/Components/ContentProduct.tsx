@@ -99,7 +99,7 @@ const ContentProduct = () => {
 
       const styleEffect = {
             onActive: (check: boolean) => {
-                  if (check) return 'bg-blue-400 border-b-[1px] border-blue-600'
+                  if (check) return 'bg-blue-200 border-b-[1px] border-blue-500'
                   return null
             },
       }
@@ -112,14 +112,14 @@ const ContentProduct = () => {
                   >
                         <div className=' w-full h-[130px] bg-[#ffffff]  rounded pb-[5px] border[1px] border-b-[1px] border-gray-200  flex flex-col gap-[10px]'>
                               <h3>Gợi ý hôm nay</h3>
-                              <div className='grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col xl:auto-rows-[150px] xl:grid-flow-row  xl:grid-cols-6 grid-rows-[150px] justify-items-center overflow-x-scroll xl:overflow-x-visible'>
+                              <div className='grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col xl:auto-rows-[100px] xl:grid-flow-row  xl:grid-cols-6 grid-rows-[100px] justify-items-center overflow-x-scroll xl:overflow-x-visible'>
                                     {arrayCategory.map((category) => (
                                           <Link
                                                 to={category.href}
                                                 key={category.href + category.label}
                                                 className={`${styleEffect.onActive(
                                                       tagActive === category.href,
-                                                )} flex h-full justify-center items-center flex-col gap-[8px]`}
+                                                )} flex h-full items-center flex-col gap-[8px]`}
                                                 onClick={() => setTagActive(category.href)}
                                           >
                                                 <img

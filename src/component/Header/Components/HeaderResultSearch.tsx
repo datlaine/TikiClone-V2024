@@ -36,7 +36,6 @@ const arrayCategory = [
 
 const HeaderResultSearch = (props: Props) => {
       const { text, onReset } = props
-      console.log({ text })
 
       const searchQuery = useQuery({
             queryKey: ['/v1/api/product/get-product-shop-name', text],
@@ -85,14 +84,14 @@ const HeaderResultSearch = (props: Props) => {
                                     ))}
 
                               {searchQuery.isSuccess && (
-                                    <div className=' min-h-[40px] h-max bg-[#ffffff]   flex flex-col gap-[20px] justify-center  px-[20px] py-[2px]'>
+                                    <div className=' min-h-[40px] h-max bg-[#ffffff]   flex flex-col gap-[20px] justify-center'>
                                           {products &&
                                                 products.length > 0 &&
                                                 products.map((product) => (
                                                       <Link
                                                             key={product._id}
                                                             to={`/product/${product._id}`}
-                                                            className='flex gap-[8px] hover:bg-slate-200'
+                                                            className='flex gap-[8px] hover:bg-slate-200 px-[20px] py-[8px]'
                                                             onClick={onNavigate}
                                                       >
                                                             <Search className='text-slate-400' />
@@ -106,7 +105,7 @@ const HeaderResultSearch = (props: Props) => {
                                                       <Link
                                                             key={shop._id}
                                                             to={`/shop/${shop._id}`}
-                                                            className='px-[20px] py-[2px] flex gap-[20px] hover:bg-slate-200'
+                                                            className='px-[20px] py-[8px] flex gap-[20px] hover:bg-slate-200'
                                                       >
                                                             <img
                                                                   src={shop.shop_avatar?.secure_url || shop.shop_avatar_default}
@@ -114,9 +113,9 @@ const HeaderResultSearch = (props: Props) => {
                                                                   alt=''
                                                             />
                                                             <div className='flex flex-col gap-[2px]'>
-                                                                  <span>{shop.shop_name}</span>
+                                                                  <span className='text-slate-900 font-bold'>{shop.shop_name}</span>
                                                                   <p>
-                                                                        <span>{shop.shop_vote}</span>
+                                                                        <span>{shop.shop_vote.toString()}</span>
                                                                         <Rate
                                                                               defaultValue={1}
                                                                               count={1}
@@ -124,6 +123,7 @@ const HeaderResultSearch = (props: Props) => {
                                                                               disabled
                                                                               className='text-[10px]'
                                                                         />
+                                                                        <p>{shop.shop_count_total_vote.toString()} đánh giá</p>
                                                                   </p>
                                                             </div>
                                                       </Link>

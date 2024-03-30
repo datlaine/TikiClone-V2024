@@ -52,8 +52,6 @@ const SliderProductV2 = () => {
                         if (wrapperRef.current) {
                               const width = wrapperRef.current?.getBoundingClientRect().width * 1
 
-                              console.log({ width })
-
                               const pos = 0
                               wrapperRef.current.style.transform = `translateX(${pos}px)`
                               wrapperRef.current.style.transition = 'all 0s'
@@ -76,7 +74,7 @@ const SliderProductV2 = () => {
             return () => {
                   clearInterval(timer.current as NodeJS.Timeout)
             }
-      }, [newPosition, indexImage])
+      }, [newPosition, indexImage, LIMIT])
 
       return (
             <div className='relative group w-full h-full  '>

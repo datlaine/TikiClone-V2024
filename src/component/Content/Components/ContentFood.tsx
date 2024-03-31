@@ -86,7 +86,7 @@ const ContentFood = () => {
                         )}
                   </div>
 
-                  {getProductFoodAllType && !getProductFoodAllType.data?.data.metadata && (
+                  {getProductFoodAllType.isSuccess && !getProductFoodAllType.data?.data.metadata && (
                         <div className='w-full h-[80%] flex items-center justify-center text-[20px] font-semibold text-slate-700 bg-[#ffffff] rounded-lg'>
                               Không có thông tin các sản phẩm
                         </div>

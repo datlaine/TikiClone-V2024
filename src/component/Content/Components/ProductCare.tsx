@@ -58,7 +58,7 @@ const ProductCare = () => {
             <div className='relative flex-1 min-h-[298px] h-max max-w-full px-0 xl:px-[18px]'>
                   <div className='max-w-full h-full overflow-hidden'>
                         <div
-                              className='gap-[20px] xl:gap-[16px] grid grid-rows-[300px]  grid-flow-col auto-cols-[calc((100%-120px)/2)] sm:auto-cols-[calc((100%-120px)/4)]   xl:auto-cols-[calc((100%-96px)/6)]  h-full overflow-x-scroll xl:overflow-visible '
+                              className='gap-[12px] sm:gap-[20px] xl:gap-[16px] grid grid-rows-[300px]  grid-flow-col auto-cols-[calc((100%-24px)/2)] sm:auto-cols-[calc((100%-80px)/4)]   xl:auto-cols-[calc((100%-96px)/6)]  h-full overflow-x-scroll xl:overflow-visible '
                               ref={wrapperListProductsRef}
                         >
                               {products &&

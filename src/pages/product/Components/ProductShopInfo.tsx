@@ -43,7 +43,7 @@ const ProductShopInfo = (props: TProps) => {
                                           </div>
                                     </div>
 
-                                    <div className='ml-[48px] self-start justify-self-start flex flex-col gap-[12px]'>
+                                    <div className='ml-[30px] self-start justify-self-start flex flex-col gap-[12px]'>
                                           <button className='min-w-[60px] w-max h-[30px] p-[8px] border-[1px] border-slate-400 flex items-center justify-center rounded-md'>
                                                 Xem shop
                                           </button>

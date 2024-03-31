@@ -105,13 +105,13 @@ const ContentProduct = () => {
       }
 
       return (
-            <div className=' z-[5] w-full min-h-[370px] h-max  flex flex-col gap-[28px]  bg-[rgb(245_245_250)]'>
+            <div className=' z-[5] w-full min-h-[370px] h-max  flex flex-col gap-[28px]  bg-[rgb(245_245_250)] pb-[50px] xl:p-0'>
                   <div
-                        className='animate-mountComponent h-[145px] w-full sticky top-[70px] xl:top-[0px] bg-[rgb(245_245_250)] pt-[16px] z-[2] '
+                        className='animate-mountComponent h-[155px] w-full sticky top-[70px] xl:top-[0px] bg-[rgb(245_245_250)] pt-[16px] z-[2] '
                         ref={stickyRef}
                   >
-                        <div className=' w-full h-[135px] bg-[#ffffff]  rounded  border[1px] border-b-[1px] border-gray-200  flex flex-col gap-[10px]'>
-                              <h3>Gợi ý hôm nay</h3>
+                        <div className=' w-full h-[145px] bg-[#ffffff]  rounded  border[1px] border-b-[1px] border-gray-200  flex flex-col gap-[10px] pt-[10px]'>
+                              <h3 className='w-full pl-[20px] text-slate-900 font-bold'>Gợi ý hôm nay</h3>
                               <div className='grow grid  grid-cols-[repeat(3,150px)] auto-cols-[150px] grid-flow-col  xl:grid-flow-row  xl:grid-cols-6  justify-items-center overflow-x-scroll xl:overflow-x-visible'>
                                     {arrayCategory.map((category) => (
                                           <Link
@@ -134,7 +134,7 @@ const ContentProduct = () => {
                         </div>
                   </div>
                   <div className='    w-full h-max min-h-[370px] '>
-                        <div className=' w-full h-full grid grid-col-2 sm:grid-cols-3 xl:grid-cols-6  grid-row-[370px] grid-flow-row auto-cols-[calc((100%-20px)/2)] xl:auto-cols-[calc((100%-120px)/6)] auto-rows-[370px] gap-[10px] xl:gap-[20px]'>
+                        <div className=' w-full h-full grid grid-col-2 sm:grid-cols-3 xl:grid-cols-6  grid-row-[370px] grid-flow-row auto-cols-[calc((100%-20px)/2)] xl:auto-cols-[calc((100%-120px)/6)] auto-rows-[370px] gap-[10px]'>
                               {getAllProduct.isSuccess && (
                                     <>
                                           {shopAdmin && (

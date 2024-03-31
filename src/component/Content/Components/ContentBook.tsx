@@ -85,10 +85,16 @@ const ContentBook = () => {
                   </div>
 
                   <div className='relative w-full h-[75%] overflow-hidden'>
-                        {type === 'All' && <LayoutTranslate products={productAll as TProductDetail[]} />}
-                        {type === 'Manga' && <LayoutTranslate products={productManga as TProductDetail[]} />}
-                        {type === 'Novel' && <LayoutTranslate products={productNovel as TProductDetail[]} />}
-                        {type === 'Detective' && <LayoutTranslate products={productDectective as TProductDetail[]} />}
+                        {getProductBookAllType.isSuccess && type === 'All' && <LayoutTranslate products={productAll as TProductDetail[]} />}
+                        {getProductBookAllType.isSuccess && type === 'Manga' && (
+                              <LayoutTranslate products={productManga as TProductDetail[]} />
+                        )}
+                        {getProductBookAllType.isSuccess && type === 'Novel' && (
+                              <LayoutTranslate products={productNovel as TProductDetail[]} />
+                        )}
+                        {getProductBookAllType.isSuccess && type === 'Detective' && (
+                              <LayoutTranslate products={productDectective as TProductDetail[]} />
+                        )}
 
                         {getProductBookAllType.isPending && (
                               <>

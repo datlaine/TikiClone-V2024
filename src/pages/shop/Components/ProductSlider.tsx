@@ -22,7 +22,7 @@ const ProductSlider = (props: TProps) => {
 
       const onClickNext = () => {
             if (wrapperRef.current) {
-                  const width = wrapperRef.current?.getBoundingClientRect().width * -1
+                  const width = wrapperRef.current?.getBoundingClientRect().width * -1 + 20
                   const pos = newPosition + width
                   wrapperRef.current.style.transform = `translateX(${pos}px)`
                   wrapperRef.current.style.transition = `all ${TransitionTime}s`
@@ -33,7 +33,7 @@ const ProductSlider = (props: TProps) => {
 
       const onClickPrev = () => {
             if (wrapperRef.current) {
-                  const width = wrapperRef.current?.getBoundingClientRect().width * 1
+                  const width = wrapperRef.current?.getBoundingClientRect().width * 1 + 20
                   const pos = newPosition + width
                   wrapperRef.current.style.transform = `translateX(${pos}px)`
                   wrapperRef.current.style.transition = `all ${TransitionTime}s`
@@ -70,7 +70,7 @@ const ProductSlider = (props: TProps) => {
                   }
 
                   if (wrapperRef.current) {
-                        const width = wrapperRef.current?.getBoundingClientRect().width * -1
+                        const width = wrapperRef.current?.getBoundingClientRect().width * -1 + 20
                         const pos = newPosition + width
                         wrapperRef.current.style.transform = `translateX(${pos}px)`
                         wrapperRef.current.style.transition = `all ${TransitionTime}s`
@@ -97,7 +97,7 @@ const ProductSlider = (props: TProps) => {
                                     products.map((product, index) => {
                                           return (
                                                 <div
-                                                      className='relative flex justify-between min-w-[50%]  w-[50%] h-full overflow-x-auto odd:mr-0 odd:xl:mr-[30px]'
+                                                      className='relative flex justify-between min-w-[50%]  w-[50%] h-full overflow-x-auto '
                                                       key={product._id}
                                                 >
                                                       <img

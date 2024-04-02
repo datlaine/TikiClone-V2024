@@ -22,8 +22,7 @@ const ProductSlider = (props: TProps) => {
 
       const onClickNext = () => {
             if (wrapperRef.current) {
-                  const width = (wrapperRef.current?.getBoundingClientRect().width + 20) * -1
-
+                  const width = wrapperRef.current?.getBoundingClientRect().width * -1 + 20
                   const pos = newPosition + width
                   wrapperRef.current.style.transform = `translateX(${pos}px)`
                   wrapperRef.current.style.transition = `all ${TransitionTime}s`
@@ -34,8 +33,7 @@ const ProductSlider = (props: TProps) => {
 
       const onClickPrev = () => {
             if (wrapperRef.current) {
-                  const width = (wrapperRef.current?.getBoundingClientRect().width + 20) * 1
-
+                  const width = wrapperRef.current?.getBoundingClientRect().width * 1
                   const pos = newPosition + width
                   wrapperRef.current.style.transform = `translateX(${pos}px)`
                   wrapperRef.current.style.transition = `all ${TransitionTime}s`
@@ -72,7 +70,7 @@ const ProductSlider = (props: TProps) => {
                   }
 
                   if (wrapperRef.current) {
-                        const width = (wrapperRef.current?.getBoundingClientRect().width + 20) * -1
+                        const width = wrapperRef.current?.getBoundingClientRect().width * -1
                         const pos = newPosition + width
                         wrapperRef.current.style.transform = `translateX(${pos}px)`
                         wrapperRef.current.style.transition = `all ${TransitionTime}s`
@@ -94,12 +92,12 @@ const ProductSlider = (props: TProps) => {
       return (
             <div className='relative group w-full h-full  pb-[50px] '>
                   <div className='w-full h-full  overflow-x-hidden'>
-                        <div className='  min-w-full flex h-full xl:gap-[20px]' ref={wrapperRef}>
+                        <div className='  min-w-full flex h-full ' ref={wrapperRef}>
                               {products &&
                                     products.map((product, index) => {
                                           return (
                                                 <div
-                                                      className='relative flex justify-between min-w-[calc(50%-10px)]  w-[calc(50%-10px)] h-full overflow-x-auto  '
+                                                      className='relative flex justify-between min-w-[calc(50%-10px)]  w-[calc(50%-10px)] h-full overflow-x-auto xl:odd:mr-[20px] '
                                                       key={product._id}
                                                 >
                                                       <img

@@ -16,7 +16,7 @@ const ProductSmall = (props: TProps) => {
       return (
             <Link
                   to={`product/${product._id}`}
-                  className='w-full h-full  flex flex-col  gap-[10px] border-[1px] border-slate-200  rounded-lg bg-[#ffffff]'
+                  className='w-full h-full  flex flex-col  gap-[10px] border-[1px] border-slate-200  rounded-lg bg-[#ffffff] p-1'
             >
                   <div className='relative w-full h-[60%]'>
                         <img src={product.product_thumb_image?.secure_url} className='w-full h-[85%] rounded-t-lg' alt='' />

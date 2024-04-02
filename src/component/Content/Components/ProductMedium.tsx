@@ -22,7 +22,7 @@ const ProductMedium = (props: TProps) => {
       return (
             <Link
                   to={`/product/${product._id}`}
-                  className='w-full h-full  flex flex-col  gap-[10px] border-[1px] border-slate-200  rounded-lg bg-[#ffffff] hover:shadow-xl'
+                  className='w-full h-full  flex flex-col  gap-[10px] border-[1px] border-slate-200  rounded-lg bg-[#ffffff] hover:shadow-xl p-1'
             >
                   <div className='relative w-full h-[60%]'>
                         <img src={product.product_thumb_image?.secure_url} className='w-full h-[77%] rounded-t-lg' alt='' />
@@ -32,7 +32,7 @@ const ProductMedium = (props: TProps) => {
                         </div>
                   </div>
                   <div className='px-[10px] gap-[7px] flex-1 flex flex-col '>
-                        <span className='w-[80%] break-words  line-clamp-2 text-[12px] font-normal'>{product.product_name}</span>
+                        <span className='w-[95%] break-words  line-clamp-2 text-[12px] font-normal'>{product.product_name}</span>
                         <Rate disabled allowHalf defaultValue={product.product_votes} className='text-[12px]' />
                   </div>
                   <span className='px-[10px] flex-1 break-words line-clamp-2 text-[14px] font-medium'>{product.product_price}</span>

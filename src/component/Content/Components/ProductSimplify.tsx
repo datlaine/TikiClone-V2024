@@ -15,7 +15,7 @@ const ProductSimplify = (props: TProps) => {
       return (
             <Link
                   to={`product/${product._id}`}
-                  className='w-full h-full  flex flex-col gap-[6px] border-[1px] border-slate-200  rounded-xl'
+                  className='w-full h-full  flex flex-col gap-[6px] border-[1px] border-slate-200  rounded-xl p-1'
             >
                   <img src={product.product_thumb_image?.secure_url} className='w-full h-[58%]' alt='' />
                   <div className='px-[6px] pb-0 xl:pb-[7px] flex-1 flex flex-col gap-[4px]  justify-between'>

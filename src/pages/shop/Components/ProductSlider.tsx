@@ -92,12 +92,12 @@ const ProductSlider = (props: TProps) => {
       return (
             <div className='relative group w-full h-full  pb-[50px] '>
                   <div className='w-full h-full  overflow-x-hidden'>
-                        <div className='  min-w-full flex h-full ' ref={wrapperRef}>
+                        <div className='  min-w-full flex h-full xl:gap-[20px]' ref={wrapperRef}>
                               {products &&
                                     products.map((product, index) => {
                                           return (
                                                 <div
-                                                      className='relative flex justify-between min-w-[50%]  w-[50%] h-full overflow-x-auto xl:gap-[20px] '
+                                                      className='relative flex justify-between min-w-[50%]  w-[50%] h-full overflow-x-auto  '
                                                       key={product._id}
                                                 >
                                                       <img

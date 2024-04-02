@@ -80,9 +80,11 @@ const OwnerShopFilterName = (props: TProps) => {
                         <ShopSearchProduct search={search} setSearch={setSearch} />
                   </div>
 
-                  {shop_owner_products?.map((product) => {
-                        return <ProductOwner product={product} key={product?._id} />
-                  })}
+                  <div className='grid grid-cols-2 sm:grid-cols:4 xl:grid-cols-6'>
+                        {shop_owner_products?.map((product) => {
+                              return <ProductOwner product={product} key={product?._id} />
+                        })}
+                  </div>
                   <div className='w-full h-[65px] flex items-center justify-center'>
                         <button
                               className='  min-w-[180px] px-[16px] w-max h-[40px] bg-[#ffffff] border-[1px] border-blue-500 text-blue-500 flex items-center justify-center rounded-lg hover:bg-blue-50 hover:text-blue-500'

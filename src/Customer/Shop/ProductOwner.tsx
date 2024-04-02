@@ -17,7 +17,7 @@ const ProductOwner = (props: TProps) => {
       }
 
       return (
-            <div className='flex min-w-[200px] flex-col gap-[16px] bg-[#ffffff] rounded-lg items-center py-[16px]'>
+            <div className='flex min-w-[100px] flex-col gap-[16px] bg-[#ffffff] rounded-lg items-center py-[16px]'>
                   <Link to={`/product/${product?._id}`} className='w-[150px] h-[150px]'>
                         <img
                               key={product?._id}

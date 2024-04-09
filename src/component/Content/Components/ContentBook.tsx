@@ -68,7 +68,7 @@ const ContentBook = () => {
 
       return (
             <div className='max-w-full w-full h-[485px] bg-[#ffffff] rounded-lg p-[20px] flex flex-col gap-[16px]'>
-                  <h3>ContentBook {type}</h3>
+                  <h3>Các sãn phẩm về sách</h3>
 
                   <div className='overflow-hidden'>
                         <div className='h-[40px] max-w-full flex gap-[20px] overflow-scroll'>

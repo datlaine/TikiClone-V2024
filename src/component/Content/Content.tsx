@@ -52,8 +52,8 @@ const Content = () => {
                         ListProducts={<ProductGenuineBrand />}
                   />
 
-{/*                   <ContentBook /> */}
-                  <ContentFood />
+                  <ContentBook />
+{/*                   <ContentFood /> */}
 
                   <ContentProduct />
 

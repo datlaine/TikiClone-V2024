@@ -53,7 +53,7 @@ const Content = () => {
                   />
 
                   <ContentBook />
-                  <ContentFood />
+{/*                   <ContentFood /> */}
 
                   <ContentProduct />
 

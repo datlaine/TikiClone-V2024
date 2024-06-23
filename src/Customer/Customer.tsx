@@ -1,7 +1,7 @@
 import { memo, useState } from 'react'
 
 //@react router
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate, useRoutes } from 'react-router-dom'
 
 //@redux-toolkit
 import { useSelector } from 'react-redux'
@@ -40,8 +40,9 @@ const Customer = () => {
       //@context pathname
       const [_, setSectionActive] = useState('/customer/account')
       //@connect state redux
-      const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+      const user = useSelector((state: RootState) => state.authentication.user)
       const auth = Boolean(user)
+      const router = useNavigate()
 
       //@check path
       if (pathName === '/customer') return <NotFound />
@@ -63,7 +64,7 @@ const Customer = () => {
       //@element
       return (
             <>
-                  <div className='px-[14px] text-[14px] w-full min-h-screen h-full flex xl:items-center lg:block pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
+                  <div className='px-[14px] text-[14px] w-full min-h-full flex flex-col gap-[20px]  pt-[15px] xl:pt-[0px] mt-0 xl:mt-[10px]'>
                         {/* @header */}
                         <div className='hidden lg:block mb-[1px]'>
                               <Link to={'/'}>Trang chủ</Link>
@@ -73,168 +74,172 @@ const Customer = () => {
                               </Link>
                         </div>
 
-                        <div className=' w-full flex gap-[1%] min-h-[450px]  h-[auto] '>
-                              {/* @navigate pathname */}
-                              <div className='sticky top-0 hidden xl:block h-screen  xl:w-[24%]'>
-                                    <div
-                                          className='h-[75px] flex items-center gap-[8px] overflow-x-hidden'
-                                          title={`Account ${user?.email}` || ''}
-                                    >
-                                          {user ? (
-                                                <>
-                                                      <img
-                                                            src={user.avatar?.secure_url || user.avatar_url_default || ''}
-                                                            alt='user_avatar'
-                                                            className='min-w-[30px] lg:min-w-[40px] w-[30px] h-[30px] lg:w-[40px] lg:h-[40px] rounded-full'
-                                                      />
+                        {user ? (
+                              <div className=' w-full flex gap-[1%] min-h-[450px]  h-[auto] '>
+                                    {/* @navigate pathname */}
+                                    <div className='sticky top-0 hidden xl:block h-screen  xl:w-[24%]'>
+                                          <div
+                                                className='h-[75px] flex items-center gap-[8px] overflow-x-hidden'
+                                                title={`Account ${user?.email}` || ''}
+                                          >
+                                                {user ? (
+                                                      <>
+                                                            <img
+                                                                  src={user.avatar?.secure_url || user.avatar_url_default || ''}
+                                                                  alt='user_avatar'
+                                                                  className='min-w-[30px] lg:min-w-[40px] w-[30px] h-[30px] lg:w-[40px] lg:h-[40px] rounded-full'
+                                                            />
 
-                                                      <div className='flex flex-col gap-[1px]'>
-                                                            <span>Tài khoản của</span>
-                                                            {user && (
-                                                                  <span className='truncate w-[170px]'>{`@${
-                                                                        user.email.split('@')[0]
-                                                                  }`}</span>
-                                                            )}
+                                                            <div className='flex flex-col gap-[1px]'>
+                                                                  <span>Tài khoản của</span>
+                                                                  {user && (
+                                                                        <span className='truncate w-[170px]'>{`@${user?.email.split(
+                                                                              '@',
+                                                                        )[0]}`}</span>
+                                                                  )}
+                                                            </div>
+                                                      </>
+                                                ) : (
+                                                      <div className='flex text-red-700 gap-[15px]'>
+                                                            <Lock color='red' />
+                                                            <span className='font-bold'>Permission</span>
                                                       </div>
-                                                </>
-                                          ) : (
-                                                <div className='flex text-red-700 gap-[15px]'>
-                                                      <Lock color='red' />
-                                                      <span className='font-bold'>Permission</span>
-                                                </div>
-                                          )}
-                                    </div>
-                                    <Link
-                                          to={'/customer/account'}
-                                          className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                textLink?.path === '/customer/account' ? 'isActive' : ''
-                                          }
-`}
-                                          onClick={(e) => handleActive('/customer/account')}
-                                    >
-                                          <UserRound />
-                                          <span>Account</span>
-                                    </Link>
-
-                                    <Link
-                                          to={'/customer/notification'}
-                                          className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                textLink?.path === '/customer/notification' ? 'isActive' : ''
-                                          }
-`}
-                                          onClick={(e) => handleActive('/customer/notification')}
-                                    >
-                                          <BellDot />
-
-                                          <span>Thông báo của tôi</span>
-                                    </Link>
-
-                                    <Link
-                                          to={'/customer/order_history'}
-                                          className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                textLink?.path === '/customer/order_history' ? 'isActive' : ''
-                                          }
-`}
-                                          onClick={(e) => handleActive('/customer/order_history')}
-                                    >
-                                          <NotebookPen />
-
-                                          <span>Quản lí đơn hàng</span>
-                                    </Link>
-
-                                    <Link
-                                          to={'/customer/shop'}
-                                          className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                textLink?.path === '/customer/shop' ? 'isActive' : ''
-                                          }
-`}
-                                          onClick={(e) => handleActive('/customer/shop')}
-                                    >
-                                          <ShoppingCart />
-
-                                          <span>Shop</span>
-                                    </Link>
-
-                                    <Link
-                                          to={'/customer/register-sell'}
-                                          className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                textLink?.path === '/customer/register-sell' ? 'isActive' : ''
-                                          }
-`}
-                                          onClick={(e) => handleActive('/customer/register-sell')}
-                                    >
-                                          <ShoppingBag />
-
-                                          <span>Đăng kí bán sản phẩm</span>
-                                    </Link>
-
-                                    {user?.verify_email && (
+                                                )}
+                                          </div>
                                           <Link
-                                                to={'/customer/shop/product-list'}
+                                                to={'/customer/account'}
                                                 className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                      textLink?.path === '/customer/shop/product-list' ? 'isActive' : ''
+                                                      textLink?.path === '/customer/account' ? 'isActive' : ''
                                                 }
 `}
-                                                onClick={(e) => handleActive('/customer/shop/product-list')}
+                                                onClick={(e) => handleActive('/customer/account')}
                                           >
-                                                <Store />
-
-                                                <span>Sản phẩm của Shop</span>
+                                                <UserRound />
+                                                <span>Account</span>
                                           </Link>
-                                    )}
 
-                                    <Link
-                                          to={'/customer/account/address'}
-                                          className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                textLink?.path === '/customer/account/address' ? 'isActive' : ''
-                                          }
+                                          <Link
+                                                to={'/customer/notification'}
+                                                className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
+                                                      textLink?.path === '/customer/notification' ? 'isActive' : ''
+                                                }
 `}
-                                          onClick={(e) => handleActive('/customer/account/address')}
-                                    >
-                                          <MapPinned />
+                                                onClick={(e) => handleActive('/customer/notification')}
+                                          >
+                                                <BellDot />
 
-                                          <span>Số địa chỉ</span>
-                                    </Link>
+                                                <span>Thông báo của tôi</span>
+                                          </Link>
 
-                                    <Link
-                                          to={'/customer/account/update/email'}
-                                          className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                textLink?.path === '/customer/account/update/email' ? 'isActive' : ''
-                                          }
+                                          <Link
+                                                to={'/customer/order_history'}
+                                                className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
+                                                      textLink?.path === '/customer/order_history' ? 'isActive' : ''
+                                                }
 `}
-                                          onClick={(e) => handleActive('/customer/account/update/email')}
-                                    >
-                                          <Mail />
-                                          <span>Cập nhập Email</span>
-                                    </Link>
+                                                onClick={(e) => handleActive('/customer/order_history')}
+                                          >
+                                                <NotebookPen />
 
-                                    <Link
-                                          to={'/customer/account/update/password'}
-                                          className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
-                                                textLink?.path === '/customer/account/update/password' ? 'isActive' : ''
-                                          }
+                                                <span>Quản lí đơn hàng</span>
+                                          </Link>
+
+                                          <Link
+                                                to={'/customer/shop'}
+                                                className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
+                                                      textLink?.path === '/customer/shop' ? 'isActive' : ''
+                                                }
 `}
-                                          onClick={(e) => handleActive('/customer/account/update/password')}
-                                    >
-                                          <Key />
-                                          <span>Cập nhập mật khẩu</span>
-                                    </Link>
-                              </div>
+                                                onClick={(e) => handleActive('/customer/shop')}
+                                          >
+                                                <ShoppingCart />
 
-                              {/*@ Outlet */}
-                              <div className='w-full xl:w-[75%]'>
-                                    <div className='hidden xl:flex h-[36px] m-[20px_0px_6px_0px] text-[20px]  items-center'>
-                                          {textLink?.text}
+                                                <span>Shop</span>
+                                          </Link>
+
+                                          <Link
+                                                to={'/customer/register-sell'}
+                                                className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
+                                                      textLink?.path === '/customer/register-sell' ? 'isActive' : ''
+                                                }
+`}
+                                                onClick={(e) => handleActive('/customer/register-sell')}
+                                          >
+                                                <ShoppingBag />
+
+                                                <span>Đăng kí bán sản phẩm</span>
+                                          </Link>
+
+                                          {user?.verify_email && (
+                                                <Link
+                                                      to={'/customer/shop/product-list'}
+                                                      className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
+                                                            textLink?.path === '/customer/shop/product-list' ? 'isActive' : ''
+                                                      }
+`}
+                                                      onClick={(e) => handleActive('/customer/shop/product-list')}
+                                                >
+                                                      <Store />
+
+                                                      <span>Sản phẩm của Shop</span>
+                                                </Link>
+                                          )}
+
+                                          <Link
+                                                to={'/customer/account/address'}
+                                                className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
+                                                      textLink?.path === '/customer/account/address' ? 'isActive' : ''
+                                                }
+`}
+                                                onClick={(e) => handleActive('/customer/account/address')}
+                                          >
+                                                <MapPinned />
+
+                                                <span>Số địa chỉ</span>
+                                          </Link>
+
+                                          <Link
+                                                to={'/customer/account/update/email'}
+                                                className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
+                                                      textLink?.path === '/customer/account/update/email' ? 'isActive' : ''
+                                                }
+`}
+                                                onClick={(e) => handleActive('/customer/account/update/email')}
+                                          >
+                                                <Mail />
+                                                <span>Cập nhập Email</span>
+                                          </Link>
+
+                                          <Link
+                                                to={'/customer/account/update/password'}
+                                                className={`customer-item-bg flex items-center p-[8px] gap-[24px] ${
+                                                      textLink?.path === '/customer/account/update/password' ? 'isActive' : ''
+                                                }
+`}
+                                                onClick={(e) => handleActive('/customer/account/update/password')}
+                                          >
+                                                <Key />
+                                                <span>Cập nhập mật khẩu</span>
+                                          </Link>
                                     </div>
-                                    {auth ? (
-                                          <CustomerWrapperItem>
-                                                <Outlet />
-                                          </CustomerWrapperItem>
-                                    ) : (
-                                          <AuthPermission />
-                                    )}
+
+                                    {/*@ Outlet */}
+                                    <div className='w-full xl:w-[75%]'>
+                                          <div className='hidden xl:flex h-[36px] m-[20px_0px_6px_0px] text-[20px]  items-center'>
+                                                {textLink?.text}
+                                          </div>
+                                          {auth ? (
+                                                <CustomerWrapperItem>
+                                                      <Outlet />
+                                                </CustomerWrapperItem>
+                                          ) : (
+                                                <AuthPermission />
+                                          )}
+                                    </div>
                               </div>
-                        </div>
+                        ) : (
+                              <AuthPermission />
+                        )}
                   </div>
             </>
       )

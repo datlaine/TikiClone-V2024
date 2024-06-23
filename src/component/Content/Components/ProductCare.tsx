@@ -56,33 +56,35 @@ const ProductCare = () => {
 
       return (
             <div className='relative flex-1 min-h-[298px] h-max max-w-full px-0 xl:px-[18px]'>
-                  <div className='max-w-full h-full overflow-hidden'>
-                        <div
-                              className='gap-[20px] xl:gap-[16px] grid grid-rows-[300px]  grid-flow-col auto-cols-[calc((100%-40px)/2)] sm:auto-cols-[calc((100%-80px)/4)]   xl:auto-cols-[calc((100%-96px)/6)]  h-full overflow-x-scroll xl:overflow-visible '
-                              ref={wrapperListProductsRef}
-                        >
-                              {products &&
-                                    products.map((product) => (
-                                          <div className='min-w-full h-full' key={product._id}>
-                                                <ProductSimplify product={product} />
-                                          </div>
-                                    ))}
+                  <div className='max-w-full min-h-[298px] overflow-hidden'>
+                        {products && products?.length > 0 && (
+                              <div
+                                    className='gap-[20px] xl:gap-[16px] grid grid-rows-[300px]  grid-flow-col auto-cols-[calc((100%-40px)/2)] sm:auto-cols-[calc((100%-80px)/4)]   xl:auto-cols-[calc((100%-96px)/6)]  h-full overflow-x-scroll xl:overflow-visible '
+                                    ref={wrapperListProductsRef}
+                              >
+                                    {products &&
+                                          products.map((product) => (
+                                                <div className='min-w-full h-full' key={product._id}>
+                                                      <ProductSimplify product={product} />
+                                                </div>
+                                          ))}
 
-                              {allProduct.isPending && (
-                                    <>
-                                          {Array(6)
-                                                .fill(0)
-                                                ?.map((_, index) => (
-                                                      <div
-                                                            className='animate-pulse w-full h-[300px] rounded-lg bg-slate-400'
-                                                            key={index}
-                                                      ></div>
-                                                ))}
-                                    </>
-                              )}
-                        </div>
+                                    {allProduct.isPending && (
+                                          <>
+                                                {Array(6)
+                                                      .fill(0)
+                                                      ?.map((_, index) => (
+                                                            <div
+                                                                  className='animate-pulse w-full h-[300px] rounded-lg bg-slate-400'
+                                                                  key={index}
+                                                            ></div>
+                                                      ))}
+                                          </>
+                                    )}
+                              </div>
+                        )}
                         {products && products.length === 0 && (
-                              <div className='w-full h-full flex items-center justify-center text-[20px] font-semibold text-slate-700 bg-[#ffffff] rounded-lg'>
+                              <div className=' w-full min-h-[298px] flex items-center justify-center text-[20px] font-semibold text-slate-700 bg-[#ffffff] rounded-lg'>
                                     Không có thông tin các sản phẩm khác
                               </div>
                         )}

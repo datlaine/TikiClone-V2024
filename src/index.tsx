@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
-import { persistor, store } from './store'
+import { store } from './store'
 
 import App from './App'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -23,14 +23,12 @@ const client = new QueryClient({
       defaultOptions: {
             queries: {
                   refetchOnWindowFocus: false,
-                  retry: 3,
-                  retryDelay: 3000,
+                  retry: 0,
             },
       },
       queryCache: new QueryCache({
             onError: (error) => {
                   if (checkAxiosError<TErrorAxios>(error)) {
-                        // console.log({ mute: error })
                         if (
                               window.location.origin !== 'https://tikiclone-v2024.onrender.com' &&
                               error?.response?.status === 403 &&
@@ -44,6 +42,7 @@ const client = new QueryClient({
                                     addToast({ type: 'ERROR', message: 'Refresh Token không hợp lệ', id: Math.random().toString() }),
                               )
                               store.dispatch(doOpenBoxLogin())
+                              throw error
                         }
                         if (error.response?.status === 401) {
                               if (error.response.data?.detail === 'Đăng nhập thất bại, vui lòng nhập thông tin hợp lệ') {
@@ -97,14 +96,12 @@ const client = new QueryClient({
 
 root.render(
       <Provider store={store}>
-            <PersistGate persistor={persistor}>
-                  <BrowserRouter>
-                        <QueryClientProvider client={client}>
-                              <App />
-                              <BoxContainerToast />
-                              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-                        </QueryClientProvider>
-                  </BrowserRouter>
-            </PersistGate>
+            <BrowserRouter>
+                  <QueryClientProvider client={client}>
+                        <App />
+                        <BoxContainerToast />
+                        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+                  </QueryClientProvider>
+            </BrowserRouter>
       </Provider>,
 )

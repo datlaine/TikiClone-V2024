@@ -55,7 +55,7 @@ const AuthRegister = (props: TProps) => {
             mutationKey: ['register'],
             mutationFn: (data: Omit<TRegisterZodSchema, 'confirm_password'>) => Auth.register(data),
             onSuccess: (res) => {
-                  dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
+                  dispatch(fetchUser({ user: res.data.metadata.user }))
                   dispatch(addToast({ type: 'SUCCESS', message: 'Welcome các bạn đến với project của mình', id: Math.random().toString() }))
                   dispatch(doCloseBoxLogin())
             },

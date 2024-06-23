@@ -10,12 +10,6 @@ import cartSlice from './Redux/cartSlice'
 import categorySlice from './Redux/category.slice'
 import commentSlice from './Redux/comment.slice'
 
-const persistConfig = {
-      key: 'anhYeuEm',
-      storage,
-      blacklist: ['uiSlice', 'authentication', 'toast', 'cartSlice'],
-}
-
 // const authPersistConfig = {
 //   key: 'auth',
 //   storage: storage,
@@ -38,16 +32,10 @@ const rootReducer = combineReducers({
       commentSlice: commentSlice,
 })
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
 export const store = configureStore({
-      reducer: persistedReducer,
-      middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware({
-                  serializableCheck: false,
-            }),
+      reducer: rootReducer,
 })
 
 export type RootState = ReturnType<typeof store.getState>
 
-export const persistor = persistStore(store)
+export default store

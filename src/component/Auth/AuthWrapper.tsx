@@ -23,7 +23,7 @@ const AuthWrapper = (props: TProps) => {
       }
       return (
             <div
-                  className='fixed w-full min-h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.7)] z-[10] px-[15px]'
+                  className='fixed w-full min-h-screen top-0 left-0 flex justify-center items-center bg-[rgba(0,0,0,.7)] z-[999] px-[15px]'
                   onClick={() => {
                         dispatch(doCloseBoxLogin())
                         setShowBoxAuth(false)

@@ -13,6 +13,7 @@ import BoxMoney from '../BoxUi/BoxMoney'
 import BoxConfirmDelete from '../BoxUi/confirm/BoxConfirmDelete'
 import BoxButton from '../BoxUi/BoxButton'
 import BoxConfirmAddress from '../BoxUi/confirm/BoxConfirmAddress'
+import CartItemDetail from './CartItemDetail'
 
 type TProps = {
       shop: CartShopRef
@@ -25,6 +26,7 @@ const CartItem = (props: TProps) => {
       const [select, setSelect] = useState<boolean>(product.isSelect)
       const [openBoxConfirmDelete, setOpenBoxConfirmDelete] = useState<boolean>(false)
       const [openBoxCofirmUpdateAddress, setOpenBoxConfirmUpdateAddress] = useState<boolean>(false)
+      const [openModelDetail, setOpenModelDetail] = useState<boolean>(false)
 
       const queryClient = useQueryClient()
 
@@ -91,7 +93,7 @@ const CartItem = (props: TProps) => {
             product.cart_address.type === 'Home' ? 'Nhà' : product.cart_address.type === 'Company' ? 'Công ty / cơ quan' : 'Nơi ở riêng tư'
       // if (!product.product_id.s) return null
       return (
-            <div className='min-h-[350px] h-[850px] xl:h-[300px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
+            <div className='h-[600px] xl:h-[450px] flex flex-col gap-[16px] bg-[#ffffff] px-[12px]' key={product._id}>
                   <div className='flex gap-[12px] h-[14%] xl:h-[30%] items-center'>
                         {/* <Checkbox disabled={styleEffect.readOnly} /> */}
                         <Home />
@@ -106,7 +108,7 @@ const CartItem = (props: TProps) => {
                               <span className='underline'>{shop.shop_name}</span>
                         </p>
                   </div>
-                  <div className='max-h-[70%] h-[60%] xl:max-h-[50%] xl:h-[40%] w-full flex flex-col xl:flex-row gap-[20px]'>
+                  <div className='max-h-[70%] h-[60%] xl:max-h-[50%] xl:h-[40%] w-full flex flex-col  gap-[40px]'>
                         <div className='w-full flex  flex-col xl:flex-row gap-[30px] min-h-[230px] h-max xl:min-h-[80px]'>
                               <Checkbox
                                     disabled={styleEffect.readOnly}
@@ -115,7 +117,7 @@ const CartItem = (props: TProps) => {
                                     onChange={changeSelect}
                               />
                               <Link
-                                    className='inline-block w-[150px] xl:w-[90px] h-[250px] xl:h-[80px]'
+                                    className='inline-block w-[200px] xl:w-[90px] h-[250px] xl:h-[80px]'
                                     to={`/product/${product.product_id._id}`}
                               >
                                     <img
@@ -127,10 +129,58 @@ const CartItem = (props: TProps) => {
                               <div
                                     className={`${styleEffect.product_not_avaiable} flex-1 flex flex-wrap flex-col   gap-[4px] xl:gap-0 content-between justify-between font-semibold text-slate-700`}
                               >
-                                    <span>{product.product_id.product_name}</span>
+                                    <span>Tên sản phẩm:{product.product_id.product_name}</span>
 
                                     <span>Thể loại: Sách</span>
                                     <span>Giao vào ngày mai</span>
+                                    <div className='w-[180px] flex xl:hidden items-center  xl:my-[4px] mt-[20px] xl:mt-0 '>
+                                          Giá tiền:
+                                          <BoxMoney name='VND' money={product.product_id.product_price} colorBackground='bg-blue-600' />
+                                    </div>
+
+                                    <div className='hidden xl:flex '>
+                                          <div className='w-[180px] flex items-center  xl:my-[4px] mt-[20px] xl:mt-0 '>
+                                                <BoxMoney
+                                                      name='VND'
+                                                      money={product.product_id.product_price}
+                                                      colorBackground='bg-blue-600'
+                                                />
+                                          </div>
+                                          <div className='w-[120px] flex items-center h-max xl:h-full  xl:my-0'>
+                                                <WrapperCountProduct
+                                                      readOnly={!product.product_id.product_state}
+                                                      product_id={product.product_id._id}
+                                                      cart_quantity={product.quantity}
+                                                />
+                                          </div>
+                                          <div className='w-[180px]  xl:my-0 flex items-center text-[14px] gap-[2px]'>
+                                                <BoxMoney name='VNĐ' money={product.quantity * product.product_id.product_price} />
+                                          </div>
+                                          <div className='w-[20px] flex items-center  xl:my-0'>
+                                                <Trash2 onClick={() => setOpenBoxConfirmDelete(true)} />
+                                                {openBoxConfirmDelete && (
+                                                      <BoxConfirmDelete
+                                                            content='Bạn sẽ xóa sản phẩm này chứ'
+                                                            subContent={
+                                                                  product.product_id.product_name +
+                                                                  ' ' +
+                                                                  `SL:${product.quantity}` +
+                                                                  ' ' +
+                                                                  `Giá: ${formatMoneyVND(
+                                                                        product.quantity * product.product_id.product_price,
+                                                                  )}` +
+                                                                  ' ' +
+                                                                  'VNĐ'
+                                                            }
+                                                            ButtonCancellContent='Hủy'
+                                                            ButtonConfrimContent='Xác nhận xóa'
+                                                            onClose={setOpenBoxConfirmDelete}
+                                                            onActive={onDeleteCart}
+                                                            paramsActive={{ product_id: product._id }}
+                                                      />
+                                                )}
+                                          </div>
+                                    </div>
 
                                     {!product.product_id.product_state && (
                                           <span className='text-red-700 font-semibold text-[16px]'>Sản phẩm ngừng kinh doanh</span>
@@ -138,68 +188,43 @@ const CartItem = (props: TProps) => {
                               </div>
                         </div>
 
-                        <div className='w-[180px] flex items-center  xl:my-[4px] mt-[20px] xl:mt-0 '>
-                              <BoxMoney name='VND' money={product.product_id.product_price} colorBackground='bg-blue-600' />
-                        </div>
-                        <div className='w-[120px] flex items-center h-max xl:h-full  xl:my-0'>
-                              <WrapperCountProduct
-                                    readOnly={!product.product_id.product_state}
-                                    product_id={product.product_id._id}
-                                    cart_quantity={product.quantity}
-                              />
-                        </div>
-                        <div className='w-[180px]  xl:my-0 flex items-center text-[14px] gap-[2px]'>
-                              <BoxMoney name='VNĐ' money={product.quantity * product.product_id.product_price} />
-                        </div>
-                        <div className='w-[20px] flex items-center  xl:my-0'>
-                              <Trash2 onClick={() => setOpenBoxConfirmDelete(true)} />
-                              {openBoxConfirmDelete && (
-                                    <BoxConfirmDelete
-                                          content='Bạn sẽ xóa sản phẩm này chứ'
-                                          subContent={
-                                                product.product_id.product_name +
-                                                ' ' +
-                                                `SL:${product.quantity}` +
-                                                ' ' +
-                                                `Giá: ${formatMoneyVND(product.quantity * product.product_id.product_price)}` +
-                                                ' ' +
-                                                'VNĐ'
-                                          }
-                                          ButtonCancellContent='Hủy'
-                                          ButtonConfrimContent='Xác nhận xóa'
-                                          onClose={setOpenBoxConfirmDelete}
-                                          onActive={onDeleteCart}
-                                          paramsActive={{ product_id: product._id }}
-                                    />
-                              )}
-                        </div>
-                  </div>
-                  <div className='max-h-[32%] flex flex-wrap flex-col xl:flex-row justify-between ml-0 xl:ml-[16px]  gap-[24px] xl:gap-[16px]'>
-                        <div className='flex flex-col xl:flex-row  gap-[8px] text-slate-800 text-[12px] xl:text-[16px] font-extrabold'>
-                              {/* <TimerIcon className='hidden xl:block' /> */}
-                              <span>Đặt hàng vào lúc:</span>
-                              <span>{DateTimeFromString(product.cart_date)}</span>
-                        </div>
-                        <div className='flex flex-col xl:flex-row xl:items-center gap-[8px] xl:w-[80%]'>
-                              <p className='flex gap-[16px] xl:gap-[8px] items-center'>
-                                    <span className='mt-[-4px]'>{AddressTypeIcon}</span>
-                                    <span>Giao tại nhà: {AddressTypeText}</span>
-                              </p>
-                              <span className='hidden xl:inline'>-</span>
-                              <span>Địa chỉ {product.cart_address.address_text}</span>
-                              <div className='w-max'>
-                                    <BoxButton content='Cập nhập địa chỉ khác' onClick={() => setOpenBoxConfirmUpdateAddress(true)} />
-                                    {openBoxCofirmUpdateAddress && (
-                                          <BoxConfirmAddress
-                                                setOpenModal={setOpenBoxConfirmUpdateAddress}
-                                                product_id={product.product_id._id}
-                                                mode='Update'
-                                                cart_item={product}
-                                          />
-                                    )}
+                        <div className='hidden xl:block'>
+                              <div className='max-h-[32%] flex flex-wrap flex-col xl:flex-row justify-between ml-0 xl:ml-[16px]  gap-[24px] xl:gap-[16px]'>
+                                    <div className='flex flex-col xl:flex-row  gap-[8px] text-slate-800 text-[12px] xl:text-[16px] font-extrabold'>
+                                          {/* <TimerIcon className='hidden xl:block' /> */}
+                                          <span>Đặt hàng vào lúc:</span>
+                                          <span>{DateTimeFromString(product.cart_date)}</span>
+                                    </div>
+                                    <div className='flex flex-col xl:flex-row xl:items-center gap-[8px] xl:w-[80%]'>
+                                          <p className='flex gap-[16px] xl:gap-[8px] items-center'>
+                                                <span className='mt-[-4px]'>{AddressTypeIcon}</span>
+                                                <span>Giao tại nhà: {AddressTypeText}</span>
+                                          </p>
+                                          <span className='hidden xl:inline'>-</span>
+                                          <span>Địa chỉ {product.cart_address.address_text}</span>
+                                          <div className='w-max'>
+                                                <BoxButton
+                                                      content='Cập nhập địa chỉ khác'
+                                                      onClick={() => setOpenBoxConfirmUpdateAddress(true)}
+                                                />
+                                                {openBoxCofirmUpdateAddress && (
+                                                      <BoxConfirmAddress
+                                                            setOpenModal={setOpenBoxConfirmUpdateAddress}
+                                                            product_id={product.product_id._id}
+                                                            mode='Update'
+                                                            cart_item={product}
+                                                      />
+                                                )}
+                                          </div>
+                                    </div>
                               </div>
                         </div>
                   </div>
+
+                  <button onClick={() => setOpenModelDetail(true)} className='block xl:hidden w-[8rem] h-[3rem] bg-blue-300 rounded-lg'>
+                        Xem chi tiết
+                  </button>
+                  {openModelDetail && <CartItemDetail product={product} setOpenModel={setOpenModelDetail} />}
 
                   <div className='w-[calc(100%+24px)] ml-[-12px] bg-slate-100 h-[2px] my-[8px]'></div>
 

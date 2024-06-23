@@ -35,6 +35,8 @@ const ContentProduct = () => {
       const refPos = useRef<HTMLDivElement | null>(null)
       const stickyRef = useRef<HTMLDivElement>(null)
       const [tagActive, setTagActive] = useState<TagActiveArray>('/book')
+      const [totalPage, setTotalPage] = useState<number>(1)
+      const [page, setPage] = useState<number>(1)
 
       const { ref, inViewport } = useInViewport()
 
@@ -42,7 +44,11 @@ const ContentProduct = () => {
             queryKey: ['/v1/api/product/get-all-product'],
             queryFn: ({ pageParam = 1 }) => ProductApi.getAllProduct({ page: pageParam, limit: LIMIT }),
             initialPageParam: 1,
-            getNextPageParam: (lastPage, allPages) => (lastPage.data.metadata.products.length > 0 ? allPages.length + 1 : undefined),
+            getNextPageParam: (lastPage, allPages) => {
+                  if (lastPage.data.metadata.products.length > 0) {
+                        return lastPage.data.metadata.products.length > 0 ? allPages.length + 1 : undefined
+                  }
+            },
       })
 
       const getShopAdmin = useQuery({
@@ -96,6 +102,15 @@ const ContentProduct = () => {
 
       const _page = getAllProduct.data?.pages.flatMap((page) => page.data.metadata.products)
       const shopAdmin = getShopAdmin.data?.data.metadata.shopAdmin
+
+      useEffect(() => {
+            if (getAllProduct.isSuccess && totalPage === 1) {
+                  getAllProduct.data?.pages.flatMap((page) => {
+                        setTotalPage(page.data.metadata.totalPage)
+                        return []
+                  })
+            }
+      }, [getAllProduct.data, getAllProduct.isSuccess])
 
       const styleEffect = {
             onActive: (check: boolean) => {
@@ -165,23 +180,10 @@ const ContentProduct = () => {
                                     </>
                               )}
 
-                              {getAllProduct.isPending && (
+                              {page > totalPage + 1 && getAllProduct.isPending && (
                                     <>
                                           <div className='animate-pulse col-span-2 bg-slate-400'></div>
                                           {Array(10)
-                                                .fill(0)
-                                                ?.map((_, index) => (
-                                                      <div
-                                                            className='animate-pulse w-full h-full rounded-lg bg-slate-400'
-                                                            key={index}
-                                                      ></div>
-                                                ))}
-                                    </>
-                              )}
-
-                              {getAllProduct.isFetchingNextPage && (
-                                    <>
-                                          {Array(LIMIT)
                                                 .fill(0)
                                                 ?.map((_, index) => (
                                                       <div

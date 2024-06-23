@@ -1,4 +1,6 @@
+import { onLoading } from '../Redux/authenticationSlice'
 import { AddressForm } from '../forms/FormAddress'
+import store from '../store'
 import { Address } from '../types/address.type'
 import { TResponseApi } from '../types/axiosResponse'
 import { UserAddress, UserAvatarUsed, UserResponse } from '../types/user.type'
@@ -6,6 +8,7 @@ import axiosCustom from './http'
 
 class AccountService {
       static async getMeQuery() {
+            store.dispatch(onLoading())
             return axiosCustom.get<TResponseApi<{ user: UserResponse }>>('/v1/api/account/getMe')
       }
 

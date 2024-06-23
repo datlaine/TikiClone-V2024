@@ -67,7 +67,7 @@ const AuthLogin = (props: TProps) => {
             mutationFn: (data: TloginZodSchema) => Auth.login(data),
             onSuccess: (res) => {
                   dispatch(doCloseBoxLogin())
-                  dispatch(fetchUser({ user: res.data.metadata.user, access_token: res.data.metadata.access_token as string }))
+                  dispatch(fetchUser({ user: res.data.metadata.user }))
                   queryClient.invalidateQueries()
             },
             onError: async (error: unknown) => {
@@ -90,8 +90,6 @@ const AuthLogin = (props: TProps) => {
             },
             retry: 1,
       })
-
-      console.log({ toast })
 
       //change type passsword
       const handleShowHidePassword = () => {

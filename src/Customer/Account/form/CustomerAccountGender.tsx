@@ -13,7 +13,7 @@ export type TGender = {
 const CustomerAccountGender = () => {
       const { control } = useFormContext() // retrieve all hook methods
       const user = useSelector((state: RootState) => state.authentication.user)
-      const [gender, setGender] = useState<keyof TGender>(user.gender || 'Male')
+      const [gender, setGender] = useState<keyof TGender>(user?.gender || 'Male')
 
       return (
             <div className='w-full text-left  flex-1 flex-col sm:flex-row'>

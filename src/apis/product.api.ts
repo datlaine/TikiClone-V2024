@@ -164,12 +164,9 @@ class ProductApi {
       }
 
       static async getAllProduct({ page, limit }: { page: number; limit: number }) {
-            return axiosCustom.get<{ metadata: { products: TProductDetail[]; shopAdmin: ShopResponse } }>(
-                  'v1/api/product/get-all-product',
-                  {
-                        params: { page, limit },
-                  },
-            )
+            return axiosCustom.get<{ metadata: { products: TProductDetail[]; totalPage: number } }>('v1/api/product/get-all-product', {
+                  params: { page, limit },
+            })
       }
 
       static async getProductBestBought({ page, limit }: { page: number; limit: number }) {

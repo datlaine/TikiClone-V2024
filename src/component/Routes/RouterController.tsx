@@ -45,7 +45,7 @@ const RouterController = () => {
 
       const styleEffect = {
             matchPathName: window.location.pathname !== '/payment' ? '  pt-[80px] xl:pt-[20px]' : '',
-            matchPathNameCustomer: pathName.startsWith('/customer') ? 'top-[0px] h-screen' : 'top-[60px] lg:h-[calc(100vh-100px)]',
+            matchPathNameCustomer: pathName.startsWith('/customer') ? 'top-[0px] ' : 'top-[60px] lg:h-[calc(100vh-100px)]',
       }
 
       return (
@@ -53,7 +53,7 @@ const RouterController = () => {
                   {!hiddenHeader && <Header />}
 
                   <div
-                        className={`${styleEffect.matchPathName} w-full  min-h-screen h-max  flex flex-col xl:flex-row gap-[28px]    bg-[rgb(245_245_250)] 
+                        className={`${styleEffect.matchPathName}  flex-1 w-full  items-stretch h-max  flex flex-col xl:flex-row gap-[28px]    bg-[rgb(245_245_250)] 
 mx-auto max-w-full md:max-w-[1023px] xl:max-w-[1400px]`}
                   >
                         <Sidebar />
@@ -62,14 +62,14 @@ mx-auto max-w-full md:max-w-[1023px] xl:max-w-[1400px]`}
                               <div id='' className={`${styleEffect.matchPathNameCustomer}  relative  lg:flex  gap-8 `}>
                                     <Route path='/' element={<Content />} />
                                     <Route path='/product/:id' element={<Product />} />
-                                    <Route path='/cart' element={<Cart />} />
-                                    <Route path='/payment' element={<Payment />} />
                                     <Route path='/order-check/:order_id' element={<OrderCheck />} />
                                     <Route path='/book' element={<Category product_type='Book' />} />
                                     <Route path='/shop' element={<ShopWrapper />} />
                                     <Route path='/food' element={<Category product_type='Food' />} />
                                     <Route path='/shop/:shop_id' element={<Shop />} />
 
+                                    <Route path='/payment' element={<Payment />} />
+                                    <Route path='/cart' element={<Cart />} />
                                     <Route
                                           path='/box'
                                           element={
@@ -80,6 +80,7 @@ mx-auto max-w-full md:max-w-[1023px] xl:max-w-[1400px]`}
                                                 </Box>
                                           }
                                     />
+
                                     <Routes>
                                           <Route path='/customer' element={<Customer />}>
                                                 <Route path='account' element={<CustomerAccount />} />
@@ -95,7 +96,7 @@ mx-auto max-w-full md:max-w-[1023px] xl:max-w-[1400px]`}
                                                 <Route path='register-sell' element={<RegisterSell />} />
                                                 <Route path='router' element={<CustomerRouter />} />
                                           </Route>
-                                          <Route path='product/update-book/:product_id' element={<PermisionProductUpdate />} />
+                                          <Route path='product/update/:product_id' element={<PermisionProductUpdate />} />
                                           <Route path='query-params' element={<QueryParams />} />
                                     </Routes>
                               </div>

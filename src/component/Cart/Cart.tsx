@@ -13,9 +13,12 @@ import CartUserInfo from './CartUserInfo'
 import CartEmpty from './CartEmpty'
 import { UserResponse } from '../../types/user.type'
 import ContentProduct from '../Content/Components/ContentProduct'
+import Loading from '../Common/Loading'
 
 const Cart = () => {
       const user = useSelector((state: RootState) => state.authentication.user) as UserResponse
+      const isLoading = useSelector((state: RootState) => state.authentication.isLoading)
+
       // const [, setCartSelectPay] = useState<Pick<CartResponse, '_id' | 'product_price'>[]>([])
       const queryClient = useQueryClient()
       const [selectAll, setSelectAll] = useState<boolean>(false)
@@ -64,19 +67,27 @@ const Cart = () => {
       useEffect(() => {}, [getMyCart.isPending])
 
       if (!user) {
-            return (
-                  <div className='h-[calc(100vh-100px)] w-full'>
-                        <AuthPermission />
-                  </div>
-            )
+            if (isLoading) {
+                  return (
+                        <div className='w-full h-[500px]'>
+                              <Loading />
+                        </div>
+                  )
+            } else {
+                  return (
+                        <div className='h-[calc(100vh-100px)] w-full'>
+                              <AuthPermission />
+                        </div>
+                  )
+            }
       }
 
       console.log({ selectAll })
 
       return (
             <React.Fragment>
-                  <div className='w-full max-w-full h-max min-h-[2000px] overflow-hidden xl:mt-0 flex gap-[12px] text-[13px]'>
-                        <div className='px-[8px] w-full pb-[10px]  h-max flex flex-col gap-x-[24px] min-h-[2000px]'>
+                  <div className='w-full max-w-full h-max  overflow-hidden xl:mt-0 flex gap-[12px] text-[13px]'>
+                        <div className='px-[8px] w-full pb-[10px]  h-max flex flex-col gap-x-[24px]'>
                               <h3 className='font-extrabold uppercase text-[20px] my-[12px]'>Giỏ hàng</h3>
                               {getMyCart.isSuccess &&
                                     getMyCart.data.data.metadata.cart &&

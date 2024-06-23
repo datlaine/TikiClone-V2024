@@ -9,40 +9,38 @@ import { UserResponse } from '../types/user.type'
 //       bob: Date.now()
 // }
 
-// const initialState: TUser = {
-//       user: JSON.parse(localStorage.getItem('user') as string) || {} || null,
-// }
+type InitialState = {
+      user: UserResponse | undefined
+      isOpenBoxLogin: boolean
+      isLoading: boolean
+}
+
+const initialState: InitialState = {
+      user: undefined,
+      isOpenBoxLogin: false,
+      isLoading: false,
+}
 
 const authSlice = createSlice({
       name: 'authentication',
-      initialState: {
-            isOpenBoxLogin: false,
-            token: JSON.parse(localStorage.getItem('token')!) || null,
-            user: JSON.parse(localStorage.getItem('user') as string) || null,
-      },
+      initialState,
       reducers: {
-            fetchUser: (state, payload: PayloadAction<{ user: UserResponse; access_token?: string }>) => {
-                  console.log('payload action', payload.payload)
-                  localStorage.setItem('user', JSON.stringify(payload.payload.user))
-                  if (payload.payload.access_token) {
-                        localStorage.setItem('token', JSON.stringify(payload.payload.access_token))
-                        state.token = payload.payload.access_token
-                  }
+            fetchUser: (state, payload: PayloadAction<{ user: UserResponse | undefined }>) => {
                   state.user = payload.payload.user
+                  state.isLoading = true
+            },
+
+            onLoading: (state) => {
+                  state.isLoading = true
             },
 
             doLogout: (state) => {
-                  state.token = null
-                  state.user = null
-                  localStorage.removeItem('user')
-                  localStorage.removeItem('token')
+                  state.user = undefined
+                  // state.isLoading = false
             },
             doOpenBoxLogin: (state) => {
                   state.isOpenBoxLogin = true
-                  state.user = null
-                  state.token = null
-                  // localStorage.removeItem('user')
-                  // localStorage.removeItem('token')
+                  state.user = undefined
             },
             doCloseBoxLogin: (state) => {
                   state.isOpenBoxLogin = false
@@ -50,6 +48,6 @@ const authSlice = createSlice({
       },
 })
 
-export const { fetchUser, doLogout, doOpenBoxLogin, doCloseBoxLogin } = authSlice.actions
+export const { fetchUser, doLogout, doOpenBoxLogin, doCloseBoxLogin, onLoading } = authSlice.actions
 
 export default authSlice.reducer

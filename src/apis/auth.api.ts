@@ -11,21 +11,16 @@ type TAuthParams = {
 
 class Auth {
       static async login({ email, password }: TAuthParams) {
-            return axiosCustom.post<TResponseApi<{ user: UserResponse; access_token: string }>>(
-                  '/v1/api/auth/login',
-                  { email, password },
-                  { withCredentials: true },
-            )
+            return axiosCustom.post<TResponseApi<{ user: UserResponse; access_token: string }>>('/v1/api/auth/login', { email, password })
       }
 
       static async register({ email, password }: TAuthParams) {
             console.log(process.env.REACT_APP_BASE_URL)
 
-            return axiosCustom.post<TResponseApi<{ user: UserResponse; access_token: string }>>(
-                  '/v1/api/auth/register',
-                  { email, password },
-                  { withCredentials: true },
-            )
+            return axiosCustom.post<TResponseApi<{ user: UserResponse; access_token: string }>>('/v1/api/auth/register', {
+                  email,
+                  password,
+            })
       }
 
       static async logout() {
@@ -34,11 +29,7 @@ class Auth {
 
       static async refresh_token() {
             store.dispatch(addToast({ type: 'WARNNING', message: 'Đang gọi để lấy lại access_token', id: Math.random().toString() }))
-            return axiosCustom.post<{ metadata: { token: string } }>(
-                  '/v1/api/auth/rf',
-                  {},
-                  { headers: { RefreshToken: 'Ok' }, withCredentials: true },
-            )
+            return axiosCustom.post<{ metadata: { token: string } }>('/v1/api/auth/rf', {})
       }
 }
 
